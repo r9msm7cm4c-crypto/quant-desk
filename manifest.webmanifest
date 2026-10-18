@@ -1,0 +1,54 @@
+{
+  "name": "量化工作台 · Quant Desk",
+  "short_name": "量化工作台",
+  "description": "离线量化回测、真实行情与分钟预测终端",
+  "lang": "zh-CN",
+  "id": "./",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": [
+    "standalone",
+    "fullscreen"
+  ],
+  "orientation": "landscape",
+  "background_color": "#070a0f",
+  "theme_color": "#090c11",
+  "categories": [
+    "finance",
+    "productivity"
+  ],
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-384.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "实时行情与预测",
+      "url": "./index.html#live"
+    },
+    {
+      "name": "回测",
+      "url": "./index.html#backtest"
+    }
+  ]
+}

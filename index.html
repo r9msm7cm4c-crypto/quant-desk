@@ -1,0 +1,4156 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#090c11">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="量化工作台">
+<meta name="application-name" content="量化工作台">
+<meta name="description" content="离线量化回测、真实行情与分钟预测终端">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<title>量化工作台 · Quant Desk</title>
+<script>
+(function(){
+  var w=window.innerWidth,h=window.innerHeight,rot=h>w,ew=rot?h:w,eh=rot?w:h;
+  var d=document.documentElement;
+  if(rot)d.classList.add('ls-rotated');
+  if(eh<560)d.classList.add('ls-compact');
+  if(ew<760)d.classList.add('ls-narrow');
+  if(ew<700)d.classList.add('ls-tight');
+})();
+</script>
+<style>
+/* Quant Desk — clean dark terminal UI (no animations: WebView-safe) */
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#090c11; --panel:#111722; --panel2:#151d2a; --panel3:#1a2331;
+  --line:#1d2635; --line2:#2a364a;
+  --tx:#e9eef7; --tx2:#93a3ba; --tx3:#5f7088;
+  --accent:#4c8dff; --accent2:#2f6fe0;
+  --up:#ff5a6a; --down:#22c55e;
+  --gold:#f0b90b; --purple:#a78bfa;
+  --r:16px;
+  --mono:"SF Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;min-height:100vh;color:var(--tx);
+  background:radial-gradient(1100px 520px at 82% -12%,#132033 0%,#090c11 62%) no-repeat,#090c11;
+  font:14px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Helvetica Neue",Arial,sans-serif;
+  padding-bottom:28px;
+}
+.app{max-width:1140px;margin:0 auto;padding:0 max(14px,env(safe-area-inset-left)) 0 max(14px,env(safe-area-inset-right))}
+h1,h2,h3,p,ul{margin:0}
+button{font-family:inherit;color:inherit;cursor:pointer}
+canvas{display:block}
+.hidden{display:none!important}
+.view{display:none}
+.view.active{display:block}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+
+/* ---------- header ---------- */
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:16px 2px 12px}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.logo{
+  width:38px;height:38px;border-radius:12px;flex:0 0 auto;
+  display:grid;place-items:center;font-weight:800;font-size:19px;color:#fff;
+  background:linear-gradient(135deg,#4c8dff 0%,#7a5cff 55%,#b06cff 100%);
+  box-shadow:0 6px 18px rgba(76,141,255,.28);
+  letter-spacing:-1px;
+}
+.brand h1{font-size:17px;font-weight:700;letter-spacing:.2px;line-height:1.2}
+.brand p{font-size:9.5px;letter-spacing:1.6px;color:var(--tx3);font-weight:600;margin-top:2px}
+.top-actions{display:flex;align-items:center;gap:8px;flex:0 0 auto}
+.pill{
+  display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:999px;
+  background:var(--panel2);border:1px solid var(--line);font-size:11px;color:var(--tx2);
+  white-space:nowrap;font-variant-numeric:tabular-nums;
+}
+.pill .dot{width:6px;height:6px;border-radius:50%;background:var(--down);box-shadow:0 0 6px var(--down)}
+.pill.subtle{background:transparent;color:var(--tx3);padding:3px 8px;font-size:10.5px}
+.icon-btn{
+  width:34px;height:34px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);
+  color:var(--tx2);font-size:15px;line-height:1;display:grid;place-items:center;
+}
+.icon-btn:active{background:var(--panel3)}
+
+/* ---------- tabs ---------- */
+.tabs{
+  position:sticky;top:0;z-index:30;display:flex;gap:4px;padding:5px;margin:2px 0 14px;
+  background:var(--panel);border:1px solid var(--line);border-radius:14px;
+  box-shadow:0 10px 22px rgba(0,0,0,.45);
+}
+.tab{
+  flex:1;min-width:0;padding:8px 6px;border:0;border-radius:10px;background:transparent;
+  color:var(--tx3);font-size:12.5px;font-weight:600;letter-spacing:.4px;
+}
+.tab.active{background:var(--panel3);color:var(--tx);box-shadow:inset 0 0 0 1px var(--line2)}
+
+/* ---------- cards ---------- */
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:14px;margin-bottom:12px}
+.card-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.card-head h2{font-size:13.5px;font-weight:700;letter-spacing:.3px;display:flex;align-items:center;gap:7px}
+.card-head h2::before{content:"";width:3px;height:13px;border-radius:2px;background:var(--accent);display:inline-block}
+.hint{font-size:11px;color:var(--tx3);font-weight:400}
+.foot{text-align:center;font-size:10.5px;color:var(--tx3);padding:18px 0 6px;letter-spacing:.3px}
+
+/* ---------- form ---------- */
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:10px;min-width:0}
+.field>span{font-size:11.5px;color:var(--tx2);letter-spacing:.3px}
+.field em{font-style:normal;color:var(--gold);font-family:var(--mono);font-size:11px}
+select,input{
+  width:100%;height:38px;padding:0 11px;border-radius:10px;border:1px solid var(--line2);
+  background:var(--panel2);color:var(--tx);font-size:12.5px;font-family:inherit;outline:none;
+  font-variant-numeric:tabular-nums;
+}
+select:focus,input:focus{border-color:var(--accent);background:var(--panel3)}
+input[type=number]{font-family:var(--mono);font-size:12.5px}
+.select-wrap{position:relative}
+.select-wrap::after{
+  content:"";position:absolute;right:13px;top:42%;width:6px;height:6px;
+  border-right:1.5px solid var(--tx2);border-bottom:1.5px solid var(--tx2);
+  transform:translateY(-50%) rotate(45deg);pointer-events:none;opacity:.8;
+}
+.select-wrap select{appearance:none;-webkit-appearance:none;padding-right:30px}
+.row2{display:grid;grid-template-columns:1.32fr 1fr;gap:0 10px}
+.params{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}
+@media(min-width:620px){.params{grid-template-columns:repeat(3,1fr)}}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{
+  padding:6px 11px;border-radius:9px;border:1px solid var(--line2);background:var(--panel2);
+  color:var(--tx2);font-size:12px;line-height:1.2;
+}
+.chip .t{font-size:9.5px;color:var(--tx3);margin-left:4px}
+.chip.on{background:rgba(76,141,255,.14);border-color:rgba(76,141,255,.6);color:#cfe0ff}
+.chip.on .t{color:#8fb6ff}
+.actions{display:flex;gap:8px;margin-top:6px;flex-wrap:wrap}
+.btn{
+  flex:1;min-width:96px;height:40px;padding:0 14px;border-radius:11px;border:1px solid var(--line2);
+  background:var(--panel2);color:var(--tx);font-size:13px;font-weight:600;letter-spacing:.2px;
+}
+.btn:active{background:var(--panel3)}
+.btn.primary{background:linear-gradient(180deg,#5a97ff,#3d7ef0);border-color:#5a97ff;color:#fff;box-shadow:0 4px 14px rgba(76,141,255,.24)}
+.btn.primary:active{background:var(--accent2)}
+.btn.ghost{background:transparent;color:var(--tx2)}
+.btn.wide{width:100%;flex:none}
+.btn:disabled{opacity:.55}
+.link-btn{background:none;border:0;padding:0;color:var(--accent);font-size:12px;font-weight:600}
+.link-btn.danger{color:var(--up)}
+.details{margin:2px 0 4px}
+.risk-toggle{display:flex;align-items:center;justify-content:space-between;width:100%;background:transparent;border:0;border-top:1px solid var(--line);padding:11px 0 4px;font-size:12px;color:var(--tx2)}
+.risk-toggle b{font-weight:600;color:var(--tx)}
+.risk-toggle .arrow{color:var(--tx3);font-size:11px}
+.risk-toggle .arrow.open{transform:rotate(180deg)}
+
+/* ---------- metrics ---------- */
+.metrics{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}
+@media(min-width:700px){.metrics{grid-template-columns:repeat(4,1fr)}}
+.metric{background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:9px 11px;min-width:0}
+.metric .l{font-size:10.5px;color:var(--tx3);letter-spacing:.4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.metric .v{font-size:17px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.2px;margin-top:2px;white-space:nowrap}
+.metric .s{font-size:10px;color:var(--tx3);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pos{color:var(--up)!important}
+.neg{color:var(--down)!important}
+.neu{color:var(--tx)!important}
+.bench-row{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);font-size:11.5px;color:var(--tx3)}
+.bench-row b{color:var(--tx2);font-weight:600;font-variant-numeric:tabular-nums;margin-left:4px}
+
+/* ---------- chart card ---------- */
+.chart-card .card-head{margin-bottom:8px}
+.chart-tabs{display:flex;gap:3px;background:var(--panel2);border:1px solid var(--line);padding:3px;border-radius:10px;flex-wrap:wrap}
+.chart-tabs button{
+  border:0;background:transparent;color:var(--tx3);font-size:12px;font-weight:600;
+  padding:5px 12px;border-radius:7px;
+}
+.chart-tabs button.on{background:var(--panel3);color:var(--tx);box-shadow:inset 0 0 0 1px var(--line2)}
+.range-chips{display:flex;gap:4px}
+.range-chips button{
+  border:1px solid transparent;background:transparent;color:var(--tx3);font-size:11px;
+  padding:4px 8px;border-radius:7px;font-variant-numeric:tabular-nums;
+}
+.range-chips button.on{color:var(--accent);background:rgba(76,141,255,.1);border-color:rgba(76,141,255,.3)}
+.chart{width:100%;height:372px;border-radius:10px;touch-action:pan-y}
+.chart.tall{height:300px}
+.chart-note{font-size:10.5px;color:var(--tx3);margin-top:8px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+
+/* ---------- heatmap ---------- */
+.heat-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:2px}
+table.heat{border-collapse:separate;border-spacing:3px;width:100%;min-width:460px;font-variant-numeric:tabular-nums}
+table.heat th{font-size:9.5px;color:var(--tx3);font-weight:600;padding:2px 0;text-align:center}
+table.heat th.y{text-align:left;padding-left:4px;min-width:38px}
+table.heat td{font-size:10.5px;text-align:center;padding:5px 2px;border-radius:5px;color:var(--tx2);background:var(--panel2);white-space:nowrap}
+table.heat td.empty{background:transparent;color:var(--tx3);opacity:.25}
+table.heat td.yt{text-align:left;background:transparent;color:var(--tx3);font-size:11px;font-weight:600;padding-left:4px}
+
+/* ---------- tables ---------- */
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table.grid{width:100%;border-collapse:collapse;font-size:11.5px;font-variant-numeric:tabular-nums}
+table.grid th{
+  text-align:right;font-size:10px;font-weight:600;color:var(--tx3);letter-spacing:.3px;
+  padding:0 8px 8px;border-bottom:1px solid var(--line);white-space:nowrap;
+}
+table.grid th:first-child,table.grid td:first-child{text-align:left;padding-left:2px}
+table.grid td{padding:8px;border-bottom:1px solid rgba(29,38,53,.55);text-align:right;white-space:nowrap;color:var(--tx2)}
+table.grid tr:last-child td{border-bottom:0}
+table.grid td.k{color:var(--tx);font-weight:600}
+table.grid td .tag{font-size:9.5px;padding:1px 5px;border-radius:4px;background:var(--panel3);color:var(--tx3)}
+table.grid tr.open td{opacity:.75}
+.tbl-note{font-size:10.5px;color:var(--tx3);margin-top:8px}
+.sym-cell{display:flex;flex-direction:column;gap:1px;text-align:left}
+.sym-cell b{color:var(--tx);font-size:12.5px;font-weight:600}
+.sym-cell span{font-size:10px;color:var(--tx3)}
+.sym-cell span.dim{font-size:9.5px;color:var(--tx3);opacity:.72}
+
+/* ---------- strategy library / runs ---------- */
+.lib-grid{display:grid;grid-template-columns:1fr;gap:9px}
+@media(min-width:700px){.lib-grid{grid-template-columns:1fr 1fr}}
+.lib-card{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:12px}
+.lib-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.lib-top h3{font-size:13px;font-weight:700}
+.lib-top p{font-size:10.5px;color:var(--tx3);margin-top:2px}
+.lib-mets{display:flex;gap:14px;margin:10px 0;font-variant-numeric:tabular-nums}
+.lib-mets div{display:flex;flex-direction:column;gap:1px}
+.lib-mets span{font-size:9.5px;color:var(--tx3)}
+.lib-mets b{font-size:13px;font-weight:700}
+.lib-foot{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--line);padding-top:9px;margin-top:2px}
+.lib-foot .time{font-size:10px;color:var(--tx3)}
+.lib-actions{display:flex;gap:12px}
+.empty{
+  border:1px dashed var(--line2);border-radius:14px;padding:26px 16px;text-align:center;
+  color:var(--tx3);font-size:12px;
+}
+.empty b{display:block;color:var(--tx2);font-size:13px;margin-bottom:4px;font-weight:600}
+
+/* ---------- overlay / toast ---------- */
+.overlay{position:fixed;inset:0;z-index:100;background:rgba(4,7,11,.72);display:grid;place-items:center;padding:22px}
+.modal{width:100%;max-width:380px;background:var(--panel);border:1px solid var(--line2);border-radius:16px;padding:18px;box-shadow:0 24px 60px rgba(0,0,0,.5)}
+.modal h3{font-size:15px;font-weight:700;margin-bottom:6px}
+.modal p{font-size:12.5px;color:var(--tx2);line-height:1.65;margin-bottom:12px;white-space:pre-wrap}
+.modal input{margin-bottom:12px}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end}
+.modal-actions .btn{flex:0 0 auto;min-width:82px;height:36px}
+.toast{
+  position:fixed;left:50%;bottom:34px;transform:translateX(-50%);z-index:200;
+  background:#1b2432;border:1px solid var(--line2);color:var(--tx);font-size:12px;
+  padding:9px 16px;border-radius:999px;box-shadow:0 10px 30px rgba(0,0,0,.45);
+  opacity:0;pointer-events:none;max-width:86vw;text-align:center;
+}
+.toast.show{opacity:1}
+
+/* ---------- settings ---------- */
+.set-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}
+@media(min-width:700px){.set-grid{grid-template-columns:repeat(3,1fr)}}
+.sect{font-size:11px;font-weight:700;color:var(--tx3);letter-spacing:1px;margin:14px 0 8px;text-transform:uppercase}
+.sect:first-child{margin-top:0}
+.about{font-size:11.5px;color:var(--tx3);line-height:1.8}
+.about b{color:var(--tx2)}
+.switch{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:12.5px;color:var(--tx2)}
+.seg{display:flex;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:2px}
+.seg button{border:0;background:transparent;color:var(--tx3);font-size:11px;padding:4px 10px;border-radius:6px}
+.seg button.on{background:var(--panel3);color:var(--tx);box-shadow:inset 0 0 0 1px var(--line2)}
+.opt-table td:last-child{text-align:right}
+.warn-note{
+  flex:1 0 100%;color:var(--gold);background:rgba(240,185,11,.08);
+  border:1px solid rgba(240,185,11,.24);padding:7px 10px;border-radius:8px;
+  font-size:11px;line-height:1.6;margin-bottom:2px;
+}
+
+.mobile-only{display:none}
+@media(max-width:699px){.mobile-only{display:block}}
+
+.quote{display:flex;flex-direction:column;align-items:flex-end;gap:1px;line-height:1.2}
+.quote b{font-size:12.5px;font-weight:650;color:var(--tx);font-variant-numeric:tabular-nums}
+.quote span{font-size:10.5px;font-variant-numeric:tabular-nums}
+td.acts{white-space:nowrap;padding-right:0!important}
+td.acts .link-btn{font-size:11.5px}
+
+@media(max-width:520px){
+  table.grid th.col-hide,table.grid td.col-hide{display:none}
+  table.heat{width:100%;min-width:0;border-spacing:2px;table-layout:fixed}
+  table.heat th{font-size:8px;padding:1px 0;letter-spacing:0}
+  table.heat th.y{width:26px}
+  table.heat td{font-size:8.5px;padding:4px 0;border-radius:4px}
+  table.heat td.yt{font-size:9px;padding-left:1px;width:26px}
+}
+
+/* ============ forced-landscape workspace ============ */
+.bt-layout,.bt-side,.bt-main{min-width:0}
+.bt-side .params{grid-template-columns:1fr 1fr}
+.mini-run{display:none;height:26px;padding:0 10px;font-size:11px;min-width:0;flex:0 0 auto;border-radius:8px}
+
+body{overflow:hidden;padding-bottom:0}
+.app{height:100vh;height:100dvh;max-width:1320px;display:flex;flex-direction:column}
+main{flex:1;min-height:0;overflow:hidden}
+.view.active{height:100%}
+.view.active[data-view="backtest"]{overflow:hidden}
+.view.active:not([data-view="backtest"]){
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
+  padding-bottom:calc(12px + env(safe-area-inset-bottom,0px));
+}
+.bt-layout{
+  display:grid;grid-template-columns:clamp(258px,30%,360px) minmax(0,1fr);
+  gap:10px;height:100%;align-items:stretch;
+}
+.bt-side,.bt-main{
+  height:100%;overflow-y:auto;-webkit-overflow-scrolling:touch;position:static;
+  max-height:none;min-width:0;
+  padding-bottom:calc(10px + env(safe-area-inset-bottom,0px));
+}
+.bt-side .row2{grid-template-columns:1fr}
+.bt-side #cfgRange{display:none}
+.bt-side .actions .btn{flex:1 1 40%;min-width:0;height:36px;padding:0 8px;font-size:12px}
+.bt-side .mini-run{
+  display:inline-flex;align-items:center;justify-content:center;
+  height:28px;padding:0 12px;font-size:11.5px;border-radius:8px;
+  flex:0 0 auto;min-width:0;box-shadow:none;
+}
+.foot{display:none}
+
+/* ---------- portrait: rotate the whole workspace 90° ---------- */
+html.ls-rotated .app{
+  position:fixed;top:0;left:0;margin:0;
+  width:100vh;width:100dvh;height:100vw;height:100dvw;max-width:none;
+  transform:rotate(90deg) translateY(-100%);
+  transform-origin:top left;
+  padding-left:max(14px,env(safe-area-inset-top,0px));
+  padding-right:max(14px,env(safe-area-inset-bottom,0px));
+}
+html.ls-rotated body{overflow:hidden}
+html.ls-rotated .view.active:not([data-view="backtest"]){
+  padding-bottom:calc(12px + env(safe-area-inset-left,0px));
+}
+
+/* ---------- compact height ---------- */
+.ls-compact .topbar{padding:4px 2px 6px}
+.ls-compact .brand{gap:8px}
+.ls-compact .logo{width:28px;height:28px;border-radius:9px;font-size:14px}
+.ls-compact .brand h1{font-size:14px}
+.ls-compact .brand p{display:none}
+.ls-compact .pill{padding:3px 8px;font-size:10px}
+.ls-compact .icon-btn{width:28px;height:28px;border-radius:8px;font-size:13px}
+.ls-compact .tabs{position:static;margin:0 0 8px;padding:3px;border-radius:10px;box-shadow:none}
+.ls-compact .tab{padding:5px 4px;font-size:11.5px}
+.ls-compact .card{padding:10px;border-radius:12px;margin-bottom:8px}
+.ls-compact .card-head{margin-bottom:8px}
+.ls-compact .bt-side .field{margin-bottom:8px}
+.ls-compact .metrics{grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:6px}
+.ls-compact .metric{padding:7px 9px}
+.ls-compact .metric .l{font-size:9.5px}
+.ls-compact .metric .v{font-size:15px}
+.ls-compact .metric .s{font-size:9px}
+.ls-compact .bench-row{margin-top:7px;padding-top:7px;font-size:11px}
+
+/* ---------- narrow effective width ---------- */
+.ls-narrow .bt-side .chip{padding:5px 8px;font-size:11px}
+.ls-narrow .bt-side .chip .t{display:none}
+.ls-narrow .bt-main table.heat{width:100%;min-width:0;border-spacing:2px;table-layout:fixed}
+.ls-narrow .bt-main table.heat th{font-size:8px;padding:1px 0;letter-spacing:0}
+.ls-narrow .bt-main table.heat th.y{width:26px}
+.ls-narrow .bt-main table.heat td{font-size:8.5px;padding:4px 0;border-radius:4px}
+.ls-narrow .bt-main table.heat td.yt{font-size:9px;padding-left:1px;width:26px}
+.ls-narrow .bt-main table.grid th.col-hide,.ls-narrow .bt-main table.grid td.col-hide{display:none}
+
+/* ---------- tight effective width ---------- */
+.ls-tight .bt-layout{grid-template-columns:240px minmax(0,1fr);gap:8px}
+.ls-tight .bt-side .field>span{font-size:11px}
+
+/* ================= live desk ================= */
+.tab-dot{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--down);margin-left:4px;vertical-align:1px}
+.view.active[data-view="live"]{overflow:hidden}
+.live-layout{display:grid;grid-template-columns:minmax(0,1fr) clamp(300px,34%,400px);gap:10px;height:100%}
+.live-main,.live-side{
+  height:100%;overflow-y:auto;-webkit-overflow-scrolling:touch;min-width:0;
+  padding-bottom:calc(10px + env(safe-area-inset-bottom,0px));
+}
+.ls-tight .live-layout{display:block;height:100%;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.ls-tight .live-main,.ls-tight .live-side{height:auto;overflow:visible;padding-bottom:0}
+
+.live-quote{padding:12px 14px}
+.live-quote-top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:4px}
+.live-sym{flex:0 1 230px;min-width:150px}
+.live-sym select{height:32px;font-size:12px;font-weight:600}
+.live-status{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--tx3);white-space:nowrap}
+.live-status .dot{width:5px;height:5px;border-radius:50%;background:var(--down);box-shadow:0 0 6px var(--down)}
+.live-status b{color:var(--tx2);font-weight:600;font-family:var(--mono)}
+.live-status .sep{opacity:.4}
+.live-price-row{display:flex;align-items:flex-end;gap:14px;margin-top:0}
+.live-price-box{flex:0 0 auto;min-width:118px}
+.live-price{font-size:32px;font-weight:750;line-height:1.05;letter-spacing:-.8px;font-variant-numeric:tabular-nums}
+.live-chg{font-size:12px;margin-top:4px;font-variant-numeric:tabular-nums;color:var(--tx2)}
+.live-stats{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:0 4px;flex:1;margin-top:0;min-width:0}
+.live-stats div{display:flex;flex-direction:column;align-items:flex-start;gap:0;font-size:9px;padding:0 0 0 6px;border:0;border-left:1px solid var(--line);min-width:0}
+.live-stats div:first-child{border-left:0;padding-left:0}
+.live-stats span{color:var(--tx3);font-size:8px;line-height:1.4}
+.live-stats b{font-weight:600;color:var(--tx2);font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:10px;line-height:1.3;max-width:100%}
+.live-meta{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:4px}
+.live-session{display:flex;gap:12px;margin:0;font-size:9px;color:var(--tx3);letter-spacing:.3px}
+.live-session b{color:var(--tx2);font-family:var(--mono)}
+
+.tape-head,.tape .tr{display:grid;grid-template-columns:1.55fr 1fr .75fr .55fr;gap:6px;align-items:center}
+.tape-head{font-size:9px;color:var(--tx3);padding-bottom:5px;border-bottom:1px solid var(--line);letter-spacing:.4px}
+.tape-head span:nth-child(n+2){text-align:right}
+.tape{font-family:var(--mono);font-size:10px}
+.tape .tr{padding:3.5px 0;border-bottom:1px solid rgba(29,38,53,.55);color:var(--tx2)}
+.tape .tr:last-child{border-bottom:0}
+.tape .tr span:nth-child(n+2){text-align:right}
+.tape .tr .p{color:var(--tx)}
+.tape .tr .b{color:var(--up);font-weight:600}
+.tape .tr .s{color:var(--down);font-weight:600}
+
+.sig-top{display:flex;align-items:baseline;justify-content:space-between;font-size:11px;color:var(--tx3);margin-bottom:5px}
+.sig-top b{font-family:var(--mono);font-size:14px;color:var(--tx)}
+.gauge{position:relative;height:8px;background:var(--panel3);border-radius:5px;overflow:hidden}
+.gauge-mid{position:absolute;left:50%;top:0;width:1px;height:100%;background:var(--line2);z-index:2}
+.gauge span{position:absolute;top:0;height:100%;border-radius:5px;display:block}
+.gauge-labels{display:flex;justify-content:space-between;font-size:8.5px;color:var(--tx3);margin-top:4px}
+.ind-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px 10px;margin-top:9px;font-size:10px}
+.ind-grid div{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:3px 0;border-bottom:1px dashed rgba(29,38,53,.8)}
+.ind-grid span{color:var(--tx3)}
+.ind-grid b{color:var(--tx2);font-weight:600;font-variant-numeric:tabular-nums;font-size:10.5px}
+
+.prob-top{display:flex;align-items:baseline;justify-content:space-between;font-size:11px;color:var(--tx3);margin-bottom:5px}
+.prob-top b{font-size:17px;font-weight:750;color:var(--up);font-variant-numeric:tabular-nums}
+.prob-bar{height:8px;background:rgba(255,90,106,.12);border-radius:5px;overflow:hidden}
+.prob-bar span{display:block;height:100%;background:var(--up);width:50%;border-radius:5px}
+.fc-grid{display:flex;flex-direction:column;gap:0;margin-top:8px}
+.fc-grid div{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:10px;padding:3.5px 0;border-bottom:1px dashed rgba(29,38,53,.8)}
+.fc-grid span{color:var(--tx3)}
+.fc-grid b{color:var(--tx2);font-weight:600;font-variant-numeric:tabular-nums;font-size:10.5px;text-align:right}
+
+.auto-row{display:flex;gap:8px;margin-bottom:8px}
+.auto-row .btn{flex:1;height:36px;font-size:12px;min-width:0}
+.btn.stop{background:rgba(255,90,106,.13);border-color:rgba(255,90,106,.5);color:var(--up)}
+.live-side .params{grid-template-columns:1fr 1fr;gap:0 8px}
+.live-side .field{margin-bottom:8px}
+.live-side .field>span{font-size:10px}
+.live-side .field input{height:34px;font-size:12px;padding:0 8px}
+.auto-plan{font-size:10.5px;line-height:1.65;color:var(--tx2);background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:7px 9px;min-height:38px}
+.auto-actions{display:flex;gap:8px;margin-top:8px}
+.auto-actions .btn{flex:1;height:34px;font-size:12px;min-width:0}
+.pill.run{color:#2ebd85;border-color:rgba(46,189,133,.35);background:rgba(46,189,133,.08)}
+
+.acct-pos{font-size:10px;color:var(--tx3);margin:-2px 0 7px;font-variant-numeric:tabular-nums}
+.acct-pos b{color:var(--tx2)}
+.acct-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px 10px}
+.acct-grid div{display:flex;align-items:center;justify-content:space-between;gap:6px;font-size:10px;padding:3.5px 0;border-bottom:1px dashed rgba(29,38,53,.8)}
+.acct-grid span{color:var(--tx3)}
+.acct-grid b{color:var(--tx2);font-weight:600;font-variant-numeric:tabular-nums;font-size:10.5px}
+#cvPaper{margin-top:9px;display:block}
+.lt-list{margin-top:5px}
+.lt-row{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;font-size:10px;padding:5px 0;border-bottom:1px solid rgba(29,38,53,.6)}
+.lt-row:last-child{border-bottom:0}
+.lt-row .l{display:flex;flex-direction:column;gap:1px;min-width:0}
+.lt-row .l span{color:var(--tx3);font-size:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lt-row .r{text-align:right;flex:0 0 auto;font-variant-numeric:tabular-nums}
+.lt-row .r b{display:block;font-weight:600;font-size:10.5px}
+.lt-row .r span{font-size:9.5px;color:var(--tx3)}
+
+.ls-compact .live-quote{padding:10px 12px}
+.ls-compact .live-price{font-size:28px}
+.ls-compact .live-price-row{gap:10px}
+.ls-compact .live-stats{gap:0 3px}
+.ls-compact .live-stats div{padding:0 0 0 5px}
+.ls-compact .live-sym select{height:30px}
+.ls-compact .live-session{margin-top:5px}
+.ls-compact .ind-grid b,.ls-compact .fc-grid b,.ls-compact .acct-grid b{font-size:10px}
+
+.live-signal-strip{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0;font-size:9px;color:var(--tx3)}
+.live-signal-strip b{color:var(--tx2);font-family:var(--mono);font-weight:600;margin-left:3px}
+.live-signal-strip .state{color:var(--accent);border:1px solid rgba(76,141,255,.25);background:rgba(76,141,255,.07);border-radius:999px;padding:2px 7px}
+
+.live-status .dot.warn{background:var(--gold);box-shadow:0 0 6px var(--gold)}
+.live-status .dot.bad{background:var(--up);box-shadow:0 0 6px var(--up)}
+
+.live-search{margin:4px 0 6px;padding-top:7px;border-top:1px solid var(--line)}
+.live-search-row{display:flex;gap:6px}
+.live-search-row input{height:32px;font-size:12px;flex:1;min-width:0}
+.live-search-row .btn{height:32px;flex:0 0 58px;font-size:12px;min-width:0;padding:0 8px}
+.live-search-row .live-search-close{flex:0 0 32px;padding:0;font-size:16px;color:var(--tx3)}
+.live-search-results{display:flex;flex-direction:column;gap:3px;margin-top:6px;max-height:150px;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.ls-res{display:flex;align-items:center;justify-content:space-between;gap:8px;text-align:left;padding:6px 8px;border:1px solid var(--line);border-radius:7px;background:var(--panel2);font-size:10.5px;color:var(--tx2);min-width:0}
+.ls-res:active{background:var(--panel3)}
+.ls-res .nm{display:flex;align-items:baseline;gap:6px;min-width:0;overflow:hidden}
+.ls-res .nm b{color:var(--tx);font-weight:600;font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ls-res .nm em{font-style:normal;color:var(--tx3);font-family:var(--mono);font-size:9.5px;white-space:nowrap}
+.ls-res .tag{flex:0 0 auto;font-size:9px;padding:1px 6px;border-radius:4px;background:var(--panel3);color:var(--tx3);border:1px solid var(--line2)}
+.live-cap{margin:2px 0 6px}
+.live-cap input{height:32px;font-size:12px}
+.live-cap>span{font-size:9.5px}
+
+.bt-main.no-data > .card{display:none!important}
+.bt-main.no-data #emptyState{display:block!important}
+
+.live-search-toggle{height:30px;padding:0 10px;font-size:11px;flex:0 0 auto;min-width:0;border-radius:8px;color:var(--accent);border-color:rgba(76,141,255,.35);background:transparent}
+
+.horizon-chips{display:flex;gap:3px;margin-bottom:8px;background:var(--panel2);border:1px solid var(--line);padding:3px;border-radius:8px}
+.horizon-chips button{flex:1;border:0;background:transparent;color:var(--tx3);font-size:9.5px;padding:4px 0;border-radius:6px;font-weight:600}
+.horizon-chips button.on{background:var(--panel3);color:var(--tx);box-shadow:inset 0 0 0 1px var(--line2)}
+.pred-table{display:flex;flex-direction:column;margin-top:7px}
+.pred-row{display:grid;grid-template-columns:40px 1fr 1fr;gap:5px;align-items:center;font-size:9.5px;padding:3.5px 4px;border-bottom:1px dashed rgba(29,38,53,.8);border-radius:4px;color:var(--tx3)}
+.pred-row span{color:var(--tx3)}
+.pred-row b{text-align:right;color:var(--tx2);font-weight:600;font-variant-numeric:tabular-nums}
+.pred-row em{text-align:right;font-style:normal;color:var(--tx3);font-variant-numeric:tabular-nums}
+.pred-row.on{background:var(--panel3);color:var(--tx)}
+.pred-row.on span{color:var(--tx2)}
+.pred-row.on em{color:var(--tx2)}
+.pred-action{margin-top:8px;font-size:10px;line-height:1.5;color:var(--tx2);background:var(--panel2);border:1px solid var(--line);border-radius:7px;padding:6px 8px;min-height:30px}
+
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">Q</div>
+      <div>
+        <h1>量化工作台</h1>
+        <p>QUANT DESK · 本地回测</p>
+      </div>
+    </div>
+    <div class="top-actions">
+      <span class="pill" id="pillData"><i class="dot"></i><span id="pillDataText">—</span></span>
+      <button class="icon-btn" id="btnBackup" title="导出备份">⇩</button>
+    </div>
+  </header>
+
+  <nav class="tabs" id="tabs">
+    <button class="tab active" data-view="backtest">回测</button>
+    <button class="tab" data-view="live">实时<span class="tab-dot"></span></button>
+    <button class="tab" data-view="lib">策略库</button>
+    <button class="tab" data-view="data">数据</button>
+    <button class="tab" data-view="runs">记录</button>
+    <button class="tab" data-view="settings">设置</button>
+  </nav>
+
+  <main>
+    <!-- ================= BACKTEST ================= -->
+    <section class="view active" data-view="backtest">
+      <div class="bt-layout">
+      <div class="bt-side">
+      <div class="card">
+        <div class="card-head"><h2>回测配置</h2><span class="pill subtle" id="cfgRange">—</span><button class="btn primary mini-run" id="btnRunMini">运行</button></div>
+        <div class="row2">
+          <label class="field"><span>标的</span>
+            <div class="select-wrap"><select id="selSymbol"></select></div>
+          </label>
+          <label class="field"><span>初始资金（元）</span>
+            <input id="inpCapital" type="number" min="10000" step="10000" value="100000">
+          </label>
+        </div>
+        <div class="field"><span>策略</span><div class="chips" id="strategyChips"></div></div>
+        <p class="hint" id="stratDesc" style="margin:-3px 0 10px;line-height:1.6"></p>
+        <div class="params" id="paramBox"></div>
+        <div class="details">
+          <button class="risk-toggle" id="riskToggle"><b>风控与仓位</b><span id="riskSummary" class="hint">—</span><span class="arrow" id="riskArrow">⌄</span></button>
+          <div class="params hidden" id="riskBox" style="margin-top:10px">
+            <label class="field"><span>单次仓位 %</span><input id="riskPos" type="number" min="5" max="100" step="5" value="100"></label>
+            <label class="field"><span>止损 %<em>0=关闭</em></span><input id="riskSL" type="number" min="0" max="50" step="0.5" value="8"></label>
+            <label class="field"><span>止盈 %<em>0=关闭</em></span><input id="riskTP" type="number" min="0" max="200" step="1" value="0"></label>
+            <label class="field"><span>最长持仓（日）</span><input id="riskHold" type="number" min="0" max="500" step="1" value="0"></label>
+          </div>
+        </div>
+        <div class="actions">
+          <button class="btn primary" id="btnRun">运行回测</button>
+          <button class="btn" id="btnOpt">参数扫描</button>
+          <button class="btn ghost" id="btnSave">存入策略库</button>
+        </div>
+      </div>
+      </div>
+
+      <div class="bt-main" id="resultWrap">
+        <div class="card">
+          <div class="card-head"><h2>绩效概览</h2><span class="pill subtle" id="runMeta">—</span></div>
+          <div class="metrics" id="metricGrid"></div>
+          <div class="bench-row" id="benchRow"></div>
+        </div>
+
+        <div class="card chart-card">
+          <div class="card-head">
+            <div class="chart-tabs" id="chartTabs">
+              <button data-chart="kline" class="on">K线</button>
+              <button data-chart="equity">权益</button>
+              <button data-chart="dd">回撤</button>
+              <button data-chart="hist">分布</button>
+            </div>
+            <div class="range-chips" id="rangeChips">
+              <button data-range="60">3月</button>
+              <button data-range="120" class="on">6月</button>
+              <button data-range="250">1年</button>
+              <button data-range="0">全部</button>
+            </div>
+          </div>
+          <canvas id="cvMain" class="chart"></canvas>
+          <div class="chart-note"><span id="chartHint">—</span><span id="chartLegend">▲ 买入 · ▼ 卖出</span></div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><h2>月度收益</h2><span class="hint">按自然月</span></div>
+          <div class="heat-wrap" id="heat"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><h2>交易明细</h2>
+            <div class="mini-actions">
+              <span class="hint" id="tradeCount">—</span>
+              <button class="link-btn" id="btnExportTrades" style="margin-left:12px">导出 CSV</button>
+            </div>
+          </div>
+          <div class="table-wrap" id="tradeTable"></div>
+        </div>
+
+        <div class="card hidden" id="optCard">
+          <div class="card-head"><h2>参数扫描</h2><span class="hint" id="optMeta">—</span></div>
+          <div class="table-wrap" id="optBody"></div>
+        </div>
+        <div class="empty hidden" id="emptyState"><b>还没有真实日线数据</b>在「数据」页获取真实日线或导入 CSV 后开始回测。</div>
+      </div>
+      </div>
+    </section>
+
+
+    <!-- ================= LIVE ================= -->
+    <section class="view" data-view="live">
+      <div class="live-layout">
+        <div class="live-main">
+          <div class="card live-quote">
+            <div class="live-quote-top">
+              <div class="select-wrap live-sym"><select id="liveSymbol"></select></div>
+              <button class="btn ghost live-search-toggle" id="liveSearchBtn">搜索</button>
+              <div class="live-status"><i class="dot" id="liveDot"></i><span id="liveSrcText">腾讯行情</span><span class="sep">·</span><span id="liveMetaText">2s 快照</span><span class="sep">·</span><b id="liveLatency">连接中</b></div>
+            </div>
+            <div class="live-search hidden" id="liveSearchPanel">
+              <div class="live-search-row">
+                <input id="liveSearchInput" type="text" placeholder="代码或名称：600519 / 茅台 / AAPL" autocomplete="off">
+                <button class="btn primary" id="liveSearchGo">搜索</button>
+                <button class="btn ghost live-search-close" id="liveSearchClose" aria-label="关闭">×</button>
+              </div>
+              <div class="live-search-results" id="liveSearchResults"></div>
+              <p class="hint" style="margin:5px 0 0">支持 A股 / ETF / 美股；选中后接入腾讯真实行情与分钟预测。</p>
+            </div>
+            <div class="live-price-row">
+              <div class="live-price-box">
+                <div class="live-price" id="livePrice">—</div>
+                <div class="live-chg" id="liveChg">—</div>
+              </div>
+              <div class="live-stats">
+                <div><span>买一</span><b id="liveBid">—</b></div>
+                <div><span>卖一</span><b id="liveAsk">—</b></div>
+                <div><span>均价</span><b id="liveVwap">—</b></div>
+                <div><span>最高</span><b id="liveHigh">—</b></div>
+                <div><span>最低</span><b id="liveLow">—</b></div>
+                <div><span>成交量</span><b id="liveVol">—</b></div>
+              </div>
+            </div>
+            <div class="live-meta">
+              <div class="live-session"><span>PREV <b id="livePrev">—</b></span><span>TICK <b id="liveTicks">0</b></span><span>REAL</span></div>
+              <div class="live-signal-strip">
+                <span>信号 <b id="liveSigMini">—</b></span>
+                <span>概率 <b id="liveProbMini">—</b></span>
+                <span class="state" id="liveStateMini">—</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card chart-card">
+            <div class="card-head"><h2>实时行情</h2><span class="hint" id="liveClock">—</span></div>
+            <canvas id="cvLive" class="chart" style="height:250px"></canvas>
+            <div class="chart-note"><span id="liveWindowHint">腾讯快照 · 本地时间轴 · 约 40 分钟窗口</span><span>虚线 VWAP · 阴影 10 秒 80% 情景区间</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h2 id="liveTapeTitle">实时快照</h2><span class="hint" id="liveTapeHint">腾讯行情 · 最新 9 条</span></div>
+            <div class="tape-head"><span>时间</span><span>价格</span><span>数量</span><span>方向</span></div>
+            <div class="tape" id="liveTape"></div>
+          </div>
+        </div>
+
+        <div class="live-side">
+<div class="card">
+            <div class="card-head"><h2>分钟预测</h2><span class="hint" id="predHint">真实1分钟线</span></div>
+            <div class="horizon-chips" id="horizonChips">
+              <button data-h="1">1分</button><button data-h="5" class="on">5分</button><button data-h="15">15分</button><button data-h="30">30分</button><button data-h="60">60分</button>
+            </div>
+            <div class="prob-top"><span>上涨概率</span><b id="probUp">—</b></div>
+            <div class="prob-bar"><span id="probBar"></span></div>
+            <div class="fc-grid">
+              <div><span>下跌概率</span><b id="probDown">—</b></div>
+              <div><span>预期变动</span><b id="fcMove">—</b></div>
+              <div><span>80% 区间</span><b id="fcRange">—</b></div>
+              <div><span>模型置信</span><b id="fcConf">—</b></div>
+            </div>
+            <div class="pred-action" id="predAction">等待分钟数据</div>
+            <div class="pred-table" id="predTable"></div>
+            <p class="hint" style="margin-top:6px">基于真实 1 分钟线 + 蒙特卡洛；概率推断，不保证。图中阴影为 10 秒 tick 预测。</p>
+          </div>
+
+          
+
+          <div class="card">
+            <div class="card-head"><h2>市场分析</h2><span class="pill subtle" id="liveState">—</span></div>
+            <div class="sig">
+              <div class="sig-top"><span>多因子信号</span><b id="sigValue">—</b></div>
+              <div class="gauge"><i class="gauge-mid"></i><span id="sigFill"></span></div>
+              <div class="gauge-labels"><span>空 -1</span><span>0</span><span>多 +1</span></div>
+            </div>
+            <div class="ind-grid" id="indGrid"></div>
+          </div>
+
+          
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= LIBRARY ================= -->
+    <section class="view" data-view="lib">
+      <div class="card">
+        <div class="card-head"><h2>策略库</h2><span class="hint" id="libCount">—</span></div>
+        <p class="hint" style="margin:-4px 0 12px">保存完整的标的、参数与风控配置，一键复现，便于版本化管理。</p>
+        <div class="lib-grid" id="libBody"></div>
+      </div>
+    </section>
+
+    <!-- ================= DATA ================= -->
+    <section class="view" data-view="data">
+      <div class="card">
+        <div class="card-head"><h2>数据源</h2><span class="hint" id="dataMeta">—</span></div>
+        <div class="table-wrap" id="symbolTable"></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h2>获取真实日线</h2><span class="hint">东方财富 · 前复权</span></div>
+        <p class="hint" style="margin:-2px 0 10px;line-height:1.7">输入 A股/ETF/美股代码或名称，直接抓取真实日线并导入回测；导入后可在数据表导出 CSV。</p>
+        <div class="row2">
+          <label class="field"><span>代码 / 名称</span><input id="realQuery" type="text" placeholder="600519 / 茅台 / AAPL"></label>
+          <label class="field"><span>时间范围</span><div class="select-wrap"><select id="realYears"><option value="3">近 3 年</option><option value="5" selected>近 5 年</option><option value="10">近 10 年</option></select></div></label>
+        </div>
+        <div class="actions"><button class="btn primary" id="btnFetchDaily">获取并导入</button></div>
+        <p class="hint" id="realFetchStatus" style="margin-top:8px">数据来源：东方财富公开接口；仅供个人研究，可能延迟或停服。</p>
+      </div>
+
+      <div class="card">
+        <div class="card-head"><h2>导入 CSV</h2><span class="hint">本地数据 · 不上传</span></div>
+        <p class="hint" style="margin:-2px 0 10px;line-height:1.7">表头需包含 <b style="color:var(--tx2)">date, open, high, low, close, volume</b>，也支持「日期 / 开盘 / 最高 / 最低 / 收盘 / 成交量」。至少 60 条日线数据。</p>
+        <div class="row2">
+          <label class="field"><span>代码</span><input id="impCode" type="text" placeholder="如 600000"></label>
+          <label class="field"><span>名称</span><input id="impName" type="text" placeholder="如 浦发银行"></label>
+        </div>
+        <input type="file" id="fileInput" accept=".csv,text/csv,text/plain" class="hidden">
+        <div class="actions">
+          <button class="btn" id="btnImportFile">选择 CSV 文件</button>
+          <button class="btn ghost" id="btnPasteCsv">粘贴 CSV 文本</button>
+          <button class="btn ghost" id="btnCsvTemplate">下载模板</button>
+        </div>
+        <div class="hidden" id="pasteBox" style="margin-top:10px">
+          <textarea id="csvText" style="width:100%;height:120px;background:var(--panel2);border:1px solid var(--line2);border-radius:10px;color:var(--tx);padding:10px;font-size:11px;font-family:var(--mono)" placeholder="date,open,high,low,close,volume&#10;2024-01-02,10.00,10.20,9.90,10.10,120000"></textarea>
+          <button class="btn wide" id="btnParseCsv" style="margin-top:8px">解析并导入</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h2>数据管理</h2></div>
+        <div class="actions">
+          <button class="btn ghost danger" id="btnResetData">清空全部日线</button>
+          <button class="btn ghost" id="btnExportAllData">导出全部数据</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= RUNS ================= -->
+    <section class="view" data-view="runs">
+      <div class="card">
+        <div class="card-head"><h2>回测记录</h2>
+          <div><span class="hint" id="runCount" style="margin-right:12px">—</span><button class="link-btn danger" id="btnClearRuns">清空</button></div>
+        </div>
+        <div id="runsBody"></div>
+      </div>
+      <div class="card hidden" id="compareCard">
+        <div class="card-head"><h2>横向对比</h2><span class="hint">横轴最大回撤 · 纵轴累计收益</span></div>
+        <canvas id="cvScatter" style="width:100%"></canvas>
+      </div>
+    </section>
+
+    <!-- ================= SETTINGS ================= -->
+    <section class="view" data-view="settings">
+      <div class="card">
+        <div class="card-head"><h2>交易成本与参数</h2><span class="hint">自动保存</span></div>
+        <div class="set-grid">
+          <label class="field"><span>佣金率 %</span><input id="setComm" type="number" min="0" step="0.001" value="0.025"></label>
+          <label class="field"><span>印花税 %（卖出）</span><input id="setStamp" type="number" min="0" step="0.01" value="0.05"></label>
+          <label class="field"><span>滑点 %</span><input id="setSlip" type="number" min="0" step="0.01" value="0.05"></label>
+          <label class="field"><span>最低佣金（元）</span><input id="setMinComm" type="number" min="0" step="1" value="5"></label>
+          <label class="field"><span>每手股数</span><input id="setLot" type="number" min="1" step="1" value="100"></label>
+          <label class="field"><span>无风险利率 %</span><input id="setRf" type="number" min="0" step="0.1" value="2"></label>
+        </div>
+        <div class="switch">
+          <span>涨跌配色</span>
+          <div class="seg" id="colorSeg">
+            <button data-color="cn" class="on">红涨绿跌</button>
+            <button data-color="intl">绿涨红跌</button>
+          </div>
+        </div>
+        <p class="hint" style="margin-top:10px">A 股按 100 股一手计算，卖出收取印花税；美股标的自动按 1 股交易。</p>
+      </div>
+
+      <div class="card">
+        <div class="card-head"><h2>数据与备份</h2></div>
+        <div class="actions">
+          <button class="btn" id="btnExportBackup">导出全部配置</button>
+          <button class="btn" id="btnImportBackup">导入备份</button>
+        </div>
+        <input type="file" id="backupInput" accept=".json,application/json" class="hidden">
+        <div class="actions" style="margin-top:8px">
+          <button class="btn ghost" id="btnResetSettings">恢复默认设置</button>
+          <button class="btn ghost" id="btnClearAll">清空本地数据</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head"><h2>安装到桌面</h2></div>
+        <p class="hint" id="installHint">iPhone / iPad：用 Safari 打开本页 → 分享按钮 → 「添加到主屏幕」，即可像 App 一样全屏、离线使用。<br>电脑：Chrome / Edge 地址栏右侧点「安装」。<br>安装后数据仍只保存在本机。</p>
+      </div>
+
+      <div class="card">
+        <div class="card-head"><h2>关于</h2></div>
+        <p class="about">
+          <b>量化工作台 Quant Desk</b> 是一个完全离线的单文件量化研究终端，采用横屏双栏工作区（竖屏自动旋转 90° 强制横屏）。<br>
+          不内置模拟日线：回测数据来自「获取真实日线」（东方财富前复权）或导入自己的 CSV；实时页使用腾讯真实行情与分钟预测，不提供交易功能。<br><br>
+          <b>真实日线：</b>数据页可按代码/名称获取东方财富前复权日线（A股/ETF/美股），直接回测或导出 CSV；回测只使用你获取或导入的本地数据。<br><br>
+          <b>回测规则：</b>信号在收盘后生成、次日开盘成交，避免未来函数；按手数取整、计算佣金/印花税/滑点，支持止损止盈与最长持仓。<br><br>
+          <b>实时行情与预测：</b>只使用腾讯公开行情（A股/美股，2s 快照）；支持按代码/名称搜索 A股/ETF/美股、加入真实行情自选。腾讯行情为公开接口，可能有延迟；实时页只提供真实行情与概率预测，不提供交易功能。<br><br>
+          <b>风险提示：</b>历史回测不代表未来收益，模拟数据不构成任何投资建议。
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">QUANT DESK · 离线运行 · 数据仅存本机</footer>
+
+<div class="overlay hidden" id="overlay">
+  <div class="modal">
+    <h3 id="modalTitle">提示</h3>
+    <p id="modalText"></p>
+    <input id="modalInput" type="text" class="hidden">
+    <div class="modal-actions">
+      <button class="btn ghost" id="modalCancel">取消</button>
+      <button class="btn primary" id="modalOk">确定</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+</div>
+<script>
+/* ===== Quant Desk · data layer ===== */
+(function () {
+  'use strict';
+  var QL = (window.QL = window.QL || {});
+
+  /* ---------- storage ---------- */
+  QL.store = {
+    get: function (k, d) {
+      try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; }
+    },
+    set: function (k, v) {
+      try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch (e) { return false; }
+    },
+    del: function (k) { try { localStorage.removeItem(k); } catch (e) {} }
+  };
+  var K = (QL.KEYS = {
+    settings: 'qd.settings.v1',
+    strategies: 'qd.strategies.v1',
+    runs: 'qd.runs.v1',
+    data: 'qd.imported.v1',
+    ui: 'qd.ui.v1',
+    live: 'qd.live.v1',
+    feed: 'qd.feed.v1',
+    real: 'qd.real.v1'
+  });
+
+  /* ---------- formatters ---------- */
+  QL.fmt = {
+    n: function (v, d) {
+      if (v == null || !isFinite(v)) return '—';
+      d = d == null ? 2 : d;
+      return Number(v).toLocaleString('zh-CN', { minimumFractionDigits: d, maximumFractionDigits: d });
+    },
+    pct: function (v, d) {
+      if (v == null || !isFinite(v)) return '—';
+      d = d == null ? 2 : d;
+      return (v > 0 ? '+' : '') + (v * 100).toFixed(d) + '%';
+    },
+    pctAbs: function (v, d) {
+      if (v == null || !isFinite(v)) return '—';
+      d = d == null ? 2 : d;
+      return (v * 100).toFixed(d) + '%';
+    },
+    big: function (v) {
+      if (v == null || !isFinite(v)) return '—';
+      var a = Math.abs(v);
+      if (a >= 1e8) return (v / 1e8).toFixed(2) + '亿';
+      if (a >= 1e4) return (v / 1e4).toFixed(2) + '万';
+      return String(Math.round(v));
+    },
+    price: function (v) {
+      if (v == null) return '—';
+      if (v >= 1000) return v.toFixed(0);
+      if (v >= 100) return v.toFixed(1);
+      return v.toFixed(2);
+    },
+    axis: function (v) {
+      var a = Math.abs(v);
+      if (a >= 1e8) return (v / 1e8).toFixed(1) + '亿';
+      if (a >= 1e4) return (v / 1e4).toFixed(a >= 1e6 ? 0 : 1) + '万';
+      return v.toFixed(a < 10 ? 1 : 0);
+    },
+    date: function (s) { return s ? s.slice(5) : '—'; },
+    time: function (ts) {
+      var d = new Date(ts), p = function (x) { return String(x).padStart(2, '0'); };
+      return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate()) + ' ' + p(d.getHours()) + ':' + p(d.getMinutes());
+    },
+    money: function (v) {
+      if (v == null || !isFinite(v)) return '—';
+      if (Math.abs(v) >= 1e8) return (v / 1e8).toFixed(2) + ' 亿';
+      if (Math.abs(v) >= 1e4) return (v / 1e4).toFixed(2) + ' 万';
+      return v.toFixed(0);
+    }
+  };
+
+  /* ---------- registry ---------- */
+  var DATA = (QL.DATA = {
+    dates: [],
+    map: {},
+    list: function () {
+      var self = this;
+      return Object.keys(this.map).map(function (k) { return self.map[k]; });
+    },
+    get: function (id) { return this.map[id]; },
+    init: function () {
+      this.dates = [];
+      this.endDate = '';
+      this.map = {};
+      var saved = QL.store.get(K.data, {});
+      Object.keys(saved).forEach(function (id) {
+        var x = saved[id];
+        if (x && x.bars && x.bars.length > 10) {
+          x.source = x.source || '导入';
+          this.map[id] = x;
+        }
+      }, this);
+      return this;
+    },
+    add: function (obj) {
+      this.map[obj.id] = obj;
+      var saved = QL.store.get(K.data, {});
+      saved[obj.id] = obj;
+      var ok = QL.store.set(K.data, saved);
+      return ok;
+    },
+    remove: function (id) {
+      if (!this.map[id]) return false;
+      delete this.map[id];
+      var saved = QL.store.get(K.data, {});
+      delete saved[id];
+      QL.store.set(K.data, saved);
+      return true;
+    },
+    resetImported: function () {
+      QL.store.del(K.data);
+      this.init();
+    },
+    count: function () { return Object.keys(this.map).length; }
+  });
+
+  QL.csv = {
+    parse: function (text) {
+      text = String(text).replace(/^\uFEFF/, '').replace(/\r/g, '');
+      var lines = text.split('\n').filter(function (l) { return l.trim(); });
+      if (lines.length < 2) throw new Error('文件内容为空或缺少表头');
+      var split = function (line) {
+        var out = [], cur = '', q = false;
+        for (var i = 0; i < line.length; i++) {
+          var c = line[i];
+          if (c === '"') { if (q && line[i + 1] === '"') { cur += '"'; i++; } else q = !q; }
+          else if (c === ',' && !q) { out.push(cur); cur = ''; }
+          else cur += c;
+        }
+        out.push(cur);
+        return out.map(function (x) { return x.trim(); });
+      };
+      var head = split(lines[0]).map(function (h) { return h.toLowerCase().replace(/[\s_-]/g, ''); });
+      var idx = {};
+      var names = { date: ['date', '日期', 'time', 'trade_date', 'datetime'], open: ['open', '开盘', '开盘价'], high: ['high', '最高', '最高价'], low: ['low', '最低', '最低价'], close: ['close', '收盘', '收盘价', 'price'], volume: ['volume', 'vol', '成交量', 'amount'] };
+      Object.keys(names).forEach(function (key) {
+        for (var i = 0; i < head.length; i++) {
+          if (names[key].indexOf(head[i]) >= 0) { idx[key] = i; break; }
+        }
+      });
+      if (idx.date == null || idx.close == null) throw new Error('表头需包含 date 与 close（或中文“日期/收盘”）');
+      var bars = [];
+      var pad = function (x) { return String(x).padStart(2, '0'); };
+      for (var li = 1; li < lines.length; li++) {
+        var c = split(lines[li]);
+        if (c.length <= idx.close) continue;
+        var raw = String(c[idx.date]).trim().slice(0, 10).replace(/\//g, '-');
+        var dm = raw.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+        if (!dm) continue;
+        var ds = dm[1] + '-' + pad(dm[2]) + '-' + pad(dm[3]);
+        var close = parseFloat(c[idx.close]);
+        var open = idx.open != null ? parseFloat(c[idx.open]) : close;
+        var high = idx.high != null ? parseFloat(c[idx.high]) : Math.max(open, close);
+        var low = idx.low != null ? parseFloat(c[idx.low]) : Math.min(open, close);
+        var volume = idx.volume != null ? parseFloat(c[idx.volume]) : 0;
+        if (!isFinite(close) || !/^\d{4}-\d{2}-\d{2}$/.test(ds)) continue;
+        bars.push({
+          date: ds, open: +open.toFixed(4), high: +high.toFixed(4), low: +low.toFixed(4),
+          close: +close.toFixed(4), volume: isFinite(volume) ? volume : 0
+        });
+      }
+      var seen = {};
+      bars = bars.filter(function (b) { if (seen[b.date]) return false; seen[b.date] = 1; return true; })
+        .sort(function (a, b) { return a.date < b.date ? -1 : 1; });
+      if (bars.length < 60) throw new Error('有效数据不足 60 条（当前 ' + bars.length + ' 条）');
+      return bars;
+    },
+    make: function (bars) {
+      var head = 'date,open,high,low,close,volume';
+      return head + '\n' + bars.map(function (b) {
+        return [b.date, b.open, b.high, b.low, b.close, b.volume].join(',');
+      }).join('\n');
+    }
+  };
+
+  /* ---------- download / clipboard ---------- */
+  QL.download = function (name, text, mime) {
+    try {
+      var blob = new Blob([text], { type: mime || 'text/plain;charset=utf-8' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url; a.download = name;
+      document.body.appendChild(a); a.click();
+      setTimeout(function () { URL.revokeObjectURL(url); a.remove(); }, 1200);
+      return true;
+    } catch (e) { return false; }
+  };
+  QL.copy = function (text) {
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text);
+        return true;
+      }
+    } catch (e) {}
+    try {
+      var ta = document.createElement('textarea');
+      ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      var ok = document.execCommand('copy');
+      ta.remove(); return ok;
+    } catch (e) { return false; }
+  };
+})();
+
+/* ===== Quant Desk · indicators + strategies + backtest engine ===== */
+(function () {
+  'use strict';
+  var QL = (window.QL = window.QL || {});
+  var IND = (QL.IND = {});
+
+  IND.sma = function (a, p) {
+    p = Math.max(1, Math.round(p));
+    var out = new Array(a.length).fill(null), sum = 0;
+    for (var i = 0; i < a.length; i++) {
+      sum += a[i];
+      if (i >= p) sum -= a[i - p];
+      if (i >= p - 1) out[i] = sum / p;
+    }
+    return out;
+  };
+  IND.emaN = function (a, p) {
+    p = Math.max(1, Math.round(p));
+    var k = 2 / (p + 1), prev = null, cnt = 0, sum = 0;
+    return a.map(function (v) {
+      if (v == null) return null;
+      if (prev == null) {
+        sum += v; cnt++;
+        if (cnt < p) return null;
+        prev = sum / p; return prev;
+      }
+      prev = v * k + prev * (1 - k);
+      return prev;
+    });
+  };
+  IND.ema = function (a, p) { return IND.emaN(a, p); };
+  IND.rsi = function (a, p) {
+    p = Math.max(2, Math.round(p));
+    var out = new Array(a.length).fill(null);
+    if (a.length <= p) return out;
+    var gain = 0, loss = 0, i, d;
+    for (i = 1; i <= p; i++) {
+      d = a[i] - a[i - 1];
+      if (d > 0) gain += d; else loss -= d;
+    }
+    var ag = gain / p, al = loss / p;
+    out[p] = al === 0 ? 100 : 100 - 100 / (1 + ag / al);
+    for (i = p + 1; i < a.length; i++) {
+      d = a[i] - a[i - 1];
+      ag = (ag * (p - 1) + (d > 0 ? d : 0)) / p;
+      al = (al * (p - 1) + (d < 0 ? -d : 0)) / p;
+      out[i] = al === 0 ? 100 : 100 - 100 / (1 + ag / al);
+    }
+    return out;
+  };
+  IND.macd = function (a, f, s, g) {
+    var ef = IND.emaN(a, f), es = IND.emaN(a, s);
+    var dif = a.map(function (_, i) { return ef[i] != null && es[i] != null ? ef[i] - es[i] : null; });
+    var dea = IND.emaN(dif, g);
+    var hist = a.map(function (_, i) { return dif[i] != null && dea[i] != null ? (dif[i] - dea[i]) * 2 : null; });
+    return { dif: dif, dea: dea, hist: hist };
+  };
+  IND.boll = function (a, p, k) {
+    p = Math.max(2, Math.round(p));
+    var mid = IND.sma(a, p), up = new Array(a.length).fill(null), lo = new Array(a.length).fill(null);
+    for (var i = p - 1; i < a.length; i++) {
+      var m = mid[i], s = 0;
+      for (var j = i - p + 1; j <= i; j++) s += (a[j] - m) * (a[j] - m);
+      var sd = Math.sqrt(s / p);
+      up[i] = m + k * sd; lo[i] = m - k * sd;
+    }
+    return { mid: mid, up: up, lo: lo };
+  };
+  IND.hh = function (a, p) {
+    p = Math.max(1, Math.round(p));
+    var out = new Array(a.length).fill(null);
+    for (var i = 0; i < a.length; i++) {
+      if (i < p - 1) continue;
+      var m = -Infinity;
+      for (var j = i - p + 1; j <= i; j++) m = Math.max(m, a[j]);
+      out[i] = m;
+    }
+    return out;
+  };
+  IND.ll = function (a, p) {
+    p = Math.max(1, Math.round(p));
+    var out = new Array(a.length).fill(null);
+    for (var i = 0; i < a.length; i++) {
+      if (i < p - 1) continue;
+      var m = Infinity;
+      for (var j = i - p + 1; j <= i; j++) m = Math.min(m, a[j]);
+      out[i] = m;
+    }
+    return out;
+  };
+
+  /* ---------- strategy registry ---------- */
+  var STRATS = (QL.STRATS = {});
+  var LIST = (QL.STRAT_LIST = []);
+  function def(o) { STRATS[o.id] = o; LIST.push(o); }
+
+  def({
+    id: 'ma', name: '双均线', tag: '趋势',
+    desc: '快线在慢线之上持有，跌破离场。最经典的趋势跟踪框架。',
+    params: [
+      { key: 'fast', label: '快线', min: 2, max: 60, step: 1, def: 10 },
+      { key: 'slow', label: '慢线', min: 5, max: 200, step: 1, def: 30 }
+    ],
+    valid: function (p) { return +p.fast < +p.slow; },
+    ma: function (p) { return [Math.min(+p.fast, +p.slow), Math.max(+p.fast, +p.slow)]; },
+    targets: function (d, p) {
+      var a = d.map(function (x) { return x.close; });
+      var f = IND.sma(a, +p.fast), s = IND.sma(a, +p.slow);
+      return d.map(function (_, i) { return f[i] != null && s[i] != null && f[i] > s[i] ? 1 : 0; });
+    }
+  });
+
+  def({
+    id: 'macd', name: 'MACD', tag: '趋势',
+    desc: 'DIF 与 DEA 金叉后持有，死叉离场，用柱状线确认动能。',
+    params: [
+      { key: 'fast', label: '快线', min: 5, max: 30, step: 1, def: 12 },
+      { key: 'slow', label: '慢线', min: 10, max: 60, step: 1, def: 26 },
+      { key: 'signal', label: '信号线', min: 3, max: 20, step: 1, def: 9 }
+    ],
+    valid: function (p) { return +p.fast < +p.slow; },
+    targets: function (d, p) {
+      var m = IND.macd(d.map(function (x) { return x.close; }), +p.fast, +p.slow, +p.signal);
+      return d.map(function (_, i) { return m.hist[i] != null && m.hist[i] > 0 ? 1 : 0; });
+    }
+  });
+
+  def({
+    id: 'rsi', name: 'RSI 反转', tag: '均值回归',
+    desc: 'RSI 跌破超卖线买入，回到超买线卖出，适合震荡市。',
+    params: [
+      { key: 'n', label: '周期', min: 5, max: 30, step: 1, def: 14 },
+      { key: 'buy', label: '超卖线', min: 10, max: 40, step: 1, def: 30 },
+      { key: 'sell', label: '超买线', min: 60, max: 90, step: 1, def: 70 }
+    ],
+    valid: function (p) { return +p.buy < +p.sell; },
+    targets: function (d, p) {
+      var r = IND.rsi(d.map(function (x) { return x.close; }), +p.n);
+      var on = 0;
+      return d.map(function (_, i) {
+        if (r[i] == null) return 0;
+        if (!on && r[i] < +p.buy) on = 1;
+        else if (on && r[i] > +p.sell) on = 0;
+        return on;
+      });
+    }
+  });
+
+  def({
+    id: 'boll', name: '布林带', tag: '波动率',
+    desc: '突破上轨追趋势，或跌回下轨做均值回归，两种模式可切换。',
+    params: [
+      { key: 'n', label: '周期', min: 10, max: 60, step: 1, def: 20 },
+      { key: 'k', label: '带宽', min: 1, max: 3.5, step: 0.1, def: 2 },
+      { key: 'mode', label: '模式', options: [['breakout', '突破追涨'], ['reversion', '下轨回归']], def: 'breakout' }
+    ],
+    targets: function (d, p) {
+      var b = IND.boll(d.map(function (x) { return x.close; }), +p.n, +p.k);
+      var on = 0;
+      return d.map(function (_, i) {
+        if (b.mid[i] == null) return 0;
+        if (p.mode !== 'reversion') {
+          if (d[i].close > b.up[i]) on = 1;
+          else if (d[i].close < b.mid[i]) on = 0;
+        } else {
+          if (d[i].close < b.lo[i]) on = 1;
+          else if (d[i].close > b.mid[i]) on = 0;
+        }
+        return on;
+      });
+    }
+  });
+
+  def({
+    id: 'donchian', name: '唐奇安通道', tag: '趋势',
+    desc: '突破 N 日最高价入场，跌破 M 日最低价离场，海龟交易法简化版。',
+    params: [
+      { key: 'entry', label: '入场周期', min: 5, max: 60, step: 1, def: 20 },
+      { key: 'exit', label: '离场周期', min: 3, max: 40, step: 1, def: 10 }
+    ],
+    targets: function (d, p) {
+      var hh = IND.hh(d.map(function (x) { return x.high; }), +p.entry);
+      var ll = IND.ll(d.map(function (x) { return x.low; }), +p.exit);
+      var on = 0;
+      return d.map(function (_, i) {
+        if (i > 0 && hh[i - 1] != null && d[i].close > hh[i - 1]) on = 1;
+        if (on && i > 0 && ll[i - 1] != null && d[i].close < ll[i - 1]) on = 0;
+        return on;
+      });
+    }
+  });
+
+  def({
+    id: 'mom', name: '动量', tag: '趋势',
+    desc: '过去 N 日涨幅高于阈值则持有，动量转负离场。',
+    params: [
+      { key: 'n', label: '回看周期', min: 3, max: 120, step: 1, def: 20 },
+      { key: 'th', label: '阈值%', min: -10, max: 30, step: 0.5, def: 0 }
+    ],
+    targets: function (d, p) {
+      var out = new Array(d.length).fill(0);
+      for (var i = 0; i < d.length; i++) {
+        if (i < +p.n) continue;
+        var r = (d[i].close / d[i - +p.n].close - 1) * 100;
+        out[i] = r > +p.th ? 1 : 0;
+      }
+      return out;
+    }
+  });
+
+  QL.STRATS_BY_ID = STRATS;
+
+  function sd(a) {
+    if (!a.length) return 0;
+    var m = a.reduce(function (x, y) { return x + y; }, 0) / a.length;
+    var s = a.reduce(function (x, y) { return x + (y - m) * (y - m); }, 0) / a.length;
+    return Math.sqrt(s);
+  }
+
+  /* ---------- backtest ---------- */
+  QL.backtest = function (sym, stratId, params, settings, risk) {
+    var d = sym.bars, n = d.length;
+    var st = Object.assign({
+      capital: 100000, commission: 0.00025, stamp: 0.0005, slippage: 0.0005,
+      minComm: 5, lot: 100, rf: 0.02
+    }, settings || {});
+    risk = Object.assign({ sl: 0, tp: 0, maxHold: 0, posPct: 100 }, risk || {});
+    var strat = STRATS[stratId];
+    if (!strat) throw new Error('未知策略: ' + stratId);
+    var tgt = strat.targets(d, params || {});
+    var lot = /^\d{6}$/.test(String(sym.id)) ? Math.max(1, st.lot) : 1;
+    var posPct = Math.max(1, Math.min(100, +risk.posPct || 100)) / 100;
+    var sl = Math.max(0, +risk.sl || 0), tp = Math.max(0, +risk.tp || 0), mh = Math.max(0, +risk.maxHold || 0);
+
+    function fee(amount, isBuy) {
+      var f = amount * st.commission;
+      if (st.minComm > 0) f = Math.max(f, st.minComm);
+      if (!isBuy) f += amount * st.stamp;
+      return f;
+    }
+
+    var cash = st.capital, qty = 0, entryPrice = 0, entryIdx = -1;
+    var entryFee = 0, entryCost = 0, entryDate = '', pending = 0, blocked = 0;
+    var equity = new Array(n), bench = new Array(n), position = new Array(n);
+    var trades = [];
+
+    function buy(i, px) {
+      var budget = cash * posPct;
+      var q = Math.floor(budget / (px * lot)) * lot;
+      if (q <= 0) { blocked++; return false; }
+      var amt = q * px, f = fee(amt, true);
+      while (q > 0 && amt + f > cash + 1e-9) {
+        q -= lot;
+        amt = q * px;
+        f = fee(amt, true);
+      }
+      if (q <= 0) { blocked++; return false; }
+      cash -= amt + f;
+      qty = q; entryPrice = px; entryIdx = i; entryFee = f;
+      entryCost = amt + f; entryDate = d[i].date;
+      return true;
+    }
+
+    function sell(i, px, reason) {
+      if (qty <= 0) return;
+      var gross = qty * px, f = fee(gross, false);
+      cash += gross - f;
+      var pnl = gross - f - entryCost;
+      trades.push({
+        entryIdx: entryIdx, exitIdx: i, entryDate: entryDate, exitDate: d[i].date,
+        entryPrice: entryPrice, exitPrice: px, qty: qty, pnl: pnl,
+        pnlPct: entryCost ? pnl / entryCost : 0,
+        bars: i - entryIdx, reason: reason, open: false
+      });
+      qty = 0; entryIdx = -1; entryCost = 0; entryPrice = 0;
+    }
+
+    for (var i = 0; i < n; i++) {
+      var b = d[i];
+      if (pending === 1 && qty === 0) {
+        buy(i, b.open * (1 + st.slippage));
+      } else if (pending === -1 && qty > 0 && i > entryIdx) {
+        sell(i, b.open * (1 - st.slippage), '信号');
+      }
+      pending = 0;
+
+      if (qty > 0 && i > entryIdx) {
+        var stopPx = entryPrice * (1 - sl / 100);
+        var takePx = entryPrice * (1 + tp / 100);
+        var ex = 0, why = '';
+        if (sl > 0 && b.low <= stopPx) { ex = Math.min(b.open, stopPx); why = '止损'; }
+        else if (tp > 0 && b.high >= takePx) { ex = Math.max(b.open, takePx); why = '止盈'; }
+        else if (mh > 0 && i - entryIdx >= mh) { ex = b.close; why = '到期'; }
+        if (ex > 0) sell(i, ex * (1 - st.slippage), why);
+      }
+
+      var t = tgt[i] ? 1 : 0;
+      if (t === 1 && qty === 0) pending = 1;
+      else if (t === 0 && qty > 0) pending = -1;
+
+      equity[i] = cash + qty * b.close;
+      position[i] = qty > 0 ? 1 : 0;
+      bench[i] = st.capital * b.close / d[0].close;
+    }
+
+    var last = d[n - 1];
+    if (qty > 0) {
+      var gross2 = qty * last.close;
+      var f2 = fee(gross2, false);
+      var pnl2 = gross2 - f2 - entryCost;
+      trades.push({
+        entryIdx: entryIdx, exitIdx: n - 1, entryDate: entryDate, exitDate: '持仓中',
+        entryPrice: entryPrice, exitPrice: last.close, qty: qty, pnl: pnl2,
+        pnlPct: entryCost ? pnl2 / entryCost : 0, bars: n - 1 - entryIdx,
+        reason: '持仓中', open: true
+      });
+    }
+
+    /* metrics */
+    var cap = st.capital, finalEq = equity[n - 1];
+    var total = finalEq / cap - 1;
+    var years = Math.max(0.2, (new Date(last.date) - new Date(d[0].date)) / (365.25 * 86400000));
+    var cagr = Math.pow(finalEq / cap, 1 / years) - 1;
+    var rets = [];
+    for (var j = 1; j < n; j++) rets.push(equity[j] / equity[j - 1] - 1);
+    var mean = rets.length ? rets.reduce(function (a, x) { return a + x; }, 0) / rets.length : 0;
+    var vol = sd(rets) * Math.sqrt(252);
+    var rf = (+st.rf || 0) / 252;
+    var sharpe = sd(rets) > 0 ? (mean - rf) / sd(rets) * Math.sqrt(252) : 0;
+    var down = rets.filter(function (x) { return x < 0; });
+    var dsd = down.length ? Math.sqrt(down.reduce(function (a, x) { return a + x * x; }, 0) / down.length) : 0;
+    var sortino = dsd > 0 ? (mean - rf) / dsd * Math.sqrt(252) : 0;
+    var peak = cap, mdd = 0, dd = new Array(n);
+    for (var k = 0; k < n; k++) {
+      if (equity[k] > peak) peak = equity[k];
+      dd[k] = equity[k] / peak - 1;
+      if (dd[k] < mdd) mdd = dd[k];
+    }
+    var closed = trades.filter(function (t) { return !t.open; });
+    var wins = closed.filter(function (t) { return t.pnl > 0; });
+    var losses = closed.filter(function (t) { return t.pnl <= 0; });
+    var gw = wins.reduce(function (a, t) { return a + t.pnl; }, 0);
+    var gl = Math.abs(losses.reduce(function (a, t) { return a + t.pnl; }, 0));
+    var avgWin = wins.length ? gw / wins.length : 0;
+    var avgLoss = losses.length ? gl / losses.length : 0;
+    var benchRet = bench[n - 1] / cap - 1;
+    var metrics = {
+      total: total, cagr: cagr, mdd: mdd, sharpe: sharpe, sortino: sortino,
+      calmar: mdd < 0 ? cagr / Math.abs(mdd) : 0,
+      winRate: closed.length ? wins.length / closed.length : 0,
+      trades: closed.length,
+      profitFactor: gl > 0 ? gw / gl : (gw > 0 ? 9.99 : 0),
+      payoff: avgLoss > 0 ? avgWin / avgLoss : (avgWin > 0 ? 9.99 : 0),
+      avgHold: closed.length ? closed.reduce(function (a, t) { return a + t.bars; }, 0) / closed.length : 0,
+      vol: vol,
+      exposure: position.reduce(function (a, x) { return a + x; }, 0) / n,
+      bench: benchRet, excess: total - benchRet,
+      finalEq: finalEq, years: years,
+      start: d[0].date, end: last.date, days: n
+    };
+
+    /* monthly returns */
+    var monthEnd = {}, lastEq = cap;
+    for (var m = 0; m < n; m++) monthEnd[d[m].date.slice(0, 7)] = equity[m];
+    var monthly = Object.keys(monthEnd).sort().map(function (ym) {
+      var end = monthEnd[ym];
+      var r = lastEq ? end / lastEq - 1 : 0;
+      lastEq = end;
+      return { ym: ym, ret: r };
+    });
+
+    return {
+      ts: Date.now(),
+      symbolId: sym.id, symbolName: sym.name, market: sym.market,
+      source: sym.source,
+      stratId: stratId, stratName: strat.name,
+      params: Object.assign({}, params),
+      risk: Object.assign({}, risk),
+      settings: Object.assign({}, st),
+      dates: d.map(function (x) { return x.date; }),
+      close: d.map(function (x) { return x.close; }),
+      equity: equity, bench: bench, dd: dd, rets: rets, position: position,
+      trades: trades, monthly: monthly, metrics: metrics, blockedBuys: blocked,
+      strategyLines: strat.ma ? strat.ma(params) : null
+    };
+  };
+
+  /* ---------- parameter sweep ---------- */
+  QL.optimize = function (sym, stratId, params, settings, risk) {
+    var strat = STRATS[stratId];
+    var keys = strat.params.filter(function (p) { return !p.options; }).slice(0, 2);
+    var grids = keys.map(function (p) {
+      var base = +params[p.key] || p.def;
+      var step = p.step || 1;
+      var vals = [0.6, 0.8, 1, 1.25, 1.6].map(function (f) {
+        var v = Math.round((base * f) / step) * step;
+        return Math.max(p.min, Math.min(p.max, +v.toFixed(2)));
+      });
+      return vals.filter(function (v, i, arr) { return arr.indexOf(v) === i; }).sort(function (a, b) { return a - b; });
+    });
+    var rows = [], seen = {};
+    var total = grids[0].length * (grids[1] ? grids[1].length : 1);
+    if (total > 36) grids = grids.map(function (g) { return g.slice(0, 6); });
+    for (var i = 0; i < grids[0].length; i++) {
+      for (var j = 0; j < (grids[1] ? grids[1].length : 1); j++) {
+        var p = Object.assign({}, params);
+        p[keys[0].key] = grids[0][i];
+        if (keys[1]) p[keys[1].key] = grids[1][j];
+        var sig = keys.map(function (k) { return p[k.key]; }).join('|');
+        if (seen[sig]) continue;
+        seen[sig] = 1;
+        if (strat.valid && !strat.valid(p)) continue;
+        var res = QL.backtest(sym, stratId, p, settings, risk);
+        if (res.metrics.trades < 3) continue;
+        rows.push({
+          params: p, total: res.metrics.total, sharpe: res.metrics.sharpe,
+          mdd: res.metrics.mdd, trades: res.metrics.trades, winRate: res.metrics.winRate
+        });
+      }
+    }
+    rows.sort(function (a, b) { return b.sharpe - a.sharpe; });
+    return { keys: keys.map(function (k) { return { key: k.key, label: k.label }; }), rows: rows.slice(0, 8), tested: total };
+  };
+})();
+
+/* ===== Quant Desk · canvas charts (static, hover-driven) ===== */
+(function () {
+  'use strict';
+  var QL = (window.QL = window.QL || {});
+  var CH = (QL.CH = {});
+  var FONT = '-apple-system,"SF Pro Text","PingFang SC",sans-serif';
+
+  function colors() {
+    var cs = getComputedStyle(document.documentElement);
+    return {
+      up: cs.getPropertyValue('--up').trim() || '#ff5a6a',
+      down: cs.getPropertyValue('--down').trim() || '#22c55e',
+      accent: '#4c8dff', gold: '#f0b90b', purple: '#a78bfa',
+      tx: '#e9eef7', tx2: '#93a3ba', tx3: '#5f7088',
+      line: '#1d2635', line2: '#2a364a', panel: '#111722'
+    };
+  }
+  function setup(cv, h) {
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var w = cv.clientWidth || (cv.parentNode ? cv.parentNode.clientWidth : 0) || 320;
+    h = h || cv.clientHeight || 300;
+    var W = Math.round(w * dpr), H = Math.round(h * dpr);
+    if (cv.width !== W || cv.height !== H) { cv.width = W; cv.height = H; }
+    cv.style.height = h + 'px';
+    var ctx = cv.getContext('2d');
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, w, h);
+    ctx.font = '10px ' + FONT;
+    ctx.textBaseline = 'middle';
+    return { ctx: ctx, w: w, h: h };
+  }
+  function rr(ctx, x, y, w, h, r) {
+    r = Math.min(r, w / 2, h / 2);
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r);
+    ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r);
+    ctx.arcTo(x, y, x + w, y, r);
+    ctx.closePath();
+  }
+  function line(ctx, pts, color, width, dash) {
+    ctx.save();
+    ctx.strokeStyle = color; ctx.lineWidth = width || 1;
+    if (dash) ctx.setLineDash(dash);
+    ctx.beginPath();
+    var started = false;
+    for (var i = 0; i < pts.length; i++) {
+      var p = pts[i];
+      if (!p) { started = false; continue; }
+      if (!started) { ctx.moveTo(p[0], p[1]); started = true; }
+      else ctx.lineTo(p[0], p[1]);
+    }
+    ctx.stroke();
+    ctx.restore();
+  }
+  function bindHover(cv) {
+    if (cv._hoverBound) return;
+    cv._hoverBound = true;
+    var move = function (e) {
+      if (!cv._render) return;
+      var r = cv.getBoundingClientRect();
+      var x, y;
+      if (document.documentElement.classList.contains('ls-rotated')) {
+        x = e.clientY - r.top;
+        y = r.right - e.clientX;
+      } else {
+        x = e.clientX - r.left;
+        y = e.clientY - r.top;
+      }
+      cv._render({ x: x, y: y });
+    };
+    cv.addEventListener('pointermove', move);
+    cv.addEventListener('pointerdown', move);
+    cv.addEventListener('pointerleave', function () { if (cv._render) cv._render(null); });
+  }
+
+  /* ================= K-line ================= */
+  CH.kline = function (cv, bars, res, opt) {
+    opt = opt || {};
+    var draw = function (hover) {
+      var C = colors(), s = setup(cv, (opt && opt.height) || 380), ctx = s.ctx, w = s.w, h = s.h;
+      var n = bars.length;
+      if (!n) return;
+      var range = opt.range > 0 ? Math.min(opt.range, n) : n;
+      var start = n - range;
+      var L = 8, R = 52, T = 12, B = 30, volH = 54, gap = 14;
+      var priceB = h - B - volH - gap;
+      var pw = w - L - R;
+      var step = pw / range;
+      var xOf = function (i) { return L + (i - start + 0.5) * step; };
+      var lo = Infinity, hi = -Infinity;
+      for (var i = start; i < n; i++) { lo = Math.min(lo, bars[i].low); hi = Math.max(hi, bars[i].high); }
+      var closes = bars.map(function (b) { return b.close; });
+      var maList = (res && res.strategyLines) ? res.strategyLines : [5, 20, 60];
+      var maCols = [C.gold, C.purple, C.accent];
+      var mas = maList.map(function (p, idx) {
+        var arr = QL.IND.sma(closes, p);
+        for (var j = start; j < n; j++) { if (arr[j] != null) { lo = Math.min(lo, arr[j]); hi = Math.max(hi, arr[j]); } }
+        return { p: p, arr: arr, color: maCols[idx % maCols.length] };
+      });
+      var pad = (hi - lo) * 0.06 || hi * 0.02;
+      lo -= pad; hi += pad;
+      var yOf = function (v) { return T + (hi - v) / (hi - lo) * (priceB - T); };
+      var plotW = w - L - R;
+
+      /* grid */
+      ctx.save();
+      ctx.strokeStyle = C.line; ctx.lineWidth = 1;
+      ctx.fillStyle = C.tx3; ctx.textAlign = 'right';
+      for (var g = 0; g <= 4; g++) {
+        var yy = T + (priceB - T) * g / 4;
+        ctx.beginPath(); ctx.moveTo(L, yy + .5); ctx.lineTo(L + plotW, yy + .5); ctx.stroke();
+        ctx.fillText(QL.fmt.price(hi - (hi - lo) * g / 4), w - 3, yy);
+      }
+      ctx.strokeStyle = C.line2;
+      ctx.beginPath(); ctx.moveTo(L, priceB + 6.5); ctx.lineTo(L + plotW, priceB + 6.5); ctx.stroke();
+      ctx.restore();
+
+      /* volume */
+      var maxVol = 0;
+      for (i = start; i < n; i++) maxVol = Math.max(maxVol, bars[i].volume);
+      var volTop = priceB + gap, volBottom = h - B;
+      for (i = start; i < n; i++) {
+        var b = bars[i], up = b.close >= b.open;
+        var vh = Math.max(1, (b.volume / (maxVol || 1)) * volH);
+        ctx.fillStyle = (up ? C.up : C.down) + '66';
+        var bw = Math.max(1, Math.min(7, step * 0.62));
+        ctx.fillRect(xOf(i) - bw / 2, volBottom - vh, bw, vh);
+      }
+      ctx.fillStyle = C.tx3; ctx.textAlign = 'left';
+      ctx.fillText('VOL', L + 2, volTop + 2);
+      ctx.textAlign = 'right';
+      ctx.fillText(QL.fmt.big(maxVol), w - 3, volTop + 6);
+
+      /* candles */
+      for (i = start; i < n; i++) {
+        var x = xOf(i), bar = bars[i];
+        var isUp = bar.close >= bar.open;
+        var col = isUp ? C.up : C.down;
+        var bw2 = Math.max(1, Math.min(7, step * 0.62));
+        ctx.fillStyle = col;
+        ctx.fillRect(x - bw2 / 2, yOf(Math.max(bar.open, bar.close)), bw2, Math.max(1, yOf(Math.min(bar.open, bar.close)) - yOf(Math.max(bar.open, bar.close))));
+        ctx.fillRect(x - 0.5, yOf(bar.high), 1, Math.max(1, yOf(bar.low) - yOf(bar.high)));
+      }
+
+      /* MAs */
+      mas.forEach(function (m) {
+        var pts = [];
+        for (var j = start; j < n; j++) pts.push(m.arr[j] == null ? null : [xOf(j), yOf(m.arr[j])]);
+        line(ctx, pts, m.color, 1.2);
+      });
+
+      /* trades markers */
+      var trs = (res && res.trades) || [];
+      trs.forEach(function (t) {
+        if (t.entryIdx >= start && t.entryIdx < n) {
+          var x1 = xOf(t.entryIdx), y1 = yOf(bars[t.entryIdx].low) + 10;
+          ctx.fillStyle = C.gold;
+          ctx.beginPath(); ctx.moveTo(x1, y1 - 6); ctx.lineTo(x1 - 4, y1); ctx.lineTo(x1 + 4, y1); ctx.closePath(); ctx.fill();
+        }
+        if (!t.open && t.exitIdx >= start && t.exitIdx < n && t.reason !== '持仓中') {
+          var x2 = xOf(t.exitIdx), y2 = yOf(bars[t.exitIdx].high) - 10;
+          ctx.fillStyle = C.accent;
+          ctx.beginPath(); ctx.moveTo(x2, y2 + 6); ctx.lineTo(x2 - 4, y2); ctx.lineTo(x2 + 4, y2); ctx.closePath(); ctx.fill();
+        }
+      });
+
+      /* legend */
+      ctx.textAlign = 'left';
+      var lx = L + 3, ly = T + 8;
+      mas.forEach(function (m, idx) {
+        ctx.fillStyle = m.color;
+        ctx.fillRect(lx, ly - 1, 8, 2);
+        ctx.fillStyle = C.tx2;
+        ctx.fillText('MA' + m.p, lx + 11, ly);
+        lx += 44;
+      });
+      ctx.fillStyle = C.tx3;
+      ctx.fillText('▲买 ▼卖', w - R - 62, ly);
+
+      /* x labels */
+      ctx.textAlign = 'center'; ctx.fillStyle = C.tx3;
+      var ticks = w < 430 ? 4 : 5;
+      for (var t = 0; t < ticks; t++) {
+        var idx = start + Math.round((range - 1) * t / (ticks - 1));
+        var tx = Math.min(w - 24, Math.max(L + 20, xOf(idx)));
+        ctx.fillText(bars[idx].date.slice(5), tx, h - 10);
+      }
+
+      /* crosshair */
+      if (hover && hover.x >= L && hover.x <= L + plotW && hover.y >= T && hover.y <= volBottom) {
+        var hi2 = Math.max(0, Math.min(range - 1, Math.floor((hover.x - L) / step)));
+        var hidx = start + hi2, hb = bars[hidx];
+        var hx = xOf(hidx);
+        ctx.save();
+        ctx.setLineDash([3, 3]); ctx.strokeStyle = 'rgba(147,163,186,.45)'; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(hx, T); ctx.lineTo(hx, volBottom); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(L, hover.y); ctx.lineTo(L + plotW, hover.y); ctx.stroke();
+        ctx.restore();
+        var pv = hi - (hover.y - T) / (priceB - T) * (hi - lo);
+        ctx.fillStyle = '#243146';
+        ctx.fillRect(w - R + 2, hover.y - 8, R - 4, 16);
+        ctx.fillStyle = C.tx; ctx.textAlign = 'right';
+        ctx.fillText(QL.fmt.price(pv), w - 4, hover.y);
+
+        var chg = hidx > 0 ? hb.close / bars[hidx - 1].close - 1 : 0;
+        var boxW = 164, boxH = 100;
+        var bx = hx + 14; if (bx + boxW > w - R) bx = hx - boxW - 14;
+        bx = Math.max(L, bx);
+        var by = Math.max(T + 4, Math.min(hover.y - 20, h - B - boxH - 10));
+        ctx.fillStyle = 'rgba(9,12,17,.94)';
+        rr(ctx, bx, by, boxW, boxH, 8); ctx.fill();
+        ctx.strokeStyle = C.line2; ctx.stroke();
+        ctx.textAlign = 'left';
+        ctx.fillStyle = C.tx2; ctx.font = '10px ' + FONT;
+        ctx.fillText(hb.date, bx + 9, by + 13);
+        ctx.fillStyle = chg >= 0 ? C.up : C.down; ctx.textAlign = 'right';
+        ctx.fillText(QL.fmt.pct(chg), bx + boxW - 9, by + 13);
+        ctx.textAlign = 'left'; ctx.fillStyle = C.tx2;
+        var rows = [
+          ['开', QL.fmt.price(hb.open), '高', QL.fmt.price(hb.high)],
+          ['低', QL.fmt.price(hb.low), '收', QL.fmt.price(hb.close)],
+          ['量', QL.fmt.big(hb.volume), '幅', QL.fmt.pct(chg)]
+        ];
+        rows.forEach(function (r, ri) {
+          var yy2 = by + 32 + ri * 17;
+          ctx.fillStyle = C.tx3; ctx.fillText(r[0], bx + 9, yy2);
+          ctx.fillStyle = C.tx; ctx.fillText(r[1], bx + 22, yy2);
+          ctx.fillStyle = C.tx3; ctx.fillText(r[2], bx + 88, yy2);
+          ctx.fillStyle = C.tx; ctx.fillText(r[3], bx + 101, yy2);
+        });
+        ctx.fillStyle = C.tx3;
+        ctx.fillText('MA5 ' + QL.fmt.price(QL.IND.sma(closes, 5)[hidx]), bx + 9, by + 85);
+        ctx.fillText('MA20 ' + QL.fmt.price(QL.IND.sma(closes, 20)[hidx]), bx + 88, by + 85);
+      }
+    };
+    cv._render = draw;
+    bindHover(cv);
+    draw(null);
+  };
+
+  /* ================= equity ================= */
+  CH.equity = function (cv, res) {
+    var draw = function (hover) {
+      var C = colors(), s = setup(cv, 300), ctx = s.ctx, w = s.w, h = s.h;
+      var eq = res.equity, be = res.bench, n = eq.length;
+      var L = 8, R = 52, T = 26, B = 24;
+      var lo = Math.min.apply(null, eq), hi = Math.max.apply(null, eq);
+      if (be) { lo = Math.min(lo, Math.min.apply(null, be)); hi = Math.max(hi, Math.max.apply(null, be)); }
+      var padv = (hi - lo) * 0.08 || hi * 0.01; lo -= padv; hi += padv;
+      var pw = w - L - R, ph = h - T - B;
+      var xOf = function (i) { return L + i / (n - 1) * pw; };
+      var yOf = function (v) { return T + (hi - v) / (hi - lo) * ph; };
+
+      ctx.strokeStyle = C.line; ctx.fillStyle = C.tx3; ctx.textAlign = 'right';
+      for (var g = 0; g <= 4; g++) {
+        var yy = T + ph * g / 4;
+        ctx.beginPath(); ctx.moveTo(L, yy + .5); ctx.lineTo(L + pw, yy + .5); ctx.stroke();
+        ctx.fillText(QL.fmt.axis(hi - (hi - lo) * g / 4), w - 3, yy);
+      }
+      /* fill */
+      var grad = ctx.createLinearGradient(0, T, 0, T + ph);
+      grad.addColorStop(0, 'rgba(76,141,255,.28)');
+      grad.addColorStop(1, 'rgba(76,141,255,0)');
+      ctx.beginPath();
+      ctx.moveTo(xOf(0), T + ph);
+      for (var i = 0; i < n; i++) ctx.lineTo(xOf(i), yOf(eq[i]));
+      ctx.lineTo(xOf(n - 1), T + ph);
+      ctx.closePath(); ctx.fillStyle = grad; ctx.fill();
+
+      line(ctx, eq.map(function (v, i) { return [xOf(i), yOf(v)]; }), C.accent, 1.6);
+      if (be) line(ctx, be.map(function (v, i) { return [xOf(i), yOf(v)]; }), C.tx3, 1, [4, 3]);
+
+      /* legend */
+      ctx.textAlign = 'left';
+      ctx.fillStyle = C.accent; ctx.fillRect(L + 2, 10, 9, 2);
+      ctx.fillStyle = C.tx2; ctx.fillText('策略权益', L + 15, 11);
+      ctx.fillStyle = C.tx3; ctx.fillRect(L + 74, 10, 9, 2);
+      ctx.fillStyle = C.tx2; ctx.fillText('买入持有', L + 87, 11);
+
+      /* x labels */
+      ctx.fillStyle = C.tx3; ctx.textAlign = 'center';
+      for (var t = 0; t < 4; t++) {
+        var idx = Math.round((n - 1) * t / 3);
+        var tx = Math.min(w - R, Math.max(L + 24, xOf(idx)));
+        ctx.fillText(res.dates[idx].slice(2, 7), tx, h - 9);
+      }
+
+      if (hover && hover.x >= L && hover.x <= L + pw) {
+        var k = Math.round((hover.x - L) / pw * (n - 1));
+        k = Math.max(0, Math.min(n - 1, k));
+        var hx = xOf(k);
+        ctx.save(); ctx.setLineDash([3, 3]); ctx.strokeStyle = 'rgba(147,163,186,.45)';
+        ctx.beginPath(); ctx.moveTo(hx, T); ctx.lineTo(hx, T + ph); ctx.stroke(); ctx.restore();
+        ctx.fillStyle = 'rgba(9,12,17,.95)';
+        var bw = 128, bh = 52, bx = hx + 12 > w - R - bw ? hx - bw - 12 : hx + 12;
+        var by = T + 8;
+        rr(ctx, bx, by, bw, bh, 7); ctx.fill();
+        ctx.strokeStyle = C.line2; ctx.stroke();
+        ctx.textAlign = 'left'; ctx.fillStyle = C.tx3;
+        ctx.fillText(res.dates[k], bx + 9, by + 14);
+        ctx.fillStyle = C.tx; ctx.fillText(QL.fmt.money(eq[k]), bx + 9, by + 31);
+        ctx.fillStyle = be ? C.tx3 : C.tx2;
+        ctx.fillText('基准 ' + QL.fmt.money(be ? be[k] : 0), bx + 9, by + 45);
+      }
+    };
+    cv._render = draw;
+    bindHover(cv);
+    draw(null);
+  };
+
+  /* ================= drawdown ================= */
+  CH.dd = function (cv, res) {
+    var draw = function (hover) {
+      var C = colors(), s = setup(cv, 300), ctx = s.ctx, w = s.w, h = s.h;
+      var dd = res.dd, n = dd.length;
+      var L = 8, R = 52, T = 18, B = 24;
+      var lo = Math.min.apply(null, dd), hi = 0;
+      if (lo === 0) lo = -0.01;
+      var pw = w - L - R, ph = h - T - B;
+      var xOf = function (i) { return L + i / (n - 1) * pw; };
+      var yOf = function (v) { return T + (hi - v) / (hi - lo) * ph; };
+
+      ctx.strokeStyle = C.line; ctx.fillStyle = C.tx3; ctx.textAlign = 'right';
+      for (var g = 0; g <= 4; g++) {
+        var yy = T + ph * g / 4;
+        ctx.beginPath(); ctx.moveTo(L, yy + .5); ctx.lineTo(L + pw, yy + .5); ctx.stroke();
+        ctx.fillText(((hi - (hi - lo) * g / 4) * 100).toFixed(0) + '%', w - 3, yy);
+      }
+      ctx.beginPath(); ctx.moveTo(xOf(0), yOf(0));
+      for (var i = 0; i < n; i++) ctx.lineTo(xOf(i), yOf(dd[i]));
+      ctx.lineTo(xOf(n - 1), yOf(0)); ctx.closePath();
+      var grad = ctx.createLinearGradient(0, T, 0, T + ph);
+      grad.addColorStop(0, 'rgba(255,90,106,.05)');
+      grad.addColorStop(1, 'rgba(255,90,106,.34)');
+      ctx.fillStyle = grad; ctx.fill();
+      line(ctx, dd.map(function (v, i) { return [xOf(i), yOf(v)]; }), C.up, 1.2);
+
+      /* max dd marker */
+      var mi = 0; for (i = 1; i < n; i++) if (dd[i] < dd[mi]) mi = i;
+      var mx = xOf(mi), my = yOf(dd[mi]);
+      ctx.fillStyle = C.up; ctx.beginPath(); ctx.arc(mx, my, 2.5, 0, 6.2832); ctx.fill();
+      ctx.textAlign = 'left'; ctx.font = '10px ' + FONT;
+      ctx.fillText('最大回撤 ' + (dd[mi] * 100).toFixed(2) + '%', Math.min(mx + 6, w - R - 96), Math.min(my + 12, h - B - 4));
+
+      ctx.fillStyle = C.tx3; ctx.textAlign = 'center';
+      for (var t = 0; t < 4; t++) {
+        var idx = Math.round((n - 1) * t / 3);
+        ctx.fillText(res.dates[idx].slice(2, 7), Math.min(w - R, Math.max(L + 24, xOf(idx))), h - 9);
+      }
+
+      if (hover && hover.x >= L && hover.x <= L + pw) {
+        var k = Math.max(0, Math.min(n - 1, Math.round((hover.x - L) / pw * (n - 1))));
+        ctx.save(); ctx.setLineDash([3, 3]); ctx.strokeStyle = 'rgba(147,163,186,.45)';
+        ctx.beginPath(); ctx.moveTo(xOf(k), T); ctx.lineTo(xOf(k), T + ph); ctx.stroke(); ctx.restore();
+        ctx.fillStyle = 'rgba(9,12,17,.95)'; rr(ctx, Math.min(xOf(k) + 10, w - R - 104), T + 6, 100, 40, 7); ctx.fill();
+        ctx.strokeStyle = C.line2; ctx.stroke();
+        ctx.textAlign = 'left'; ctx.fillStyle = C.tx3; ctx.fillText(res.dates[k], Math.min(xOf(k) + 18, w - R - 96), T + 19);
+        ctx.fillStyle = C.up; ctx.fillText('回撤 ' + (dd[k] * 100).toFixed(2) + '%', Math.min(xOf(k) + 18, w - R - 96), T + 34);
+      }
+    };
+    cv._render = draw;
+    bindHover(cv);
+    draw(null);
+  };
+
+  /* ================= return histogram ================= */
+  CH.hist = function (cv, res) {
+    var s = setup(cv, 300), ctx = s.ctx, w = s.w, h = s.h;
+    var C = colors();
+    var rets = res.rets;
+    if (!rets.length) return;
+    var L = 10, R = 12, T = 22, B = 26;
+    var mn = Math.min.apply(null, rets), mx = Math.max.apply(null, rets);
+    if (mn === mx) { mn -= 0.001; mx += 0.001; }
+    var bins = 29, bw = (mx - mn) / bins;
+    var counts = new Array(bins).fill(0);
+    rets.forEach(function (r) {
+      var k = Math.min(bins - 1, Math.max(0, Math.floor((r - mn) / bw)));
+      counts[k]++;
+    });
+    var maxC = Math.max.apply(null, counts);
+    var pw = w - L - R, ph = h - T - B;
+    var yOf = function (v) { return T + ph - v / maxC * ph; };
+    var zeroX = L + (0 - mn) / (mx - mn) * pw;
+    ctx.strokeStyle = C.line; ctx.fillStyle = C.tx3; ctx.textAlign = 'right';
+    for (var g = 0; g <= 3; g++) {
+      var yy = T + ph * g / 3;
+      ctx.beginPath(); ctx.moveTo(L, yy + .5); ctx.lineTo(L + pw, yy + .5); ctx.stroke();
+      ctx.fillText(String(Math.round(maxC - maxC * g / 3)), w - 2, yy);
+    }
+    for (var i = 0; i < bins; i++) {
+      var x0 = L + i / bins * pw + 1, bwpx = pw / bins - 2;
+      var v = (mn + (i + 0.5) * bw);
+      var bh = counts[i] / maxC * ph;
+      ctx.fillStyle = v >= 0 ? C.up + 'aa' : C.down + 'aa';
+      ctx.fillRect(x0, T + ph - bh, Math.max(1, bwpx), bh);
+    }
+    ctx.save(); ctx.setLineDash([3, 3]); ctx.strokeStyle = C.line2;
+    ctx.beginPath(); ctx.moveTo(zeroX, T); ctx.lineTo(zeroX, T + ph); ctx.stroke(); ctx.restore();
+    ctx.fillStyle = C.tx3; ctx.textAlign = 'left';
+    ctx.fillText('日收益分布 · 共 ' + rets.length + ' 个交易日', L + 2, T - 8);
+    ctx.textAlign = 'center';
+    [mn, mn / 2, 0, mx / 2, mx].forEach(function (v) {
+      ctx.fillText((v * 100).toFixed(2) + '%', L + (v - mn) / (mx - mn) * pw, h - 9);
+    });
+  };
+
+  /* ================= sparkline ================= */
+  CH.spark = function (cv, values, color) {
+    var s = setup(cv, 34), ctx = s.ctx, w = s.w, h = s.h;
+    if (!values || values.length < 2) return;
+    var lo = Math.min.apply(null, values), hi = Math.max.apply(null, values);
+    if (hi === lo) hi = lo + 1;
+    var xOf = function (i) { return i / (values.length - 1) * w; };
+    var yOf = function (v) { return h - 3 - (v - lo) / (hi - lo) * (h - 6); };
+    ctx.beginPath();
+    values.forEach(function (v, i) { i ? ctx.lineTo(xOf(i), yOf(v)) : ctx.moveTo(0, yOf(v)); });
+    ctx.lineTo(w, h); ctx.lineTo(0, h); ctx.closePath();
+    ctx.fillStyle = color === 'down' ? 'rgba(34,197,94,.16)' : 'rgba(76,141,255,.16)';
+    ctx.fill();
+    line(ctx, values.map(function (v, i) { return [xOf(i), yOf(v)]; }), color === 'down' ? '#22c55e' : '#4c8dff', 1.3);
+  };
+
+  /* ================= scatter: return vs drawdown ================= */
+  CH.scatter = function (cv, runs) {
+    var s = setup(cv, 250), ctx = s.ctx, w = s.w, h = s.h, C = colors();
+    var L = 42, R = 14, T = 18, B = 34;
+    var pts = runs.filter(function (r) { return r.metrics; });
+    if (pts.length < 2) return;
+    var xs = pts.map(function (r) { return Math.abs(r.metrics.mdd) * 100; });
+    var ys = pts.map(function (r) { return r.metrics.total * 100; });
+    var xMax = Math.max.apply(null, xs) * 1.15 || 1;
+    var yMin = Math.min.apply(null, ys), yMax = Math.max.apply(null, ys);
+    var padY = (yMax - yMin) * 0.2 || 5;
+    yMin -= padY; yMax += padY;
+    var pw = w - L - R, ph = h - T - B;
+    var xOf = function (v) { return L + v / xMax * pw; };
+    var yOf = function (v) { return T + ph - (v - yMin) / (yMax - yMin) * ph; };
+    ctx.strokeStyle = C.line; ctx.fillStyle = C.tx3;
+    for (var g = 0; g <= 4; g++) {
+      var yy = T + ph * g / 4;
+      ctx.beginPath(); ctx.moveTo(L, yy + .5); ctx.lineTo(L + pw, yy + .5); ctx.stroke();
+      ctx.textAlign = 'right';
+      ctx.fillText((yMax - (yMax - yMin) * g / 4).toFixed(0) + '%', L - 5, yy);
+      ctx.textAlign = 'center';
+      ctx.fillText((xMax * g / 4).toFixed(1) + '%', L + pw * g / 4, h - 14);
+    }
+    ctx.textAlign = 'left'; ctx.fillStyle = C.tx3;
+    ctx.fillText('最大回撤 →', L, h - 3);
+    pts.forEach(function (r) {
+      var x = xOf(Math.abs(r.metrics.mdd) * 100), y = yOf(r.metrics.total * 100);
+      var good = r.metrics.sharpe >= 1;
+      ctx.fillStyle = good ? '#4c8dff' : '#5f7088';
+      ctx.beginPath(); ctx.arc(x, y, 3.2, 0, 6.2832); ctx.fill();
+      if (good) { ctx.strokeStyle = 'rgba(76,141,255,.35)'; ctx.beginPath(); ctx.arc(x, y, 6.5, 0, 6.2832); ctx.stroke(); }
+    });
+  };
+
+  /* ================= live tick chart + forecast cone ================= */
+  CH.live = function (cv, ticks, st, fc, opt) {
+    opt = opt || {};
+    var s = setup(cv, opt.height || 280), ctx = s.ctx, w = s.w, h = s.h, C = colors();
+    if (!ticks || ticks.length < 2) {
+      ctx.fillStyle = C.tx3; ctx.textAlign = 'center';
+      ctx.fillText('等待行情数据…', w / 2, h / 2);
+      return;
+    }
+    var win = 1200;
+    var start = Math.max(0, ticks.length - win);
+    var n = ticks.length - start;
+    var horizon = fc ? fc.horizon : 0;
+    var total = Math.max(1, n + horizon);
+    var L = 8, R = 54, T = 26, B = 24;
+    var pw = w - L - R, ph = h - T - B;
+    var xOf = function (i) { return L + (i + 0.5) / total * pw; };
+    var lo = Infinity, hi = -Infinity;
+    for (var i = start; i < ticks.length; i++) { lo = Math.min(lo, ticks[i].p); hi = Math.max(hi, ticks[i].p); }
+    if (fc) { lo = Math.min(lo, fc.q05); hi = Math.max(hi, fc.q95); }
+    var pad = (hi - lo) * 0.1 || Math.max(0.01, hi * 0.001);
+    lo -= pad; hi += pad;
+    var yOf = function (v) { return T + (hi - v) / (hi - lo) * ph; };
+    var lastP = ticks[ticks.length - 1].p;
+    var base = st && st.prevClose ? st.prevClose : ticks[0].p;
+    var up = lastP >= base;
+    var col = up ? C.up : C.down;
+
+    /* grid + price axis */
+    ctx.save();
+    ctx.strokeStyle = C.line; ctx.lineWidth = 1;
+    ctx.fillStyle = C.tx3; ctx.textAlign = 'right';
+    var fmtP = function (v) { return v >= 100 ? v.toFixed(1) : v >= 10 ? v.toFixed(2) : v.toFixed(3); };
+    for (var g = 0; g <= 4; g++) {
+      var yy = T + ph * g / 4;
+      ctx.beginPath(); ctx.moveTo(L, yy + .5); ctx.lineTo(L + pw, yy + .5); ctx.stroke();
+      ctx.fillText(fmtP(hi - (hi - lo) * g / 4), w - 3, yy);
+    }
+    ctx.restore();
+
+    var xNow = xOf(n - 1);
+
+    /* area fill */
+    var grad = ctx.createLinearGradient(0, T, 0, T + ph);
+    grad.addColorStop(0, col + '30');
+    grad.addColorStop(1, col + '00');
+    ctx.beginPath();
+    ctx.moveTo(xOf(0), T + ph);
+    for (i = start; i < ticks.length; i++) ctx.lineTo(xOf(i - start), yOf(ticks[i].p));
+    ctx.lineTo(xOf(n - 1), T + ph);
+    ctx.closePath();
+    ctx.fillStyle = grad; ctx.fill();
+
+    /* forecast cone */
+    if (fc && horizon > 0) {
+      var cone = function (qHi, qLo, alpha) {
+        ctx.beginPath();
+        for (var k = 0; k <= horizon; k++) {
+          var f = Math.sqrt(k / horizon), x = xOf(n - 1 + k);
+          var y = yOf(lastP + (qHi - lastP) * f);
+          k === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+        }
+        for (k = horizon; k >= 0; k--) {
+          var f2 = Math.sqrt(k / horizon), x2 = xOf(n - 1 + k);
+          var y2 = yOf(lastP + (qLo - lastP) * f2);
+          ctx.lineTo(x2, y2);
+        }
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(76,141,255,' + alpha + ')';
+        ctx.fill();
+      };
+      cone(fc.q95, fc.q05, 0.13);
+      cone(fc.q75, fc.q25, 0.15);
+      var med = [];
+      for (var k2 = 0; k2 <= horizon; k2++) {
+        med.push([xOf(n - 1 + k2), yOf(lastP + (fc.q50 - lastP) * (k2 / horizon))]);
+      }
+      line(ctx, med, '#8fb6ff', 1, [4, 3]);
+      ctx.save();
+      ctx.strokeStyle = 'rgba(76,141,255,.45)';
+      ctx.setLineDash([2, 3]);
+      ctx.beginPath(); ctx.moveTo(xNow, T); ctx.lineTo(xNow, T + ph); ctx.stroke();
+      ctx.restore();
+      ctx.fillStyle = '#8fb6ff'; ctx.textAlign = 'left'; ctx.font = '9px ' + FONT;
+      ctx.fillText('预测 ' + (fc.horizonSec || 10) + 's', Math.min(xNow + 6, w - R - 48), T - 6);
+    }
+
+    /* VWAP */
+    var vw = [];
+    for (i = start; i < ticks.length; i++) {
+      vw.push([xOf(i - start), yOf(ticks[i].vwap || ticks[i].p)]);
+    }
+    line(ctx, vw, C.gold, 1, [4, 3]);
+
+    /* price line */
+    var pts = [];
+    for (i = start; i < ticks.length; i++) pts.push([xOf(i - start), yOf(ticks[i].p)]);
+    line(ctx, pts, col, 1.6);
+
+    /* last price tag */
+    var yl = yOf(lastP);
+    ctx.fillStyle = col;
+    rr(ctx, w - R + 2, yl - 8, R - 4, 16, 3); ctx.fill();
+    ctx.fillStyle = '#fff'; ctx.textAlign = 'right';
+    ctx.fillText(fmtP(lastP), w - 4, yl);
+
+    /* time axis */
+    ctx.fillStyle = C.tx3; ctx.textAlign = 'center';
+    var ticksCount = 4;
+    for (var t = 0; t < ticksCount; t++) {
+      var idx = start + Math.round((n - 1) * t / (ticksCount - 1));
+      var tx = Math.min(w - R, Math.max(L + 22, xOf(idx - start)));
+      var d = new Date(ticks[idx].t), pp = function (x) { return String(x).padStart(2, '0'); };
+      ctx.fillText(pp(d.getHours()) + ':' + pp(d.getMinutes()) + ':' + pp(d.getSeconds()), tx, h - 9);
+    }
+    if (fc) {
+      ctx.fillStyle = 'rgba(143,182,255,.8)'; ctx.textAlign = 'right';
+      ctx.fillText('未来 10s', w - R, h - 9);
+    }
+
+    /* live badge */
+    ctx.textAlign = 'left';
+    ctx.fillStyle = C.down;
+    ctx.beginPath(); ctx.arc(L + 4, 13, 2.6, 0, 6.2832); ctx.fill();
+    ctx.fillStyle = C.tx2;
+    ctx.fillText(opt.badge || 'LIVE · 50ms', L + 11, 13);
+    var last = ticks[ticks.length - 1], p2 = function (x) { return String(x).padStart(2, '0'); };
+    var d2 = new Date(last.t);
+    ctx.textAlign = 'right'; ctx.fillStyle = C.tx3;
+    ctx.fillText(p2(d2.getHours()) + ':' + p2(d2.getMinutes()) + ':' + p2(d2.getSeconds()) + '.' +
+      String(d2.getMilliseconds()).padStart(3, '0'), w - R, 13);
+  };
+
+})();
+
+/* ===== Quant Desk · UI ===== */
+(function () {
+  'use strict';
+  var QL = window.QL, D = QL.DATA, F = QL.fmt, CH = QL.CH, K = QL.KEYS;
+  var $ = function (s) { return document.querySelector(s); };
+  var $$ = function (s) { return Array.prototype.slice.call(document.querySelectorAll(s)); };
+
+  var DEFAULTS = {
+    capital: 100000, commission: 0.00025, stamp: 0.0005, slippage: 0.0005,
+    minComm: 5, lot: 100, rf: 0.02, updown: 'cn'
+  };
+  var settings = Object.assign({}, DEFAULTS, QL.store.get(K.settings, {}));
+  var ui = Object.assign({
+    symbol: '510300', strat: 'ma', chart: 'kline', range: 120,
+    params: {}, risk: { pos: 100, sl: 8, tp: 0, hold: 0 }
+  }, QL.store.get(K.ui, {}));
+  if (!ui.params) ui.params = {};
+  ui.risk = Object.assign({ pos: 100, sl: 8, tp: 0, hold: 0 }, ui.risk || {});
+  var state = { result: null, opt: null, view: 'backtest' };
+
+  function saveUI() { QL.store.set(K.ui, ui); }
+  function saveSettings() { QL.store.set(K.settings, settings); }
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function tone(v) { return v > 0 ? 'pos' : v < 0 ? 'neg' : 'neu'; }
+
+  /* ---------- toast / modal ---------- */
+  var toastTimer = null;
+  function toast(msg) {
+    var el = $('#toast');
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { el.classList.remove('show'); }, 2600);
+  }
+  var modalResolve = null;
+  function openModal(o) {
+    return new Promise(function (resolve) {
+      modalResolve = resolve;
+      $('#modalTitle').textContent = o.title || '提示';
+      $('#modalText').textContent = o.text || '';
+      var inp = $('#modalInput');
+      if (o.input) {
+        inp.classList.remove('hidden');
+        inp.value = o.value || '';
+        inp.placeholder = o.placeholder || '';
+      } else inp.classList.add('hidden');
+      $('#modalOk').textContent = o.ok || '确定';
+      $('#modalCancel').textContent = o.cancel || '取消';
+      $('#modalCancel').style.display = o.hideCancel ? 'none' : '';
+      $('#overlay').classList.remove('hidden');
+      if (o.input) setTimeout(function () { inp.focus(); inp.select(); }, 60);
+    });
+  }
+  function closeModal(v) {
+    $('#overlay').classList.add('hidden');
+    if (modalResolve) { var r = modalResolve; modalResolve = null; r(v); }
+  }
+  function ask(title, text, value, ok) {
+    return openModal({ title: title, text: text, input: true, value: value || '', ok: ok || '保存' });
+  }
+  function confirmBox(title, text, ok) {
+    return openModal({ title: title, text: text, ok: ok || '确认' });
+  }
+  $('#modalOk').onclick = function () {
+    var inp = $('#modalInput');
+    closeModal(inp.classList.contains('hidden') ? true : inp.value.trim());
+  };
+  $('#modalCancel').onclick = function () { closeModal(null); };
+  $('#overlay').onclick = function (e) { if (e.target === $('#overlay')) closeModal(null); };
+  $('#modalInput').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') { e.preventDefault(); $('#modalOk').click(); }
+  });
+
+  /* ---------- theme ---------- */
+  function initTheme() {
+    var root = document.documentElement;
+    if (settings.updown === 'intl') {
+      root.style.setProperty('--up', '#22c55e');
+      root.style.setProperty('--down', '#ff5a6a');
+    } else {
+      root.style.setProperty('--up', '#ff5a6a');
+      root.style.setProperty('--down', '#22c55e');
+    }
+  }
+
+  /* ---------- form ---------- */
+  function defaultsFor(id) {
+    var s = QL.STRATS[id], o = {};
+    s.params.forEach(function (p) { o[p.key] = p.def; });
+    return o;
+  }
+  function paramsFor(id) {
+    return Object.assign({}, defaultsFor(id), ui.params[id] || {});
+  }
+  function curParams() {
+    var s = QL.STRATS[ui.strat], o = {}, base = paramsFor(ui.strat);
+    s.params.forEach(function (p) {
+      var el = document.getElementById('p_' + p.key);
+      if (!el) { o[p.key] = base[p.key]; return; }
+      o[p.key] = p.options ? el.value : (parseFloat(el.value) || base[p.key]);
+    });
+    return o;
+  }
+  function collectRisk() {
+    return {
+      pos: Math.max(5, Math.min(100, +$('#riskPos').value || 100)),
+      sl: Math.max(0, +$('#riskSL').value || 0),
+      tp: Math.max(0, +$('#riskTP').value || 0),
+      hold: Math.max(0, +$('#riskHold').value || 0)
+    };
+  }
+  function riskText(r) {
+    var a = ['仓位 ' + r.pos + '%'];
+    a.push(r.sl ? '止损 ' + r.sl + '%' : '不止损');
+    if (r.tp) a.push('止盈 ' + r.tp + '%');
+    if (r.hold) a.push('最长 ' + r.hold + ' 日');
+    return a.join(' · ');
+  }
+
+  function renderSymbols() {
+    var sel = $('#selSymbol'), groups = {};
+    sel.innerHTML = '';
+    D.list().forEach(function (s) {
+      var key = s.market || '其他';
+      (groups[key] = groups[key] || []).push(s);
+    });
+    var order = ['A股', 'ETF', '美股', '导入'];
+    Object.keys(groups).sort(function (a, b) {
+      var ia = order.indexOf(a), ib = order.indexOf(b);
+      return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
+    }).forEach(function (mk) {
+      var og = document.createElement('optgroup');
+      og.label = mk;
+      groups[mk].forEach(function (s) {
+        var op = document.createElement('option');
+        op.value = s.id;
+        op.textContent = s.id + '  ' + s.name;
+        og.appendChild(op);
+      });
+      sel.appendChild(og);
+    });
+    if (!D.get(ui.symbol)) ui.symbol = D.list()[0] ? D.list()[0].id : null;
+    sel.value = ui.symbol;
+    var sym = D.get(ui.symbol);
+    $('#cfgRange').textContent = sym ? (sym.bars[0].date + ' → ' + sym.bars[sym.bars.length - 1].date + ' · ' + sym.bars.length + ' 日') : '—';
+    $('#inpCapital').value = settings.capital;
+    $('#pillDataText').textContent = D.count() + ' 标的';
+    $('#dataMeta').textContent = D.count() + ' 个标的 · 最新 ' + (D.endDate || '—');
+  }
+
+  function renderStrategies() {
+    var box = $('#strategyChips');
+    box.innerHTML = QL.STRAT_LIST.map(function (s) {
+      return '<button class="chip' + (s.id === ui.strat ? ' on' : '') + '" data-strat="' + s.id + '">' +
+        esc(s.name) + '<span class="t">' + esc(s.tag) + '</span></button>';
+    }).join('');
+    $('#stratDesc').textContent = QL.STRATS[ui.strat].desc || '';
+    box.querySelectorAll('[data-strat]').forEach(function (b) {
+      b.onclick = function () {
+        ui.strat = b.dataset.strat;
+        saveUI();
+        renderStrategies();
+        renderParams();
+      };
+    });
+  }
+
+  function renderParams() {
+    var s = QL.STRATS[ui.strat], vals = paramsFor(ui.strat);
+    $('#paramBox').innerHTML = s.params.map(function (p) {
+      var id = 'p_' + p.key;
+      if (p.options) {
+        return '<label class="field"><span>' + esc(p.label) + '</span><div class="select-wrap"><select id="' + id + '">' +
+          p.options.map(function (o) {
+            return '<option value="' + o[0] + '"' + (vals[p.key] === o[0] ? ' selected' : '') + '>' + esc(o[1]) + '</option>';
+          }).join('') + '</select></div></label>';
+      }
+      return '<label class="field"><span>' + esc(p.label) + '</span><input id="' + id + '" type="number" ' +
+        'min="' + p.min + '" max="' + p.max + '" step="' + (p.step || 1) + '" value="' + vals[p.key] + '"></label>';
+    }).join('');
+    $('#paramBox').querySelectorAll('input,select').forEach(function (el) {
+      el.onchange = function () {
+        ui.params[ui.strat] = ui.params[ui.strat] || {};
+        ui.params[ui.strat][el.id.slice(2)] = el.type === 'number' ? parseFloat(el.value) : el.value;
+        saveUI();
+      };
+    });
+    var r = ui.risk;
+    $('#riskPos').value = r.pos; $('#riskSL').value = r.sl;
+    $('#riskTP').value = r.tp; $('#riskHold').value = r.hold;
+    $('#riskSummary').textContent = riskText(r);
+  }
+
+  function syncForm() {
+    $('#selSymbol').value = ui.symbol;
+    $('#inpCapital').value = settings.capital;
+    $('#riskPos').value = ui.risk.pos; $('#riskSL').value = ui.risk.sl;
+    $('#riskTP').value = ui.risk.tp; $('#riskHold').value = ui.risk.hold;
+    $('#riskSummary').textContent = riskText(ui.risk);
+    renderStrategies();
+    renderParams();
+    var sym = D.get(ui.symbol);
+    $('#cfgRange').textContent = sym ? (sym.bars[0].date + ' → ' + sym.bars[sym.bars.length - 1].date + ' · ' + sym.bars.length + ' 日') : '—';
+  }
+
+  /* ---------- run ---------- */
+  function run(record) {
+    var sym = D.get(ui.symbol);
+    if (!sym) { showNoData(); toast('请先在数据页获取真实日线或导入 CSV'); return; }
+    var strat = QL.STRATS[ui.strat];
+    var p = curParams();
+    if (strat.valid && !strat.valid(p)) {
+      toast(ui.strat === 'rsi' ? '参数不合法：超卖线需要低于超买线' : '参数不合法：快线周期需要小于慢线周期');
+      return;
+    }
+    settings.capital = Math.max(1000, parseFloat($('#inpCapital').value) || 100000);
+    saveSettings();
+    var risk = collectRisk();
+    ui.risk = risk; saveUI();
+    var btn = $('#btnRun');
+    btn.disabled = true; btn.textContent = '计算中…';
+    setTimeout(function () {
+      try {
+        var res = QL.backtest(sym, ui.strat, p, settings, risk);
+        state.result = res;
+        state.opt = null;
+        $('#optCard').classList.add('hidden');
+        renderResults();
+        var mainEl = document.querySelector('.bt-main');
+        if (mainEl) mainEl.scrollTop = 0;
+        if (record) {
+          saveRun(res); renderRuns();
+          setTimeout(function () {
+            var el = $('#resultWrap');
+            window.scrollTo(0, Math.max(0, el.offsetTop - 74));
+          }, 40);
+        }
+      } catch (e) {
+        console.error(e);
+        toast('回测失败：' + e.message);
+      } finally {
+        btn.disabled = false; btn.textContent = '运行回测';
+      }
+    }, 20);
+  }
+
+  /* ---------- results ---------- */
+  function renderResults() {
+    var r = state.result;
+    if (!r) return;
+    hideNoData();
+    $('#resultWrap').classList.remove('hidden');
+    var m = r.metrics;
+    $('#runMeta').textContent = r.symbolName + ' · ' + r.stratName + ' · ' + m.days + ' 日';
+    var closed = r.trades.filter(function (t) { return !t.open; });
+    var wins = closed.filter(function (t) { return t.pnl > 0; }).length;
+    var losses = closed.length - wins;
+    $('#metricGrid').innerHTML = [
+      card('累计收益', F.pct(m.total), tone(m.total), '期末 ' + F.money(m.finalEq)),
+      card('年化收益', F.pct(m.cagr), tone(m.cagr), '年化波动 ' + F.pctAbs(m.vol)),
+      card('最大回撤', F.pct(m.mdd), 'neg', '卡玛 ' + m.calmar.toFixed(2)),
+      card('夏普比率', m.sharpe.toFixed(2), m.sharpe >= 1 ? 'pos' : 'neu', '索提诺 ' + m.sortino.toFixed(2)),
+      card('胜率', F.pctAbs(m.winRate, 1), 'neu', wins + ' 胜 / ' + losses + ' 负'),
+      card('盈亏比', m.payoff.toFixed(2), m.payoff >= 1 ? 'pos' : 'neu', '盈利因子 ' + m.profitFactor.toFixed(2)),
+      card('交易次数', String(m.trades), 'neu', '平均持仓 ' + m.avgHold.toFixed(1) + ' 日'),
+      card('风险敞口', F.pctAbs(m.exposure, 0), 'neu', '空仓时间 ' + F.pctAbs(1 - m.exposure, 0))
+    ].join('');
+    $('#benchRow').innerHTML = [
+      r.blockedBuys ? '<span class="warn-note">⚠ ' + (r.blockedBuys > 3 ? '多次' : r.blockedBuys + ' 次') + '买入因资金不足一手（' + (r.settings.lot || 100) + ' 股）被跳过，可提高初始资金或更换标的。</span>' : '',
+      (!m.trades && !r.blockedBuys) ? '<span class="warn-note">当前参数在回测区间内没有触发任何交易，可调整参数或更换策略。</span>' : '',
+      item('基准收益', F.pct(m.bench), tone(m.bench)),
+      item('超额收益', F.pct(m.excess), tone(m.excess)),
+      item('买入持有', F.money(r.bench[r.bench.length - 1]), ''),
+      item('数据来源', r.source || '—', '')
+    ].join('');
+    renderCharts();
+    renderHeat();
+    renderTrades();
+  }
+  function card(l, v, cls, sub) {
+    return '<div class="metric"><div class="l">' + l + '</div><div class="v ' + (cls || '') + '">' + v +
+      '</div><div class="s">' + (sub || '&nbsp;') + '</div></div>';
+  }
+  function item(l, v, cls) {
+    return '<span>' + l + '<b class="' + (cls || '') + '">' + v + '</b></span>';
+  }
+
+  function applyOrientation() {
+    var w = window.innerWidth, h = window.innerHeight;
+    var rot = h > w;
+    var ew = rot ? h : w, eh = rot ? w : h;
+    var d = document.documentElement;
+    d.classList.toggle('ls-rotated', rot);
+    d.classList.toggle('ls-compact', eh < 560);
+    d.classList.toggle('ls-narrow', ew < 760);
+    d.classList.toggle('ls-tight', ew < 700);
+  }
+
+  function chartHeight() {
+    var h = Math.min(window.innerWidth, window.innerHeight);
+    if (h < 360) return 240;
+    if (h < 560) return 300;
+    return 380;
+  }
+
+  function renderCharts() {
+    var r = state.result;
+    if (!r || state.view !== 'backtest') return;
+    var sym = D.get(r.symbolId);
+    if (!sym) return;
+    var type = ui.chart, cv = $('#cvMain');
+    $$('#chartTabs button').forEach(function (b) { b.classList.toggle('on', b.dataset.chart === type); });
+    $('#rangeChips').style.display = type === 'kline' ? 'flex' : 'none';
+    if (type === 'kline') {
+      CH.kline(cv, sym.bars, r, { range: +ui.range, height: chartHeight() });
+      $('#chartHint').textContent = '信号收盘生成 · 次日开盘成交 · 拖动或悬停查看';
+      $('#chartLegend').textContent = '▲ 买入 · ▼ 卖出 · 均线 ' + (r.strategyLines || [5, 20, 60]).join('/');
+    } else if (type === 'equity') {
+      CH.equity(cv, r);
+      $('#chartHint').textContent = r.metrics.start + ' → ' + r.metrics.end + ' · ' + r.metrics.days + ' 个交易日';
+      $('#chartLegend').textContent = '— 策略权益   --- 买入持有';
+    } else if (type === 'dd') {
+      CH.dd(cv, r);
+      $('#chartHint').textContent = '从历史峰值的回撤幅度';
+      $('#chartLegend').textContent = '最大回撤 ' + F.pct(r.metrics.mdd);
+    } else {
+      CH.hist(cv, r);
+      $('#chartHint').textContent = '日收益率频次分布 · 样本 ' + r.rets.length + ' 日';
+      $('#chartLegend').textContent = '正收益 / 负收益';
+    }
+  }
+
+  function renderHeat() {
+    var r = state.result;
+    if (!r) return;
+    var years = {}, maxAbs = 0;
+    r.monthly.forEach(function (m) {
+      var y = m.ym.slice(0, 4), mo = +m.ym.slice(5, 7);
+      if (!years[y]) years[y] = {};
+      years[y][mo] = m.ret;
+      maxAbs = Math.max(maxAbs, Math.abs(m.ret));
+    });
+    maxAbs = maxAbs || 0.01;
+    var yKeys = Object.keys(years).sort();
+    var head = '<tr><th class="y">年份</th>';
+    for (var i = 1; i <= 12; i++) head += '<th>' + i + '月</th>';
+    head += '<th>全年</th></tr>';
+    var posRGB = settings.updown === 'cn' ? '255,90,106' : '34,197,94';
+    var negRGB = settings.updown === 'cn' ? '34,197,94' : '255,90,106';
+    var body = yKeys.map(function (y) {
+      var row = '<tr><td class="yt">' + y + '</td>', total = 1, any = false;
+      for (var mo = 1; mo <= 12; mo++) {
+        var v = years[y][mo];
+        if (v == null) { row += '<td class="empty">·</td>'; continue; }
+        any = true;
+        total *= (1 + v);
+        var alpha = 0.07 + Math.min(1, Math.abs(v) / maxAbs) * 0.5;
+        var rgb = v >= 0 ? posRGB : negRGB;
+        row += '<td style="background:rgba(' + rgb + ',' + alpha.toFixed(2) + ');color:' +
+          (Math.abs(v) > maxAbs * 0.55 ? '#fff' : 'var(--tx2)') + '">' +
+          (v * 100).toFixed(1) + '</td>';
+      }
+      var tt = any ? total - 1 : 0;
+      row += '<td style="background:rgba(' + (tt >= 0 ? posRGB : negRGB) + ',.14);color:' +
+        (tt >= 0 ? 'var(--up)' : 'var(--down)') + ';font-weight:700">' + (tt * 100).toFixed(1) + '</td></tr>';
+      return row;
+    }).join('');
+    $('#heat').innerHTML = '<table class="heat"><thead>' + head + '</thead><tbody>' + body + '</tbody></table>';
+  }
+
+  function renderTrades() {
+    var r = state.result;
+    if (!r) return;
+    var list = r.trades.slice().reverse();
+    var shown = list.slice(0, 80);
+    $('#tradeCount').textContent = '已平仓 ' + r.metrics.trades + ' 笔 · 共 ' + r.trades.length + ' 条';
+    if (!shown.length) {
+      $('#tradeTable').innerHTML = '<div class="empty" style="padding:18px">该参数下没有产生交易</div>';
+      return;
+    }
+    var head = '<table class="grid"><thead><tr><th>买入</th><th>卖出</th>' +
+      '<th class="col-hide">数量</th><th class="col-hide">买价</th><th class="col-hide">卖价</th>' +
+      '<th>收益</th><th>收益率</th><th class="col-hide">天数</th><th>原因</th></tr></thead><tbody>';
+    var body = shown.map(function (t) {
+      return '<tr class="' + (t.open ? 'open' : '') + '">' +
+        '<td class="k">' + t.entryDate.slice(2) + '</td>' +
+        '<td>' + (t.open ? '持仓中' : t.exitDate.slice(2)) + '</td>' +
+        '<td class="col-hide">' + t.qty + '</td>' +
+        '<td class="col-hide">' + F.price(t.entryPrice) + '</td>' +
+        '<td class="col-hide">' + F.price(t.exitPrice) + '</td>' +
+        '<td class="' + tone(t.pnl) + '">' + (t.pnl >= 0 ? '+' : '') + F.n(t.pnl, 0) + '</td>' +
+        '<td class="' + tone(t.pnlPct) + '">' + F.pct(t.pnlPct) + '</td>' +
+        '<td class="col-hide">' + t.bars + '</td>' +
+        '<td><span class="tag">' + t.reason + '</span></td></tr>';
+    }).join('');
+    $('#tradeTable').innerHTML = head + body + '</tbody></table>' +
+      (list.length > 80 ? '<div class="tbl-note">仅显示最近 80 条，完整数据请导出 CSV。</div>' : '');
+  }
+
+  function sample(arr, n) {
+    var out = [];
+    for (var i = 0; i < n; i++) out.push(arr[Math.round(i * (arr.length - 1) / (n - 1))]);
+    return out;
+  }
+
+  function saveRun(res) {
+    var runs = QL.store.get(K.runs, []);
+    runs.unshift({
+      id: 'r' + res.ts, ts: res.ts, symbolId: res.symbolId, symbolName: res.symbolName,
+      stratId: res.stratId, stratName: res.stratName, params: res.params, risk: res.risk,
+      capital: res.settings.capital, metrics: res.metrics, spark: sample(res.equity, 48)
+    });
+    QL.store.set(K.runs, runs.slice(0, 40));
+  }
+
+  /* ---------- parameter sweep UI ---------- */
+  function renderOpt() {
+    var o = state.opt;
+    if (!o || !o.rows.length) {
+      $('#optCard').classList.add('hidden');
+      toast('没有满足条件（至少 3 笔交易）的参数组合');
+      return;
+    }
+    $('#optCard').classList.remove('hidden');
+    $('#optMeta').textContent = '测试 ' + o.tested + ' 组 · 按夏普排序';
+    var head = '<table class="grid opt-table"><thead><tr>' +
+      o.keys.map(function (k) { return '<th>' + esc(k.label) + '</th>'; }).join('') +
+      '<th>累计</th><th>夏普</th><th>回撤</th><th>交易</th><th></th></tr></thead><tbody>';
+    var body = o.rows.map(function (row, i) {
+      return '<tr>' + o.keys.map(function (k) { return '<td class="k">' + row.params[k.key] + '</td>'; }).join('') +
+        '<td class="' + tone(row.total) + '">' + F.pct(row.total) + '</td>' +
+        '<td>' + row.sharpe.toFixed(2) + '</td>' +
+        '<td class="neg">' + F.pct(row.mdd) + '</td>' +
+        '<td>' + row.trades + '</td>' +
+        '<td><button class="link-btn" data-opt="' + i + '">应用</button></td></tr>';
+    }).join('');
+    $('#optBody').innerHTML = head + body + '</tbody></table>';
+  }
+
+  /* ---------- strategy library ---------- */
+  function paramText(stratId, p) {
+    var s = QL.STRATS[stratId];
+    if (!s || !p) return '';
+    return s.params.map(function (x) {
+      var v = p[x.key];
+      if (x.options) {
+        var hit = x.options.filter(function (o) { return o[0] === v; })[0];
+        return x.label + ' ' + (hit ? hit[1] : v);
+      }
+      return x.label + ' ' + v + (x.key === 'th' ? '%' : '');
+    }).join(' · ');
+  }
+
+  function renderLibrary() {
+    var list = QL.store.get(K.strategies, []);
+    $('#libCount').textContent = list.length + ' 个配置';
+    if (!list.length) {
+      $('#libBody').innerHTML = '<div class="empty" style="grid-column:1/-1"><b>策略库是空的</b>在回测页调好参数后，点击「存入策略库」。</div>';
+      return;
+    }
+    $('#libBody').innerHTML = list.map(function (s) {
+      var m = s.metrics || {};
+      return '<div class="lib-card">' +
+        '<div class="lib-top"><div><h3>' + esc(s.name) + '</h3><p>' + esc(s.symbolName) + ' · ' + esc(s.stratName) +
+        ' · ' + esc(paramText(s.stratId, s.params)) + '</p></div>' +
+        '<span class="pill subtle">' + (s.risk ? (s.risk.pos + '% 仓位') : '') + '</span></div>' +
+        '<div class="lib-mets">' +
+        met('累计', F.pct(m.total), tone(m.total)) +
+        met('夏普', (m.sharpe || 0).toFixed(2), '') +
+        met('回撤', F.pct(m.mdd), 'neg') +
+        met('交易', String(m.trades || 0), '') +
+        '</div>' +
+        '<canvas class="lib-spark" data-spark="' + esc(s.id) + '" style="width:100%;height:34px"></canvas>' +
+        '<div class="lib-foot"><span class="time">' + F.time(s.ts) + '</span>' +
+        '<div class="lib-actions"><button class="link-btn" data-apply="' + esc(s.id) + '">应用</button>' +
+        '<button class="link-btn danger" data-del="' + esc(s.id) + '">删除</button></div></div></div>';
+    }).join('');
+    if (state.view === 'lib') {
+      list.forEach(function (s) {
+        var cv = document.querySelector('[data-spark="' + s.id + '"]');
+        if (cv && s.spark) CH.spark(cv, s.spark, (s.metrics && s.metrics.total >= 0) ? 'up' : 'down');
+      });
+    }
+  }
+  function met(l, v, cls) {
+    return '<div><span>' + l + '</span><b class="' + (cls || '') + '">' + v + '</b></div>';
+  }
+
+  function applyConfig(item, record) {
+    var symId = item.symbolId || item.symbol;
+    if (!D.get(symId)) { toast('该标的已不存在，请先导入数据'); return; }
+    ui.symbol = symId;
+    ui.strat = item.stratId;
+    ui.params[item.stratId] = Object.assign({}, item.params);
+    if (item.risk) ui.risk = Object.assign({ pos: 100, sl: 8, tp: 0, hold: 0 }, item.risk);
+    if (item.capital) settings.capital = item.capital;
+    saveUI(); saveSettings();
+    syncForm();
+    go('backtest');
+    run(!!record);
+    toast('已载入「' + (item.name || item.symbolName) + '」');
+  }
+
+  /* ---------- data view ---------- */
+  function showNoData() {
+    var w = $('#resultWrap');
+    if (w) w.classList.add('no-data');
+    var e = $('#emptyState');
+    if (e) e.classList.remove('hidden');
+  }
+  function hideNoData() {
+    var w = $('#resultWrap');
+    if (w) w.classList.remove('no-data');
+    var e = $('#emptyState');
+    if (e) e.classList.add('hidden');
+  }
+
+  function renderData() {
+    var list = D.list();
+    var end = list.reduce(function (m, s) {
+      var d = s.bars[s.bars.length - 1].date;
+      return d > m ? d : m;
+    }, '');
+    D.endDate = end;
+    $('#dataMeta').textContent = list.length + ' 个标的 · 最新 ' + (end || '—');
+    $('#pillDataText').textContent = list.length + ' 标的';
+    if (!list.length) {
+      $('#symbolTable').innerHTML = '<div class="empty" style="padding:18px">暂无日线数据。使用上方「获取真实日线」或导入 CSV。</div>';
+      return;
+    }
+    var head = '<table class="grid"><thead><tr><th>标的</th><th>行情</th><th>操作</th></tr></thead><tbody>';
+    var body = list.map(function (s) {
+      var b = s.bars, n = b.length, last = b[n - 1], prev = b[n - 2] || last;
+      var chg = last.close / prev.close - 1;
+      return '<tr><td><div class="sym-cell"><b>' + esc(s.name) + '</b>' +
+        '<span>' + esc(s.id) + ' · ' + esc(s.market || '') + ' · ' + esc(s.source || '—') + '</span>' +
+        '<span class="dim">' + b[0].date.slice(2) + ' → ' + last.date.slice(2) + ' · ' + n + ' 条</span></div></td>' +
+        '<td><div class="quote"><b>' + F.price(last.close) + '</b><span class="' + tone(chg) + '">' + F.pct(chg) + '</span></div></td>' +
+        '<td class="acts"><button class="link-btn" data-use="' + esc(s.id) + '">回测</button>' +
+        '<button class="link-btn" data-csv="' + esc(s.id) + '" style="margin-left:9px">CSV</button>' +
+        '<button class="link-btn danger" data-deldata="' + esc(s.id) + '" style="margin-left:9px">删除</button>' +
+        '</td></tr>';
+    }).join('');
+    $('#symbolTable').innerHTML = head + body + '</tbody></table>';
+  }
+
+  function importCsv(text) {
+    var code = $('#impCode').value.trim(), name = $('#impName').value.trim();
+    if (!code) { toast('请先填写代码'); return; }
+    var bars;
+    try { bars = QL.csv.parse(text); } catch (e) { toast(e.message); return; }
+    var commit = function () {
+      var obj = { id: code, name: name || code, market: '自定义', sector: '导入', source: '导入', bars: bars };
+      if (!D.add(obj)) { toast('保存失败：本地存储空间不足'); return; }
+      ui.symbol = code; saveUI();
+      renderSymbols(); renderData(); syncForm();
+      $('#pasteBox').classList.add('hidden');
+      $('#csvText').value = '';
+      toast('已导入 ' + bars.length + ' 条日线数据');
+      go('backtest');
+      setTimeout(function () { run(false); }, 30);
+    };
+    var ex = D.get(code);
+    if (ex) {
+      confirmBox('覆盖已有标的？', '「' + ex.name + '」已有日线数据，将被本次导入替换。')
+        .then(function (v) { if (v) commit(); });
+    } else commit();
+  }
+
+  /* ---------- real daily fetch (Eastmoney JSONP) ---------- */
+  function isDailyETF(id) { return /^(51|56|58|16|159)/.test(String(id || '')); }
+  function setDailyStatus(t) {
+    var el = document.getElementById('realFetchStatus');
+    if (el) el.textContent = t;
+  }
+
+  function resolveRealQuery(q, cb) {
+    q = String(q || '').trim();
+    if (/^\d{6}$/.test(q)) {
+      var isSh = /^(60|68|50|51|56|58|11)/.test(q);
+      cb({
+        id: q, name: q,
+        market: isDailyETF(q) ? 'ETF' : 'A股',
+        secids: [(isSh ? '1.' : '0.') + q]
+      });
+      return;
+    }
+    if (/^[A-Za-z][A-Za-z.]*$/.test(q)) {
+      var id = q.toUpperCase().replace(/[^A-Z.]/g, '');
+      cb({ id: id, name: id, market: '美股', secids: ['105.' + id, '106.' + id, '107.' + id] });
+      return;
+    }
+    window.v_hint = '';
+    var el = document.createElement('script');
+    el.charset = 'gbk';
+    el.src = 'https://smartbox.gtimg.cn/s3/?q=' + encodeURIComponent(q) + '&t=all&_=' + Date.now();
+    var done = false;
+    function clean() { try { el.remove(); } catch (e) {} }
+    el.onload = function () {
+      if (done) return;
+      done = true;
+      var raw = window.v_hint;
+      clean();
+      if (!raw) { cb(null); return; }
+      var items = String(raw).split('^');
+      for (var i = 0; i < items.length; i++) {
+        var f = items[i].split('~');
+        if (f.length < 5) continue;
+        var mkt = f[0], code = f[1], name = f[2], type = f[4] || '';
+        if (mkt === 'sh' || mkt === 'sz') {
+          if (!/^\d{6}$/.test(code)) continue;
+          cb({
+            id: code, name: name,
+            market: (isDailyETF(code) || type === 'ETF' || type === 'LOF') ? 'ETF' : 'A股',
+            secids: [(mkt === 'sh' ? '1.' : '0.') + code]
+          });
+          return;
+        }
+        if (mkt === 'us') {
+          var usid = code.split('.')[0].toUpperCase();
+          if (!/^[A-Z][A-Z.]*$/.test(usid)) continue;
+          var suffix = (code.split('.')[1] || '').toLowerCase();
+          var sec = suffix === 'n' ? '106.' + usid : suffix === 'a' ? '107.' + usid : '105.' + usid;
+          cb({ id: usid, name: name, market: '美股', secids: [sec, '105.' + usid, '106.' + usid, '107.' + usid] });
+          return;
+        }
+      }
+      cb(null);
+    };
+    el.onerror = function () { if (done) return; done = true; clean(); cb(null); };
+    document.head.appendChild(el);
+    setTimeout(function () { if (!done) { done = true; clean(); cb(null); } }, 7000);
+  }
+
+  function fetchEastmoneyDaily(secid, years, cb) {
+    var cbName = '__qdK' + Date.now() + Math.floor(Math.random() * 100000);
+    var beg = (new Date().getFullYear() - (years || 5)) + '0101';
+    var done = false;
+    var el = document.createElement('script');
+    function clean() {
+      try { el.remove(); } catch (e) {}
+      try { delete window[cbName]; } catch (e) {}
+    }
+    window[cbName] = function (data) {
+      if (done) return;
+      done = true;
+      clean();
+      var d = data && data.data;
+      if (!d || !d.klines) { cb(null); return; }
+      var bars = [], seen = {};
+      d.klines.forEach(function (line) {
+        var f = String(line).split(',');
+        if (f.length < 6) return;
+        var date = f[0], open = +f[1], close = +f[2], high = +f[3], low = +f[4], volume = +f[5];
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !isFinite(close) || close <= 0) return;
+        if (seen[date]) return;
+        seen[date] = 1;
+        bars.push({ date: date, open: open, high: high, low: low, close: close, volume: isFinite(volume) ? volume : 0 });
+      });
+      bars.sort(function (a, b) { return a.date < b.date ? -1 : 1; });
+      if (bars.length < 60) { cb(null); return; }
+      cb({ name: d.name || '', code: d.code || '', bars: bars });
+    };
+    el.onerror = function () {
+      if (done) return;
+      done = true; clean(); cb(null);
+    };
+    el.src = 'https://push2his.eastmoney.com/api/qt/stock/kline/get?secid=' + encodeURIComponent(secid) +
+      '&fields1=f1,f2,f3,f4,f5,f6&fields2=f51,f52,f53,f54,f55,f56,f57,f58,f59,f60,f61' +
+      '&klt=101&fqt=1&beg=' + beg + '&end=20500101&lmt=3000&cb=' + cbName + '&_=' + Date.now();
+    document.head.appendChild(el);
+    setTimeout(function () {
+      if (!done) { done = true; clean(); cb(null); }
+    }, 12000);
+  }
+
+  function applyFetchedDaily(id, name, market, bars) {
+    // Eastmoney 的 A股/ETF 成交量单位是“手”，统一为股
+    if (/^\d{6}$/.test(id)) {
+      bars.forEach(function (b) { b.volume = (b.volume || 0) * 100; });
+    }
+    var obj = {
+      id: id, name: name || id, market: market || 'A股',
+      sector: '真实日线 · 前复权', source: '东方财富', bars: bars
+    };
+    if (!D.add(obj)) { toast('保存失败：本地存储空间不足'); setDailyStatus('保存失败：本地存储空间不足'); return; }
+    ui.symbol = id; saveUI();
+    renderSymbols(); renderData(); syncForm();
+    setDailyStatus('已导入 ' + obj.name + ' · ' + bars.length + ' 条真实日线（' + bars[0].date + ' → ' +
+      bars[bars.length - 1].date + '）；可在数据表导出 CSV。');
+    toast('已导入 ' + bars.length + ' 条真实日线');
+    go('backtest');
+    setTimeout(function () { run(false); }, 60);
+  }
+
+  function importFetchedDaily(id, name, market, bars) {
+    var ex = D.get(id);
+    if (ex) {
+      confirmBox('覆盖已有标的？', '「' + ex.name + '」已有日线数据，将用东方财富真实前复权日线替换。')
+        .then(function (v) { if (v) applyFetchedDaily(id, name, market, bars); });
+    } else applyFetchedDaily(id, name, market, bars);
+  }
+
+  function fetchDaily() {
+    var q = ($('#realQuery').value || '').trim();
+    if (!q) { toast('请输入代码或名称'); return; }
+    var years = +($('#realYears').value) || 5;
+    var btn = $('#btnFetchDaily');
+    btn.disabled = true; btn.textContent = '获取中…';
+    setDailyStatus('解析标的…');
+    resolveRealQuery(q, function (res) {
+      if (!res) {
+        btn.disabled = false; btn.textContent = '获取并导入';
+        setDailyStatus('未找到该标的');
+        toast('未找到该标的');
+        return;
+      }
+      setDailyStatus('获取 ' + res.id + '（' + res.name + '）日线…');
+      var i = 0;
+      function next() {
+        if (i >= res.secids.length) {
+          btn.disabled = false; btn.textContent = '获取并导入';
+          setDailyStatus('获取失败：没有拿到足够日线数据');
+          toast('获取失败，请检查代码或稍后重试');
+          return;
+        }
+        fetchEastmoneyDaily(res.secids[i++], years, function (data) {
+          if (!data) { next(); return; }
+          btn.disabled = false; btn.textContent = '获取并导入';
+          var name = data.name || res.name || res.id;
+          setDailyStatus('已获取 ' + name + ' · ' + data.bars.length + ' 条 · ' +
+            data.bars[0].date + ' → ' + data.bars[data.bars.length - 1].date);
+          importFetchedDaily(res.id, name, res.market, data.bars);
+        });
+      }
+      next();
+    });
+  }
+
+  /* ---------- run history ---------- */
+  function renderRuns() {
+    var runs = QL.store.get(K.runs, []);
+    $('#runCount').textContent = runs.length + ' 条';
+    if (!runs.length) {
+      $('#runsBody').innerHTML = '<div class="empty"><b>还没有记录</b>每次点击「运行回测」会自动保存一条记录。</div>';
+      $('#compareCard').classList.add('hidden');
+      return;
+    }
+    $('#runsBody').className = 'lib-grid';
+    $('#runsBody').innerHTML = runs.map(function (r) {
+      var m = r.metrics || {};
+      return '<div class="lib-card">' +
+        '<div class="lib-top"><div><h3>' + esc(r.symbolName) + ' <span style="font-size:10px;color:var(--tx3)">' + esc(r.symbolId) + '</span></h3>' +
+        '<p>' + esc(r.stratName) + ' · ' + esc(paramText(r.stratId, r.params)) + '</p></div>' +
+        '<span class="time" style="font-size:10px;color:var(--tx3)">' + F.time(r.ts) + '</span></div>' +
+        '<div class="lib-mets">' +
+        met('累计', F.pct(m.total), tone(m.total)) +
+        met('夏普', (m.sharpe || 0).toFixed(2), '') +
+        met('回撤', F.pct(m.mdd), 'neg') +
+        met('交易', String(m.trades || 0), '') +
+        '</div>' +
+        '<canvas class="lib-spark" data-runspark="' + r.id + '" style="width:100%;height:34px"></canvas>' +
+        '<div class="lib-foot"><span class="time">' + F.money(r.capital || 100000) + ' 起始</span>' +
+        '<div class="lib-actions"><button class="link-btn" data-replay="' + r.id + '">复现</button>' +
+        '<button class="link-btn danger" data-delrun="' + r.id + '">删除</button></div></div></div>';
+    }).join('');
+    if (state.view === 'runs') {
+      runs.forEach(function (r) {
+        var cv = document.querySelector('[data-runspark="' + r.id + '"]');
+        if (cv && r.spark) CH.spark(cv, r.spark, (r.metrics && r.metrics.total >= 0) ? 'up' : 'down');
+      });
+    }
+    renderCompare();
+  }
+
+  function renderCompare() {
+    var runs = QL.store.get(K.runs, []);
+    if (runs.length < 2 || state.view !== 'runs') {
+      $('#compareCard').classList.add('hidden');
+      return;
+    }
+    $('#compareCard').classList.remove('hidden');
+    setTimeout(function () { CH.scatter($('#cvScatter'), runs); }, 20);
+  }
+
+  /* ---------- settings / backup ---------- */
+  function renderSettings() {
+    $('#setComm').value = +(settings.commission * 100).toFixed(4);
+    $('#setStamp').value = +(settings.stamp * 100).toFixed(3);
+    $('#setSlip').value = +(settings.slippage * 100).toFixed(3);
+    $('#setMinComm').value = settings.minComm;
+    $('#setLot').value = settings.lot;
+    $('#setRf').value = +(settings.rf * 100).toFixed(2);
+    $$('#colorSeg button').forEach(function (b) { b.classList.toggle('on', b.dataset.color === settings.updown); });
+  }
+
+  function exportBackup() {
+    var data = {
+      app: 'QuantDesk', version: 1, savedAt: new Date().toISOString(),
+      settings: settings, ui: ui,
+      strategies: QL.store.get(K.strategies, []),
+      runs: QL.store.get(K.runs, []),
+      imported: QL.store.get(K.data, {}),
+      live: QL.store.get(K.live, null),
+      real: QL.store.get(K.real, null)
+    };
+    var txt = JSON.stringify(data, null, 2);
+    var name = 'quant-desk-backup-' + new Date().toISOString().slice(0, 10) + '.json';
+    if (QL.download(name, txt, 'application/json')) toast('备份已导出（' + (txt.length / 1024).toFixed(0) + ' KB）');
+    else { QL.copy(txt); toast('已复制备份 JSON 到剪贴板'); }
+  }
+
+  function exportAllData() {
+    var syms = {};
+    D.list().forEach(function (s) { syms[s.id] = s; });
+    var txt = JSON.stringify({ app: 'QuantDesk', exportedAt: new Date().toISOString(), symbols: syms });
+    if (!QL.download('quant-desk-data.json', txt, 'application/json')) {
+      QL.copy(txt); toast('已复制数据 JSON 到剪贴板');
+    } else toast('数据已导出');
+  }
+
+  function exportTrades() {
+    var r = state.result;
+    if (!r || !r.trades.length) { toast('暂无可导出的交易'); return; }
+    var lines = ['买入日期,卖出日期,数量,买入价,卖出价,收益,收益率,持仓天数,原因'];
+    r.trades.forEach(function (t) {
+      lines.push([t.entryDate, t.exitDate, t.qty, t.entryPrice, t.exitPrice,
+        t.pnl.toFixed(2), (t.pnlPct * 100).toFixed(2) + '%', t.bars, t.reason].join(','));
+    });
+    var name = r.symbolId + '_' + r.stratId + '_trades.csv';
+    if (!QL.download(name, '\uFEFF' + lines.join('\n'), 'text/csv;charset=utf-8')) {
+      QL.copy(lines.join('\n')); toast('已复制交易明细到剪贴板');
+    } else toast('交易明细已导出');
+  }
+
+  /* ---------- navigation ---------- */
+  function go(view) {
+    var prev = state.view;
+    state.view = view;
+    $$('.view').forEach(function (v) { v.classList.toggle('active', v.dataset.view === view); });
+    $$('.tab').forEach(function (t) { t.classList.toggle('active', t.dataset.view === view); });
+    if (prev === 'live' && view !== 'live' && QL.LIVE) QL.LIVE.onExit();
+    if (view === 'backtest') {
+      setTimeout(function () { renderCharts(); if (state.result) renderHeat(); }, 0);
+    }
+    else if (view === 'live') { if (QL.LIVE) QL.LIVE.onEnter(); }
+    else if (view === 'lib') renderLibrary();
+    else if (view === 'data') renderData();
+    else if (view === 'runs') renderRuns();
+    else if (view === 'settings') renderSettings();
+    window.scrollTo(0, 0);
+  }
+
+  /* ---------- events ---------- */
+  function bind() {
+    $('#tabs').addEventListener('click', function (e) {
+      var b = e.target.closest('.tab');
+      if (b) go(b.dataset.view);
+    });
+    $('#selSymbol').onchange = function () {
+      ui.symbol = this.value; saveUI();
+      var s = D.get(ui.symbol);
+      $('#cfgRange').textContent = s ? (s.bars[0].date + ' → ' + s.bars[s.bars.length - 1].date + ' · ' + s.bars.length + ' 日') : '—';
+      run(false);
+    };
+    $('#inpCapital').oninput = function () {
+      var v = parseFloat(this.value);
+      if (isFinite(v) && v > 0) { settings.capital = v; saveSettings(); }
+    };
+    $('#btnRun').onclick = function () { run(true); };
+    $('#btnRunMini').onclick = function () {
+      if (state.view !== 'backtest') go('backtest');
+      run(true);
+    };
+    $('#btnOpt').onclick = function () { optimize(); };
+    $('#btnSave').onclick = function () { saveStrategy(); };
+    $('#riskToggle').onclick = function () {
+      $('#riskBox').classList.toggle('hidden');
+      $('#riskArrow').classList.toggle('open');
+    };
+    ['#riskPos', '#riskSL', '#riskTP', '#riskHold'].forEach(function (id) {
+      $(id).oninput = function () {
+        ui.risk = collectRisk();
+        $('#riskSummary').textContent = riskText(ui.risk);
+        saveUI();
+      };
+    });
+    $('#chartTabs').addEventListener('click', function (e) {
+      var b = e.target.closest('button');
+      if (!b) return;
+      ui.chart = b.dataset.chart; saveUI(); renderCharts();
+    });
+    $('#rangeChips').addEventListener('click', function (e) {
+      var b = e.target.closest('button');
+      if (!b) return;
+      ui.range = +b.dataset.range; saveUI();
+      $$('#rangeChips button').forEach(function (x) { x.classList.toggle('on', x === b); });
+      renderCharts();
+    });
+    $('#btnExportTrades').onclick = exportTrades;
+
+    $('#optBody').addEventListener('click', function (e) {
+      var b = e.target.closest('[data-opt]');
+      if (!b || !state.opt) return;
+      var row = state.opt.rows[+b.dataset.opt];
+      if (!row) return;
+      ui.params[ui.strat] = Object.assign(paramsFor(ui.strat), row.params);
+      state.opt = null;
+      $('#optCard').classList.add('hidden');
+      saveUI(); syncForm(); run(true);
+    });
+
+    $('#libBody').addEventListener('click', function (e) {
+      var b = e.target.closest('button');
+      if (!b) return;
+      var list = QL.store.get(K.strategies, []);
+      if (b.dataset.apply) {
+        var item = list.filter(function (x) { return x.id === b.dataset.apply; })[0];
+        if (item) applyConfig(item, true);
+      }
+      if (b.dataset.del) {
+        var it = list.filter(function (x) { return x.id === b.dataset.del; })[0];
+        confirmBox('删除策略？', '「' + (it ? it.name : '') + '」将从策略库移除，不可恢复。').then(function (v) {
+          if (!v) return;
+          QL.store.set(K.strategies, list.filter(function (x) { return x.id !== b.dataset.del; }));
+          renderLibrary(); toast('已删除');
+        });
+      }
+    });
+
+    $('#symbolTable').addEventListener('click', function (e) {
+      var b = e.target.closest('button');
+      if (!b) return;
+      var id = b.dataset.use || b.dataset.csv || b.dataset.deldata;
+      if (!id) return;
+      var s = D.get(id);
+      if (!s) return;
+      if (b.dataset.use) {
+        ui.symbol = id; saveUI(); syncForm(); go('backtest');
+        setTimeout(function () { run(false); }, 30);
+      } else if (b.dataset.csv) {
+        var txt = QL.csv.make(s.bars);
+        if (!QL.download(s.id + '_' + s.name + '.csv', '\uFEFF' + txt, 'text/csv;charset=utf-8')) {
+          QL.copy(txt); toast('已复制 CSV 到剪贴板');
+        } else toast('CSV 已导出');
+      } else if (b.dataset.deldata) {
+        confirmBox('删除数据？', '「' + s.name + '」及其本地行情将被删除。').then(function (v) {
+          if (!v) return;
+          D.remove(id);
+          var wasCurrent = ui.symbol === id;
+          if (wasCurrent) ui.symbol = D.list()[0] ? D.list()[0].id : null;
+          saveUI(); renderSymbols(); renderData(); syncForm(); toast('已删除');
+          if (wasCurrent) {
+            if (D.get(ui.symbol)) setTimeout(function () { run(false); }, 40);
+            else showNoData();
+          }
+        });
+      }
+    });
+
+    $('#runsBody').addEventListener('click', function (e) {
+      var b = e.target.closest('button');
+      if (!b) return;
+      var runs = QL.store.get(K.runs, []);
+      if (b.dataset.replay) {
+        var r = runs.filter(function (x) { return x.id === b.dataset.replay; })[0];
+        if (r) applyConfig({ symbolId: r.symbolId, stratId: r.stratId, params: r.params, risk: r.risk, capital: r.capital, name: r.symbolName }, false);
+      }
+      if (b.dataset.delrun) {
+        QL.store.set(K.runs, runs.filter(function (x) { return x.id !== b.dataset.delrun; }));
+        renderRuns(); toast('记录已删除');
+      }
+    });
+    $('#btnClearRuns').onclick = function () {
+      confirmBox('清空回测记录？', '所有历史记录将被删除，策略库不受影响。').then(function (v) {
+        if (!v) return;
+        QL.store.set(K.runs, []); renderRuns(); toast('记录已清空');
+      });
+    };
+
+    /* data import */
+    $('#btnImportFile').onclick = function () { $('#fileInput').click(); };
+    $('#fileInput').onchange = function () {
+      var f = this.files && this.files[0];
+      if (!f) return;
+      var rd = new FileReader();
+      rd.onload = function () { importCsv(String(rd.result)); $('#fileInput').value = ''; };
+      rd.onerror = function () { toast('文件读取失败'); };
+      rd.readAsText(f);
+    };
+    $('#btnPasteCsv').onclick = function () { $('#pasteBox').classList.toggle('hidden'); };
+    $('#btnFetchDaily').onclick = fetchDaily;
+    $('#realQuery').addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') { e.preventDefault(); fetchDaily(); }
+    });
+    $('#btnCsvTemplate').onclick = function () {
+      var csv = 'date,open,high,low,close,volume\n' +
+        '2024-01-02,10.00,10.20,9.90,10.10,120000\n' +
+        '2024-01-03,10.12,10.30,10.05,10.25,98000\n' +
+        '2024-01-04,10.20,10.35,10.08,10.18,76000';
+      if (QL.download('quant_daily_template.csv', '\uFEFF' + csv, 'text/csv;charset=utf-8')) {
+        toast('模板已下载（仅格式示例，至少需要 60 行）');
+      } else {
+        QL.copy(csv);
+        toast('模板已复制到剪贴板');
+      }
+    };
+    $('#btnParseCsv').onclick = function () {
+      var txt = $('#csvText').value.trim();
+      if (!txt) { toast('请先粘贴 CSV 内容'); return; }
+      importCsv(txt);
+    };
+    $('#btnResetData').onclick = function () {
+      confirmBox('清空全部日线？', '所有已获取/导入的日线数据都会被删除，此操作不可恢复。').then(function (v) {
+        if (!v) return;
+        D.resetImported();
+        ui.symbol = null;
+        saveUI(); renderSymbols(); renderData(); syncForm();
+        showNoData();
+        toast('已清空全部日线');
+      });
+    };
+    $('#btnExportAllData').onclick = exportAllData;
+
+    /* settings */
+    bindSetting('#setComm', 'commission', 100);
+    bindSetting('#setStamp', 'stamp', 100);
+    bindSetting('#setSlip', 'slippage', 100);
+    bindSetting('#setMinComm', 'minComm', 1);
+    bindSetting('#setLot', 'lot', 1);
+    bindSetting('#setRf', 'rf', 100);
+    $('#colorSeg').addEventListener('click', function (e) {
+      var b = e.target.closest('button');
+      if (!b) return;
+      settings.updown = b.dataset.color;
+      saveSettings(); initTheme(); renderSettings();
+      if (state.view === 'backtest' && state.result) { renderCharts(); renderHeat(); }
+      toast('配色已切换');
+    });
+    $('#btnExportBackup').onclick = exportBackup;
+    $('#btnBackup').onclick = exportBackup;
+    $('#btnImportBackup').onclick = function () { $('#backupInput').click(); };
+    $('#backupInput').onchange = function () {
+      var f = this.files && this.files[0];
+      if (!f) return;
+      var rd = new FileReader();
+      rd.onload = function () {
+        try {
+          var d = JSON.parse(String(rd.result));
+          if (!d || !d.app || d.app !== 'QuantDesk') throw new Error('不是有效的 Quant Desk 备份');
+          confirmBox('导入备份？', '将覆盖当前设置、策略库、回测记录与导入的数据，页面会重新加载。').then(function (v) {
+            if (!v) return;
+            QL.store.set(K.settings, d.settings || DEFAULTS);
+            QL.store.set(K.ui, d.ui || {});
+            QL.store.set(K.strategies, d.strategies || []);
+            QL.store.set(K.runs, d.runs || []);
+            QL.store.set(K.data, d.imported || {});
+            if (d.live) QL.store.set(K.live, d.live);
+            if (Array.isArray(d.real)) QL.store.set(K.real, d.real);
+            toast('备份已导入，正在重新加载…');
+            setTimeout(function () { location.reload(); }, 600);
+          });
+        } catch (err) { toast('导入失败：' + err.message); }
+        $('#backupInput').value = '';
+      };
+      rd.readAsText(f);
+    };
+    $('#btnResetSettings').onclick = function () {
+      confirmBox('恢复默认设置？', '佣金、印花税、滑点、利率与配色将恢复默认值。').then(function (v) {
+        if (!v) return;
+        settings = Object.assign({}, DEFAULTS);
+        saveSettings(); initTheme(); renderSettings(); renderSymbols(); syncForm();
+        if (state.result) { renderCharts(); renderHeat(); }
+        toast('已恢复默认设置');
+      });
+    };
+    $('#btnClearAll').onclick = function () {
+      confirmBox('清空全部本地数据？', '设置、策略库、回测记录、导入的行情都会被删除，此操作不可恢复。').then(function (v) {
+        if (!v) return;
+        Object.keys(K).forEach(function (k) { QL.store.del(K[k]); });
+        toast('已清空，正在重新加载…');
+        setTimeout(function () { location.reload(); }, 500);
+      });
+    };
+
+    var rt = null;
+    window.addEventListener('resize', function () {
+      applyOrientation();
+      clearTimeout(rt);
+      rt = setTimeout(function () {
+        applyOrientation();
+        if (state.view === 'backtest') renderCharts();
+        if (state.view === 'runs') renderRuns();
+        if (state.view === 'lib') renderLibrary();
+      }, 220);
+    });
+    window.addEventListener('orientationchange', function () {
+      setTimeout(applyOrientation, 60);
+    });
+  }
+
+  function bindSetting(id, key, scale) {
+    $(id).oninput = function () {
+      var v = parseFloat(this.value);
+      if (!isFinite(v) || v < 0) return;
+      settings[key] = v / scale;
+      saveSettings();
+    };
+  }
+
+  function saveStrategy() {
+    var r = state.result;
+    if (!r) { toast('请先运行一次回测'); return; }
+    ask('存入策略库', '为这套配置起一个便于识别的名字：', r.symbolName + ' · ' + r.stratName, '保存').then(function (name) {
+      if (name == null || !name) return;
+      var list = QL.store.get(K.strategies, []);
+      list.unshift({
+        id: 's' + Date.now(), name: name, ts: Date.now(),
+        symbolId: r.symbolId, symbolName: r.symbolName,
+        stratId: r.stratId, stratName: r.stratName,
+        params: Object.assign({}, r.params), risk: Object.assign({}, r.risk),
+        capital: r.settings.capital, metrics: r.metrics, spark: sample(r.equity, 48)
+      });
+      QL.store.set(K.strategies, list.slice(0, 30));
+      renderLibrary();
+      toast('已存入策略库');
+    });
+  }
+
+  function optimize() {
+    var sym = D.get(ui.symbol);
+    if (!sym) { toast('请选择标的'); return; }
+    var strat = QL.STRATS[ui.strat], p = curParams();
+    if (strat.valid && !strat.valid(p)) { toast('请先修正参数'); return; }
+    var btn = $('#btnOpt');
+    btn.disabled = true; btn.textContent = '扫描中…';
+    var st = Object.assign({}, settings, { capital: Math.max(1000, parseFloat($('#inpCapital').value) || 100000) });
+    setTimeout(function () {
+      try {
+        state.opt = QL.optimize(sym, ui.strat, p, st, collectRisk());
+        renderOpt();
+        if (state.opt && state.opt.rows.length) {
+          setTimeout(function () {
+            var el = $('#optCard');
+            if (el.scrollIntoView) el.scrollIntoView({ block: 'start' });
+          }, 40);
+        }
+      } catch (e) {
+        console.error(e); toast('扫描失败：' + e.message);
+      } finally {
+        btn.disabled = false; btn.textContent = '参数扫描';
+      }
+    }, 30);
+  }
+
+  /* ---------- boot ---------- */
+  function boot() {
+    applyOrientation();
+    D.init();
+    initTheme();
+    renderSymbols();
+    syncForm();
+    renderSettings();
+    renderData();
+    renderLibrary();
+    renderRuns();
+    bind();
+    if ($('#cvMain')) { /* make sure layout is ready before first paint */ }
+    $$('#rangeChips button').forEach(function (b) { b.classList.toggle('on', +b.dataset.range === +ui.range); });
+    if (D.count()) setTimeout(function () { run(false); }, 60);
+    else showNoData();
+  }
+
+  window.addEventListener('error', function (e) {
+    (window.__errors = window.__errors || []).push(String(e.message || e));
+  });
+
+  boot();
+})();
+
+/* ===== Quant Desk · live market + prediction ===== */
+(function () {
+  'use strict';
+  var QL = window.QL, D = QL.DATA, F = QL.fmt, CH = QL.CH, K = QL.KEYS;
+  var $ = function (s) { return document.querySelector(s); };
+  var TICK_MS = 50, UI_MS = 180, MAX_TICKS = 1800, FORECAST_MS = 1600;
+
+  function newState() {
+    return {
+      version: 2,
+      symbolId: '',
+      price: 0, prevClose: 0, open: 0, high: 0, low: 0,
+      volume: 0, cumPV: 0, vwap: 0, bid: 0, ask: 0,
+      ticks: [], tickNo: 0, latency: 0, sigma: 0.0003, lastTickAt: 0,
+      source: 'tencent', tickMs: 2000, feedTimer: null, feedSeq: 0,
+      feedStatus: 'off', feedQuoteTs: 0, feedName: '',
+      lastFeedVol: 0, feedLastPrice: 0,
+      analysis: null, forecast: null, lastForecastTs: 0,
+      horizon: 5, minuteBars: [], minuteState: 'idle', minuteForecast: null,
+      minuteAt: 0, minuteFor: '', minuteSeq: 0,
+      started: false, active: false, uiTimer: null
+    };
+  }
+  var S = newState();
+  var realSymbols = [];
+  var lastSearchResults = [];
+  var searchSeq = 0;
+
+  function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
+  function mean(a) { return a.length ? a.reduce(function (x, y) { return x + y; }, 0) / a.length : 0; }
+  function std(a) {
+    if (a.length < 2) return 0;
+    var m = mean(a);
+    return Math.sqrt(a.reduce(function (x, y) { return x + (y - m) * (y - m); }, 0) / a.length);
+  }
+  function lastNum(a) {
+    for (var i = a.length - 1; i >= 0; i--) if (a[i] != null && isFinite(a[i])) return a[i];
+    return 0;
+  }
+  function gauss() {
+    var u = 0, v = 0;
+    while (u === 0) u = Math.random();
+    while (v === 0) v = Math.random();
+    return Math.sqrt(-2 * Math.log(u)) * Math.cos(6.283185307 * v);
+  }
+  var toastTimer = null;
+  function toast(msg) {
+    var el = $('#toast');
+    if (!el) return;
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { el.classList.remove('show'); }, 2200);
+  }
+  function p2(x) { return String(x).padStart(2, '0'); }
+  function hms(ts, ms) {
+    var d = new Date(ts);
+    var s = p2(d.getHours()) + ':' + p2(d.getMinutes()) + ':' + p2(d.getSeconds());
+    return ms ? s + '.' + String(d.getMilliseconds()).padStart(3, '0') : s;
+  }
+  function tickSize() { return S.symbolId === '510300' ? 0.001 : 0.01; }
+  function roundTo(v, t) { return Math.round(v / t) * t; }
+  function lotSize() { return /^\d{6}$/.test(S.symbolId) ? 100 : 1; }
+  function bigShort(v) {
+    if (v == null || !isFinite(v)) return '—';
+    if (v >= 1e8) return (v / 1e8).toFixed(2) + '亿';
+    if (v >= 1e4) return (v / 1e4).toFixed(0) + '万';
+    return String(Math.round(v));
+  }
+  function isETF(id) { return /^(51|56|58|16|159)/.test(String(id || '')); }
+  function pxFmt(v) {
+    if (v == null || !isFinite(v)) return '—';
+    if (S.symbolId === '510300' || isETF(S.symbolId)) return v.toFixed(3);
+    return v.toFixed(2);
+  }
+  function saveUI() {
+    QL.store.set(K.live, { version: 2, symbolId: S.symbolId, horizon: S.horizon || 5 });
+  }
+  function loadSaved() {
+    var sv = QL.store.get(K.live, null);
+    if (sv) {
+      S.symbolId = sv.symbolId || '';
+      S.horizon = +sv.horizon || 5;
+    }
+  }
+
+  function resetMarket(id) {
+    var sym = D.get(id);
+    var real = realSymbol(id);
+    if (!sym && !real) return false;
+    stopFeed();
+    S.symbolId = id;
+    S.prevClose = 0; S.price = 0; S.open = 0; S.high = 0; S.low = 0;
+    S.volume = 0; S.cumPV = 0; S.vwap = 0; S.bid = 0; S.ask = 0;
+    S.ticks = []; S.tickNo = 0; S.latency = 0;
+    S.analysis = null; S.forecast = null; S.lastForecastTs = 0;
+    S.feedStatus = 'off'; S.feedQuoteTs = 0; S.feedName = '';
+    S.lastFeedVol = 0; S.feedLastPrice = 0;
+    S.minuteBars = []; S.minuteForecast = null; S.minuteState = 'idle';
+    S.minuteAt = 0; S.minuteFor = '';
+    S.lastTickAt = 0;
+    return true;
+  }
+
+  function newSession(id) {
+    if (!resetMarket(id)) return;
+    S.price = 0; S.prevClose = 0; S.open = 0; S.high = 0; S.low = 0;
+    S.volume = 0; S.vwap = 0; S.bid = 0; S.ask = 0;
+    S.tickMs = 2000;
+    startFeed();
+    fetchMinuteData(id);
+    syncSourceUI();
+  }
+
+  /* ---------- Tencent real quote (JSONP) ---------- */
+  function feedCodeFor(id) {
+    id = String(id || '');
+    if (/^\d{6}$/.test(id)) {
+      if (/^(60|68|50|51|56|58|11)/.test(id)) return 'sh' + id;
+      if (/^(00|30|12|15|16|18)/.test(id)) return 'sz' + id;
+      if (/^(4|8)/.test(id)) return 'bj' + id;
+      return null;
+    }
+    if (/^[A-Za-z][A-Za-z.]*$/.test(id)) return 'us' + id.toUpperCase().replace(/\./g, '');
+    return null;
+  }
+
+  function parseTencentTime(str) {
+    str = String(str || '');
+    var m = str.match(/^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})$/);
+    if (m) return new Date(+m[1], +m[2] - 1, +m[3], +m[4], +m[5], +m[6]).getTime();
+    m = str.match(/^(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2}):(\d{2})/);
+    if (m) return new Date(+m[1], +m[2] - 1, +m[3], +m[4], +m[5], +m[6]).getTime();
+    return Date.now();
+  }
+  function qtTime(ts) {
+    if (!ts) return '—';
+    var d = new Date(ts);
+    return (d.getMonth() + 1) + '-' + p2(d.getDate()) + ' ' + p2(d.getHours()) + ':' + p2(d.getMinutes()) + ':' + p2(d.getSeconds());
+  }
+
+  function setFeedStatus(st) {
+    var prev = S.feedStatus;
+    S.feedStatus = st;
+    syncSourceUI();
+    if (st === 'error' && prev !== 'error') {
+      toast('实时行情中断');
+    }
+    if (S.active) renderLive();
+  }
+
+  function stopFeed() {
+    if (S.feedTimer) { clearInterval(S.feedTimer); S.feedTimer = null; }
+    S.feedStatus = 'off';
+  }
+
+  function startFeed() {
+    if (!S.started) return;
+    stopFeed();
+    S.feedStatus = 'connecting';
+    S.lastFeedVol = 0;
+    S.feedLastPrice = 0;
+    syncSourceUI();
+    pollTencent();
+    S.feedTimer = setInterval(pollTencent, 2000);
+  }
+
+  function pollTencent() {
+    if (!S.started) return;
+    var code = feedCodeFor(S.symbolId);
+    if (!code) { setFeedStatus('error'); return; }
+    var seq = ++S.feedSeq;
+    var vn = 'v_' + code;
+    try { window[vn] = undefined; } catch (e) {}
+    var el = document.createElement('script');
+    el.charset = 'gbk';
+    el.src = 'https://qt.gtimg.cn/q=' + encodeURIComponent(code) + '&_=' + Date.now();
+    var done = false;
+    function cleanup() { try { el.remove(); } catch (e) {} }
+    el.onload = function () {
+      if (done) return;
+      done = true;
+      if (seq !== S.feedSeq) { cleanup(); return; }
+      var raw = window[vn];
+      cleanup();
+      if (!raw) { setFeedStatus('error'); return; }
+      try { applyTencent(raw, code); } catch (e) { setFeedStatus('error'); }
+    };
+    el.onerror = function () {
+      if (done) return;
+      done = true;
+      cleanup();
+      if (seq === S.feedSeq) setFeedStatus('error');
+    };
+    document.head.appendChild(el);
+    setTimeout(function () {
+      if (!done) { done = true; cleanup(); if (seq === S.feedSeq) setFeedStatus('error'); }
+    }, 6000);
+  }
+
+  function applyTencent(raw, code) {
+    var f = String(raw).split('~');
+    if (f.length < 38) throw new Error('bad quote');
+    var isUS = code.indexOf('us') === 0;
+    var price = +f[3], prev = +f[4], open = +f[5], volRaw = +f[6];
+    var bid = +f[9], ask = +f[19], high = +f[33], low = +f[34];
+    var amount = +f[37], tsRaw = f[30], name = f[1];
+    if (!isFinite(price) || price <= 0) throw new Error('bad price');
+    var shares = isUS ? volRaw : volRaw * 100;
+    var vwap = shares > 0 && amount > 0 ? (isUS ? amount : amount * 10000) / shares : price;
+    var qts = parseTencentTime(tsRaw);
+    S.prevClose = prev > 0 ? prev : price;
+    S.open = open > 0 ? open : price;
+    S.high = high > 0 ? high : price;
+    S.low = low > 0 ? low : price;
+    S.volume = shares > 0 ? shares : S.volume;
+    S.bid = bid > 0 ? bid : price;
+    S.ask = ask > 0 ? ask : price;
+    S.vwap = vwap > 0 ? vwap : price;
+    S.price = price;
+    S.feedQuoteTs = qts;
+    S.feedName = name;
+    S.tickMs = 2000;
+    var delta = S.lastFeedVol ? Math.max(0, shares - S.lastFeedVol) : 0;
+    S.lastFeedVol = shares;
+    var side = price > S.feedLastPrice ? 'B' : price < S.feedLastPrice ? 'S' : '';
+    S.feedLastPrice = price;
+    S.tickNo++;
+    S.ticks.push({ t: Date.now(), p: price, bid: S.bid, ask: S.ask, size: delta, side: side, vwap: S.vwap, qts: qts });
+    if (S.ticks.length > MAX_TICKS) S.ticks.splice(0, S.ticks.length - MAX_TICKS);
+    S.lastTickAt = Date.now();
+    S.feedStatus = 'ok';
+    analyze();
+    if (Date.now() - S.lastForecastTs > FORECAST_MS) computeForecast();
+    syncSourceUI();
+    if (S.active) renderLive();
+  }
+
+  function syncSourceUI() {
+    if (!E.liveDot) return;
+    if (!S.symbolId) {
+      E.liveDot.className = 'dot warn';
+      E.liveSrcText.textContent = '实时行情';
+      E.liveMetaText.textContent = '2s 快照';
+      E.liveLatency.textContent = '请搜索股票';
+      E.liveWindowHint.textContent = '真实分钟线 · 腾讯快照';
+      E.liveTapeTitle.textContent = '实时快照';
+      E.liveTapeHint.textContent = '腾讯行情 · 最新 9 条';
+      return;
+    }
+    var st = S.feedStatus;
+    E.liveDot.className = 'dot ' + (st === 'ok' ? '' : st === 'connecting' ? 'warn' : 'bad');
+    E.liveSrcText.textContent = '腾讯行情';
+    E.liveMetaText.textContent = '2s 快照';
+    E.liveLatency.textContent = st === 'ok' ? '已连接' : st === 'connecting' ? '连接中' : '数据中断';
+    E.liveWindowHint.textContent = '腾讯快照 · 本地时间轴 · 约 40 分钟窗口';
+    E.liveTapeTitle.textContent = '实时快照';
+    E.liveTapeHint.textContent = '腾讯行情 · 最新 9 条';
+  }
+
+  /* ---------- real 1-minute history + horizon forecast ---------- */
+  function eastSecid(id) {
+    id = String(id || '');
+    if (/^\d{6}$/.test(id)) {
+      return (/^(60|68|50|51|56|58|11)/.test(id) ? '1.' : '0.') + id;
+    }
+    var r = realSymbol(id);
+    if (r && r.secid) return r.secid;
+    if (/^[A-Za-z]/.test(id)) return '105.' + id.toUpperCase();
+    return null;
+  }
+  function minuteSecids(id) {
+    var first = eastSecid(id);
+    if (!first) return [];
+    if (/^\d{6}$/.test(id)) return [first];
+    var out = [], seen = {};
+    [first, '105.' + String(id).toUpperCase(), '106.' + String(id).toUpperCase(), '107.' + String(id).toUpperCase()].forEach(function (x) {
+      if (!seen[x]) { seen[x] = 1; out.push(x); }
+    });
+    return out;
+  }
+  function fetchMinuteData(id) {
+    S.minuteBars = []; S.minuteForecast = null; S.minuteState = 'loading'; S.minuteFor = id;
+    var seq = ++S.minuteSeq;
+    var secids = minuteSecids(id);
+    var i = 0;
+    function next() {
+      if (seq !== S.minuteSeq) return;
+      if (i >= secids.length) {
+        S.minuteState = 'error';
+        if (S.active) renderLive();
+        return;
+      }
+      fetchEastmoneyMinutes(secids[i++], function (bars) {
+        if (seq !== S.minuteSeq) return;
+        if (!bars) { next(); return; }
+        S.minuteBars = bars.slice(-600);
+        S.minuteState = 'ok';
+        S.minuteAt = 0;
+        computeMinuteForecast();
+        if (S.active) renderLive();
+      });
+    }
+    next();
+  }
+  function fetchEastmoneyMinutes(secid, cb) {
+    var cbName = '__qdM' + Date.now() + Math.floor(Math.random() * 100000);
+    var done = false;
+    var el = document.createElement('script');
+    function clean() {
+      try { el.remove(); } catch (e) {}
+      try { delete window[cbName]; } catch (e) {}
+    }
+    window[cbName] = function (data) {
+      if (done) return;
+      done = true;
+      clean();
+      var d = data && data.data;
+      if (!d || !d.klines) { cb(null); return; }
+      var bars = [], seen = {};
+      d.klines.forEach(function (line) {
+        var f = String(line).split(',');
+        if (f.length < 6) return;
+        var dt = f[0], parts = dt.split(' ');
+        var date = parts[0], time = parts[1] || '';
+        var close = +f[2];
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !isFinite(close) || close <= 0) return;
+        if (seen[dt]) return;
+        seen[dt] = 1;
+        bars.push({ date: date, time: time, open: +f[1], close: close, high: +f[3], low: +f[4], volume: +f[5] });
+      });
+      bars.sort(function (a, b) {
+        var ka = a.date + ' ' + a.time, kb = b.date + ' ' + b.time;
+        return ka < kb ? -1 : 1;
+      });
+      if (bars.length < 30) { cb(null); return; }
+      cb(bars.slice(-600));
+    };
+    el.onerror = function () { if (done) return; done = true; clean(); cb(null); };
+    el.src = 'https://push2his.eastmoney.com/api/qt/stock/kline/get?secid=' + encodeURIComponent(secid) +
+      '&fields1=f1,f2,f3,f4,f5,f6&fields2=f51,f52,f53,f54,f55,f56' +
+      '&klt=1&fqt=1&beg=0&end=20500101&lmt=1200&cb=' + cbName + '&_=' + Date.now();
+    document.head.appendChild(el);
+    setTimeout(function () {
+      if (!done) { done = true; clean(); cb(null); }
+    }, 10000);
+  }
+  function computeMinuteForecast() {
+    if (!S.minuteBars.length || !S.price) return;
+    var closes = S.minuteBars.map(function (b) { return b.close; });
+    if (Math.abs(closes[closes.length - 1] - S.price) > 1e-9) closes.push(S.price);
+    var recent = closes.slice(-320);
+    if (recent.length < 30) return;
+    var rets = [];
+    for (var i = 1; i < recent.length; i++) rets.push(recent[i] / recent[i - 1] - 1);
+    var sigma = std(rets.slice(-120));
+    var ema5 = lastNum(QL.IND.emaN(recent, 5));
+    var ema20 = lastNum(QL.IND.emaN(recent, 20));
+    var rsi = lastNum(QL.IND.rsi(recent, 14));
+    var last = recent.length - 1;
+    var mom5 = recent[last] / recent[Math.max(0, last - 5)] - 1;
+    var mom20 = recent[last] / recent[Math.max(0, last - 20)] - 1;
+    var score = clamp(
+      0.40 * Math.tanh((ema5 / ema20 - 1) / 0.001) +
+      0.30 * Math.tanh(mom5 / 0.0015) +
+      0.15 * ((rsi - 50) / 50) +
+      0.15 * Math.tanh(mom20 / 0.003), -1, 1);
+    if (!(sigma > 0)) sigma = 0;
+    var hs = [1, 5, 15, 30, 60], rows = [], byH = {}, N = 300;
+    hs.forEach(function (H) {
+      var out = new Array(N), drift = score * sigma * 0.12;
+      for (var n = 0; n < N; n++) {
+        var p = 1;
+        for (var k = 0; k < H; k++) p *= Math.exp(drift + sigma * gauss());
+        out[n] = p;
+      }
+      out.sort(function (a, b) { return a - b; });
+      var q = function (x) { return out[Math.min(N - 1, Math.max(0, Math.floor(N * x)))]; };
+      var up = 0;
+      for (n = 0; n < N; n++) if (out[n] > 1) up++;
+      var row = {
+        h: H, probUp: up / N, move: q(0.5) - 1,
+        q05: S.price * q(0.05), q50: S.price * q(0.50), q95: S.price * q(0.95),
+        conf: Math.round(50 + Math.abs(up / N - 0.5) * 100)
+      };
+      byH[H] = row;
+      rows.push(row);
+    });
+    S.minuteForecast = { rows: rows, byH: byH, score: score, sigma: sigma, at: Date.now() };
+    S.minuteAt = Date.now();
+  }
+  function minuteF() {
+    return S.minuteForecast && S.minuteForecast.byH[S.horizon || 5];
+  }
+
+  function analyze() {
+    var ticks = S.ticks;
+    if (ticks.length < 50) return;
+    var slice = ticks.slice(-320);
+    var closes = slice.map(function (t) { return t.p; });
+    var emaF = lastNum(QL.IND.emaN(closes, 12));
+    var emaS = lastNum(QL.IND.emaN(closes, 48));
+    var rsi = lastNum(QL.IND.rsi(closes, 14));
+    var macd = QL.IND.macd(closes, 12, 26, 9);
+    var mh = lastNum(macd.hist);
+    var mom = closes[closes.length - 1] / closes[Math.max(0, closes.length - 61)] - 1;
+    var rets = [];
+    for (var i = 1; i < closes.length; i++) rets.push(closes[i] / closes[i - 1] - 1);
+    var vol = std(rets.slice(-120));
+    var buyV = 0, sellV = 0;
+    for (i = Math.max(0, ticks.length - 100); i < ticks.length; i++) {
+      if (ticks[i].side === 'B') buyV += ticks[i].size; else sellV += ticks[i].size;
+    }
+    var flow = buyV + sellV > 0 ? (buyV - sellV) / (buyV + sellV) : 0;
+    var vwapDev = S.vwap ? S.price / S.vwap - 1 : 0;
+    var emaDiff = emaS ? emaF / emaS - 1 : 0;
+    if (!(vol > 1e-12)) {
+      S.analysis = {
+        score: 0, emaF: emaF, emaS: emaS, rsi: 50, mh: 0,
+        mom: 0, vol: 0, flow: 0, vwapDev: vwapDev,
+        state: '无波动 · 等待成交',
+        change: S.prevClose ? S.price / S.prevClose - 1 : 0, time: Date.now()
+      };
+      return;
+    }
+    var score =
+      0.30 * Math.tanh(emaDiff / 0.00045) +
+      0.24 * Math.tanh(mom / 0.0012) +
+      0.14 * ((rsi - 50) / 50) +
+      0.14 * Math.tanh(mh / (S.price * 0.0002 || 1)) +
+      0.12 * flow +
+      0.06 * Math.tanh(vwapDev / 0.0006);
+    score = clamp(score, -1, 1);
+    var state = score > 0.45 ? '强势多头' : score > 0.15 ? '偏多' :
+      score < -0.45 ? '强势空头' : score < -0.15 ? '偏空' : '震荡';
+    if (rsi > 75) state += ' · 超买';
+    else if (rsi < 25) state += ' · 超卖';
+    S.analysis = {
+      score: score, emaF: emaF, emaS: emaS, rsi: rsi, mh: mh,
+      mom: mom, vol: vol, flow: flow, vwapDev: vwapDev,
+      state: state, change: S.price / S.prevClose - 1, time: Date.now()
+    };
+  }
+
+  function computeForecast() {
+    var ticks = S.ticks;
+    if (!S.analysis || ticks.length < 80) return;
+    var rets = [];
+    for (var i = Math.max(1, ticks.length - 200); i < ticks.length; i++) {
+      rets.push(Math.log(ticks[i].p / ticks[i - 1].p));
+    }
+    var sigma = std(rets);
+    if (!(sigma > 0)) sigma = 0;
+    var drift = mean(rets) * 0.2 + S.analysis.score * sigma * 0.08;
+    var H = Math.max(5, Math.round(10000 / (S.tickMs || 50)));
+    var N = 240, out = new Array(N);
+    for (var n = 0; n < N; n++) {
+      var p = 1;
+      for (var k = 0; k < H; k++) p *= Math.exp(drift + sigma * gauss());
+      out[n] = p;
+    }
+    out.sort(function (a, b) { return a - b; });
+    var q = function (x) { return out[Math.min(N - 1, Math.max(0, Math.floor(N * x)))]; };
+    var up = 0;
+    for (n = 0; n < N; n++) if (out[n] > 1) up++;
+    S.forecast = {
+      q05: S.price * q(0.05), q25: S.price * q(0.25), q50: S.price * q(0.50),
+      q75: S.price * q(0.75), q95: S.price * q(0.95),
+      probUp: up / N, horizon: H, horizonSec: 10, sigma: sigma, drift: drift,
+      conf: Math.round(50 + Math.abs(up / N - 0.5) * 100), ts: Date.now()
+    };
+    S.lastForecastTs = Date.now();
+  }
+
+  function onTick() {
+    if (!S.started || S.source !== 'sim') return;
+    var now = Date.now();
+    var steps = Math.floor((now - S.lastTickAt) / TICK_MS);
+    if (steps < 1) return;
+    if (steps > 80) steps = 80;
+    for (var i = 0; i < steps; i++) {
+      S.lastTickAt += TICK_MS;
+      genTick(S.lastTickAt, false);
+    }
+    if (now - S.lastTickAt > 4000) S.lastTickAt = now;
+  }
+
+  function onUi() {
+    if (!S.started) return;
+    analyze();
+    if (Date.now() - S.lastForecastTs > FORECAST_MS) computeForecast();
+    if (S.minuteBars.length && Date.now() - S.minuteAt > 5000) computeMinuteForecast();
+    if (S.active) renderLive();
+  }
+
+  /* ---------- rendering ---------- */
+  var E = {};
+  function cacheEls() {
+    [
+      'liveSymbol', 'liveLatency', 'livePrice', 'liveChg', 'liveBid', 'liveAsk',
+      'liveVwap', 'liveHigh', 'liveLow', 'liveVol', 'livePrev', 'liveTicks', 'liveClock',
+      'liveDot', 'liveSrcText', 'liveMetaText', 'liveWindowHint', 'liveSearchBtn',
+      'liveTapeTitle', 'liveTapeHint',
+      'liveSearchPanel', 'liveSearchInput', 'liveSearchGo', 'liveSearchClose', 'liveSearchResults',
+      'cvLive', 'liveTape', 'liveState', 'sigValue', 'sigFill', 'indGrid',
+      'probUp', 'probBar', 'probDown', 'fcMove', 'fcRange', 'fcConf',
+      'horizonChips', 'predTable', 'predAction', 'predHint',
+      'liveSigMini', 'liveProbMini', 'liveStateMini'
+    ].forEach(function (id) { E[id] = document.getElementById(id); });
+  }
+
+  function liveHeight() {
+    return Math.min(window.innerWidth, window.innerHeight) < 560 ? 250 : 330;
+  }
+
+  function renderLive() {
+    if (!S.active || !S.started || !E.livePrice) return;
+    syncSourceUI();
+    var has = S.price > 0;
+    var chg = has && S.prevClose ? S.price / S.prevClose - 1 : 0;
+    var tcls = chg > 0 ? 'pos' : chg < 0 ? 'neg' : '';
+    E.livePrice.textContent = has ? pxFmt(S.price) : '—';
+    E.livePrice.className = 'live-price ' + (has ? tcls : '');
+    var diff = S.price - S.prevClose;
+    E.liveChg.className = 'live-chg ' + (has ? tcls : '');
+    E.liveChg.textContent = has
+      ? F.pct(chg) + '  (' + (diff >= 0 ? '+' : '') + pxFmt(diff) + ')'
+      : (S.symbolId ? '等待腾讯行情…' : '请搜索股票');
+    E.liveBid.textContent = has ? pxFmt(S.bid) : '—';
+    E.liveAsk.textContent = has ? pxFmt(S.ask) : '—';
+    E.liveVwap.textContent = has ? pxFmt(S.vwap) : '—';
+    E.liveHigh.textContent = has ? pxFmt(S.high) : '—';
+    E.liveLow.textContent = has ? pxFmt(S.low) : '—';
+    E.liveVol.textContent = has ? bigShort(S.volume) : '—';
+    E.livePrev.textContent = has ? pxFmt(S.prevClose) : '—';
+    E.liveTicks.textContent = String(S.tickNo);
+    E.liveClock.textContent = S.feedQuoteTs ? ('行情 ' + qtTime(S.feedQuoteTs)) : '等待行情';
+    var ma = S.analysis;
+    E.liveSigMini.textContent = ma ? ((ma.score >= 0 ? '+' : '') + ma.score.toFixed(2)) :
+      ('预热 ' + Math.min(S.ticks.length, 60) + '/60');
+    var mfMini = minuteF();
+    E.liveProbMini.textContent = mfMini ? (mfMini.probUp * 100).toFixed(0) + '%' :
+      (S.forecast ? (S.forecast.probUp * 100).toFixed(0) + '%' : '—');
+    E.liveStateMini.textContent = ma ? ma.state : '等待行情';
+
+    CH.live(E.cvLive, S.ticks, { prevClose: S.prevClose }, S.forecast, {
+      height: liveHeight(),
+      badge: 'TENCENT · 2s'
+    });
+
+    renderTape();
+    renderAnalysis();
+    renderForecast();
+  }
+
+  function renderTape() {
+    var rows = S.ticks.slice(-9).reverse().map(function (t) {
+      var cls = t.side === 'B' ? 'b' : t.side === 'S' ? 's' : '';
+      var side = t.side === 'B' ? '买' : t.side === 'S' ? '卖' : '—';
+      return '<div class="tr">' +
+        '<span>' + hms(t.t, true) + '</span>' +
+        '<span class="p">' + pxFmt(t.p) + '</span>' +
+        '<span>' + (t.size > 0 ? F.big(t.size) : '—') + '</span>' +
+        '<span class="' + cls + '">' + side + '</span>' +
+        '</div>';
+    });
+    E.liveTape.innerHTML = rows.length ? rows.join('') :
+      '<div class="hint" style="padding:10px 0">' + (S.symbolId ? '等待腾讯行情…' : '请先搜索股票') + '</div>';
+  }
+
+  function renderAnalysis() {
+    var a = S.analysis;
+    if (!a) {
+      E.sigValue.textContent = '—';
+      E.sigFill.style.width = '0%';
+      E.sigFill.style.left = '50%';
+      E.liveState.textContent = '预热 ' + Math.min(S.ticks.length, 60) + '/60';
+      E.indGrid.innerHTML = '<div><span>状态</span><b>等待行情快照</b></div>' +
+        '<div><span>数据</span><b>' + S.ticks.length + ' 条</b></div>';
+      return;
+    }
+    var w = Math.abs(a.score) * 50;
+    E.sigFill.style.width = w.toFixed(1) + '%';
+    E.sigFill.style.left = (a.score >= 0 ? 50 : 50 - w).toFixed(1) + '%';
+    E.sigFill.style.background = a.score >= 0 ? 'var(--up)' : 'var(--down)';
+    E.sigValue.textContent = (a.score >= 0 ? '+' : '') + a.score.toFixed(2);
+    E.sigValue.className = a.score >= 0 ? 'pos' : 'neg';
+    E.liveState.textContent = a.state;
+    E.indGrid.innerHTML = [
+      indRow('RSI', a.rsi.toFixed(1), a.rsi > 70 ? 'pos' : a.rsi < 30 ? 'neg' : ''),
+      indRow('MACD', (a.mh >= 0 ? '+' : '') + a.mh.toFixed(4), a.mh >= 0 ? 'pos' : 'neg'),
+      indRow('动量', F.pct(a.mom), a.mom >= 0 ? 'pos' : 'neg'),
+      indRow('单步波动', (a.vol * 100).toFixed(3) + '%', ''),
+      indRow('买卖压差', (a.flow >= 0 ? '+' : '') + (a.flow * 100).toFixed(0) + '%', a.flow >= 0 ? 'pos' : 'neg'),
+      indRow('VWAP 偏离', F.pct(a.vwapDev), a.vwapDev >= 0 ? 'pos' : 'neg')
+    ].join('');
+  }
+  function indRow(l, v, cls) {
+    return '<div><span>' + l + '</span><b class="' + (cls || '') + '">' + v + '</b></div>';
+  }
+
+  function predActionText() {
+    if (!S.symbolId) return '请搜索股票';
+    var mf = minuteF();
+    if (!mf) return S.minuteState === 'loading' ? '分钟数据加载中…' : '等待分钟数据';
+    var sc = S.analysis ? S.analysis.score : (S.minuteForecast ? S.minuteForecast.score : 0);
+    if (mf.probUp >= 0.55 && sc >= 0.35) return '偏多 · 下一动作：买入（仅供参考）';
+    if (mf.probUp < 0.45) return '偏空 · 下一动作：观望/减仓';
+    return '震荡 · 下一动作：等待';
+  }
+
+  function renderForecast() {
+    if (!E.horizonChips) return;
+    var sel = S.horizon || 5;
+    Array.prototype.forEach.call(E.horizonChips.children, function (b) {
+      b.classList.toggle('on', +b.dataset.h === sel);
+    });
+    var mf = minuteF();
+    if (!mf) {
+      E.probUp.textContent = '—'; E.probUp.style.color = 'var(--tx3)';
+      E.probBar.style.width = '0%';
+      E.probDown.textContent = '—'; E.fcMove.textContent = '—';
+      E.fcRange.textContent = '—'; E.fcConf.textContent = '—';
+      var msg = !S.symbolId ? '请搜索股票' : S.minuteState === 'loading' ? '加载真实分钟线…' :
+        S.minuteState === 'error' ? '分钟数据不可用' : '等待分钟数据';
+      E.predTable.innerHTML = '<div class="hint" style="padding:4px 0">' + msg + '</div>';
+      E.predAction.textContent = msg;
+      E.predHint.textContent = S.minuteState === 'error' ? '分钟数据不可用' : '真实1分钟线';
+      return;
+    }
+    var p = mf.probUp;
+    E.probUp.textContent = (p * 100).toFixed(0) + '%';
+    E.probUp.style.color = p >= 0.5 ? 'var(--up)' : 'var(--down)';
+    E.probBar.style.width = Math.max(2, Math.min(100, p * 100)).toFixed(0) + '%';
+    E.probBar.style.background = p >= 0.5 ? 'var(--up)' : 'var(--down)';
+    E.probDown.textContent = ((1 - p) * 100).toFixed(0) + '%';
+    E.fcMove.textContent = F.pct(mf.move);
+    E.fcMove.className = mf.move >= 0 ? 'pos' : 'neg';
+    E.fcRange.textContent = pxFmt(mf.q05) + ' ~ ' + pxFmt(mf.q95);
+    E.fcConf.textContent = mf.conf + '%';
+    E.predTable.innerHTML = S.minuteForecast.rows.map(function (r) {
+      return '<div class="pred-row' + (r.h === sel ? ' on' : '') + '"><span>' + r.h + '分</span>' +
+        '<b>' + (r.probUp * 100).toFixed(0) + '%</b><em>' + F.pct(r.move) + '</em></div>';
+    }).join('');
+    E.predAction.textContent = predActionText();
+    E.predHint.textContent = '真实1分钟线 · ' + S.minuteBars.length + ' 根';
+  }
+
+  function escLive(s) {
+    return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  }
+
+  /* ---------- controls ---------- */
+  function startLive() {
+    if (S.started) return;
+    S.started = true;
+    S.uiTimer = setInterval(onUi, UI_MS);
+    if (S.symbolId) newSession(S.symbolId);
+    else { openSearch(); onUi(); }
+  }
+
+  function loadRealSymbols() {
+    var arr = QL.store.get(K.real, []);
+    realSymbols = Array.isArray(arr) ? arr.filter(function (x) {
+      return x && x.id && feedCodeFor(x.id);
+    }).slice(0, 60) : [];
+  }
+  function saveRealSymbols() { QL.store.set(K.real, realSymbols.slice(0, 60)); }
+  function realSymbol(id) {
+    for (var i = 0; i < realSymbols.length; i++) if (realSymbols[i].id === id) return realSymbols[i];
+    return null;
+  }
+  function addRealSymbol(r) {
+    if (!r || !r.id || D.get(r.id) || realSymbol(r.id)) return;
+    realSymbols.push({ id: r.id, name: r.name || r.id, market: r.market || '', secid: r.secid || '' });
+    if (realSymbols.length > 60) realSymbols = realSymbols.slice(-60);
+    saveRealSymbols();
+  }
+
+  function populateSymbols() {
+    if (!E.liveSymbol) return;
+    E.liveSymbol.innerHTML = '';
+    var searchOp = document.createElement('option');
+    searchOp.value = '__search';
+    searchOp.textContent = '⌕ 搜索股票…';
+    E.liveSymbol.appendChild(searchOp);
+    var seen = {};
+    D.list().forEach(function (sym) {
+      if (!feedCodeFor(sym.id) || seen[sym.id]) return;
+      seen[sym.id] = 1;
+      var op = document.createElement('option');
+      op.value = sym.id;
+      op.textContent = sym.id + '  ' + sym.name;
+      E.liveSymbol.appendChild(op);
+    });
+    realSymbols.forEach(function (r) {
+      if (seen[r.id] || D.get(r.id)) return;
+      seen[r.id] = 1;
+      var op = document.createElement('option');
+      op.value = r.id;
+      op.textContent = r.id + '  ' + r.name;
+      E.liveSymbol.appendChild(op);
+    });
+    if (seen[S.symbolId]) E.liveSymbol.value = S.symbolId;
+    else if (D.list()[0]) {
+      S.symbolId = D.list()[0].id;
+      E.liveSymbol.value = S.symbolId;
+    }
+  }
+
+  function openSearch() {
+    if (!E.liveSearchPanel) return;
+    E.liveSearchPanel.classList.remove('hidden');
+    setTimeout(function () { if (E.liveSearchInput) E.liveSearchInput.focus(); }, 40);
+  }
+  function closeSearch() {
+    if (E.liveSearchPanel) E.liveSearchPanel.classList.add('hidden');
+    if (E.liveSearchResults) E.liveSearchResults.innerHTML = '';
+    lastSearchResults = [];
+  }
+  function parseSearch(raw) {
+    var out = [], seen = {};
+    String(raw).split('^').forEach(function (item) {
+      var f = item.split('~');
+      if (f.length < 5) return;
+      var mkt = f[0], code = f[1], name = f[2], type = f[4] || '';
+      if (mkt !== 'sh' && mkt !== 'sz' && mkt !== 'us') return;
+      var id;
+      var secid;
+      if (mkt === 'us') {
+        id = code.split('.')[0].toUpperCase();
+        if (!/^[A-Z][A-Z.]*$/.test(id)) return;
+        var suffix = (code.split('.')[1] || '').toLowerCase();
+        secid = (suffix === 'n' ? '106.' : suffix === 'a' ? '107.' : '105.') + id;
+      } else {
+        if (!/^\d{6}$/.test(code)) return;
+        id = code;
+        secid = (mkt === 'sh' ? '1.' : '0.') + code;
+      }
+      if (seen[id]) return;
+      seen[id] = 1;
+      var label = mkt === 'us' ? '美股' : (type === 'ETF' ? 'ETF' : 'A股');
+      out.push({ id: id, name: name, market: label, secid: secid });
+    });
+    return out.slice(0, 10);
+  }
+  function doSearch() {
+    if (!E.liveSearchInput) return;
+    var q = (E.liveSearchInput.value || '').trim();
+    if (!q) { E.liveSearchInput.focus(); return; }
+    E.liveSearchResults.innerHTML = '<div class="hint" style="padding:4px 0">搜索中…</div>';
+    var seq = ++searchSeq;
+    try { window.v_hint = ''; } catch (e) {}
+    var el = document.createElement('script');
+    el.charset = 'gbk';
+    el.src = 'https://smartbox.gtimg.cn/s3/?q=' + encodeURIComponent(q) + '&t=all&_=' + Date.now();
+    var done = false;
+    function cleanup() { try { el.remove(); } catch (e) {} }
+    el.onload = function () {
+      if (done) return;
+      done = true;
+      if (seq !== searchSeq) { cleanup(); return; }
+      var raw = window.v_hint;
+      cleanup();
+      if (!raw) {
+        E.liveSearchResults.innerHTML = '<div class="hint" style="padding:4px 0">未找到匹配股票</div>';
+        return;
+      }
+      lastSearchResults = parseSearch(raw);
+      if (!lastSearchResults.length) {
+        E.liveSearchResults.innerHTML = '<div class="hint" style="padding:4px 0">未找到 A股/ETF/美股</div>';
+        return;
+      }
+      E.liveSearchResults.innerHTML = lastSearchResults.map(function (r, i) {
+        return '<button class="ls-res" data-i="' + i + '">' +
+          '<span class="nm"><b>' + escLive(r.name) + '</b><em>' + escLive(r.id) + '</em></span>' +
+          '<span class="tag">' + escLive(r.market) + '</span></button>';
+      }).join('');
+    };
+    el.onerror = function () {
+      if (done) return;
+      done = true;
+      cleanup();
+      if (seq === searchSeq) E.liveSearchResults.innerHTML = '<div class="hint" style="padding:4px 0">搜索失败，请检查网络</div>';
+    };
+    document.head.appendChild(el);
+    setTimeout(function () {
+      if (!done) {
+        done = true;
+        cleanup();
+        if (seq === searchSeq) E.liveSearchResults.innerHTML = '<div class="hint" style="padding:4px 0">搜索超时</div>';
+      }
+    }, 7000);
+  }
+
+  function selectLiveSymbol(id) {
+    
+    if (!D.get(id) && !realSymbol(id)) { toast('未知标的'); populateSymbols(); return; }
+    S.symbolId = id;
+    saveUI();
+    populateSymbols();
+    if (E.liveSymbol) E.liveSymbol.value = id;
+    if (!S.started) startLive();
+    else newSession(id);
+    closeSearch();
+    syncSourceUI();
+    toast('已选择 ' + id + ' · 腾讯行情 · 实时预测');
+    if (S.active) renderLive();
+  }
+
+  function bind() {
+    E.liveSymbol.onchange = function () {
+      var id = this.value;
+      if (id === '__search') {
+        this.value = S.symbolId;
+        openSearch();
+        return;
+      }
+      selectLiveSymbol(id, false);
+    };
+    E.liveSearchBtn.onclick = openSearch;
+    E.horizonChips.addEventListener('click', function (e) {
+      var b = e.target.closest('button');
+      if (!b) return;
+      S.horizon = +b.dataset.h || 5;
+      saveUI();
+      if (S.active) renderLive();
+      else renderForecast();
+    });
+    E.liveSearchGo.onclick = doSearch;
+    E.liveSearchClose.onclick = closeSearch;
+    E.liveSearchInput.onkeydown = function (e) {
+      if (e.key === 'Enter') { e.preventDefault(); doSearch(); }
+    };
+    E.liveSearchResults.onclick = function (e) {
+      var b = e.target.closest('.ls-res');
+      if (!b) return;
+      var r = lastSearchResults[+b.dataset.i];
+      if (!r) return;
+      
+      addRealSymbol(r);
+      closeSearch();
+      selectLiveSymbol(r.id, true);
+    };
+    var rt = null;
+    window.addEventListener('resize', function () {
+      if (!S.active) return;
+      clearTimeout(rt);
+      rt = setTimeout(renderLive, 240);
+    });
+  }
+
+  function init() {
+    cacheEls();
+    loadRealSymbols();
+    loadSaved();
+    S.source = 'tencent';
+    S.tickMs = 2000;
+    if (!feedCodeFor(S.symbolId) || (!D.get(S.symbolId) && !realSymbol(S.symbolId))) {
+      S.symbolId = D.get('510300') ? '510300' : (D.list()[0] || {}).id;
+    }
+    populateSymbols();
+    bind();
+    syncSourceUI();
+  }
+
+  /* ---------- public ---------- */
+  function onEnter() {
+    S.active = true;
+    if (!S.started) startLive();
+    else {
+      if (S.symbolId && !S.feedTimer) startFeed();
+      renderLive();
+    }
+    if (S.started) renderLive();
+    if (!S.symbolId) openSearch();
+  }
+  function onExit() {
+    S.active = false;
+    stopFeed();
+  }
+
+  QL.LIVE = { init: init, onEnter: onEnter, onExit: onExit };
+  init();
+})();
+
+</script>
+<script>
+if ('serviceWorker' in navigator && location.protocol === 'https:') {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('sw.js').catch(function () {});
+  });
+}
+</script>
+</body>
+</html>
