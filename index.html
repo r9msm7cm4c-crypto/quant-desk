@@ -2632,6 +2632,7 @@ html.ls-rotated .view.active:not([data-view="backtest"]){
       if (!D.add(obj)) { toast('保存失败：本地存储空间不足'); return; }
       ui.symbol = code; saveUI();
       renderSymbols(); renderData(); syncForm();
+      if (QL.LIVE && QL.LIVE.refresh) QL.LIVE.refresh();
       $('#pasteBox').classList.add('hidden');
       $('#csvText').value = '';
       toast('已导入 ' + bars.length + ' 条日线数据');
@@ -2764,6 +2765,7 @@ html.ls-rotated .view.active:not([data-view="backtest"]){
     if (!D.add(obj)) { toast('保存失败：本地存储空间不足'); setDailyStatus('保存失败：本地存储空间不足'); return; }
     ui.symbol = id; saveUI();
     renderSymbols(); renderData(); syncForm();
+    if (QL.LIVE && QL.LIVE.refresh) QL.LIVE.refresh();
     setDailyStatus('已导入 ' + obj.name + ' · ' + bars.length + ' 条真实日线（' + bars[0].date + ' → ' +
       bars[bars.length - 1].date + '）；可在数据表导出 CSV。');
     toast('已导入 ' + bars.length + ' 条真实日线');
@@ -4140,7 +4142,7 @@ html.ls-rotated .view.active:not([data-view="backtest"]){
     stopFeed();
   }
 
-  QL.LIVE = { init: init, onEnter: onEnter, onExit: onExit };
+  QL.LIVE = { init: init, onEnter: onEnter, onExit: onExit, refresh: populateSymbols };
   init();
 })();
 
