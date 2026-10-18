@@ -1,5 +1,5 @@
 /* Quant Desk offline cache */
-const CACHE = 'quantdesk-e6f90a8474';
+const CACHE = 'quantdesk-1b0b78bb88';
 const ASSETS = [
   './', './index.html', './manifest.webmanifest',
   './icons/icon-120.png', './icons/icon-152.png', './icons/icon-167.png',

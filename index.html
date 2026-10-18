@@ -1979,17 +1979,7 @@ html.ls-rotated .view.active:not([data-view="backtest"]){
 
     var xNow = xOf(n - 1);
 
-    /* area fill */
-    var grad = ctx.createLinearGradient(0, T, 0, T + ph);
-    grad.addColorStop(0, col + '30');
-    grad.addColorStop(1, col + '00');
-    ctx.beginPath();
-    ctx.moveTo(xOf(0), T + ph);
-    for (i = start; i < ticks.length; i++) ctx.lineTo(xOf(i - start), yOf(ticks[i].p));
-    ctx.lineTo(xOf(n - 1), T + ph);
-    ctx.closePath();
-    ctx.fillStyle = grad; ctx.fill();
-
+    /* no area fill on the live tick chart: it smears at the viewport edge */
     /* forecast cone */
     if (fc && horizon > 0) {
       var cone = function (qHi, qLo, alpha) {
