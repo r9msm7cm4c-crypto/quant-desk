@@ -501,6 +501,96 @@ html.ls-rotated .view.active:not([data-view="backtest"]){
 .pred-row.on em{color:var(--tx2)}
 .pred-action{margin-top:8px;font-size:10px;line-height:1.5;color:var(--tx2);background:var(--panel2);border:1px solid var(--line);border-radius:7px;padding:6px 8px;min-height:30px}
 
+/* ===== research lab ===== */
+.lab-shell{display:flex;flex-direction:column;gap:10px;padding-bottom:18px}
+.lab-top{padding:12px 14px}
+.lab-top .card-head{margin-bottom:8px}
+.lab-universe{display:flex;flex-wrap:wrap;gap:5px}
+.lab-chip{
+  display:inline-flex;align-items:center;gap:5px;padding:5px 9px;border-radius:8px;
+  border:1px solid var(--line2);background:var(--panel2);color:var(--tx3);font-size:11px;
+}
+.lab-chip b{font-weight:600;color:var(--tx2)}
+.lab-chip.on{background:rgba(76,141,255,.13);border-color:rgba(76,141,255,.55);color:#cfe0ff}
+.lab-chip.on b{color:#dce8ff}
+.lab-chip .x{opacity:.5;font-size:10px}
+.lab-top-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
+.btn.mini{flex:0 0 auto;min-width:0;height:30px;padding:0 11px;font-size:11.5px;border-radius:8px}
+.lab-nav{display:flex;gap:4px;padding:4px;background:var(--panel);border:1px solid var(--line);border-radius:12px;position:sticky;top:0;z-index:20}
+.lab-nav button{
+  flex:1;min-width:0;border:0;background:transparent;color:var(--tx3);font-size:12px;font-weight:600;
+  padding:7px 4px;border-radius:8px;white-space:nowrap;
+}
+.lab-nav button.on{background:var(--panel3);color:var(--tx);box-shadow:inset 0 0 0 1px var(--line2)}
+.lab-pane{display:none}
+.lab-pane.on{display:block}
+.lab-grid{display:grid;grid-template-columns:1fr;gap:10px;align-items:start}
+@media(min-width:900px){.lab-grid{grid-template-columns:296px minmax(0,1fr)}}
+.lab-side{position:relative}
+.lab-results{display:flex;flex-direction:column;gap:10px;min-width:0}
+.lab-results .card{margin-bottom:0}
+.lab-side .field{margin-bottom:9px}
+.lab-side .row2{grid-template-columns:1fr 1fr}
+.lab-seg{display:flex;gap:3px;background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:3px;flex-wrap:wrap}
+.lab-seg button{border:0;background:transparent;color:var(--tx3);font-size:11.5px;font-weight:600;padding:5px 8px;border-radius:6px;flex:1;min-width:0;white-space:nowrap}
+.lab-seg button.on{background:var(--panel3);color:var(--tx);box-shadow:inset 0 0 0 1px var(--line2)}
+.formula{
+  background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:8px 10px;
+  font-family:var(--mono);font-size:10.5px;line-height:1.75;color:var(--tx2);word-break:break-word;
+}
+.formula b{color:var(--gold);font-weight:600}
+.formula .cap{display:block;font-family:inherit;font-size:9.5px;color:var(--tx3);margin-top:4px;line-height:1.5}
+.lab-details{margin-top:8px;border-top:1px solid var(--line);padding-top:8px}
+.lab-details summary{cursor:pointer;font-size:11.5px;color:var(--tx2);font-weight:600;list-style:none}
+.lab-details summary::-webkit-details-marker{display:none}
+.lab-details summary::before{content:"＋";color:var(--tx3);margin-right:5px;font-size:10px}
+.lab-details[open] summary::before{content:"－"}
+.lab-details .table-wrap{margin-top:8px;max-height:220px;overflow:auto}
+.lab-side table.grid td,.lab-side table.grid th{padding:5px 3px;font-size:10px}
+.lab-side table.grid input{height:26px;padding:0 5px;font-size:10.5px;border-radius:6px}
+.lab-note{font-size:10.5px;color:var(--tx3);line-height:1.65;margin-top:8px}
+.lab-empty{
+  border:1px dashed var(--line2);border-radius:12px;padding:22px 14px;text-align:center;
+  color:var(--tx3);font-size:12px;line-height:1.8;
+}
+.lab-empty b{display:block;color:var(--tx2);font-size:13px;margin-bottom:3px}
+.lab-chart{width:100%;height:170px;border-radius:9px;touch-action:pan-y}
+.lab-chart.tall{height:230px}
+.lab-chart.mid{height:200px}
+.lab-legend{display:flex;gap:12px;flex-wrap:wrap;font-size:10px;color:var(--tx3);margin-top:6px}
+.lab-legend i{display:inline-block;width:9px;height:2px;vertical-align:middle;margin-right:4px}
+table.grid td .wbar{position:relative;display:inline-block;width:56px;height:6px;border-radius:3px;background:var(--panel3);vertical-align:middle;margin-right:5px;overflow:hidden}
+table.grid td .wbar i{position:absolute;left:0;top:0;bottom:0;background:var(--accent);border-radius:3px}
+table.grid tr.sel td{background:rgba(76,141,255,.07)}
+table.grid tr.sel td:first-child{box-shadow:inset 2px 0 0 var(--accent)}
+table.grid td.clickable{cursor:pointer}
+.lab-badge{font-size:9px;padding:1px 6px;border-radius:999px;background:rgba(240,185,11,.12);color:var(--gold);border:1px solid rgba(240,185,11,.3);margin-left:6px;vertical-align:middle}
+.lab-kv{display:flex;justify-content:space-between;gap:8px;font-size:11px;padding:5px 0;border-bottom:1px dashed var(--line)}
+.lab-kv:last-child{border-bottom:0}
+.lab-kv span{color:var(--tx3)}
+.lab-kv b{color:var(--tx2);font-weight:600;font-variant-numeric:tabular-nums}
+
+.lab-chip.off{opacity:.55}
+.lab-chip.off b{color:var(--tx3)}
+@media(max-width:920px){
+  .lab-universe{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:3px}
+  .lab-chip{flex:0 0 auto}
+  .lab-top-actions{margin-top:7px}
+  .lab-top .lab-note{font-size:10px;line-height:1.5;margin-top:5px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .lab-nav button{font-size:11px;padding:6px 2px}
+  .lab-grid{gap:8px}
+}
+
+@media(max-height:540px){
+  .lab-top .lab-note{display:none}
+  .lab-top{padding-bottom:7px}
+  .lab-chip{padding:3px 7px;font-size:10.5px}
+  .lab-universe{margin-top:5px}
+  .lab-top-actions{margin-top:6px}
+  .lab-nav{margin-top:6px}
+  .lab-nav button{padding:5px 2px}
+  .lab-pane{padding-top:8px}
+}
 </style>
 </head>
 <body>
@@ -521,6 +611,7 @@ html.ls-rotated .view.active:not([data-view="backtest"]){
 
   <nav class="tabs" id="tabs">
     <button class="tab active" data-view="backtest">回测</button>
+    <button class="tab" data-view="lab">研究</button>
     <button class="tab" data-view="live">实时<span class="tab-dot"></span></button>
     <button class="tab" data-view="lib">策略库</button>
     <button class="tab" data-view="data">数据</button>
@@ -613,6 +704,296 @@ html.ls-rotated .view.active:not([data-view="backtest"]){
       </div>
     </section>
 
+
+    <!-- ================= RESEARCH LAB ================= -->
+    <section class="view" data-view="lab">
+      <div class="lab-shell">
+        <div class="card lab-top">
+          <div class="card-head">
+            <h2>研究实验室<span class="lab-badge" id="labBadge">示例</span></h2>
+            <span class="hint" id="labUniverseMeta">—</span>
+          </div>
+          <div class="lab-universe" id="labUniverse"></div>
+          <div class="lab-top-actions">
+            <button class="btn ghost mini" id="labUseDemo">示例面板</button>
+            <button class="btn ghost mini" id="labUseReal">我的数据</button>
+            <button class="btn ghost mini" id="labRefresh">刷新</button>
+          </div>
+          <p class="lab-note" id="labNote"></p>
+        </div>
+
+        <div class="lab-nav" id="labNav">
+          <button data-pane="qc" class="on">数据质控</button>
+          <button data-pane="factor">因子检验</button>
+          <button data-pane="port">组合优化</button>
+          <button data-pane="wf">稳健回测</button>
+          <button data-pane="exec">执行成本</button>
+        </div>
+
+        <!-- ---------- QC ---------- -->
+        <div class="lab-pane on" data-lab-pane="qc">
+          <div class="lab-grid">
+            <div class="card lab-side">
+              <div class="card-head"><h2>数据质控</h2><span class="hint">第 1 章</span></div>
+              <label class="field"><span>标的</span><div class="select-wrap"><select id="qcSymbol"></select></div></label>
+              <div class="field"><span>Winsorize 分位 α</span>
+                <div class="lab-seg" id="qcAlpha">
+                  <button data-alpha="0.005">0.5%</button>
+                  <button data-alpha="0.01" class="on">1%</button>
+                  <button data-alpha="0.025">2.5%</button>
+                  <button data-alpha="0.05">5%</button>
+                </div>
+              </div>
+              <div class="field"><span>频率转换</span>
+                <div class="lab-seg" id="qcFreq">
+                  <button data-freq="W" class="on">周线</button>
+                  <button data-freq="M">月线</button>
+                </div>
+              </div>
+              <div class="formula">
+                r<sub>t</sub> = ln(P<sub>t</sub> / P<sub>t−1</sub>)<br>
+                σ = √( 1/N · Σ(r<sub>t</sub> − r̄)² )<br>
+                <b>x̃ = clip(x, q<sub>α</sub>, q<sub>1−α</sub>)</b>
+                <span class="cap">先算对数收益，再按 α 分位截断尾部；波动率按 √252 年化。跳空按相邻交易日间隔 &gt; 4 天计。</span>
+              </div>
+            </div>
+            <div class="lab-results">
+              <div class="card">
+                <div class="card-head"><h2>样本质量</h2><span class="hint" id="qcMeta">—</span></div>
+                <div class="metrics" id="qcMetrics"></div>
+                <canvas id="cvQc" class="lab-chart mid" style="margin-top:10px"></canvas>
+                <div class="lab-legend">
+                  <span><i style="background:var(--accent)"></i>日收益</span>
+                  <span><i style="background:var(--gold)"></i>截断区间外</span>
+                  <span id="qcClipNote"></span>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-head"><h2>频率转换 · OHLC</h2><span class="hint" id="qcFreqHint">—</span></div>
+                <div class="table-wrap" id="qcTable"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ---------- FACTOR ---------- -->
+        <div class="lab-pane" data-lab-pane="factor">
+          <div class="lab-grid">
+            <div class="card lab-side">
+              <div class="card-head"><h2>因子参数</h2><span class="hint">第 2–3 章</span></div>
+              <label class="field"><span>调仓间隔</span>
+                <div class="select-wrap"><select id="facStep">
+                  <option value="5">每 5 日</option><option value="10">每 10 日</option>
+                  <option value="20" selected>每 20 日</option><option value="60">每 60 日</option>
+                </select></div>
+              </label>
+              <label class="field"><span>预测期（未来收益）</span>
+                <div class="select-wrap"><select id="facHorizon">
+                  <option value="5">5 日</option><option value="10">10 日</option>
+                  <option value="20" selected>20 日</option><option value="60">60 日</option>
+                </select></div>
+              </label>
+              <div class="switch"><span>行业 + 市值中性</span><input type="checkbox" id="facNeutral" checked style="width:40px;height:20px;flex:0 0 auto"></div>
+              <label class="field" style="margin-top:8px"><span>组合展示数量</span>
+                <div class="select-wrap"><select id="facTopN">
+                  <option value="3">Top 3</option><option value="5" selected>Top 5</option><option value="8">Top 8</option>
+                </select></div>
+              </label>
+              <div class="formula">
+                X<sub>EP</sub> = EPS<sub>t</sub> / P<sub>t</sub> · X<sub>BP</sub> = BPS<sub>t</sub> / P<sub>t</sub><br>
+                z = (x − μ) / σ<br>
+                IC<sub>t</sub> = Corr(X<sub>t</sub>, R<sub>t+1</sub>) · IR = IC̄ / σ(IC)
+                <span class="cap">横截面先去极值、标准化，再做行业去均值与市值回归残差；IC 用 Spearman 秩相关。</span>
+              </div>
+              <details class="lab-details">
+                <summary>因子输入（EP / BP / 行业 / 市值）</summary>
+                <div class="table-wrap" id="fundTable"></div>
+                <p class="lab-note">EPS、BPS 为每股收益与每股净资产（元），市值单位亿元。留空则剔除对应因子。</p>
+              </details>
+            </div>
+            <div class="lab-results">
+              <div class="card">
+                <div class="card-head"><h2>因子有效性 · IC 分析</h2><span class="hint" id="icMeta">—</span></div>
+                <div class="table-wrap" id="icTable"></div>
+                <div class="formula" style="margin-top:10px">IC<sub>t</sub> = Corr(X<sub>t</sub>, R<sub>t+1</sub>) , IR = IC̄ / σ(IC)<span class="cap">点击任意因子行，下方图表切换为该因子的累计 IC。|t| &gt; 2 视为统计上较显著。</span></div>
+              </div>
+              <div class="card">
+                <div class="card-head"><h2>IC 诊断</h2><span class="hint" id="icChartMeta">—</span></div>
+                <canvas id="cvIcBar" class="lab-chart" style="height:132px"></canvas>
+                <canvas id="cvIcLine" class="lab-chart" style="height:158px;margin-top:4px"></canvas>
+                <div class="lab-legend">
+                  <span><i style="background:var(--accent)"></i>正 IC / 累计 IC</span>
+                  <span><i style="background:var(--gold)"></i>负 IC</span>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-head"><h2>多因子合成排序</h2><span class="hint" id="compMeta">—</span></div>
+                <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:9px">
+                  <div class="lab-seg" id="compMode" style="flex:0 0 auto">
+                    <button data-mode="ic" class="on">IC 加权</button>
+                    <button data-mode="equal">等权</button>
+                    <button data-mode="custom">自定义</button>
+                  </div>
+                  <span class="hint" id="compSum"></span>
+                </div>
+                <div class="lab-universe" id="compWeights" style="margin-bottom:9px"></div>
+                <div class="table-wrap" id="compTable"></div>
+                <div class="formula" style="margin-top:10px">Score<sub>i</sub> = Σ w<sub>k</sub> · z<sub>i,k</sub> , Σ w<sub>k</sub> = 1<span class="cap">权重仅取正 IC 因子并归一化；分数是横截面相对强弱，不构成交易建议。</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ---------- PORTFOLIO ---------- -->
+        <div class="lab-pane" data-lab-pane="port">
+          <div class="lab-grid">
+            <div class="card lab-side">
+              <div class="card-head"><h2>组合参数</h2><span class="hint">第 4 章</span></div>
+              <div class="field"><span>优化方法</span>
+                <div class="lab-seg" id="portMethod">
+                  <button data-method="mv" class="on">均值方差</button>
+                  <button data-method="bl">BL</button>
+                  <button data-method="rp">风险平价</button>
+                </div>
+              </div>
+              <label class="field"><span>协方差回看窗口</span>
+                <div class="select-wrap"><select id="portLook">
+                  <option value="120">120 日</option><option value="250" selected>250 日</option><option value="500">500 日</option>
+                </select></div>
+              </label>
+              <div class="row2">
+                <label class="field"><span>单资产上限 %</span><input id="portCap" type="number" min="10" max="100" step="5" value="35"></label>
+                <label class="field"><span>收益收缩 λ</span><input id="portShrink" type="number" min="0" max="1" step="0.1" value="0.5"></label>
+              </div>
+              <label class="field"><span>目标年化 % <em>留空=最大夏普</em></span><input id="portTarget" type="number" step="1" placeholder="如 12"></label>
+              <div class="row2">
+                <label class="field"><span>风险厌恶 δ</span><input id="portDelta" type="number" min="0.5" max="10" step="0.5" value="3"></label>
+                <label class="field"><span>观点不确定 τ</span><input id="portTau" type="number" min="0.01" max="0.5" step="0.01" value="0.05"></label>
+              </div>
+              <details class="lab-details">
+                <summary>Black–Litterman 主观观点</summary>
+                <div class="table-wrap" id="viewTable"></div>
+                <p class="lab-note">填写年化超额收益观点（%），0 表示不设观点。仅 BL 方法生效。</p>
+              </details>
+              <div class="formula">
+                min ½ wᵀΣw &nbsp; s.t. wᵀE = E(R<sub>p</sub>), wᵀ1 = 1<br>
+                μ<sub>BL</sub> = [(τΣ)<sup>−1</sup> + PᵀΩ<sup>−1</sup>P]<sup>−1</sup>[(τΣ)<sup>−1</sup>Π + PᵀΩ<sup>−1</sup>Q]<br>
+                RC<sub>i</sub> = w<sub>i</sub>(Σw)<sub>i</sub> / √(wᵀΣw)
+                <span class="cap">均值方差用蒙特卡洛采样求可行域与有效前沿；风险平价用乘性迭代令各资产风险贡献相等。</span>
+              </div>
+            </div>
+            <div class="lab-results">
+              <div class="card">
+                <div class="card-head"><h2>组合画像</h2><span class="hint" id="portMeta">—</span></div>
+                <div class="metrics" id="portMetrics"></div>
+              </div>
+              <div class="card">
+                <div class="card-head"><h2>有效前沿</h2><span class="hint" id="portFrontierHint">—</span></div>
+                <canvas id="cvFrontier" class="lab-chart tall"></canvas>
+                <div class="lab-legend">
+                  <span><i style="background:var(--line2)"></i>随机组合</span>
+                  <span><i style="background:var(--accent)"></i>有效前沿</span>
+                  <span><i style="background:var(--gold)"></i>当前组合</span>
+                  <span><i style="background:var(--purple)"></i>最小方差</span>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-head"><h2>权重与风险贡献</h2><span class="hint" id="portRcHint">—</span></div>
+                <div class="table-wrap" id="portTable"></div>
+                <p class="lab-note">风险贡献合计 100%；集中度以 HHI 与有效持仓数衡量。BL 方法会同时给出先验/后验预期收益。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ---------- WALK FORWARD ---------- -->
+        <div class="lab-pane" data-lab-pane="wf">
+          <div class="lab-grid">
+            <div class="card lab-side">
+              <div class="card-head"><h2>滚动检验</h2><span class="hint">第 5 章</span></div>
+              <label class="field"><span>标的</span><div class="select-wrap"><select id="wfSymbol"></select></div></label>
+              <div class="field"><span>策略</span><div class="chips" id="wfStrats"></div></div>
+              <div class="row2">
+                <label class="field"><span>训练窗口（日）</span><input id="wfTrain" type="number" min="120" step="10" value="250"></label>
+                <label class="field"><span>测试窗口（日）</span><input id="wfTest" type="number" min="20" step="5" value="63"></label>
+              </div>
+              <div class="actions"><button class="btn primary" id="wfRun">运行滚动检验</button></div>
+              <div class="formula">
+                N = ⌊(T − W<sub>train</sub>) / W<sub>test</sub>⌋<br>
+                IS Sharpe ≫ OOS Sharpe ⇒ Overfit
+                <span class="cap">每折在训练窗内网格寻优，用最优参数在紧邻的测试窗做样本外回测；测试窗前置 60 日预热，仅统计样本外段。</span>
+              </div>
+              <p class="lab-note" id="wfNote">滚动检验会执行数十次回测，参数越多耗时越长。</p>
+            </div>
+            <div class="lab-results">
+              <div class="card">
+                <div class="card-head"><h2>样本内 vs 样本外</h2><span class="hint" id="wfMeta">—</span></div>
+                <div class="metrics" id="wfMetrics"></div>
+                <canvas id="cvWfBars" class="lab-chart" style="height:150px;margin-top:10px"></canvas>
+              </div>
+              <div class="card">
+                <div class="card-head"><h2>分折明细</h2><span class="hint">训练窗内选参 · 测试窗评估</span></div>
+                <div class="table-wrap" id="wfTable"></div>
+              </div>
+              <div class="card">
+                <div class="card-head"><h2>样本外净值</h2><span class="hint" id="wfOosHint">—</span></div>
+                <canvas id="cvWfEq" class="lab-chart mid"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ---------- EXECUTION ---------- -->
+        <div class="lab-pane" data-lab-pane="exec">
+          <div class="lab-grid">
+            <div class="card lab-side">
+              <div class="card-head"><h2>执行参数</h2><span class="hint">第 6 章</span></div>
+              <label class="field"><span>标的</span><div class="select-wrap"><select id="exSymbol"></select></div></label>
+              <label class="field"><span>订单金额（万元）</span><input id="exNotional" type="number" min="1" step="100" value="3000"></label>
+              <div class="row2">
+                <label class="field"><span>参与率上限 %</span><input id="exPart" type="number" min="0.1" max="50" step="0.5" value="5"></label>
+                <label class="field"><span>冲击系数 c</span><input id="exC" type="number" min="0.01" max="1" step="0.01" value="0.1"></label>
+              </div>
+              <div class="row2">
+                <label class="field"><span>买卖价差 bp</span><input id="exSpread" type="number" min="0" step="0.5" value="2"></label>
+                <label class="field"><span>费率 bp</span><input id="exFee" type="number" min="0" step="0.5" value="5"></label>
+              </div>
+              <div class="field"><span>执行算法</span>
+                <div class="lab-seg" id="exAlgo">
+                  <button data-algo="twap" class="on">TWAP</button>
+                  <button data-algo="vwap">VWAP</button>
+                </div>
+              </div>
+              <div class="formula">
+                MI = cσ√(V<sub>trade</sub> / V)<br>
+                Total = MI + Spread/2 + Fees<br>
+                VWAP = ΣP<sub>i</sub>V<sub>i</sub> / ΣV<sub>i</sub>
+                <span class="cap">σ 为 20 日收益波动，V 为 20 日均成交量；参与率上限决定拆单天数与估算成交率。</span>
+              </div>
+            </div>
+            <div class="lab-results">
+              <div class="card">
+                <div class="card-head"><h2>成本估算</h2><span class="hint" id="exMeta">—</span></div>
+                <div class="metrics" id="exMetrics"></div>
+              </div>
+              <div class="card">
+                <div class="card-head"><h2>冲击成本曲线</h2><span class="hint">成本随订单占 ADV 上升</span></div>
+                <canvas id="cvCost" class="lab-chart mid"></canvas>
+                <div class="lab-legend">
+                  <span><i style="background:var(--gold)"></i>冲击成本</span>
+                  <span><i style="background:var(--accent)"></i>总成本（含价差与费率）</span>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-head"><h2>执行进度</h2><span class="hint" id="exSchedHint">—</span></div>
+                <canvas id="cvSched" class="lab-chart" style="height:160px"></canvas>
+                <div class="table-wrap" id="exTable" style="margin-top:8px"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- ================= LIVE ================= -->
     <section class="view" data-view="live">
@@ -2062,6 +2443,1650 @@ html.ls-rotated .view.active:not([data-view="backtest"]){
 
 })();
 
+/* ===== Quant Desk · research lab ===== */
+/* ===== Quant Desk · research lab core ===== */
+(function () {
+  'use strict';
+  var QL = (window.QL = window.QL || {});
+  var LAB = (QL.LAB = {});
+  var D = QL.DATA || { get: function () { return null; }, list: function () { return []; }, count: function () { return 0; } };
+  var KEY = 'qd.lab.v1';
+  var META_KEY = 'qd.lab.meta.v1';
+
+  function metaMerge(s) {
+    var all = QL.store ? (QL.store.get(META_KEY, {}) || {}) : {};
+    var m = all[s.id] || {};
+    return {
+      industry: m.industry != null ? m.industry : (s.industry || ''),
+      mcap: m.mcap != null ? +m.mcap : (+s.mcap || 0),
+      eps: m.eps != null ? +m.eps : (+s.eps || 0),
+      bps: m.bps != null ? +m.bps : (+s.bps || 0)
+    };
+  }
+
+  var st = LAB.state = {
+    demo: false,
+    universe: [],
+    pane: 'qc',
+    qc: { symbol: '', alpha: 0.01, freq: 'W' },
+    factor: { step: 20, horizon: 20, neutralize: true, icSel: 'mom', weightMode: 'ic', weights: {}, topN: 5 },
+    port: { method: 'mv', lookback: 250, cap: 0.35, target: '', rf: 0.02, delta: 3, tau: 0.05, views: {} },
+    wf: { symbol: '', strat: 'ma', train: 250, test: 63 },
+    exec: { symbol: '', notional: 3000, part: 5, c: 0.1, spread: 2, fee: 5, algo: 'twap' }
+  };
+  var saved = QL.store ? QL.store.get(KEY, null) : null;
+  if (saved) {
+    st.demo = !!saved.demo;
+    if (saved.port && +saved.port.cap > 1) saved.port.cap = +saved.port.cap / 100;
+    if (saved.exec && +saved.exec.notional > 100000) saved.exec.notional = +saved.exec.notional / 10000;
+    st.universe = saved.universe || [];
+    st.qc = Object.assign(st.qc, saved.qc || {});
+    st.factor = Object.assign(st.factor, saved.factor || {});
+    st.port = Object.assign(st.port, saved.port || {});
+    st.wf = Object.assign(st.wf, saved.wf || {});
+    st.exec = Object.assign(st.exec, saved.exec || {});
+  }
+
+  function save() {
+    try { QL.store.set(KEY, st); } catch (e) {}
+  }
+  LAB.save = save;
+
+  /* ---------------- math ---------------- */
+  var M = LAB.M = {};
+
+  M.sum = function (a) { var s = 0; for (var i = 0; i < a.length; i++) s += a[i]; return s; };
+  M.mean = function (a) { return a.length ? M.sum(a) / a.length : 0; };
+  M.std = function (a, sample) {
+    if (a.length < 2) return 0;
+    var m = M.mean(a), s = 0;
+    for (var i = 0; i < a.length; i++) s += (a[i] - m) * (a[i] - m);
+    return Math.sqrt(s / (a.length - (sample ? 1 : 0)));
+  };
+  M.quantile = function (arr, q) {
+    var a = arr.slice().sort(function (x, y) { return x - y; });
+    if (!a.length) return NaN;
+    var pos = (a.length - 1) * q, lo = Math.floor(pos), hi = Math.ceil(pos);
+    return a[lo] + (a[hi] - a[lo]) * (pos - lo);
+  };
+  M.winsor = function (a, alpha) {
+    var lo = M.quantile(a, alpha), hi = M.quantile(a, 1 - alpha);
+    return { lo: lo, hi: hi, arr: a.map(function (v) { return v < lo ? lo : v > hi ? hi : v; }) };
+  };
+  M.zscore = function (a) {
+    var m = M.mean(a), s = M.std(a);
+    if (!(s > 1e-12)) return a.map(function () { return 0; });
+    return a.map(function (v) { return (v - m) / s; });
+  };
+  M.rank = function (a) {
+    var idx = a.map(function (v, i) { return [v, i]; }).sort(function (x, y) { return x[0] - y[0]; });
+    var out = new Array(a.length), i = 0;
+    while (i < idx.length) {
+      var j = i;
+      while (j + 1 < idx.length && idx[j + 1][0] === idx[i][0]) j++;
+      var r = (i + j) / 2 + 1;
+      for (var k = i; k <= j; k++) out[idx[k][1]] = r;
+      i = j + 1;
+    }
+    return out;
+  };
+  M.pearson = function (x, y) {
+    var n = Math.min(x.length, y.length);
+    if (n < 2) return NaN;
+    var mx = 0, my = 0, i;
+    for (i = 0; i < n; i++) { mx += x[i]; my += y[i]; }
+    mx /= n; my /= n;
+    var sxy = 0, sxx = 0, syy = 0, dx, dy;
+    for (i = 0; i < n; i++) {
+      dx = x[i] - mx; dy = y[i] - my;
+      sxy += dx * dy; sxx += dx * dx; syy += dy * dy;
+    }
+    return sxx > 0 && syy > 0 ? sxy / Math.sqrt(sxx * syy) : NaN;
+  };
+  M.spearman = function (x, y) {
+    var xs = [], ys = [], i;
+    for (i = 0; i < x.length; i++) { if (x[i] != null && y[i] != null && isFinite(x[i]) && isFinite(y[i])) { xs.push(x[i]); ys.push(y[i]); } }
+    if (xs.length < 4) return NaN;
+    return M.pearson(M.rank(xs), M.rank(ys));
+  };
+  M.cov = function (rows) {
+    var n = rows.length, k = rows[0].length, i, j, t;
+    var mu = new Array(k).fill(0);
+    for (i = 0; i < n; i++) for (j = 0; j < k; j++) mu[j] += rows[i][j];
+    for (j = 0; j < k; j++) mu[j] /= n;
+    var S = [];
+    for (i = 0; i < k; i++) S.push(new Array(k).fill(0));
+    for (t = 0; t < n; t++) {
+      for (i = 0; i < k; i++) {
+        var di = rows[t][i] - mu[i];
+        for (j = i; j < k; j++) S[i][j] += di * (rows[t][j] - mu[j]);
+      }
+    }
+    for (i = 0; i < k; i++) for (j = i; j < k; j++) { S[i][j] /= Math.max(1, n - 1); S[j][i] = S[i][j]; }
+    return S;
+  };
+  M.matVec = function (A, v) {
+    var n = A.length, m = v.length, out = new Array(n).fill(0), i, j;
+    for (i = 0; i < n; i++) { var s = 0; for (j = 0; j < m; j++) s += A[i][j] * v[j]; out[i] = s; }
+    return out;
+  };
+  M.matMul = function (A, B) {
+    var n = A.length, m = B[0].length, p = B.length, i, j, k;
+    var C = [];
+    for (i = 0; i < n; i++) { C.push(new Array(m).fill(0)); for (j = 0; j < m; j++) { var s = 0; for (k = 0; k < p; k++) s += A[i][k] * B[k][j]; C[i][j] = s; } }
+    return C;
+  };
+  M.inv = function (A) {
+    var n = A.length, i, j, k;
+    var Mx = [], I = [];
+    for (i = 0; i < n; i++) {
+      Mx.push(A[i].slice());
+      var row = new Array(n).fill(0); row[i] = 1; I.push(row);
+    }
+    for (i = 0; i < n; i++) {
+      var piv = i;
+      for (k = i + 1; k < n; k++) if (Math.abs(Mx[k][i]) > Math.abs(Mx[piv][i])) piv = k;
+      if (Math.abs(Mx[piv][i]) < 1e-12) return null;
+      if (piv !== i) { var tmp = Mx[i]; Mx[i] = Mx[piv]; Mx[piv] = tmp; var tmp2 = I[i]; I[i] = I[piv]; I[piv] = tmp2; }
+      var d = Mx[i][i];
+      for (j = 0; j < n; j++) { Mx[i][j] /= d; I[i][j] /= d; }
+      for (k = 0; k < n; k++) {
+        if (k === i) continue;
+        var f = Mx[k][i];
+        if (!f) continue;
+        for (j = 0; j < n; j++) { Mx[k][j] -= f * Mx[i][j]; I[k][j] -= f * I[i][j]; }
+      }
+    }
+    return I;
+  };
+  M.quad = function (w, S) {
+    var s = 0, i, j;
+    for (i = 0; i < w.length; i++) for (j = 0; j < w.length; j++) s += w[i] * w[j] * S[i][j];
+    return s;
+  };
+  M.dot = function (a, b) { var s = 0; for (var i = 0; i < a.length; i++) s += a[i] * b[i]; return s; };
+  M.rng = function (seed) {
+    var s = seed >>> 0;
+    return function () {
+      s += 0x6D2B79F5;
+      var t = s;
+      t = Math.imul(t ^ (t >>> 15), t | 1);
+      t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  };
+  M.project = function (w, cap) {
+    var n = w.length, i, iter, excess, free;
+    cap = Math.max(1 / n, Math.min(1, cap || 1));
+    for (i = 0; i < n; i++) w[i] = Math.max(0, w[i]);
+    var s = M.sum(w);
+    if (!(s > 0)) { for (i = 0; i < n; i++) w[i] = 1 / n; return w; }
+    for (i = 0; i < n; i++) w[i] /= s;
+    if (cap >= 1) return w;
+    for (iter = 0; iter < 200; iter++) {
+      excess = 0; free = 0;
+      for (i = 0; i < n; i++) {
+        if (w[i] > cap) { excess += w[i] - cap; w[i] = cap; }
+        else if (w[i] < cap) free++;
+      }
+      if (excess < 1e-10 || !free) break;
+      var add = excess / free;
+      for (i = 0; i < n; i++) if (w[i] < cap) w[i] += add;
+    }
+    s = M.sum(w);
+    for (i = 0; i < n; i++) w[i] /= s;
+    return w;
+  };
+  M.randWeights = function (n, rng, cap) {
+    var w = [], i, s = 0;
+    for (i = 0; i < n; i++) { var v = -Math.log(1 - rng() + 1e-9); w.push(v); s += v; }
+    for (i = 0; i < n; i++) w[i] /= s;
+    return M.project(w, cap);
+  };
+
+  /* ---------------- data panel ---------------- */
+  var DEMO = [
+    ['600519', '贵州茅台', '食品饮料', 21000, 60.5, 190],
+    ['000858', '五粮液', '食品饮料', 5600, 8.2, 32],
+    ['600036', '招商银行', '银行', 9200, 5.9, 36],
+    ['601318', '中国平安', '非银金融', 8600, 6.6, 46],
+    ['300750', '宁德时代', '电力设备', 9100, 11.2, 56],
+    ['002594', '比亚迪', '汽车', 7200, 10.1, 46],
+    ['600276', '恒瑞医药', '医药生物', 3100, 1.02, 8.2],
+    ['000333', '美的集团', '家用电器', 5100, 4.9, 26]
+  ];
+
+  function tradeDates(n) {
+    var out = [], d = new Date(2026, 9, 30), p = function (x) { return String(x).padStart(2, '0'); };
+    while (out.length < n) {
+      var wd = d.getDay();
+      if (wd !== 0 && wd !== 6) out.push(d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate()));
+      d.setDate(d.getDate() - 1);
+    }
+    return out.reverse();
+  }
+
+  LAB.demoPanel = function () {
+    var n = 620, dates = tradeDates(n);
+    var rng = M.rng(42);
+    var mkt = [], i, t;
+    for (t = 0; t < n; t++) mkt.push(0.00016 + (rng() - 0.5) * 0.016);
+    var indShock = {};
+    var syms = DEMO.map(function (row, idx) {
+      var beta = [1.05, 1.0, 0.85, 0.95, 1.25, 1.2, 0.9, 0.95][idx];
+      var idio = [0.026, 0.030, 0.023, 0.025, 0.038, 0.035, 0.032, 0.028][idx];
+      var start = [1500, 160, 34, 46, 210, 240, 46, 66][idx];
+      var px = start, closes = [], vols = [], bars = [];
+      var score = (rng() - 0.5) * 2;
+      for (t = 0; t < n; t++) {
+        score = 0.992 * score + (rng() - 0.5) * 0.5;
+        var ind = indShock[row[2]];
+        if (ind == null) ind = indShock[row[2]] = (rng() - 0.5) * 0.008;
+        else ind = indShock[row[2]] = ind * 0.92 + (rng() - 0.5) * 0.004;
+        var r = 0.00030 + 0.0018 * score + beta * 0.9 * mkt[t] + ind + (rng() - 0.5) * 2 * idio;
+        px = Math.max(2, px * (1 + r));
+        var close = +px.toFixed(2);
+        var open = +(close * (1 + (rng() - 0.5) * 0.012)).toFixed(2);
+        var high = +(Math.max(open, close) * (1 + rng() * 0.012)).toFixed(2);
+        var low = +(Math.min(open, close) * (1 - rng() * 0.012)).toFixed(2);
+        var vol = Math.round((2e4 + 8e4 * rng()) * (1 + Math.abs(r) * 12));
+        closes.push(close); vols.push(vol);
+        bars.push({ date: dates[t], open: open, high: high, low: low, close: close, volume: vol });
+      }
+      var mm = metaMerge({ id: row[0], industry: row[2], mcap: row[3], eps: row[4], bps: row[5] });
+      return {
+        id: row[0], name: row[1], industry: mm.industry, mcap: mm.mcap,
+        eps: mm.eps, bps: mm.bps, closes: closes, volumes: vols, bars: bars
+      };
+    });
+    return { dates: dates, symbols: syms, demo: true };
+  };
+
+  LAB.panel = function () {
+    if (st.demo) return LAB.demoPanel();
+    var syms = st.universe.map(function (id) { return D.get(id); }).filter(function (s) { return s && s.bars && s.bars.length >= 60; });
+    if (!syms.length) return null;
+    var maps = syms.map(function (s) {
+      var m = {};
+      s.bars.forEach(function (b) { m[b.date] = b; });
+      return m;
+    });
+    /* 1.3 数据对齐：并集日历 + 前向填充，裁掉尚未全部上市的前段 */
+    var seen = {};
+    syms.forEach(function (s) { s.bars.forEach(function (b) { seen[b.date] = 1; }); });
+    var allDates = Object.keys(seen).sort();
+    var series = syms.map(function () { return { close: [], vol: [], bar: [], last: null, lastBar: null }; });
+    var dates = [], closes = [], vols = [], barsOut = [];
+    syms.forEach(function () { closes.push([]); vols.push([]); barsOut.push([]); });
+    allDates.forEach(function (dt) {
+      var ready = true, i;
+      for (i = 0; i < syms.length; i++) if (maps[i][dt]) { series[i].last = maps[i][dt].close; series[i].lastBar = maps[i][dt]; }
+      for (i = 0; i < syms.length; i++) if (series[i].last == null) { ready = false; break; }
+      if (!ready) return;
+      dates.push(dt);
+      for (i = 0; i < syms.length; i++) {
+        var b = maps[i][dt] || series[i].lastBar;
+        closes[i].push(series[i].last);
+        vols[i].push(maps[i][dt] ? maps[i][dt].volume : 0);
+        barsOut[i].push(b);
+      }
+    });
+    var out = syms.map(function (s, si) {
+      var mm = metaMerge(s);
+      return {
+        id: s.id, name: s.name, industry: mm.industry, mcap: mm.mcap, eps: mm.eps, bps: mm.bps,
+        closes: closes[si], volumes: vols[si], bars: barsOut[si]
+      };
+    });
+    return { dates: dates, symbols: out, demo: false };
+  };
+
+  LAB.metaOf = function (id) {
+    var p = LAB.panel();
+    if (!p) return null;
+    for (var i = 0; i < p.symbols.length; i++) if (p.symbols[i].id === id) return p.symbols[i];
+    return null;
+  };
+
+  /* ---------------- QC ---------------- */
+  LAB.qc = function (sym, alpha) {
+    if (!sym || !sym.bars || sym.bars.length < 20) return null;
+    var bars = sym.bars, n = bars.length;
+    var rets = [], i, gaps = 0;
+    for (i = 1; i < n; i++) rets.push(Math.log(bars[i].close / bars[i - 1].close));
+    for (i = 1; i < n; i++) {
+      var d0 = new Date(bars[i - 1].date), d1 = new Date(bars[i].date);
+      if ((d1 - d0) / 86400000 > 4) gaps++;
+    }
+    var win = M.winsor(rets, alpha);
+    var clipped = 0;
+    for (i = 0; i < rets.length; i++) if (rets[i] < win.lo || rets[i] > win.hi) clipped++;
+    var mean = M.mean(rets), sdv = M.std(rets);
+    var skew = 0, kurt = 0;
+    for (i = 0; i < rets.length; i++) {
+      var z = sdv > 0 ? (rets[i] - mean) / sdv : 0;
+      skew += z * z * z; kurt += z * z * z * z;
+    }
+    skew /= rets.length; kurt = kurt / rets.length - 3;
+    return {
+      n: n, rets: rets, mean: mean, vol: sdv * Math.sqrt(252),
+      winsorVol: M.std(win.arr) * Math.sqrt(252),
+      skew: skew, kurt: kurt, gaps: gaps, clipped: clipped,
+      lo: win.lo, hi: win.hi, min: Math.min.apply(null, rets), max: Math.max.apply(null, rets),
+      cum: bars[n - 1].close / bars[0].close - 1,
+      winRate: rets.filter(function (r) { return r > 0; }).length / rets.length
+    };
+  };
+
+  LAB.resample = function (bars, freq) {
+    var out = [], cur = null, keyOf = function (dt) {
+      var d = new Date(dt);
+      if (freq === 'M') return dt.slice(0, 7);
+      var day = (d.getDay() + 6) % 7;
+      d.setDate(d.getDate() - day);
+      return d.toISOString().slice(0, 10);
+    };
+    bars.forEach(function (b) {
+      var k = keyOf(b.date);
+      if (!cur || cur.key !== k) {
+        if (cur) out.push(cur.bar);
+        cur = { key: k, bar: { date: b.date, open: b.open, high: b.high, low: b.low, close: b.close, volume: b.volume } };
+      } else {
+        cur.bar.date = b.date;
+        cur.bar.high = Math.max(cur.bar.high, b.high);
+        cur.bar.low = Math.min(cur.bar.low, b.low);
+        cur.bar.close = b.close;
+        cur.bar.volume += b.volume;
+      }
+    });
+    if (cur) out.push(cur.bar);
+    return out;
+  };
+
+  /* ---------------- factors ---------------- */
+  var FACTORS = LAB.FACTORS = [
+    { id: 'mom', name: '动量 20D', short: 'MOM', desc: '过去 20 日收益' },
+    { id: 'rev', name: '短期反转', short: 'REV', desc: '过去 5 日收益取负' },
+    { id: 'lowvol', name: '低波动', short: 'LOWVOL', desc: '20 日波动率取负' },
+    { id: 'ep', name: 'EP', short: 'EP', desc: 'EPS / 价格' },
+    { id: 'bp', name: 'BP', short: 'BP', desc: 'BPS / 价格' },
+    { id: 'size', name: '小市值', short: 'SIZE', desc: '市值对数取负' }
+  ];
+
+  function industryDemean(vals, inds) {
+    var groups = {};
+    for (var i = 0; i < vals.length; i++) {
+      if (vals[i] == null) continue;
+      var k = inds[i] || '未分类';
+      (groups[k] = groups[k] || []).push(i);
+    }
+    var out = vals.slice();
+    Object.keys(groups).forEach(function (k) {
+      var idx = groups[k], m = 0, c = 0;
+      idx.forEach(function (i) { if (isFinite(vals[i])) { m += vals[i]; c++; } });
+      if (c < 3) return;   // 行业内样本过少时不做去均值，避免抹掉全部横截面差异
+      m /= c;
+      idx.forEach(function (i) { if (isFinite(vals[i])) out[i] = vals[i] - m; });
+    });
+    return out;
+  }
+
+  function sizeNeutral(vals, mcaps) {
+    var xs = [], ys = [], i;
+    for (i = 0; i < vals.length; i++) if (vals[i] != null && mcaps[i] > 0) { xs.push(Math.log(mcaps[i])); ys.push(vals[i]); }
+    if (xs.length < 4) return vals;
+    var mx = M.mean(xs), my = M.mean(ys), sxy = 0, sxx = 0;
+    for (i = 0; i < xs.length; i++) { sxy += (xs[i] - mx) * (ys[i] - my); sxx += (xs[i] - mx) * (xs[i] - mx); }
+    var b = sxx > 1e-12 ? sxy / sxx : 0, a = my - b * mx;
+    return vals.map(function (v, i2) {
+      if (v == null) return null;
+      return mcaps[i2] > 0 ? v - (a + b * Math.log(mcaps[i2])) : v;
+    });
+  }
+
+  function factorAt(p, t) {
+    var out = {}, i, s;
+    var raw = { mom: [], rev: [], lowvol: [], ep: [], bp: [], size: [] };
+    for (i = 0; i < p.symbols.length; i++) {
+      s = p.symbols[i];
+      var P = s.closes;
+      var r20 = t >= 20 ? P[t] / P[t - 20] - 1 : null;
+      var r5 = t >= 5 ? P[t] / P[t - 5] - 1 : null;
+      var vs = null;
+      if (t >= 20) {
+        var rr = [];
+        for (var k = t - 19; k <= t; k++) rr.push(Math.log(P[k] / P[k - 1]));
+        vs = -M.std(rr) * Math.sqrt(252);
+      }
+      raw.mom.push(r20);
+      raw.rev.push(r5 == null ? null : -r5);
+      raw.lowvol.push(vs);
+      raw.ep.push(s.eps > 0 ? s.eps / P[t] : null);
+      raw.bp.push(s.bps > 0 ? s.bps / P[t] : null);
+      raw.size.push(s.mcap > 0 ? -Math.log(s.mcap) : null);
+    }
+    FACTORS.forEach(function (f) {
+      var v = raw[f.id];
+      var valid = v.filter(function (x) { return x != null && isFinite(x); });
+      if (valid.length < Math.max(4, Math.ceil(p.symbols.length * 0.6))) { out[f.id] = v.map(function () { return null; }); return; }
+      var w = M.winsor(valid, 0.01);
+      var clipped = v.map(function (x) { return x == null ? null : Math.max(w.lo, Math.min(w.hi, x)); });
+      var z = M.zscore(clipped.filter(function (x) { return x != null; }));
+      var zi = 0;
+      var zarr = clipped.map(function (x) { return x == null ? null : z[zi++]; });
+      if (st.factor.neutralize) {
+        zarr = industryDemean(zarr, p.symbols.map(function (x) { return x.industry; }));
+        zarr = sizeNeutral(zarr, p.symbols.map(function (x) { return x.mcap; }));
+        var vv = zarr.filter(function (x) { return x != null; });
+        var zz = M.zscore(vv), j = 0;
+        zarr = zarr.map(function (x) { return x == null ? null : zz[j++]; });
+      }
+      out[f.id] = zarr;
+    });
+    return out;
+  }
+
+  LAB.factorIC = function (p) {
+    var step = Math.max(5, +st.factor.step || 20), h = Math.max(1, +st.factor.horizon || 20);
+    var dates = [], series = {}, used = [];
+    FACTORS.forEach(function (f) { series[f.id] = []; });
+    var start = 60;
+    for (var t = start; t + h < p.dates.length; t += step) {
+      var z = factorAt(p, t);
+      var fwd = p.symbols.map(function (s) { return s.closes[t + h] / s.closes[t] - 1; });
+      var hasAny = false;
+      FACTORS.forEach(function (f) {
+        var ic = M.spearman(z[f.id], fwd);
+        series[f.id].push(ic);
+        if (isFinite(ic)) hasAny = true;
+        // long-short spread
+        var pairs = [];
+        for (var i = 0; i < z[f.id].length; i++) if (z[f.id][i] != null) pairs.push([z[f.id][i], fwd[i]]);
+        pairs.sort(function (a, b) { return b[0] - a[0]; });
+        if (pairs.length >= 5) {
+          var q = Math.max(1, Math.floor(pairs.length * 0.3));
+          var top = pairs.slice(0, q), bot = pairs.slice(-q);
+          var mt = M.mean(top.map(function (x) { return x[1]; })), mb = M.mean(bot.map(function (x) { return x[1]; }));
+          (series[f.id + '_ls'] = series[f.id + '_ls'] || []).push(mt - mb);
+        }
+      });
+      if (hasAny) dates.push(p.dates[t]);
+    }
+    var stats = FACTORS.map(function (f) {
+      var arr = series[f.id].filter(function (x) { return isFinite(x); });
+      var ls = (series[f.id + '_ls'] || []).filter(function (x) { return isFinite(x); });
+      var m = M.mean(arr), sd = M.std(arr, true);
+      return {
+        id: f.id, name: f.name, short: f.short, n: arr.length,
+        ic: m, sd: sd, ir: sd > 0 ? m / sd : 0,
+        t: sd > 0 ? m / sd * Math.sqrt(arr.length) : 0,
+        win: arr.length ? arr.filter(function (x) { return x > 0; }).length / arr.length : 0,
+        ls: M.mean(ls), series: series[f.id]
+      };
+    });
+    return { dates: dates, stats: stats, series: series };
+  };
+
+  LAB.composite = function (p, ic) {
+    var avail = ic.stats.filter(function (s) { return s.n >= 3 && isFinite(s.ic); });
+    var mode = st.factor.weightMode, w = {};
+    var keys = avail.map(function (s) { return s.id; });
+    if (mode === 'equal') keys.forEach(function (k) { w[k] = 1 / keys.length; });
+    else if (mode === 'custom') {
+      var sum = 0;
+      keys.forEach(function (k) { var v = Math.max(0, +st.factor.weights[k] || 0); w[k] = v; sum += v; });
+      if (sum <= 0) keys.forEach(function (k) { w[k] = 1 / keys.length; });
+      else keys.forEach(function (k) { w[k] /= sum; });
+    } else {
+      var pos = 0;
+      keys.forEach(function (k) { var s = avail.filter(function (x) { return x.id === k; })[0]; w[k] = Math.max(0, s.ic); pos += w[k]; });
+      if (pos <= 0) keys.forEach(function (k) { w[k] = 1 / keys.length; });
+      else keys.forEach(function (k) { w[k] /= pos; });
+    }
+    var t = p.dates.length - 1;
+    var z = factorAt(p, t);
+    var rows = p.symbols.map(function (s, i) {
+      var score = 0, parts = {};
+      keys.forEach(function (k) { var v = z[k][i]; parts[k] = v; if (v != null) score += w[k] * v; });
+      return { id: s.id, name: s.name, industry: s.industry, score: score, parts: parts };
+    });
+    rows.sort(function (a, b) { return b.score - a.score; });
+    rows.forEach(function (r, i) { r.rank = i + 1; });
+    return { weights: w, rows: rows, factors: keys, date: p.dates[t] };
+  };
+
+  /* ---------------- portfolio ---------------- */
+  function annStats(w, mu, S, rf) {
+    var ret = M.dot(w, mu), vol = Math.sqrt(Math.max(0, M.quad(w, S)));
+    return { ret: ret, vol: vol, sharpe: vol > 0 ? (ret - rf) / vol : 0 };
+  }
+
+  /* 单资产上限：把超限权重削到 cap，再按比例把差额分给未触顶的仓位 */
+  function capMix(w, cap) {
+    var n = w.length;
+    if (!(cap > 0) || cap >= 1 || n * cap < 1 - 1e-12) return w.slice();
+    var out = w.map(function (x) { return Math.max(0, x); }), it, i;
+    for (it = 0; it < 60; it++) {
+      var over = 0, freeSum = 0;
+      for (i = 0; i < n; i++) if (out[i] > cap + 1e-12) { over += out[i] - cap; out[i] = cap; }
+      if (over < 1e-12) break;
+      for (i = 0; i < n; i++) if (out[i] < cap - 1e-12) freeSum += out[i];
+      if (freeSum < 1e-12) break;
+      for (i = 0; i < n; i++) if (out[i] < cap - 1e-12) out[i] += over * out[i] / freeSum;
+    }
+    var sm = M.sum(out) || 1;
+    return out.map(function (x) { return x / sm; });
+  }
+
+  LAB.portfolio = function (p) {
+    var n = p.symbols.length;
+    var look = Math.min(+st.port.lookback || 250, p.dates.length - 1);
+    var start = p.dates.length - look - 1;
+    var rows = [], i, t;
+    for (t = start; t < p.dates.length; t++) {
+      var r = [];
+      for (i = 0; i < n; i++) r.push(p.symbols[i].closes[t] / p.symbols[i].closes[t - 1] - 1);
+      rows.push(r);
+    }
+    var Sd = M.cov(rows), muD = [];
+    for (i = 0; i < n; i++) muD.push(M.mean(rows.map(function (x) { return x[i]; })));
+    var S = Sd.map(function (row) { return row.map(function (v) { return v * 252; }); });
+    var muRaw = muD.map(function (v) { return v * 252; });
+    var shrink = Math.max(0, Math.min(1, st.port.shrink == null ? 0.5 : +st.port.shrink));
+    var grand = M.mean(muRaw);
+    var mu = muRaw.map(function (v) { return shrink * v + (1 - shrink) * grand; });
+    var rf = +st.port.rf || 0;
+    var capRaw = +st.port.cap || 0.35;
+    var cap = Math.max(1 / n, Math.min(1, capRaw > 1 ? capRaw / 100 : capRaw));
+    var rng = M.rng(777);
+    var samples = [], N = Math.min(6000, 1200 + n * 400);
+    for (i = 0; i < N; i++) {
+      var w = M.randWeights(n, rng, cap);
+      var s = annStats(w, mu, S, rf);
+      s.w = w;
+      samples.push(s);
+    }
+    var minVar = samples[0], maxSharpe = samples[0];
+    samples.forEach(function (s) {
+      if (s.vol < minVar.vol) minVar = s;
+      if (s.sharpe > maxSharpe.sharpe) maxSharpe = s;
+    });
+    // frontier: scan by return desc, keep points with a new lower vol, then reverse
+    var sorted = samples.slice().sort(function (a, b) { return b.ret - a.ret; });
+    var frontier = [], bestV = Infinity;
+    sorted.forEach(function (s) {
+      if (s.vol < bestV - 1e-12) { frontier.push(s); bestV = s.vol; }
+    });
+    frontier.reverse();
+    var target = st.port.target === '' ? null : +st.port.target / 100;
+    var chosen = maxSharpe;
+    if (target != null && isFinite(target)) {
+      var cand = null;
+      samples.forEach(function (s) {
+        if (s.ret >= target && (!cand || s.vol < cand.vol)) cand = s;
+      });
+      if (cand) chosen = cand;
+    }
+    var method = st.port.method;
+
+    if (method === 'rp') {
+      var wrp = new Array(n).fill(1 / n);
+      for (var it = 0; it < 800; it++) {
+        var Sw = M.matVec(S, wrp);
+        var portVar = M.dot(wrp, Sw);
+        if (!(portVar > 0)) break;
+        var targetRC = portVar / n, maxErr = 0;
+        var next = wrp.map(function (x, idx) {
+          var rc = x * Sw[idx];
+          var factor = targetRC > 0 ? Math.sqrt(targetRC / Math.max(rc, 1e-12)) : 1;
+          factor = Math.pow(factor, 0.25);
+          var v = x * factor;
+          maxErr = Math.max(maxErr, Math.abs(rc / portVar - 1 / n));
+          return v;
+        });
+        var sm = M.sum(next);
+        wrp = next.map(function (x) { return x / sm; });
+        if (maxErr < 1e-8) break;
+      }
+      wrp = capMix(M.project(wrp, 1), cap);
+      wrp = capMix(wrp, cap);
+      var stt = annStats(wrp, mu, S, rf);
+      chosen = { w: wrp, ret: stt.ret, vol: stt.vol, sharpe: stt.sharpe };
+    }
+
+    if (method === 'bl') {
+      var mc = p.symbols.map(function (s) { return s.mcap > 0 ? s.mcap : 0; });
+      var sumMc = M.sum(mc);
+      var wm = sumMc > 0 ? mc.map(function (v) { return v / sumMc; }) : new Array(n).fill(1 / n);
+      var delta = Math.max(0.5, Math.min(10, +st.port.delta || 3));
+      var PI = M.matVec(S, wm).map(function (v) { return v * delta; });
+      var P = [], Q = [], viewNames = [];
+      for (i = 0; i < n; i++) {
+        var vv = +st.port.views[p.symbols[i].id];
+        if (isFinite(vv) && vv !== 0) {
+          var row = new Array(n).fill(0); row[i] = 1;
+          P.push(row); Q.push(vv / 100 - rf); viewNames.push(p.symbols[i].name);
+        }
+      }
+      var tau = Math.max(0.01, Math.min(1, +st.port.tau || 0.05));
+      var muBL = PI.slice();
+      if (P.length) {
+        var tS = S.map(function (row) { return row.map(function (v) { return v * tau; }); });
+        var PSt = M.matMul(P, tS);              // k x n
+        var PSP = M.matMul(PSt, P[0].map(function (_, j) { return P.map(function (r) { return r[j]; }); })); // k x k
+        var Om = PSP.map(function (row, ri) { return row.map(function (v, ci) { return ri === ci ? v : 0; }); });
+        var A = PSP.map(function (row, ri) { return row.map(function (v, ci) { return v + Om[ri][ci]; }); });
+        var Ai = M.inv(A);
+        if (Ai) {
+          var diff = Q.map(function (q, qi) { return q - M.dot(P[qi], PI); });
+          var adj = M.matVec(Ai, diff);          // k
+          var PStT = [];                          // n x k  = (P tS)^T = tS P^T
+          for (i = 0; i < n; i++) { PStT.push(PSt.map(function (row) { return row[i]; })); }
+          var add = M.matVec(PStT, adj);
+          muBL = PI.map(function (v, idx) { return v + add[idx]; });
+        }
+      }
+      var rng2 = M.rng(778), bestBL = null;
+      for (i = 0; i < 4000; i++) {
+        var wb = M.randWeights(n, rng2, cap);
+        var sb = annStats(wb, muBL, S, rf);
+        if (!bestBL || sb.sharpe > bestBL.sharpe) bestBL = { w: wb, ret: sb.ret, vol: sb.vol, sharpe: sb.sharpe };
+      }
+      chosen = bestBL;
+      chosen.prior = PI; chosen.posterior = muBL; chosen.views = viewNames;
+    }
+
+    var Sw2 = M.matVec(S, chosen.w);
+    var pv = Math.max(1e-12, M.dot(chosen.w, Sw2));
+    var rc = chosen.w.map(function (x, idx) {
+      return { id: p.symbols[idx].id, name: p.symbols[idx].name, w: x, rc: x * Sw2[idx] / pv };
+    });
+    var hhi = M.sum(chosen.w.map(function (x) { return x * x; }));
+    return {
+      n: n, mu: mu, muRaw: muRaw, S: S, samples: samples, frontier: frontier,
+      minVar: minVar, maxSharpe: maxSharpe, chosen: chosen, rc: rc,
+      hhi: hhi, effective: 1 / hhi, method: method, look: look, rf: rf,
+      names: p.symbols.map(function (s) { return s.name; }), ids: p.symbols.map(function (s) { return s.id; }),
+      prev: chosen.prior || null, post: chosen.posterior || null, views: chosen.views || []
+    };
+  };
+
+  /* ---------------- walk-forward ---------------- */
+  LAB.walkforward = function (sym, stratId, opt) {
+    var stg = QL.STRATS[stratId];
+    if (!stg || !sym) return null;
+    var bars = sym.bars, n = bars.length;
+    var train = Math.max(120, +opt.train || 250), test = Math.max(20, +opt.test || 63);
+    var numeric = stg.params.filter(function (p) { return !p.options; }).slice(0, 2);
+    var lastPx = bars[n - 1].close;
+    var baseCap = Math.max(200000, Math.ceil(lastPx * 100 * 10 / 10000) * 10000);
+    var grids = numeric.map(function (p) {
+      var base = +p.def || 10, step = +p.step || 1;
+      var vals = [0.7, 1, 1.4].map(function (f) { return Math.round(base * f / step) * step; })
+        .map(function (v) { return Math.max(p.min, Math.min(p.max, v)); });
+      return vals.filter(function (v, i, a) { return a.indexOf(v) === i; });
+    });
+    var folds = [], oosRets = [], oosDates = [], equity = [1], peak = 1, mdd = 0;
+    for (var s = 0; s + train + test <= n; s += test) {
+      var tr = { id: sym.id, name: sym.name, market: sym.market, bars: bars.slice(s, s + train) };
+      var best = null;
+      var combos = [];
+      if (numeric.length === 0) combos.push({});
+      else if (numeric.length === 1) grids[0].forEach(function (a) { var o = {}; o[numeric[0].key] = a; combos.push(o); });
+      else grids[0].forEach(function (a) { grids[1].forEach(function (b) { var o = {}; o[numeric[0].key] = a; o[numeric[1].key] = b; combos.push(o); }); });
+      combos.forEach(function (pp) {
+        var full = Object.assign({}, stg.params.reduce(function (o, p) { o[p.key] = p.def; return o; }, {}), pp);
+        if (stg.valid && !stg.valid(full)) return;
+        var r = QL.backtest(tr, stratId, full, { capital: baseCap, commission: 0.00025, stamp: 0.0005, slippage: 0.0005, minComm: 5, lot: 100, rf: 0.02 }, { pos: 100, sl: 0, tp: 0, hold: 0 });
+        if (r.metrics.trades < 2) return;
+        if (!best || r.metrics.sharpe > best.sharpe) best = { p: full, sharpe: r.metrics.sharpe, ret: r.metrics.total };
+      });
+      if (!best) continue;
+      // test slice with 60 bars warm-up
+      var warm = Math.min(60, s + train);
+      var te = { id: sym.id, name: sym.name, market: sym.market, bars: bars.slice(s + train - warm, s + train + test) };
+      var rr = QL.backtest(te, stratId, best.p, { capital: baseCap, commission: 0.00025, stamp: 0.0005, slippage: 0.0005, minComm: 5, lot: 100, rf: 0.02 }, { pos: 100, sl: 0, tp: 0, hold: 0 });
+      var eq = rr.equity.slice(warm), dd = 0, pk = eq[0];
+      var rets = [];
+      for (var i = 1; i < eq.length; i++) rets.push(eq[i] / eq[i - 1] - 1);
+      var oosSharpe = M.std(rets, true) > 0 ? M.mean(rets) / M.std(rets, true) * Math.sqrt(252) : 0;
+      var oosRet = eq[eq.length - 1] / eq[0] - 1;
+      eq.forEach(function (v) { if (v > pk) pk = v; dd = Math.min(dd, v / pk - 1); });
+      rets.forEach(function (r) { var last = equity[equity.length - 1]; equity.push(last * (1 + r)); });
+      for (i = warm + 1; i < rr.dates.length; i++) oosDates.push(rr.dates[i]);
+      folds.push({
+        from: rr.dates[warm], to: rr.dates[rr.dates.length - 1],
+        params: best.p, isSharpe: best.sharpe, oosSharpe: oosSharpe,
+        oosRet: oosRet, mdd: dd, trades: rr.metrics.trades
+      });
+    }
+    var oosSeries = equity.slice(1);
+    var allRets = [];
+    for (var j = 1; j < oosSeries.length; j++) allRets.push(oosSeries[j] / oosSeries[j - 1] - 1);
+    var oosVol = M.std(allRets, true) * Math.sqrt(252);
+    var oosAnn = allRets.length ? Math.pow(oosSeries[oosSeries.length - 1], 252 / allRets.length) - 1 : 0;
+    var oosSharpeAll = oosVol > 0 ? (M.mean(allRets) * 252 - (+opt.rf || 0.02)) / oosVol : 0;
+    var isMean = folds.length ? M.mean(folds.map(function (f) { return f.isSharpe; })) : 0;
+    var oosMean = folds.length ? M.mean(folds.map(function (f) { return f.oosSharpe; })) : 0;
+    var overfit = isMean > 0 && oosMean / isMean < 0.5;
+    return {
+      folds: folds, equity: oosSeries, dates: oosDates, rets: allRets,
+      oosAnn: oosAnn, oosVol: oosVol, oosSharpe: oosSharpeAll, isMean: isMean, oosMean: oosMean,
+      decay: isMean > 0 ? 1 - oosMean / isMean : 0, overfit: overfit,
+      foldsN: folds.length
+    };
+  };
+
+  /* ---------------- execution ---------------- */
+  LAB.adv = function (sym) {
+    if (!sym || !sym.bars || !sym.bars.length) return 0;
+    var b = sym.bars.slice(-20);
+    var v = M.mean(b.map(function (x) { return x.volume; }));
+    if (/^\d{6}$/.test(String(sym.id))) v *= 100; // 手 -> 股
+    return v;
+  };
+
+  LAB.execCost = function (sym, o) {
+    if (!sym) return null;
+    var bars = sym.bars, rets = [];
+    for (var i = Math.max(1, bars.length - 21); i < bars.length; i++) rets.push(Math.log(bars[i].close / bars[i - 1].close));
+    var sigma = M.std(rets);
+    var price = bars[bars.length - 1].close;
+    var shares = o.notional / price;
+    var adv = LAB.adv(sym);
+    if (!(adv > 0)) return null;
+    var part = Math.max(0.0001, o.part / 100);
+    var qpart = shares / adv;
+    var impact = o.c * sigma * Math.sqrt(Math.max(0, qpart)) * 10000;
+    var half = o.spread / 2;
+    var total = impact + half + o.fee;
+    var days = qpart / part;
+    var fill = qpart <= part ? 1 : Math.min(1, part / qpart);
+    return {
+      price: price, shares: shares, adv: adv, sigma: sigma,
+      qpart: qpart, part: part, impact: impact, half: half, fee: o.fee,
+      total: total, cost: o.notional * total / 10000, days: days,
+      slices: 10, fill: fill,
+      slipBps: impact + half, execPrice: price * (1 + (impact + half) / 10000)
+    };
+  };
+
+
+
+  /* ================= UI ================= */
+  var $ = function (s) { return document.querySelector(s); };
+  var $$ = function (s) { return Array.prototype.slice.call(document.querySelectorAll(s)); };
+  var F = QL.fmt;
+  var pCache = null, lastIC = null, lastWF = null, lastPR = null;
+  var toastTimer = null;
+  function toast(msg) {
+    var el = $('#toast');
+    if (!el) return;
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { el.classList.remove('show'); }, 2600);
+  }
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function tone(v) { return v > 0 ? 'pos' : v < 0 ? 'neg' : 'neu'; }
+  function pct(v, d) { return F.pct(v, d == null ? 1 : d); }
+  function pctA(v, d) { return F.pctAbs(v, d == null ? 1 : d); }
+  function bp(v) { return (+v).toFixed(1) + ' bp'; }
+  function pctS(v) {
+    if (!isFinite(v)) return '—';
+    if (v > 0 && v < 0.0001) return '&lt;0.01%';
+    return (v * 100).toFixed(v < 0.01 ? 3 : 2) + '%';
+  }
+  function metric(l, v, cls, sub) {
+    return '<div class="metric"><div class="l">' + l + '</div><div class="v ' + (cls || '') + '">' + v +
+      '</div><div class="s">' + (sub || '') + '</div></div>';
+  }
+  function emptyBox(title, text) {
+    return '<div class="lab-empty"><b>' + title + '</b>' + text + '</div>';
+  }
+  function getPanel() { if (!pCache) pCache = LAB.panel(); return pCache; }
+  function invalidate() { pCache = null; }
+
+  /* ---- meta overrides ---- */
+  var META_KEY = 'qd.lab.meta.v1';
+  var meta = QL.store.get(META_KEY, {}) || {};
+  function applyMeta(s) {
+    var m = meta[s.id] || {};
+    return {
+      id: s.id, name: s.name, industry: m.industry != null ? m.industry : (s.industry || ''),
+      mcap: m.mcap != null ? +m.mcap : (+s.mcap || 0),
+      eps: m.eps != null ? +m.eps : (+s.eps || 0),
+      bps: m.bps != null ? +m.bps : (+s.bps || 0),
+      bars: s.bars
+    };
+  }
+  function saveMeta(id, key, val) {
+    meta[id] = meta[id] || {};
+    meta[id][key] = val;
+    QL.store.set(META_KEY, meta);
+    invalidate();
+  }
+
+  /* ---- panel / universe ---- */
+  function demoIds() { return DEMO.map(function (r) { return r[0]; }); }
+  function ensureUniverse() {
+    if (st.demo) { st.universe = demoIds(); return; }
+    var all = D.list().filter(function (s) { return s.bars && s.bars.length >= 80; });
+    var ids = all.map(function (s) { return s.id; });
+    st.universe = (st.universe || []).filter(function (id) { return ids.indexOf(id) >= 0; });
+    if (!st.universe.length) {
+      all.sort(function (a, b) { return b.bars.length - a.bars.length; });
+      st.universe = all.slice(0, 8).map(function (s) { return s.id; });
+    }
+  }
+  function ensureSymbols() {
+    var p = getPanel();
+    var ids = p ? p.symbols.map(function (s) { return s.id; }) : [];
+    if (!ids.length) return;
+    ['qc', 'wf', 'exec'].forEach(function (k) {
+      if (ids.indexOf(st[k].symbol) < 0) st[k].symbol = ids[0];
+    });
+    if (ids.indexOf(st.qc.symbol) < 0) st.qc.symbol = ids[0];
+  }
+  function symbolRaw(id) {
+    var p = getPanel();
+    if (p) {
+      for (var i = 0; i < p.symbols.length; i++) if (p.symbols[i].id === id) {
+        return { id: p.symbols[i].id, name: p.symbols[i].name, market: 'A股', bars: p.symbols[i].bars };
+      }
+    }
+    return D.get(id);
+  }
+
+  function renderUniverse() {
+    var box = $('#labUniverse');
+    var p = getPanel();
+    if (!p && !st.demo && D.list().length) {
+      // 尚未选择标的：展示全部可选标的
+      p = null;
+    }
+    if (!p && !(D.list().length)) {
+      box.innerHTML = '<span class="hint">暂无标的。请先在「数据」页获取日线，或载入示例面板。</span>';
+      $('#labUniverseMeta').textContent = '0 标的';
+      return;
+    }
+    var list = st.demo ? p.symbols : D.list().filter(function (s) { return s.bars && s.bars.length >= 60; });
+    box.innerHTML = list.map(function (s) {
+      var on = st.demo || st.universe.indexOf(s.id) >= 0;
+      return '<button class="lab-chip ' + (on ? 'on' : 'off') + '" data-id="' + esc(s.id) + '"><b>' + esc(s.name) + '</b>' + esc(s.id) +
+        (st.demo ? '' : '<span class="x">' + (on ? '×' : '+') + '</span>') + '</button>';
+    }).join('');
+    $('#labUniverseMeta').textContent = (p ? p.symbols.length + ' 标的 · ' + p.dates.length + ' 个共同交易日' : '请选择标的');
+    $('#labBadge').textContent = st.demo ? '示例 · 合成数据' : '真实数据';
+    $('#labBadge').style.color = st.demo ? 'var(--gold)' : 'var(--accent)';
+    $('#labBadge').style.borderColor = st.demo ? 'rgba(240,185,11,.3)' : 'rgba(76,141,255,.35)';
+    $('#labBadge').style.background = st.demo ? 'rgba(240,185,11,.12)' : 'rgba(76,141,255,.12)';
+    $('#labNote').textContent = st.demo
+      ? '示例面板：8 只标的 × 620 个交易日的合成数据，含行业 / 市值 / EPS / BPS，仅用于演示方法与交互，不代表真实市场；组合优化的预期收益是样本内估计，会偏乐观。'
+      : '当前使用「数据」页已导入的真实日线。因子检验至少需要 3 个标的，组合优化建议 4 个以上；EP/BP 需在左侧补充 EPS/BPS。';
+    $$('#labUniverse .lab-chip').forEach(function (b) {
+      b.onclick = function () {
+        if (st.demo) { toast('示例面板固定为 8 只标的；切换「我的数据」可选择自己的标的'); return; }
+        var id = b.dataset.id, i = st.universe.indexOf(id);
+        if (i >= 0) {
+          if (st.universe.length <= 1) { toast('至少保留 1 个标的'); return; }
+          st.universe.splice(i, 1);
+        } else {
+          if (st.universe.length >= 10) { toast('最多同时选择 10 个标的'); return; }
+          st.universe.push(id);
+        }
+        invalidate(); save(); ensureSymbols(); renderUniverse(); renderPane();
+      };
+    });
+  }
+
+  /* ---- pane router ---- */
+  function renderPane() {
+    $$('#labNav button').forEach(function (b) { b.classList.toggle('on', b.dataset.pane === st.pane); });
+    $$('.lab-pane').forEach(function (p) { p.classList.toggle('on', p.dataset.labPane === st.pane); });
+    if (st.pane === 'qc') renderQC();
+    else if (st.pane === 'factor') renderFactor();
+    else if (st.pane === 'port') renderPort();
+    else if (st.pane === 'wf') renderWF();
+    else if (st.pane === 'exec') renderExec();
+  }
+
+  /* ---- charts ---- */
+  function cvSetup(cv) {
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var w = cv.clientWidth || (cv.parentNode ? cv.parentNode.clientWidth : 0) || 520;
+    var h = cv.clientHeight || 170;
+    var W = Math.round(w * dpr), H = Math.round(h * dpr);
+    if (cv.width !== W || cv.height !== H) { cv.width = W; cv.height = H; }
+    var ctx = cv.getContext('2d');
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, w, h);
+    ctx.font = '10px -apple-system,"PingFang SC",sans-serif';
+    ctx.textBaseline = 'middle';
+    return { ctx: ctx, w: w, h: h };
+  }
+  function cssVar(n, fb) {
+    var v = getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+    return v || fb;
+  }
+  function drawGrid(ctx, L, T, W, H, lo, hi, fmt, ticks) {
+    var C = { line: '#1d2635', tx3: '#5f7088' };
+    ctx.strokeStyle = C.line; ctx.fillStyle = C.tx3; ctx.textAlign = 'right';
+    for (var i = 0; i <= ticks; i++) {
+      var y = T + H * i / ticks;
+      ctx.beginPath(); ctx.moveTo(L, y + .5); ctx.lineTo(L + W, y + .5); ctx.stroke();
+      ctx.fillText(fmt(hi - (hi - lo) * i / ticks), L - 5, y);
+    }
+  }
+  function drawQc(cv, q) {
+    var s = cvSetup(cv), ctx = s.ctx, w = s.w, h = s.h;
+    var L = 36, R = 10, T = 12, B = 20, W = w - L - R, H = h - T - B;
+    var lo = Math.min.apply(null, q.rets), hi = Math.max.apply(null, q.rets);
+    var pad = (hi - lo) * 0.05 || 0.005; lo -= pad; hi += pad;
+    var bins = 34, cnt = new Array(bins).fill(0), i;
+    q.rets.forEach(function (r) {
+      var k = Math.floor((r - lo) / (hi - lo) * bins);
+      if (k < 0) k = 0; if (k >= bins) k = bins - 1;
+      cnt[k]++;
+    });
+    var maxC = Math.max.apply(null, cnt) || 1;
+    var yOf = function (v) { return T + H - v / maxC * H; };
+    // y 轴为频数，横向网格 + 整数刻度
+    ctx.strokeStyle = '#161e2a'; ctx.lineWidth = 1;
+    ctx.fillStyle = '#5f7088'; ctx.font = '9px -apple-system,"PingFang SC",sans-serif'; ctx.textAlign = 'right';
+    var g;
+    for (g = 0; g <= 3; g++) {
+      var gv = maxC * g / 3, gy = T + H - gv / maxC * H;
+      ctx.beginPath(); ctx.moveTo(L, gy + .5); ctx.lineTo(L + W, gy + .5); ctx.stroke();
+      ctx.fillText(String(Math.round(gv)), L - 5, gy + 3);
+    }
+    ctx.textAlign = 'center';
+    [lo, (lo + hi) / 2, hi].forEach(function (v) {
+      ctx.fillText((v * 100).toFixed(1) + '%', L + (v - lo) / (hi - lo) * W, h - 6);
+    });
+    var bw = W / bins, accent = cssVar('--accent', '#4c8dff'), gold = cssVar('--gold', '#f0b90b');
+    for (i = 0; i < bins; i++) {
+      var x0 = lo + (i + 0.5) / bins * (hi - lo);
+      ctx.fillStyle = (x0 < q.lo || x0 > q.hi) ? gold : accent;
+      ctx.globalAlpha = (x0 < q.lo || x0 > q.hi) ? 0.55 : 0.75;
+      var bh = cnt[i] / maxC * H;
+      ctx.fillRect(L + i * bw + 0.6, T + H - bh, Math.max(1, bw - 1.2), bh);
+    }
+    ctx.globalAlpha = 1;
+    // clip markers
+    ctx.save(); ctx.setLineDash([3, 3]); ctx.strokeStyle = gold; ctx.lineWidth = 1;
+    [q.lo, q.hi].forEach(function (v) {
+      var x = L + (v - lo) / (hi - lo) * W;
+      ctx.beginPath(); ctx.moveTo(x, T); ctx.lineTo(x, T + H); ctx.stroke();
+    });
+    ctx.restore();
+    ctx.strokeStyle = '#1d2635';
+    ctx.beginPath(); ctx.moveTo(L, T + H + .5); ctx.lineTo(L + W, T + H + .5); ctx.stroke();
+    ctx.font = '10px -apple-system,"PingFang SC",sans-serif';
+  }
+  function drawIcBar(cv, stats) {
+    var s = cvSetup(cv), ctx = s.ctx, w = s.w, h = s.h;
+    var L = 34, R = 8, T = 16, B = 26, W = w - L - R, H = h - T - B;
+    var vals = stats.map(function (x) { return isFinite(x.ic) ? x.ic : 0; });
+    var mx = Math.max.apply(null, vals.concat([0.05])), mn = Math.min.apply(null, vals.concat([-0.05]));
+    var yOf = function (v) { return T + (mx - v) / (mx - mn) * H; };
+    drawGrid(ctx, L, T, W, H, mn, mx, function (v) { return v.toFixed(2); }, 3);
+    var zero = yOf(0);
+    ctx.strokeStyle = '#2a364a'; ctx.beginPath(); ctx.moveTo(L, zero); ctx.lineTo(L + W, zero); ctx.stroke();
+    var step = W / Math.max(1, stats.length);
+    var bw = Math.min(26, step * 0.52);
+    stats.forEach(function (x, i) {
+      var v = vals[i], y = yOf(v), ok = x.n >= 3 && isFinite(x.ic);
+      if (ok) {
+        ctx.fillStyle = v >= 0 ? cssVar('--accent', '#4c8dff') : cssVar('--gold', '#f0b90b');
+        ctx.globalAlpha = 0.78;
+        ctx.fillRect(L + step * i + (step - bw) / 2, Math.min(y, zero), bw, Math.max(1, Math.abs(zero - y)));
+        ctx.globalAlpha = 1;
+      }
+      ctx.fillStyle = ok ? '#93a3ba' : '#4d5a6d'; ctx.textAlign = 'center';
+      ctx.fillText(x.short, L + step * (i + 0.5), T + H + 11);
+      ctx.font = '9px -apple-system,"PingFang SC",sans-serif';
+      if (ok) {
+        ctx.fillStyle = v >= 0 ? '#8fb6ff' : '#f0b90b';
+        ctx.fillText(v.toFixed(3), L + step * (i + 0.5), y + (v >= 0 ? -8 : 9));
+      } else {
+        ctx.fillStyle = '#4d5a6d';
+        ctx.fillText('—', L + step * (i + 0.5), zero - 8);
+      }
+      ctx.font = '10px -apple-system,"PingFang SC",sans-serif';
+    });
+  }
+  function drawIcLine(cv, series, dates, label) {
+    var s = cvSetup(cv), ctx = s.ctx, w = s.w, h = s.h;
+    var L = 34, R = 10, T = 18, B = 18, W = w - L - R, H = h - T - B;
+    var cum = [], run = 0;
+    series.forEach(function (v) { run += isFinite(v) ? v : 0; cum.push(run); });
+    if (!cum.length) cum = [0];
+    var mx = Math.max.apply(null, cum.concat([0])), mn = Math.min.apply(null, cum.concat([0]));
+    if (mx === mn) { mx += 0.1; mn -= 0.1; }
+    var padv = (mx - mn) * 0.12; mx += padv; mn -= padv;
+    var xOf = function (i) { return L + (cum.length < 2 ? 0 : i / (cum.length - 1) * W); };
+    var yOf = function (v) { return T + (mx - v) / (mx - mn) * H; };
+    drawGrid(ctx, L, T, W, H, mn, mx, function (v) { return v.toFixed(1); }, 3);
+    ctx.save(); ctx.setLineDash([3, 3]); ctx.strokeStyle = '#2a364a';
+    ctx.beginPath(); ctx.moveTo(L, yOf(0)); ctx.lineTo(L + W, yOf(0)); ctx.stroke(); ctx.restore();
+    var accent = cssVar('--accent', '#4c8dff');
+    ctx.beginPath();
+    cum.forEach(function (v, i) { if (i === 0) ctx.moveTo(xOf(i), yOf(v)); else ctx.lineTo(xOf(i), yOf(v)); });
+    ctx.strokeStyle = accent; ctx.lineWidth = 1.6; ctx.stroke();
+    ctx.lineTo(xOf(cum.length - 1), yOf(0)); ctx.lineTo(xOf(0), yOf(0)); ctx.closePath();
+    ctx.fillStyle = 'rgba(76,141,255,.10)'; ctx.fill();
+    ctx.fillStyle = '#93a3ba'; ctx.textAlign = 'left';
+    ctx.fillText('累计 IC · ' + label, L + 2, 9);
+    ctx.textAlign = 'right'; ctx.fillStyle = '#5f7088';
+    ctx.fillText(cum.length ? (dates[dates.length - 1] || '') : '', L + W, h - 7);
+  }
+  function drawFrontier(cv, pr) {
+    var s = cvSetup(cv), ctx = s.ctx, w = s.w, h = s.h;
+    var L = 40, R = 12, T = 14, B = 24, W = w - L - R, H = h - T - B;
+    var vols = pr.samples.map(function (x) { return x.vol; }), rets = pr.samples.map(function (x) { return x.ret; });
+    var lo = Math.min.apply(null, vols), hi = Math.max.apply(null, vols);
+    var rlo = Math.min.apply(null, rets), rhi = Math.max.apply(null, rets);
+    lo -= (hi - lo) * 0.08; hi += (hi - lo) * 0.08;
+    rlo -= (rhi - rlo) * 0.1; rhi += (rhi - rlo) * 0.1;
+    var xOf = function (v) { return L + (v - lo) / (hi - lo) * W; };
+    var yOf = function (v) { return T + (rhi - v) / (rhi - rlo) * H; };
+    drawGrid(ctx, L, T, W, H, rlo, rhi, function (v) { return (v * 100).toFixed(0) + '%'; }, 4);
+    ctx.fillStyle = '#93a3ba'; ctx.textAlign = 'center';
+    ctx.fillText('年化波动', L + W / 2, h - 7);
+    ctx.save(); ctx.globalAlpha = 0.35;
+    pr.samples.forEach(function (x) {
+      ctx.fillStyle = '#4b5b73';
+      ctx.fillRect(xOf(x.vol), yOf(x.ret), 1, 1);
+    });
+    ctx.restore();
+    if (pr.frontier.length > 1) {
+      ctx.beginPath();
+      pr.frontier.forEach(function (x, i) { if (i === 0) ctx.moveTo(xOf(x.vol), yOf(x.ret)); else ctx.lineTo(xOf(x.vol), yOf(x.ret)); });
+      ctx.strokeStyle = cssVar('--accent', '#4c8dff'); ctx.lineWidth = 1.8; ctx.stroke();
+    }
+    function dot(p, color, r) {
+      ctx.beginPath(); ctx.arc(xOf(p.vol), yOf(p.ret), r, 0, 6.2832);
+      ctx.fillStyle = color; ctx.fill();
+      ctx.strokeStyle = '#0b1017'; ctx.lineWidth = 1; ctx.stroke();
+    }
+    dot(pr.minVar, cssVar('--purple', '#a78bfa'), 4);
+    dot(pr.maxSharpe, '#93a3ba', 3);
+    dot(pr.chosen, cssVar('--gold', '#f0b90b'), 5);
+    var lbl = '当前 ' + (pr.chosen.vol * 100).toFixed(1) + '% / ' + (pr.chosen.ret * 100).toFixed(1) + '%';
+    ctx.fillStyle = '#e9eef7'; ctx.textAlign = 'left';
+    var lx = xOf(pr.chosen.vol) + 8, ly = yOf(pr.chosen.ret) - 8;
+    if (lx + 92 > w) lx = w - 96;
+    ctx.fillText(lbl, lx, Math.max(12, ly));
+  }
+  function drawWfBars(cv, folds) {
+    var s = cvSetup(cv), ctx = s.ctx, w = s.w, h = s.h;
+    var L = 34, R = 8, T = 16, B = 24, W = w - L - R, H = h - T - B;
+    var mx = 0.2;
+    folds.forEach(function (f) { mx = Math.max(mx, f.isSharpe, f.oosSharpe); });
+    mx *= 1.15;
+    var yOf = function (v) { return T + (mx - v) / mx * H; };
+    drawGrid(ctx, L, T, W, H, 0, mx, function (v) { return v.toFixed(1); }, 3);
+    var step = W / Math.max(1, folds.length), bw = Math.min(16, step * 0.26);
+    folds.forEach(function (f, i) {
+      var cx = L + step * (i + 0.5);
+      ctx.fillStyle = cssVar('--accent', '#4c8dff'); ctx.globalAlpha = 0.8;
+      ctx.fillRect(cx - bw - 2, yOf(f.isSharpe), bw, T + H - yOf(f.isSharpe));
+      ctx.fillStyle = cssVar('--gold', '#f0b90b'); ctx.globalAlpha = 0.85;
+      ctx.fillRect(cx + 2, yOf(f.oosSharpe), bw, T + H - yOf(f.oosSharpe));
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = '#5f7088'; ctx.textAlign = 'center';
+      ctx.fillText('F' + (i + 1), cx, T + H + 10);
+    });
+    ctx.fillStyle = '#93a3ba'; ctx.textAlign = 'left';
+    ctx.fillText('IS', L + 2, 9);
+    ctx.fillStyle = cssVar('--gold', '#f0b90b');
+    ctx.fillText('OOS', L + 24, 9);
+  }
+  function drawEquity(cv, series) {
+    var s = cvSetup(cv), ctx = s.ctx, w = s.w, h = s.h;
+    var L = 38, R = 10, T = 14, B = 20, W = w - L - R, H = h - T - B;
+    var lo = Math.min.apply(null, series), hi = Math.max.apply(null, series);
+    var padv = (hi - lo) * 0.1 || 0.01; lo -= padv; hi += padv;
+    var xOf = function (i) { return L + (series.length < 2 ? 0 : i / (series.length - 1) * W); };
+    var yOf = function (v) { return T + (hi - v) / (hi - lo) * H; };
+    drawGrid(ctx, L, T, W, H, lo, hi, function (v) { return v.toFixed(2); }, 4);
+    var accent = cssVar('--accent', '#4c8dff');
+    ctx.beginPath();
+    series.forEach(function (v, i) { if (i === 0) ctx.moveTo(xOf(i), yOf(v)); else ctx.lineTo(xOf(i), yOf(v)); });
+    ctx.strokeStyle = accent; ctx.lineWidth = 1.5; ctx.stroke();
+    ctx.lineTo(xOf(series.length - 1), T + H); ctx.lineTo(L, T + H); ctx.closePath();
+    ctx.fillStyle = 'rgba(76,141,255,.10)'; ctx.fill();
+    ctx.fillStyle = '#5f7088'; ctx.textAlign = 'left';
+    ctx.fillText('净值 ' + series[series.length - 1].toFixed(3), L + 2, 9);
+  }
+  function drawCost(cv, pts, cur) {
+    var s = cvSetup(cv), ctx = s.ctx, w = s.w, h = s.h;
+    var L = 40, R = 10, T = 14, B = 22, W = w - L - R, H = h - T - B;
+    var xs = pts.map(function (p) { return p.x; }), ys = pts.map(function (p) { return p.y; });
+    var xlo = Math.min.apply(null, xs), xhi = Math.max.apply(null, xs);
+    var yhi = Math.max.apply(null, ys) * 1.1 || 10;
+    var xOf = function (v) { return L + (v - xlo) / (xhi - xlo) * W; };
+    var yOf = function (v) { return T + H - v / yhi * H; };
+    drawGrid(ctx, L, T, W, H, 0, yhi, function (v) { return v.toFixed(1); }, 3);
+    ctx.fillStyle = '#5f7088'; ctx.textAlign = 'center'; ctx.font = '9px -apple-system,"PingFang SC",sans-serif';
+    [xlo, (xlo + xhi) / 2, xhi].forEach(function (v) {
+      ctx.fillText((v * 100).toFixed(1) + '%', xOf(v), T + H + 11);
+    });
+    [[cssVar('--gold', '#f0b90b'), 'y2', 1.2, [4, 3]], [cssVar('--accent', '#4c8dff'), 'y', 1.8, null]].forEach(function (spec) {
+      ctx.beginPath();
+      pts.forEach(function (p, i) {
+        var yy = yOf(p[spec[1]]);
+        if (i === 0) ctx.moveTo(xOf(p.x), yy); else ctx.lineTo(xOf(p.x), yy);
+      });
+      ctx.strokeStyle = spec[0]; ctx.lineWidth = spec[2];
+      if (spec[3]) ctx.setLineDash(spec[3]);
+      ctx.stroke(); ctx.setLineDash([]);
+    });
+    var x = xOf(cur.x), y = yOf(cur.y);
+    ctx.save(); ctx.setLineDash([3, 3]); ctx.strokeStyle = 'rgba(240,185,11,.5)';
+    ctx.beginPath(); ctx.moveTo(x, T); ctx.lineTo(x, T + H); ctx.stroke(); ctx.restore();
+    ctx.beginPath(); ctx.arc(x, y, 4, 0, 6.2832);
+    ctx.fillStyle = cssVar('--gold', '#f0b90b'); ctx.fill();
+    ctx.fillStyle = '#93a3ba';
+    var rightSide = x > L + W * 0.72;
+    ctx.textAlign = rightSide ? 'right' : 'left';
+    ctx.fillText(cur.y.toFixed(1) + ' bp', x + (rightSide ? -8 : 8), Math.max(12, y - 7));
+  }
+  function scheduleCurve(n, algo) {
+    var w = [], i, mid = (n - 1) / 2;
+    for (i = 0; i < n; i++) {
+      var u = (i - mid) / Math.max(1, mid);
+      w.push(algo === 'vwap' ? 0.45 + 0.55 * u * u : 1);
+    }
+    var sum = w.reduce(function (a, b) { return a + b; }, 0), run = 0, out = [0];
+    w.forEach(function (x) { run += x / sum; out.push(run); });
+    return out;
+  }
+  function drawSched(cv, algo) {
+    var s = cvSetup(cv), ctx = s.ctx, w = s.w, h = s.h;
+    var L = 36, R = 10, T = 16, B = 20, W = w - L - R, H = h - T - B;
+    var n = 10;
+    var xOf = function (i) { return L + i / n * W; };
+    var yOf = function (v) { return T + (1 - v) * H; };
+    drawGrid(ctx, L, T, W, H, 0, 1, function (v) { return (v * 100).toFixed(0) + '%'; }, 4);
+    [[], []];
+    ['twap', 'vwap'].forEach(function (a) {
+      var cum = scheduleCurve(n, a);
+      ctx.beginPath();
+      cum.forEach(function (v, i) { if (i === 0) ctx.moveTo(xOf(i), yOf(v)); else ctx.lineTo(xOf(i), yOf(v)); });
+      ctx.strokeStyle = a === algo ? cssVar('--gold', '#f0b90b') : '#42536b';
+      ctx.lineWidth = a === algo ? 1.8 : 1.2;
+      if (a !== algo) ctx.setLineDash([4, 3]);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    });
+    ctx.fillStyle = '#93a3ba'; ctx.textAlign = 'left';
+    ctx.fillText('累计执行 %', L + 2, 9);
+    ctx.textAlign = 'right'; ctx.fillStyle = '#5f7088';
+    ctx.fillText('切片 1→' + n, L + W, h - 7);
+  }
+
+  /* ---- QC ---- */
+  function renderQC() {
+    var p = getPanel();
+    var box = $('#qcMetrics'), tbl = $('#qcTable');
+    if (!p) {
+      box.innerHTML = emptyBox('暂无数据', '先在「数据」页导入日线，或点击上方「示例面板」。');
+      tbl.innerHTML = ''; $('#qcMeta').textContent = '—'; return;
+    }
+    var sel = $('#qcSymbol');
+    sel.innerHTML = p.symbols.map(function (s) {
+      return '<option value="' + esc(s.id) + '">' + esc(s.id) + '  ' + esc(s.name) + '</option>';
+    }).join('');
+    if (p.symbols.map(function (s) { return s.id; }).indexOf(st.qc.symbol) < 0) st.qc.symbol = p.symbols[0].id;
+    sel.value = st.qc.symbol;
+    var raw = symbolRaw(st.qc.symbol);
+    var q = LAB.qc(raw, +st.qc.alpha);
+    if (!q) { box.innerHTML = emptyBox('数据不足', '至少需要 20 根日线。'); return; }
+    $('#qcMeta').textContent = raw.name + ' · ' + q.n + ' 日 · α=' + (st.qc.alpha * 100).toFixed(1) + '%';
+    box.innerHTML = [
+      metric('累计收益', pct(q.cum), tone(q.cum), '样本区间'),
+      metric('年化波动', pctA(q.vol), 'neu', 'Winsor 后 ' + pctA(q.winsorVol)),
+      metric('收益 / 风险', (q.vol > 0 ? (q.mean * 252) / q.vol : 0).toFixed(2), 'neu', '年化 ' + pct(q.mean * 252)),
+      metric('日胜率', pctA(q.winRate, 0), 'neu', '上涨天数占比'),
+      metric('偏度', q.skew.toFixed(2), q.skew < 0 ? 'neg' : 'pos', '左尾更厚则 <0'),
+      metric('超额峰度', q.kurt.toFixed(2), q.kurt > 1 ? 'neg' : 'neu', '>1 提示厚尾'),
+      metric('异常值', q.clipped + ' 个', q.clipped > 0 ? 'neg' : 'neu', '截断比例 ' + pctA(q.clipped / q.n, 1)),
+      metric('跳空 / 缺失', q.gaps + ' 处', q.gaps > 0 ? 'neg' : 'neu', '间隔 > 4 天')
+    ].join('');
+    $('#qcClipNote').textContent = '截断区间 [' + (q.lo * 100).toFixed(2) + '%, ' + (q.hi * 100).toFixed(2) + '%] · 极值 ' +
+      (q.min * 100).toFixed(1) + '% / ' + (q.max * 100).toFixed(1) + '%';
+    drawQc($('#cvQc'), q);
+    var rs = LAB.resample(raw.bars, st.qc.freq);
+    var last = rs.slice(-12).reverse();
+    $('#qcFreqHint').textContent = rs.length + ' 根' + (st.qc.freq === 'W' ? '周线' : '月线') + ' · 展示最近 12 根';
+    tbl.innerHTML = '<table class="grid"><thead><tr><th>日期</th><th>开盘</th><th>最高</th><th>最低</th><th>收盘</th><th>成交量</th></tr></thead><tbody>' +
+      last.map(function (b) {
+        return '<tr><td class="k">' + b.date + '</td><td>' + F.price(b.open) + '</td><td>' + F.price(b.high) +
+          '</td><td>' + F.price(b.low) + '</td><td class="k">' + F.price(b.close) + '</td><td>' + F.big(b.volume) + '</td></tr>';
+      }).join('') + '</tbody></table>';
+  }
+
+  /* ---- factor ---- */
+  function renderFundTable(p) {
+    var rows = p.symbols.map(function (s) {
+      return '<tr><td class="k">' + esc(s.name) + '<br><span class="hint">' + esc(s.id) + '</span></td>' +
+        '<td><input data-f="industry" data-id="' + esc(s.id) + '" value="' + esc(s.industry) + '" style="width:64px"></td>' +
+        '<td><input data-f="mcap" data-id="' + esc(s.id) + '" type="number" value="' + (s.mcap || '') + '" style="width:58px"></td>' +
+        '<td><input data-f="eps" data-id="' + esc(s.id) + '" type="number" step="0.01" value="' + (s.eps || '') + '" style="width:52px"></td>' +
+        '<td><input data-f="bps" data-id="' + esc(s.id) + '" type="number" step="0.01" value="' + (s.bps || '') + '" style="width:52px"></td></tr>';
+    }).join('');
+    $('#fundTable').innerHTML = '<table class="grid"><thead><tr><th>标的</th><th>行业</th><th>市值</th><th>EPS</th><th>BPS</th></tr></thead><tbody>' + rows + '</tbody></table>';
+    $$('#fundTable input').forEach(function (inp) {
+      inp.onchange = function () {
+        var v = inp.value.trim();
+        saveMeta(inp.dataset.id, inp.dataset.f, v === '' ? '' : (inp.dataset.f === 'industry' ? v : +v));
+        lastIC = null; renderFactor();
+      };
+    });
+  }
+  function renderFactor() {
+    var p = getPanel();
+    var tbl = $('#icTable'), compBox = $('#compTable');
+    if (!p || p.symbols.length < 3) {
+      tbl.innerHTML = emptyBox('横截面样本不足', '因子检验至少需要 3 个标的，请在上方选择更多标的（或载入示例面板）。');
+      compBox.innerHTML = ''; $('#icMeta').textContent = '—'; return;
+    }
+    var ic = LAB.factorIC(p);
+    lastIC = ic;
+    var sel = st.factor.icSel;
+    if (!ic.stats.some(function (s) { return s.id === sel && s.n >= 3; })) {
+      var okStats = ic.stats.filter(function (s) { return s.n >= 3; });
+      sel = okStats.length ? okStats[0].id : ic.stats[0].id;
+    }
+    $('#icMeta').textContent = ic.dates.length + ' 期 · 每 ' + st.factor.step + ' 日调仓 · 预测 ' + st.factor.horizon + ' 日';
+    tbl.innerHTML = '<table class="grid"><thead><tr><th>因子</th><th>IC 均值</th><th>IR</th><th>t 值</th><th>胜率</th><th>多空</th></tr></thead><tbody>' +
+      ic.stats.map(function (s) {
+        var t = s.t, ok = s.n >= 3 && isFinite(s.ic);
+        if (!ok) {
+          return '<tr><td class="k">' + esc(s.name) + ' <span class="tag">缺少数据</span></td>' +
+            '<td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>';
+        }
+        return '<tr class="clickable' + (s.id === sel ? ' sel' : '') + '" data-factor="' + s.id + '">' +
+          '<td class="k">' + esc(s.name) + '</td>' +
+          '<td class="' + tone(s.ic) + '">' + s.ic.toFixed(3) + '</td>' +
+          '<td>' + s.ir.toFixed(2) + '</td>' +
+          '<td class="' + (Math.abs(t) >= 2 ? 'pos' : '') + '">' + t.toFixed(2) + '</td>' +
+          '<td>' + (s.win * 100).toFixed(0) + '%</td>' +
+          '<td class="' + tone(s.ls) + '">' + (s.ls * 100).toFixed(2) + '%</td></tr>';
+      }).join('') + '</tbody></table>';
+    $$('#icTable tr[data-factor]').forEach(function (tr) {
+      tr.onclick = function () { st.factor.icSel = tr.dataset.factor; save(); renderFactor(); };
+    });
+    var cur = ic.stats.filter(function (s) { return s.id === sel; })[0] || ic.stats[0];
+    $('#icChartMeta').textContent = cur.name + ' · 累计 IC ' + cur.series.filter(function (x) { return isFinite(x); }).reduce(function (a, b) { return a + b; }, 0).toFixed(2);
+    drawIcBar($('#cvIcBar'), ic.stats);
+    drawIcLine($('#cvIcLine'), cur.series, ic.dates, cur.name);
+
+    var comp = LAB.composite(p, ic);
+    $('#compMeta').textContent = comp.date + ' · Top ' + st.factor.topN;
+    var mode = st.factor.weightMode;
+    $$('#compMode button').forEach(function (b) { b.classList.toggle('on', b.dataset.mode === mode); });
+    var wHtml = comp.factors.map(function (k) {
+      var name = (FACTORS.filter(function (f) { return f.id === k; })[0] || {}).short || k;
+      var v = (comp.weights[k] * 100);
+      if (mode === 'custom') {
+        return '<label class="lab-chip on" style="padding:3px 6px">' + name +
+          '<input data-w="' + k + '" type="number" min="0" max="100" step="5" value="' + v.toFixed(0) +
+          '" style="width:44px;height:22px;padding:0 3px;font-size:10px;border:0;background:transparent;color:#dce8ff"></label>';
+      }
+      return '<span class="lab-chip">' + name + ' <b>' + v.toFixed(0) + '%</b></span>';
+    }).join('');
+    var wbox = $('#compWeights');
+    if (wbox) wbox.innerHTML = wHtml;
+    $('#compSum').textContent = 'Σw = ' + (comp.factors.reduce(function (a, k) { return a + comp.weights[k]; }, 0)).toFixed(2);
+    if (wbox) {
+      $$('#compWeights input').forEach(function (inp) {
+        inp.onchange = function () {
+          st.factor.weights[inp.dataset.w] = Math.max(0, +inp.value || 0);
+          save(); renderFactor();
+        };
+      });
+    }
+    var nshow = Math.min(+st.factor.topN, comp.rows.length);
+    var head = comp.factors.map(function (k) {
+      return '<th>' + ((FACTORS.filter(function (f) { return f.id === k; })[0] || {}).short || k) + '</th>';
+    }).join('');
+    compBox.innerHTML = '<table class="grid"><thead><tr><th>#</th><th>标的</th><th>综合分</th>' + head + '</tr></thead><tbody>' +
+      comp.rows.map(function (r) {
+        var cells = comp.factors.map(function (k) {
+          var v = r.parts[k];
+          return '<td class="' + (v == null ? '' : tone(v)) + '">' + (v == null ? '—' : v.toFixed(2)) + '</td>';
+        }).join('');
+        return '<tr class="' + (r.rank <= nshow ? '' : '') + '" style="' + (r.rank <= nshow ? '' : 'opacity:.55') + '">' +
+          '<td class="k">' + r.rank + '</td><td class="k">' + esc(r.name) + '<span class="hint"> ' + esc(r.id) + '</span></td>' +
+          '<td class="' + tone(r.score) + '"><b>' + r.score.toFixed(2) + '</b></td>' + cells + '</tr>';
+      }).join('') + '</tbody></table>';
+    if (st.factor.weightMode === 'custom' && !comp.factors.length) $('#compSum').textContent = '无可用因子';
+  }
+
+  /* ---- portfolio ---- */
+  function renderViewTable(p) {
+    var rows = p.symbols.map(function (s) {
+      var v = st.port.views[s.id];
+      return '<tr><td class="k">' + esc(s.name) + '<br><span class="hint">' + esc(s.id) + '</span></td>' +
+        '<td><input data-view="' + esc(s.id) + '" type="number" step="1" value="' + (v == null ? '' : v) + '" placeholder="0" style="width:64px"></td></tr>';
+    }).join('');
+    $('#viewTable').innerHTML = '<table class="grid"><thead><tr><th>标的</th><th>年化超额 %</th></tr></thead><tbody>' + rows + '</tbody></table>';
+    $$('#viewTable input').forEach(function (inp) {
+      inp.onchange = function () {
+        var v = inp.value.trim();
+        st.port.views[inp.dataset.view] = v === '' ? 0 : +v;
+        save(); lastPR = null; renderPort();
+      };
+    });
+  }
+  function renderPort() {
+    var p = getPanel();
+    var mBox = $('#portMetrics'), tBox = $('#portTable');
+    if (!p || p.symbols.length < 2) {
+      mBox.innerHTML = emptyBox('标的不够', '组合优化至少需要 2 个标的，建议 4 个以上以体现分散效果。');
+      tBox.innerHTML = ''; $('#portMeta').textContent = '—'; return;
+    }
+    if (!p.symbols.some(function (s) { return s.mcap > 0; })) {
+      // fine: equal market weights fallback
+    }
+    $('#portCap').value = (+st.port.cap * 100).toFixed(0);
+    $('#portShrink').value = st.port.shrink;
+    $('#portTarget').value = st.port.target;
+    $('#portDelta').value = st.port.delta;
+    $('#portTau').value = st.port.tau;
+    var pr = LAB.portfolio(p);
+    lastPR = pr;
+    var names = { mv: '均值方差', bl: 'Black–Litterman', rp: '风险平价' };
+    $('#portMeta').textContent = names[pr.method] + ' · ' + pr.n + ' 标的 · ' + pr.look + ' 日窗口';
+    var top3 = pr.rc.slice().sort(function (a, b) { return b.rc - a.rc; }).slice(0, 3).reduce(function (a, b) { return a + b.rc; }, 0);
+    mBox.innerHTML = [
+      metric('预期年化', pct(pr.chosen.ret), tone(pr.chosen.ret), pr.method === 'bl' ? 'BL 后验' : '历史均值（收缩）'),
+      metric('年化波动', pctA(pr.chosen.vol), 'neu', '协方差 ' + pr.look + ' 日'),
+      metric('夏普比率', pr.chosen.sharpe.toFixed(2), pr.chosen.sharpe >= 1 ? 'pos' : 'neu', 'rf ' + pctA(pr.rf, 1)),
+      metric('有效持仓数', pr.effective.toFixed(1), 'neu', 'HHI ' + pr.hhi.toFixed(2)),
+      metric('最大权重', pctA(Math.max.apply(null, pr.chosen.w), 1), 'neu',
+        '上限 ' + pctA(Math.max(+st.port.cap, 1 / pr.n), 0) + (1 / pr.n > +st.port.cap ? '（受标的数限制）' : '')),
+      metric('Top3 风险', pctA(top3, 1), top3 > 0.75 ? 'neg' : 'neu', '风险集中度')
+    ].join('');
+    drawFrontier($('#cvFrontier'), pr);
+    $('#portFrontierHint').textContent = pr.frontier.length + ' 个前沿点 · 采样 ' + pr.samples.length + ' 组';
+    var showPrev = pr.method === 'bl';
+    var head = '<tr><th>标的</th><th>权重</th><th>风险贡献</th>' +
+      (showPrev ? '<th>先验</th><th>后验</th>' : '<th>预期收益</th>') + '</tr>';
+    var rows = pr.rc.slice().sort(function (a, b) { return b.w - a.w; }).map(function (r, i) {
+      var idx = pr.ids.indexOf(r.id);
+      var extra = showPrev
+        ? '<td>' + pct(pr.prev[idx]) + '</td><td class="' + tone(pr.post[idx]) + '">' + pct(pr.post[idx]) + '</td>'
+        : '<td class="' + tone(pr.mu[idx]) + '">' + pct(pr.mu[idx]) + '</td>';
+      return '<tr><td class="k">' + esc(r.name) + '</td>' +
+        '<td><span class="wbar"><i style="width:' + (r.w * 100).toFixed(1) + '%"></i></span>' + pctA(r.w, 1) + '</td>' +
+        '<td>' + pctA(r.rc, 1) + '</td>' + extra + '</tr>';
+    }).join('');
+    tBox.innerHTML = '<table class="grid"><thead>' + head + '</thead><tbody>' + rows + '</tbody></table>';
+    renderViewTable(p);
+    $$('#portMethod button').forEach(function (b) { b.classList.toggle('on', b.dataset.method === st.port.method); });
+  }
+
+  /* ---- walk forward ---- */
+  function renderWfStrats() {
+    $('#wfStrats').innerHTML = QL.STRAT_LIST.map(function (s) {
+      return '<button class="chip' + (s.id === st.wf.strat ? ' on' : '') + '" data-wfstrat="' + s.id + '">' + esc(s.name) + '</button>';
+    }).join('');
+    $$('#wfStrats [data-wfstrat]').forEach(function (b) {
+      b.onclick = function () { st.wf.strat = b.dataset.wfstrat; save(); renderWfStrats(); };
+    });
+  }
+  function renderWF() {
+    var p = getPanel();
+    var mBox = $('#wfMetrics');
+    if (!p) {
+      mBox.innerHTML = emptyBox('暂无数据', '请先载入数据。'); $('#wfTable').innerHTML = ''; return;
+    }
+    var sel = $('#wfSymbol');
+    sel.innerHTML = p.symbols.map(function (s) {
+      return '<option value="' + esc(s.id) + '">' + esc(s.id) + ' ' + esc(s.name) + '</option>';
+    }).join('');
+    if (p.symbols.map(function (s) { return s.id; }).indexOf(st.wf.symbol) < 0) st.wf.symbol = p.symbols[0].id;
+    sel.value = st.wf.symbol;
+    renderWfStrats();
+    $('#wfTrain').value = st.wf.train;
+    $('#wfTest').value = st.wf.test;
+    if (lastWF && lastWF.key === wfKey()) renderWfResults();
+    else {
+      mBox.innerHTML = emptyBox('正在准备滚动检验', '首次进入会自动运行；也可调整窗口后点击左侧「运行滚动检验」。');
+      $('#wfTable').innerHTML = ''; $('#wfMeta').textContent = '—';
+      if (!wfBusy) setTimeout(runWF, 80);
+    }
+  }
+  function wfKey() {
+    return st.wf.symbol + '|' + st.wf.strat + '|' + st.wf.train + '|' + st.wf.test;
+  }
+  var wfBusy = false;
+  function runWF() {
+    if (wfBusy) return;
+    var raw = symbolRaw(st.wf.symbol);
+    if (!raw) { toast('请先选择标的'); return; }
+    if (raw.bars.length < st.wf.train + st.wf.test + 20) {
+      toast('历史长度不足：需要至少 ' + (st.wf.train + st.wf.test + 20) + ' 根日线'); return;
+    }
+    wfBusy = true;
+    var btn = $('#wfRun');
+    btn.disabled = true; btn.textContent = '计算中…';
+    setTimeout(function () {
+      try {
+        var r = LAB.walkforward(raw, st.wf.strat, { train: st.wf.train, test: st.wf.test, rf: 0.02 });
+        if (!r || !r.folds.length) { toast('可用折数不足，请缩短窗口'); return; }
+        r.key = wfKey();
+        lastWF = r;
+        renderWfResults();
+      } catch (e) {
+        console.error(e); toast('滚动检验失败：' + e.message);
+      } finally {
+        wfBusy = false;
+        btn.disabled = false; btn.textContent = '运行滚动检验';
+      }
+    }, 30);
+  }
+  function renderWfResults() {
+    var r = lastWF;
+    if (!r) return;
+    $('#wfMeta').textContent = r.foldsN + ' 折 · ' + (r.dates[0] || '') + ' → ' + (r.dates[r.dates.length - 1] || '');
+    var dec = r.isMean > 0.05 ? 1 - r.oosMean / r.isMean : null;
+    var verdict, vTone;
+    if (r.isMean > 0.2 && r.oosMean <= 0) { verdict = '过拟合'; vTone = 'neg'; }
+    else if (dec == null) { verdict = '样本太短'; vTone = 'neu'; }
+    else if (dec > 0.5) { verdict = '衰减明显'; vTone = 'neg'; }
+    else if (dec > 0.25) { verdict = '有衰减'; vTone = 'neu'; }
+    else if (r.oosMean > r.isMean * 1.2) { verdict = '样本外更好'; vTone = 'neu'; }
+    else { verdict = '相对稳健'; vTone = 'pos'; }
+    $('#wfMetrics').innerHTML = [
+      metric('样本外年化', pct(r.oosAnn), tone(r.oosAnn), '拼接净值'),
+      metric('样本外夏普', r.oosSharpe.toFixed(2), r.oosSharpe >= 1 ? 'pos' : 'neu', '波动 ' + pctA(r.oosVol)),
+      metric('IS 夏普均值', r.isMean.toFixed(2), r.isMean >= 1 ? 'pos' : 'neu', '训练窗最优'),
+      metric('OOS 夏普均值', r.oosMean.toFixed(2), r.oosMean >= 0 ? 'pos' : 'neg', '测试窗'),
+      metric('效率衰减', dec == null ? '—' : pctA(dec, 0), dec != null && dec > 0.5 ? 'neg' : 'neu', '1 − OOS/IS'),
+      metric('判定', verdict, vTone, r.foldsN + ' 折样本外')
+    ].join('');
+    $('#wfTable').innerHTML = '<table class="grid"><thead><tr><th>折</th><th>测试区间</th><th>最优参数</th><th>IS 夏普</th><th>OOS 夏普</th><th>OOS 收益</th></tr></thead><tbody>' +
+      r.folds.map(function (f, i) {
+        var keys = Object.keys(f.params).filter(function (k) { return typeof f.params[k] === 'number'; });
+        var ps = keys.map(function (k) { return k + '=' + f.params[k]; }).join(' / ');
+        return '<tr><td class="k">F' + (i + 1) + '</td><td>' + f.from + ' → ' + f.to + '</td><td>' + esc(ps) + '</td>' +
+          '<td>' + f.isSharpe.toFixed(2) + '</td><td class="' + (f.oosSharpe >= 0 ? 'pos' : 'neg') + '">' + f.oosSharpe.toFixed(2) + '</td>' +
+          '<td class="' + tone(f.oosRet) + '">' + pct(f.oosRet) + '</td></tr>';
+      }).join('') + '</tbody></table>';
+    drawWfBars($('#cvWfBars'), r.folds);
+    drawEquity($('#cvWfEq'), r.equity.length > 1 ? r.equity : [1, 1]);
+    $('#wfOosHint').textContent = r.equity.length + ' 个交易日 · 起点 1.000';
+    var notes = {
+      '过拟合': '警告：样本外夏普已翻负，参数大概率过拟合；建议减少参数、延长测试窗或改用更粗的信号。',
+      '衰减明显': '样本外夏普不足样本内一半，选参收益大半留在样本内，实盘前应压缩参数空间。',
+      '有衰减': '存在中等衰减，属正常范围；把成本与滑点再调高一些，看结论是否仍成立。',
+      '样本外更好': '样本外反而优于样本内，多为行情配合而非能力，别据此放大仓位。',
+      '相对稳健': '样本外表现与样本内接近；仍需注意交易成本、容量与市场结构变化。',
+      '样本太短': '训练窗内几乎没有正收益，无法判断衰减；换一个标的或拉长窗口再看。'
+    };
+    $('#wfNote').textContent = notes[verdict] || notes['相对稳健'];
+  }
+
+  /* ---- execution ---- */
+  function execOpts() {
+    return {
+      notional: Math.max(10000, (+st.exec.notional || 3000) * 10000),
+      part: Math.max(0.1, +st.exec.part || 5),
+      c: Math.max(0.001, +st.exec.c || 0.1),
+      spread: Math.max(0, +st.exec.spread || 0),
+      fee: Math.max(0, +st.exec.fee || 0)
+    };
+  }
+  function renderExec() {
+    var p = getPanel();
+    var mBox = $('#exMetrics');
+    if (!p) { mBox.innerHTML = emptyBox('暂无数据', '请先载入数据。'); $('#exTable').innerHTML = ''; return; }
+    var sel = $('#exSymbol');
+    sel.innerHTML = p.symbols.map(function (s) {
+      return '<option value="' + esc(s.id) + '">' + esc(s.id) + ' ' + esc(s.name) + '</option>';
+    }).join('');
+    if (p.symbols.map(function (s) { return s.id; }).indexOf(st.exec.symbol) < 0) st.exec.symbol = p.symbols[0].id;
+    sel.value = st.exec.symbol;
+    var raw = symbolRaw(st.exec.symbol);
+    var o = execOpts();
+    var e = LAB.execCost(raw, o);
+    if (!e) { mBox.innerHTML = emptyBox('无法估算', '缺少成交量数据。'); return; }
+    $('#exMeta').textContent = raw.name + ' · 现价 ' + F.price(e.price) + ' · 20 日均量 ' + F.big(e.adv) + ' 股';
+    mBox.innerHTML = [
+      metric('冲击成本', e.impact.toFixed(2) + ' bp', e.impact > 20 ? 'neg' : 'neu', 'c=' + o.c + ' · σ=' + pctA(e.sigma)),
+      metric('总成本', e.total.toFixed(1) + ' bp', e.total > 30 ? 'neg' : 'neu', '价差 ' + (o.spread / 2).toFixed(1) + ' + 费率 ' + o.fee),
+      metric('成本金额', '¥' + F.big(e.cost), 'neg', pctA(e.total / 10000, 2) + ' of notional'),
+      metric('占 ADV', pctS(e.qpart), e.qpart > 0.1 ? 'neg' : 'neu', '参与率上限 ' + o.part + '%'),
+      metric('完成天数', e.days < 1 ? '<1 天' : e.days.toFixed(1) + ' 天', e.days > 5 ? 'neg' : 'neu', e.slices + ' 个切片/日'),
+      metric('估算成交率', pctA(e.fill, 0), e.fill < 1 ? 'neg' : 'pos', '预计均价 ' + F.price(e.execPrice))
+    ].join('');
+    var pts = [];
+    for (var i = 1; i <= 24; i++) {
+      var mult = Math.pow(10, -1 + i / 24 * 2.3);
+      var ee = LAB.execCost(raw, Object.assign({}, o, { notional: o.notional * mult }));
+      if (ee) pts.push({ x: ee.qpart, y: ee.total, y2: ee.impact, notional: o.notional * mult });
+    }
+    drawCost($('#cvCost'), pts, { x: e.qpart, y: e.total, y2: e.impact });
+    drawSched($('#cvSched'), st.exec.algo);
+    $('#exSchedHint').textContent = st.exec.algo.toUpperCase() + ' · 10 个切片 · 剩余 ' + (st.exec.algo === 'vwap' ? '按 U 型量能分布' : '等量拆分');
+    var cum = scheduleCurve(10, st.exec.algo);
+    var rows = '';
+    for (var k = 0; k < 10; k++) {
+      rows += '<tr><td>#' + (k + 1) + '</td><td>' + ((cum[k + 1] - cum[k]) * 100).toFixed(1) + '%</td><td>' +
+        (cum[k + 1] * 100).toFixed(0) + '%</td><td>¥' + F.big(e.shares * (cum[k + 1] - cum[k]) * e.price) + '</td></tr>';
+    }
+    $('#exTable').innerHTML = '<table class="grid"><thead><tr><th>切片</th><th>本片占比</th><th>累计</th><th>本片金额</th></tr></thead><tbody>' + rows + '</tbody></table>';
+    $$('#exAlgo button').forEach(function (b) { b.classList.toggle('on', b.dataset.algo === st.exec.algo); });
+  }
+
+  /* ---- bind ---- */
+  function bindLab() {
+    $('#labNav').addEventListener('click', function (e) {
+      var b = e.target.closest('button');
+      if (!b) return;
+      st.pane = b.dataset.pane; save(); renderPane();
+    });
+    $('#labUseDemo').onclick = function () {
+      st.demo = true; invalidate(); ensureUniverse(); ensureSymbols(); save(); renderUniverse(); renderPane();
+      toast('已载入示例面板（合成数据）');
+    };
+    $('#labUseReal').onclick = function () {
+      if (!D.count()) { toast('「数据」页还没有标的，请先获取或导入日线'); return; }
+      st.demo = false; invalidate(); ensureUniverse(); ensureSymbols(); save(); renderUniverse(); renderPane();
+      toast('已切换到本地真实数据');
+    };
+    $('#labRefresh').onclick = function () {
+      invalidate(); ensureUniverse(); ensureSymbols(); renderUniverse(); renderPane(); toast('数据已刷新');
+    };
+    $('#qcSymbol').onchange = function () { st.qc.symbol = this.value; save(); renderQC(); };
+    $('#qcAlpha').addEventListener('click', function (e) {
+      var b = e.target.closest('button'); if (!b) return;
+      st.qc.alpha = +b.dataset.alpha; save();
+      $$('#qcAlpha button').forEach(function (x) { x.classList.toggle('on', x === b); });
+      renderQC();
+    });
+    $('#qcFreq').addEventListener('click', function (e) {
+      var b = e.target.closest('button'); if (!b) return;
+      st.qc.freq = b.dataset.freq; save();
+      $$('#qcFreq button').forEach(function (x) { x.classList.toggle('on', x === b); });
+      renderQC();
+    });
+    $('#facStep').onchange = function () { st.factor.step = +this.value; save(); lastIC = null; renderFactor(); };
+    $('#facHorizon').onchange = function () { st.factor.horizon = +this.value; save(); lastIC = null; renderFactor(); };
+    $('#facNeutral').onchange = function () { st.factor.neutralize = this.checked; save(); lastIC = null; renderFactor(); };
+    $('#facTopN').onchange = function () { st.factor.topN = +this.value; save(); renderFactor(); };
+    $('#compMode').addEventListener('click', function (e) {
+      var b = e.target.closest('button'); if (!b) return;
+      st.factor.weightMode = b.dataset.mode; save();
+      if (st.factor.weightMode === 'custom') {
+        var keys = Object.keys(st.factor.weights);
+        if (!keys.length) st.factor.weights = { mom: 30, rev: 20, lowvol: 20, ep: 30 };
+      }
+      renderFactor();
+    });
+    $('#portMethod').addEventListener('click', function (e) {
+      var b = e.target.closest('button'); if (!b) return;
+      st.port.method = b.dataset.method; save(); lastPR = null; renderPort();
+    });
+    $('#portLook').onchange = function () { st.port.lookback = +this.value; save(); lastPR = null; renderPort(); };
+    $('#portCap').onchange = function () { st.port.cap = Math.max(0.1, Math.min(1, (+this.value || 35) / 100)); save(); lastPR = null; renderPort(); };
+    $('#portShrink').onchange = function () { st.port.shrink = +this.value; save(); lastPR = null; renderPort(); };
+    $('#portTarget').onchange = function () { st.port.target = this.value.trim(); save(); lastPR = null; renderPort(); };
+    $('#portDelta').onchange = function () { st.port.delta = +this.value; save(); lastPR = null; renderPort(); };
+    $('#portTau').onchange = function () { st.port.tau = +this.value; save(); lastPR = null; renderPort(); };
+    $('#wfSymbol').onchange = function () { st.wf.symbol = this.value; save(); lastWF = null; renderWF(); };
+    $('#wfTrain').onchange = function () { st.wf.train = Math.max(120, +this.value || 250); save(); lastWF = null; renderWF(); };
+    $('#wfTest').onchange = function () { st.wf.test = Math.max(20, +this.value || 63); save(); lastWF = null; renderWF(); };
+    $('#wfRun').onclick = runWF;
+    $('#exSymbol').onchange = function () { st.exec.symbol = this.value; save(); renderExec(); };
+    ['exNotional', 'exPart', 'exC', 'exSpread', 'exFee'].forEach(function (id) {
+      $('#' + id).onchange = function () {
+        st.exec[id.slice(2).toLowerCase()] = +this.value;
+        save(); renderExec();
+      };
+    });
+    $('#exAlgo').addEventListener('click', function (e) {
+      var b = e.target.closest('button'); if (!b) return;
+      st.exec.algo = b.dataset.algo; save(); renderExec();
+    });
+    var rt = null;
+    window.addEventListener('resize', function () {
+      clearTimeout(rt);
+      rt = setTimeout(function () { if (document.querySelector('.view[data-view="lab"]').classList.contains('active')) renderPane(); }, 220);
+    });
+  }
+
+  LAB.init = function () {
+    if (!$('#labNav') || $('#labNav')._bound) return;
+    $('#labNav')._bound = true;
+    if (!saved && D.count() === 0) st.demo = true;
+    ensureUniverse();
+    ensureSymbols();
+    renderUniverse();
+    bindLab();
+    renderPane();
+  };
+  LAB.onEnter = function () {
+    invalidate();
+    ensureUniverse();
+    ensureSymbols();
+    renderUniverse();
+    renderPane();
+  };
+  LAB.invalidate = invalidate;
+
+})();
+
 /* ===== Quant Desk · UI ===== */
 (function () {
   'use strict';
@@ -2913,6 +4938,7 @@ html.ls-rotated .view.active:not([data-view="backtest"]){
     if (view === 'backtest') {
       setTimeout(function () { renderCharts(); if (state.result) renderHeat(); }, 0);
     }
+    else if (view === 'lab') { if (QL.LAB) QL.LAB.onEnter(); }
     else if (view === 'live') { if (QL.LIVE) QL.LIVE.onEnter(); }
     else if (view === 'lib') renderLibrary();
     else if (view === 'data') renderData();
@@ -3234,6 +5260,7 @@ html.ls-rotated .view.active:not([data-view="backtest"]){
     renderData();
     renderLibrary();
     renderRuns();
+    if (QL.LAB) QL.LAB.init();
     bind();
     if ($('#cvMain')) { /* make sure layout is ready before first paint */ }
     $$('#rangeChips button').forEach(function (b) { b.classList.toggle('on', +b.dataset.range === +ui.range); });
