@@ -103,20 +103,20 @@ export function StockAnalysis() {
                 className="group flex items-center gap-2 text-sm rounded-md px-1.5 py-0.5 -mx-1.5 hover:bg-elevated transition-colors"
               >
                 <span className="text-foreground font-medium group-hover:text-sky-300 transition-colors">{name || symbol}</span>
-                <span className="text-[10px] font-mono text-muted">{symbol}</span>
+                <span className="text-[11px] font-mono text-muted">{symbol}</span>
                 <ExternalLink className="h-3 w-3 text-muted opacity-0 group-hover:opacity-100 transition-opacity" />
               </button>
               <button
                 onClick={handleAnalyze}
                 disabled={checking}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-btn bg-gradient-to-r from-sky-500/25 to-blue-500/15 border border-sky-400/30 text-sky-300 text-xs font-medium hover:from-sky-500/35 hover:to-blue-500/25 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-btn bg-accent/[0.12] border border-sky-400/30 text-sky-300 text-xs font-medium transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 {checking ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Sparkles className="h-3.5 w-3.5" />}
                 AI 个股分析
               </button>
               <button
                 onClick={() => setShowPriceAlerts(true)}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-btn border border-sky-400/25 bg-sky-400/[0.08] text-sky-300 text-xs font-medium hover:border-sky-400/40 hover:bg-sky-400/[0.12] transition-all"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-btn border border-sky-400/25 bg-sky-400/[0.08] text-sky-300 text-xs font-medium hover:border-sky-400/40 hover:bg-sky-400/[0.12] transition-colors"
                 title="设置价格点位提醒"
               >
                 <Bell className="h-3.5 w-3.5" />
@@ -231,9 +231,9 @@ function StockAnalysisBoard({ symbol }: { symbol: string }) {
             <span className="text-sm font-medium text-foreground">关键价位分析</span>
           </div>
           <div className="flex items-baseline gap-2 shrink-0">
-            <span className="text-[10px] text-muted">{rows.length} 个交易日</span>
-            <span className="text-[10px] text-muted/60">·</span>
-            <span className="text-[10px] text-muted">当前价</span>
+            <span className="text-[11px] text-muted">{rows.length} 个交易日</span>
+            <span className="text-[11px] text-muted/60">·</span>
+            <span className="text-[11px] text-muted">当前价</span>
             <span className={`text-[16px] leading-6 font-mono font-bold ${isUp ? 'text-bull' : 'text-bear'}`}>
               {curClose?.toFixed(2) ?? '—'}
             </span>
@@ -265,7 +265,7 @@ function HistorySidebar() {
           <HistoryIcon className="h-3.5 w-3.5 text-sky-400 shrink-0" />
           <span className="text-xs font-medium text-foreground">历史报告</span>
           {loaded && reports.length > 0 && (
-            <span className="ml-auto text-[10px] text-muted">{reports.length}</span>
+            <span className="ml-auto text-[11px] text-muted">{reports.length}</span>
           )}
         </div>
 
@@ -276,7 +276,7 @@ function HistorySidebar() {
         ) : reports.length === 0 ? (
           <div className="px-3 py-10 text-center">
             <p className="text-xs text-muted">还没有任何个股分析报告</p>
-            <p className="text-[10px] text-muted/60 mt-1">选一只股票,点「AI 个股分析」生成</p>
+            <p className="text-[11px] text-muted/60 mt-1">选一只股票,点「AI 个股分析」生成</p>
           </div>
         ) : (
           <div className="max-h-[calc(100vh-220px)] overflow-y-auto p-2 space-y-1.5">
@@ -292,9 +292,9 @@ function HistorySidebar() {
                   >
                     <div className="flex items-center gap-1.5 min-w-0">
                       <span className="text-xs font-medium text-foreground truncate">{r.name || r.symbol}</span>
-                      <span className="text-[10px] font-mono text-muted shrink-0">{r.symbol}</span>
+                      <span className="text-[11px] font-mono text-muted shrink-0">{r.symbol}</span>
                     </div>
-                    <div className="mt-0.5 flex items-center gap-2 text-[10px] text-muted">
+                    <div className="mt-0.5 flex items-center gap-2 text-[11px] text-muted">
                       <span>{fmtRelative(r.created_at)}</span>
                       {r.close != null && <span className="font-mono">价 {r.close.toFixed(2)}</span>}
                       {r.focus && <span className="text-sky-300/70 truncate">关注: {r.focus}</span>}
@@ -305,7 +305,7 @@ function HistorySidebar() {
                   </button>
                   <button
                     onClick={() => { deleteReport(r.id); toast('已删除', 'success') }}
-                    className="shrink-0 text-[10px] text-muted/60 hover:text-danger transition-colors px-1 py-0.5 opacity-0 group-hover:opacity-100"
+                    className="shrink-0 text-[11px] text-muted/60 hover:text-danger transition-colors px-1 py-0.5 opacity-0 group-hover:opacity-100"
                     title="删除"
                   >
                     删除
@@ -348,7 +348,7 @@ function ConfirmModal({ report, onView, onRedo, onClose }: {
             查看历史
           </button>
           <button onClick={onRedo}
-            className="flex-1 h-8 rounded-lg bg-gradient-to-r from-sky-500/20 to-blue-500/15 border border-sky-400/30 text-xs text-sky-300 hover:from-sky-500/30 transition-all">
+            className="flex-1 h-8 rounded-lg bg-accent/[0.12] border border-sky-400/30 text-xs text-sky-300 transition-colors">
             重新分析
           </button>
         </div>

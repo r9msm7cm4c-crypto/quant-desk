@@ -432,11 +432,11 @@ export function Regime() {
         // 首板/2板+ 堆叠柱: 两段之和 = 当日涨停总数 (首板宽度=底部, 2板+=顶段),
         // 总高看涨停宽度、顶段看连板厚度; 高度线在其上穿行
         { name: '首板', type: 'bar', stack: 'lu', data: firstBoard, yAxisIndex: 0,
-          barMaxWidth: 5, itemStyle: { color: theme === 'dark' ? '#f97316' : '#b45309', opacity: theme === 'dark' ? 0.4 : 0.85 }, z: 1 },
+          barMaxWidth: 5, itemStyle: { color: theme === 'dark' ? '#DB9A2B' : '#b45309', opacity: theme === 'dark' ? 0.4 : 0.85 }, z: 1 },
         { name: '2板+', type: 'bar', stack: 'lu', data: ge2, yAxisIndex: 0,
-          barMaxWidth: 5, itemStyle: { color: theme === 'dark' ? '#f59e0b' : '#d97706', opacity: theme === 'dark' ? 0.7 : 1 }, z: 1 },
-        { name: '高度', type: 'line', itemStyle: { color: '#ef4444' }, data: heights, smooth: true, symbol: 'none', yAxisIndex: 0,
-          lineStyle: { width: 1.6, color: '#ef4444' }, z: 3,
+          barMaxWidth: 5, itemStyle: { color: theme === 'dark' ? '#DB9A2B' : '#d97706', opacity: theme === 'dark' ? 0.7 : 1 }, z: 1 },
+        { name: '高度', type: 'line', itemStyle: { color: '#E05A52' }, data: heights, smooth: true, symbol: 'none', yAxisIndex: 0,
+          lineStyle: { width: 1.6, color: '#E05A52' }, z: 3,
           markArea: { silent: true, data: phaseBands },
           // 定位竖线: 今日(淡白) + 选中日(蓝虚线, 点击图表日期出现)
           markLine: {
@@ -450,8 +450,8 @@ export function Regime() {
               ...(selDate && selDate !== dates[dates.length - 1]
                 ? [{
                     xAxis: selDate,
-                    lineStyle: { color: '#3b82f6', type: 'dashed' as const, width: 1.2, opacity: 0.9 },
-                    label: { show: true, position: 'end' as const, formatter: selDate.slice(5), color: '#3b82f6', fontSize: 9 },
+                    lineStyle: { color: '#63A7D9', type: 'dashed' as const, width: 1.2, opacity: 0.9 },
+                    label: { show: true, position: 'end' as const, formatter: selDate.slice(5), color: '#63A7D9', fontSize: 9 },
                   } as const]
                 : []),
             ],
@@ -461,10 +461,10 @@ export function Regime() {
             silent: true, symbol: 'triangle', symbolSize: 7,
             data: switchPoints,
           } },
-        { name: '晋级率', type: 'line', itemStyle: { color: '#3b82f6' }, data: promo, smooth: true, symbol: 'none', yAxisIndex: 1,
-          lineStyle: { width: 1.2, color: '#3b82f6', type: 'dotted' }, z: 2 },
-        { name: '封板率', type: 'line', itemStyle: { color: '#10b981' }, data: seal, smooth: true, symbol: 'none', yAxisIndex: 1,
-          lineStyle: { width: 1.2, color: '#10b981', type: 'dashed' }, z: 2 },
+        { name: '晋级率', type: 'line', itemStyle: { color: '#63A7D9' }, data: promo, smooth: true, symbol: 'none', yAxisIndex: 1,
+          lineStyle: { width: 1.2, color: '#63A7D9', type: 'dotted' }, z: 2 },
+        { name: '封板率', type: 'line', itemStyle: { color: '#3FA97A' }, data: seal, smooth: true, symbol: 'none', yAxisIndex: 1,
+          lineStyle: { width: 1.2, color: '#3FA97A', type: 'dashed' }, z: 2 },
       ],
     }
   }, [rows, days, ct, theme, hasPhaseData, selDate])
@@ -546,14 +546,14 @@ export function Regime() {
         { name: '涨停数', type: 'bar', data: limitUps, yAxisIndex: 1, barMaxWidth: 6,
           itemStyle: { color: REGIME_STATE_COLORS.strong, opacity: 0.22 }, z: 1 },
         // 4 子维度与综合分共用左轴 0–100, 点图例可切换。
-        { name: '赚钱', type: 'line', itemStyle: { color: '#f59e0b' }, data: profit, smooth: true, symbol: 'none', yAxisIndex: 0,
-          lineStyle: { ...subLineStyle, color: '#f59e0b' }, z: 2 },
-        { name: '投机', type: 'line', itemStyle: { color: '#a855f7' }, data: speculation, smooth: true, symbol: 'none', yAxisIndex: 0,
-          lineStyle: { ...subLineStyle, color: '#a855f7' }, z: 2 },
-        { name: '抗跌', type: 'line', itemStyle: { color: '#10b981' }, data: resilience, smooth: true, symbol: 'none', yAxisIndex: 0,
-          lineStyle: { ...subLineStyle, color: '#10b981' }, z: 2 },
-        { name: '趋势', type: 'line', itemStyle: { color: '#3b82f6' }, data: trend, smooth: true, symbol: 'none', yAxisIndex: 0,
-          lineStyle: { ...subLineStyle, color: '#3b82f6' }, z: 2 },
+        { name: '赚钱', type: 'line', itemStyle: { color: '#DB9A2B' }, data: profit, smooth: true, symbol: 'none', yAxisIndex: 0,
+          lineStyle: { ...subLineStyle, color: '#DB9A2B' }, z: 2 },
+        { name: '投机', type: 'line', itemStyle: { color: '#63A7D9' }, data: speculation, smooth: true, symbol: 'none', yAxisIndex: 0,
+          lineStyle: { ...subLineStyle, color: '#63A7D9' }, z: 2 },
+        { name: '抗跌', type: 'line', itemStyle: { color: '#3FA97A' }, data: resilience, smooth: true, symbol: 'none', yAxisIndex: 0,
+          lineStyle: { ...subLineStyle, color: '#3FA97A' }, z: 2 },
+        { name: '趋势', type: 'line', itemStyle: { color: '#63A7D9' }, data: trend, smooth: true, symbol: 'none', yAxisIndex: 0,
+          lineStyle: { ...subLineStyle, color: '#63A7D9' }, z: 2 },
         // 综合分主线 + 状态背景色带 + 阈值横虚线
         { name: '综合分', type: 'line', data: scores, smooth: true, symbol: 'none', yAxisIndex: 0,
           itemStyle: { color: ct.textStrong }, lineStyle: { width: 2.2, color: ct.textStrong }, areaStyle: { color: ct.textStrong, opacity: 0.035 }, z: 3,
@@ -765,14 +765,14 @@ export function Regime() {
           </section>
           <div className="regime-phase-metrics">
           {([
-            { label: '市场高度', val: latest.max_consecutive, unit: '板', color: '#ef4444', field: 'max_consecutive' as const },
-            { label: '首板宽度', val: latest.first_board, unit: '家', color: '#f97316', field: 'first_board' as const },
-            { label: '2板+宽度', val: latest.ge2_count, unit: '家', color: '#f59e0b', field: 'ge2_count' as const },
+            { label: '市场高度', val: latest.max_consecutive, unit: '板', color: '#E05A52', field: 'max_consecutive' as const },
+            { label: '首板宽度', val: latest.first_board, unit: '家', color: '#DB9A2B', field: 'first_board' as const },
+            { label: '2板+宽度', val: latest.ge2_count, unit: '家', color: '#DB9A2B', field: 'ge2_count' as const },
             { label: '晋级率', val: latest.promo_rate != null ? `${(latest.promo_rate * 100).toFixed(0)}%` : '—',
-              unit: '', color: '#3b82f6', field: 'promo_rate' as const,
+              unit: '', color: '#63A7D9', field: 'promo_rate' as const,
               sub: latest.promo_pool != null ? `池 ${latest.promo_pool} 家` : undefined },
             { label: '梯队完整度', val: latest.ladder_completeness != null ? `${(latest.ladder_completeness * 100).toFixed(0)}%` : '—',
-              unit: '', color: '#a855f7', field: 'ladder_completeness' as const, sub: '2板→最高板不断档' },
+              unit: '', color: '#63A7D9', field: 'ladder_completeness' as const, sub: '2板→最高板不断档' },
           ] as { label: string; val: React.ReactNode; unit: string; color: string; field: keyof RegimeRow; sub?: string }[]).map(k => {
             const p = pctRank(k.field)
             return (
@@ -1055,10 +1055,10 @@ export function Regime() {
               <h2 className="regime-card-heading"><Activity aria-hidden="true" />四维拆解</h2>
               <div className="regime-dimensions">
                 {([
-                  { label: '赚钱', val: latest.profit_score, color: '#f59e0b' },
-                  { label: '投机', val: latest.speculation_score, color: '#a855f7' },
-                  { label: '抗跌', val: latest.resilience_score, color: '#10b981' },
-                  { label: '趋势', val: latest.trend_score, color: '#3b82f6' },
+                  { label: '赚钱', val: latest.profit_score, color: '#DB9A2B' },
+                  { label: '投机', val: latest.speculation_score, color: '#63A7D9' },
+                  { label: '抗跌', val: latest.resilience_score, color: '#3FA97A' },
+                  { label: '趋势', val: latest.trend_score, color: '#63A7D9' },
                 ] as const).map(d => (
                   <div key={d.label} className="regime-dimension" style={{ '--metric-color': d.color } as CSSProperties}>
                     <span>{d.label}</span><div className="regime-track" aria-hidden="true"><span style={{ width: `${Math.max(0, Math.min(100, d.val ?? 0))}%`, backgroundColor: d.color }} /></div><strong className="regime-tone">{d.val ?? '—'}</strong>
@@ -1276,7 +1276,7 @@ function MainlineFilterPanel({ filter, onDone }: {
           aria-label="统计剔除 ST 股"
           onClick={() => setExcludeSt(v => !v)}
           className={cn(
-            'relative inline-flex h-4.5 w-8 items-center rounded-full border transition-all duration-200',
+            'relative inline-flex h-4.5 w-8 items-center rounded-full border transition-colors duration-200',
             excludeSt ? 'border-accent/50 bg-accent' : 'border-border bg-elevated hover:border-muted',
           )}
         >

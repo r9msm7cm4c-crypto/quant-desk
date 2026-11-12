@@ -150,7 +150,7 @@ export function FinancialSyncPanel() {
                 )}
               </span>
 
-              <span className="hidden shrink-0 items-center gap-1 text-[10px] text-muted/80 sm:flex">
+              <span className="hidden shrink-0 items-center gap-1 text-[11px] text-muted/80 sm:flex">
                 <Clock className="h-2.5 w-2.5" />
                 {lsTime
                   ? new Date(lsTime).toLocaleString('zh-CN', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })
@@ -187,7 +187,7 @@ export function FinancialSyncPanel() {
         <button
           onClick={() => handleSync('all')}
           disabled={syncing}
-          className="ml-auto inline-flex h-7 shrink-0 items-center gap-1.5 rounded-btn border border-accent/30 bg-gradient-to-r from-accent/25 to-accent/10 px-3 text-xs font-medium text-accent transition-all duration-150 hover:from-accent/35 hover:to-accent/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 disabled:cursor-not-allowed disabled:opacity-40"
+          className="ml-auto inline-flex h-7 shrink-0 items-center gap-1.5 rounded-btn border border-accent/30 bg-accent/[0.14] px-3 text-xs font-medium text-accent transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 disabled:cursor-not-allowed disabled:opacity-40"
         >
           {syncing ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Download className="h-3.5 w-3.5" />}
           {syncing ? '同步中…' : '全部同步'}

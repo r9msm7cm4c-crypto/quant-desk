@@ -64,11 +64,11 @@ export function OssLicenseDialog({ onClose }: { onClose: () => void }) {
               <div className="text-sm text-foreground">Tick Stock Panel</div>
               <div className="text-[11px] text-muted truncate">{PROJECT_COPYRIGHT}</div>
             </div>
-            <span className="shrink-0 rounded-full border border-accent/30 bg-accent/10 px-2 py-0.5 text-[10px] font-medium text-accent">
+            <span className="shrink-0 rounded-full border border-accent/30 bg-accent/10 px-2 py-0.5 text-[11px] font-medium text-accent">
               {PROJECT_LICENSE_NAME}
             </span>
           </div>
-          <pre className="max-h-44 overflow-y-auto rounded-lg bg-elevated p-3 text-[10px] leading-relaxed text-secondary font-mono whitespace-pre-wrap">
+          <pre className="max-h-44 overflow-y-auto rounded-lg bg-elevated p-3 text-[11px] leading-relaxed text-secondary font-mono whitespace-pre-wrap">
 {PROJECT_LICENSE_TEXT}
           </pre>
           <a
@@ -85,7 +85,7 @@ export function OssLicenseDialog({ onClose }: { onClose: () => void }) {
         <LicenseSection title="前端组件" entries={FRONTEND_DEPENDENCIES} />
         <LicenseSection title="后端组件" entries={BACKEND_DEPENDENCIES} />
 
-        <p className="text-[10px] leading-relaxed text-muted border-t border-border pt-3">
+        <p className="text-[11px] leading-relaxed text-muted border-t border-border pt-3">
           清单口径: 前后端直接运行时依赖 (构建工具与开发依赖不随产物分发, 故不列于此);
           传递依赖由各自分发包携带许可。各组件的完整许可文本见其官方仓库。
         </p>
@@ -102,7 +102,7 @@ function LicenseBadge({ license }: { license: string }) {
   const isMIT = license === 'MIT'
   return (
     <span
-      className={`shrink-0 rounded-full border px-2 py-px font-mono text-[10px] ${
+      className={`shrink-0 rounded-full border px-2 py-px font-mono text-[11px] ${
         isMIT
           ? 'border-border bg-elevated text-muted'
           : 'border-accent/30 bg-accent/10 text-accent'
@@ -118,7 +118,7 @@ function LicenseSection({ title, entries }: { title: string; entries: OssLicense
     <section>
       <h3 className="mb-2 text-xs font-medium text-secondary">
         {title}
-        <span className="ml-1.5 text-[10px] font-normal text-muted">{entries.length} 项</span>
+        <span className="ml-1.5 text-[11px] font-normal text-muted">{entries.length} 项</span>
       </h3>
       <div className="rounded-lg border border-border overflow-hidden">
         <ul className="divide-y divide-border">

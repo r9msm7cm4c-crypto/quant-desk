@@ -141,7 +141,7 @@ function BubbleItem({ task, isLast, onPointerDown }: {
 
   // 蓝色系(区别于财务分析的紫色)
   const accent = isWorking
-    ? 'from-sky-500/25 to-blue-500/20 text-sky-300 border-sky-300/40 shadow-[0_6px_24px_-10px_rgba(14,165,233,0.5)]'
+    ? ' text-sky-300 border-sky-300/40 shadow-[0_6px_24px_-10px_rgba(14,165,233,0.5)]'
     : isError
       ? 'from-red-500/20 to-red-500/10 text-red-300 border-red-300/40 shadow-[0_6px_20px_-10px_rgba(239,68,68,0.4)]'
       : 'from-emerald-500/20 to-emerald-500/10 text-emerald-300 border-emerald-300/40 shadow-[0_6px_20px_-10px_rgba(16,185,129,0.35)]'
@@ -159,11 +159,11 @@ function BubbleItem({ task, isLast, onPointerDown }: {
         role="button"
         tabIndex={0}
         title={isWorking ? '个股分析中,点击恢复' : isError ? '分析失败,点击重试' : '点击查看个股分析报告'}
-        className={`group relative flex w-full cursor-pointer items-center gap-1.5 overflow-hidden rounded-lg border bg-gradient-to-br px-2 py-1.5 backdrop-blur-xl transition-all duration-200 hover:scale-[1.02] active:scale-[0.99] ${accent}`}
+        className={`group relative flex w-full cursor-pointer items-center gap-1.5 overflow-hidden rounded-lg border px-2 py-1.5 transition-colors duration-200 ${accent}`}
       >
         {isWorking && (
           <div className="absolute inset-x-0 top-0 h-px overflow-hidden">
-            <div className="h-full w-1/2 bg-gradient-to-r from-transparent via-sky-200 to-transparent animate-sa-bubble-progress" />
+            <div className="h-full w-1/2 bg-accent/[0.12] animate-sa-bubble-progress" />
           </div>
         )}
         <span className="flex h-4 w-4 items-center justify-center shrink-0">
@@ -174,7 +174,7 @@ function BubbleItem({ task, isLast, onPointerDown }: {
         <span className="flex-1 min-w-0 text-[11px] font-medium text-foreground leading-none truncate">
           {task.name || task.symbol}
         </span>
-        <span className="shrink-0 text-[9px] leading-none">
+        <span className="shrink-0 text-[11px] leading-none">
           {isWorking ? <span className="text-sky-300/80">个股分析</span>
             : isError ? <span className="text-red-300/80">失败</span>
             : <span className="text-emerald-300/80">点击查看</span>}

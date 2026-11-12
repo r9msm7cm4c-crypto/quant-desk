@@ -67,8 +67,8 @@ function loadIntradayDays(): number {
 }
 
 function boardTag(symbol: string): { label: string; color: string } | null {
-  if (/^(300|301)/.test(symbol)) return { label: '创', color: 'text-[#f97316] bg-[#f97316]/12 border-[#f97316]/25' }
-  if (/^688/.test(symbol))       return { label: '科', color: 'text-purple-400 bg-purple-400/12 border-purple-400/25' }
+  if (/^(300|301)/.test(symbol)) return { label: '创', color: 'text-[#DB9A2B] bg-[#DB9A2B]/12 border-[#DB9A2B]/25' }
+  if (/^688/.test(symbol))       return { label: '科', color: 'text-accent bg-accent/12 border-accent/25' }
   if (/^[48]/.test(symbol))      return { label: '北', color: 'text-cyan-400 bg-cyan-400/12 border-cyan-400/25' }
   return null
 }
@@ -265,7 +265,7 @@ export function StockPreviewDialogContent({ symbol, name, onClose, triggerInfo, 
             exit={{ opacity: 0, scale: 0.97, y: 8 }}
             transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
             className={cn(
-              'relative rounded-dialog border border-border bg-surface shadow-2xl shadow-black/50 overflow-hidden flex flex-col transition-all duration-200 ease-smooth',
+              'relative rounded-dialog border border-border bg-surface shadow-2xl shadow-black/50 overflow-hidden flex flex-col transition-colors duration-200 ease-smooth',
               maximized ? 'w-screen h-screen max-w-none max-h-none' : 'w-[92vw] max-w-[1200px] max-h-[95vh]',
             )}
           >
@@ -276,7 +276,7 @@ export function StockPreviewDialogContent({ symbol, name, onClose, triggerInfo, 
                 {(() => {
                   const board = symbol ? boardTag(symbol) : null
                   return board ? (
-                    <span className={`inline-flex items-center justify-center w-[18px] h-[18px] rounded text-[9px] font-bold leading-none border ${board.color}`}>
+                    <span className={`inline-flex items-center justify-center w-[18px] h-[18px] rounded text-[11px] font-bold leading-none border ${board.color}`}>
                       {board.label}
                     </span>
                   ) : null
@@ -353,7 +353,7 @@ export function StockPreviewDialogContent({ symbol, name, onClose, triggerInfo, 
                       onChange={(v) => setDateRange(prev => ({ ...prev, start: v }))}
                       max={dateRange.end}
                     />
-                    <span className="text-muted/70 text-[10px]">~</span>
+                    <span className="text-muted/70 text-[11px]">~</span>
                     <DatePicker
                       value={dateRange.end}
                       onChange={(v) => setDateRange(prev => ({ ...prev, end: v }))}
@@ -390,7 +390,7 @@ export function StockPreviewDialogContent({ symbol, name, onClose, triggerInfo, 
                     type="button"
                     onClick={() => toggleWatchlist.mutate({ action: 'remove' })}
                     disabled={toggleWatchlist.isPending}
-                    className="rounded-btn p-1.5 text-[#FACC15] transition-colors cursor-pointer hover:bg-elevated disabled:opacity-50"
+                    className="rounded-btn p-1.5 text-[#DB9A2B] transition-colors cursor-pointer hover:bg-elevated disabled:opacity-50"
                     title="移出自选"
                     aria-label={`将 ${symbol} 移出自选`}
                   >
@@ -450,7 +450,7 @@ export function StockPreviewDialogContent({ symbol, name, onClose, triggerInfo, 
               <div className="flex items-center gap-4 border-b border-amber-400/20 bg-amber-400/[0.06] px-5 py-2 shrink-0">
                 {/* 左: 触发标记 + 时间 */}
                 <div className="flex items-center gap-2 shrink-0">
-                  <span className="text-[10px] font-semibold text-amber-400">⚡ 触发</span>
+                  <span className="text-[11px] font-semibold text-amber-400">触发</span>
                   {triggerInfo.ts && (
                     <span className="text-[11px] text-secondary font-mono">
                       {new Date(triggerInfo.ts).toLocaleString('zh-CN', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}
@@ -478,7 +478,7 @@ export function StockPreviewDialogContent({ symbol, name, onClose, triggerInfo, 
                   {triggerInfo.signals && triggerInfo.signals.length > 0 && (
                     <div className="flex items-center gap-1 flex-wrap">
                       {triggerInfo.signals.map((s, j) => (
-                        <span key={j} className="rounded bg-accent/10 px-1.5 py-0.5 text-[9px] text-accent/80">{cnSignal(s, customNames)}</span>
+                        <span key={j} className="rounded bg-accent/10 px-1.5 py-0.5 text-[11px] text-accent/80">{cnSignal(s, customNames)}</span>
                       ))}
                     </div>
                   )}
@@ -494,7 +494,7 @@ export function StockPreviewDialogContent({ symbol, name, onClose, triggerInfo, 
                   <span className="flex shrink-0 items-center gap-1.5">
                     <Activity className={`h-3.5 w-3.5 ${meta.icon}`} />
                     <span className={`text-[11px] font-bold ${meta.icon}`}>异动</span>
-                    <span className={`rounded px-1.5 py-0.5 text-[10px] ${meta.cls}`}>
+                    <span className={`rounded px-1.5 py-0.5 text-[11px] ${meta.cls}`}>
                       {meta.label}
                     </span>
                   </span>
@@ -520,7 +520,7 @@ export function StockPreviewDialogContent({ symbol, name, onClose, triggerInfo, 
                       )
                     })}
                   <span
-                    className="ml-auto shrink-0 font-mono text-[10px] text-muted"
+                    className="ml-auto shrink-0 font-mono text-[11px] text-muted"
                     title="异动引擎上次计算时间"
                   >
                     计算于 {fmtAbnormalCalcTime(abnormal.data?.asof ?? 0)}

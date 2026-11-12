@@ -102,7 +102,7 @@ export function DataIntegrityPanel({ hasCap, isRunning, job, defaultAssets, onSt
               <td className="whitespace-nowrap px-4 py-3"><div className="font-mono">{item.date}</div><div className="mt-1 text-muted">{item.asset_label}</div></td>
               <td className="px-4 py-3"><div className={item.repairable ? 'text-danger' : 'text-warning'}>{item.kind_label}</div>
                 <div className="mt-1 break-words text-muted">{item.reason}</div>
-                {!!item.symbol_count && <div className="mt-1 break-all font-mono text-[10px] text-secondary">{item.symbols.join('、')}{item.symbol_count > item.symbols.length ? ` 等 ${item.symbol_count} 只` : ''}</div>}
+                {!!item.symbol_count && <div className="mt-1 break-all font-mono text-[11px] text-secondary">{item.symbols.join('、')}{item.symbol_count > item.symbols.length ? ` 等 ${item.symbol_count} 只` : ''}</div>}
                 {item.repairable && <div className="mt-1 text-[11px] text-secondary">
                   {item.kind === 'recompute' ? '日K已校验，仅继续重算依赖数据' : item.symbol_count
                     ? `仅回补这 ${item.symbol_count} 只股票的异常日期`

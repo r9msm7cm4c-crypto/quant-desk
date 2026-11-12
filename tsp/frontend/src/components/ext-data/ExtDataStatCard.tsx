@@ -40,7 +40,7 @@ export function ExtDataStatCard({ config, onDelete, deleting, onEdit }: {
     setFieldsOverflow(el.scrollHeight > h + 1)
   }, [config.fields])
 
-  // 描述固定两行: 内嵌引擎有最小字号 (text-[10px] 实际行距 ≈17px 而非 16.25),
+  // 描述固定两行: 内嵌引擎有最小字号 (text-[11px] 实际行距 ≈17px 而非 16.25),
   // -webkit-line-clamp 与 px 硬编码都不可靠 — 实测前两行文本的包络高度定容器高
   const descRef = useRef<HTMLDivElement>(null)
   const [descMaxH, setDescMaxH] = useState<number | undefined>(undefined)
@@ -102,24 +102,24 @@ export function ExtDataStatCard({ config, onDelete, deleting, onEdit }: {
   // 染色边框 + 顶部发光边线 + 自主色到卡底的纵向渐变 — 有色而不闹
   const accent = config.mode === 'snapshot' ? {
     border: 'border-blue-400/25 hover:border-blue-400/45',
-    bg: 'bg-gradient-to-b from-blue-400/[0.07] via-surface to-surface',
-    line: 'via-blue-400/60',
+    bg: 'bg-accent/[0.12]',
+    line: '',
   } : {
     border: 'border-amber-400/25 hover:border-amber-400/45',
-    bg: 'bg-gradient-to-b from-amber-400/[0.07] via-surface to-surface',
-    line: 'via-amber-400/60',
+    bg: 'bg-warning/[0.12]',
+    line: '',
   }
 
   return (
     <div className={`rounded-card border ${accent.border} ${accent.bg} relative flex flex-col transition-colors duration-300`}>
-      <div className={`pointer-events-none absolute inset-x-3 top-0 h-px bg-gradient-to-r from-transparent ${accent.line} to-transparent`} />
+      <div className={`pointer-events-none absolute inset-x-3 top-0 h-px bg-elevated ${accent.line} to-transparent`} />
       <div className="flex items-start justify-between gap-2 px-4 pt-4">
         <div className="min-w-0 flex-1">
           <h3 className="text-sm font-medium text-foreground truncate" title={config.label}>
             {config.label}
           </h3>
           <div className="flex items-center gap-1.5 mt-1.5">
-            <span className={`whitespace-nowrap text-[10px] leading-none font-medium px-1.5 py-1 rounded-md ${
+            <span className={`whitespace-nowrap text-[11px] leading-none font-medium px-1.5 py-1 rounded-md ${
               config.mode === 'snapshot'
                 ? 'bg-blue-500/10 text-blue-400'
                 : 'bg-amber-500/10 text-amber-400'
@@ -128,7 +128,7 @@ export function ExtDataStatCard({ config, onDelete, deleting, onEdit }: {
             </span>
             {config.mode === 'timeseries' && config.pull?.time_field && (
               <span
-                className="whitespace-nowrap text-[10px] leading-none font-medium px-1.5 py-1 rounded-md bg-emerald-500/10 text-emerald-500 dark:text-emerald-400"
+                className="whitespace-nowrap text-[11px] leading-none font-medium px-1.5 py-1 rounded-md bg-emerald-500/10 text-emerald-500 dark:text-emerald-400"
                 title={`日内多盘 · 时间列 ${config.pull.time_field}`}
               >
                 多盘
@@ -149,7 +149,7 @@ export function ExtDataStatCard({ config, onDelete, deleting, onEdit }: {
       <div
         ref={descRef}
         style={descMaxH !== undefined ? { maxHeight: descMaxH } : undefined}
-        className="px-4 pt-2 pb-1.5 text-[10px] text-muted leading-relaxed max-h-[52px] shrink-0 overflow-hidden break-words"
+        className="px-4 pt-2 pb-1.5 text-[11px] text-muted leading-relaxed max-h-[52px] shrink-0 overflow-hidden break-words"
       >
         {config.description || `扩展数据 · ${config.mode === 'snapshot' ? '与标的 JOIN' : '与日K JOIN'}`}
       </div>
@@ -168,7 +168,7 @@ export function ExtDataStatCard({ config, onDelete, deleting, onEdit }: {
               .map((f) => (
                 <span
                   key={f.name}
-                  className="text-[10px] leading-none py-1 px-1.5 rounded-md bg-elevated/70 border border-border/40 text-secondary"
+                  className="text-[11px] leading-none py-1 px-1.5 rounded-md bg-elevated/70 border border-border/40 text-secondary"
                   title={f.name}
                 >
                   {f.label || f.name}
@@ -229,7 +229,7 @@ export function ExtDataStatCard({ config, onDelete, deleting, onEdit }: {
           <SettingsModal title={config.label} onClose={() => setSettingsOpen(false)} width="max-w-xl">
             <div className="space-y-4">
               {/* 信息条: 一眼看清这张表是什么 */}
-              <div className="flex items-center gap-2 flex-wrap rounded-lg border border-border/50 bg-elevated/30 px-3 py-2 text-[10px]">
+              <div className="flex items-center gap-2 flex-wrap rounded-lg border border-border/50 bg-elevated/30 px-3 py-2 text-[11px]">
                 <span className={`px-1.5 py-px rounded font-medium border ${
                   config.mode === 'snapshot'
                     ? 'bg-blue-500/10 text-blue-400 border-blue-500/20'
@@ -250,7 +250,7 @@ export function ExtDataStatCard({ config, onDelete, deleting, onEdit }: {
                 <div className="grid grid-cols-3 gap-1 rounded-xl bg-elevated/50 p-1 border border-border/40">
                   <button
                     onClick={() => setIngestTab('pull')}
-                    className={`inline-flex items-center justify-center gap-1.5 h-9 rounded-lg text-xs font-medium transition-all ${
+                    className={`inline-flex items-center justify-center gap-1.5 h-9 rounded-lg text-xs font-medium transition-colors ${
                       ingestTab === 'pull' ? 'bg-surface text-foreground shadow-sm' : 'text-muted hover:text-secondary hover:bg-elevated/40'
                     }`}
                   >
@@ -258,7 +258,7 @@ export function ExtDataStatCard({ config, onDelete, deleting, onEdit }: {
                   </button>
                   <button
                     onClick={() => setIngestTab('api')}
-                    className={`inline-flex items-center justify-center gap-1.5 h-9 rounded-lg text-xs font-medium transition-all ${
+                    className={`inline-flex items-center justify-center gap-1.5 h-9 rounded-lg text-xs font-medium transition-colors ${
                       ingestTab === 'api' ? 'bg-surface text-foreground shadow-sm' : 'text-muted hover:text-secondary hover:bg-elevated/40'
                     }`}
                   >
@@ -266,7 +266,7 @@ export function ExtDataStatCard({ config, onDelete, deleting, onEdit }: {
                   </button>
                   <button
                     onClick={() => setIngestTab('file')}
-                    className={`inline-flex items-center justify-center gap-1.5 h-9 rounded-lg text-xs font-medium transition-all ${
+                    className={`inline-flex items-center justify-center gap-1.5 h-9 rounded-lg text-xs font-medium transition-colors ${
                       ingestTab === 'file' ? 'bg-surface text-foreground shadow-sm' : 'text-muted hover:text-secondary hover:bg-elevated/40'
                     }`}
                   >
@@ -293,7 +293,7 @@ export function ExtDataStatCard({ config, onDelete, deleting, onEdit }: {
                     onDragOver={e => { e.preventDefault(); setDragOver(true) }}
                     onDragLeave={() => setDragOver(false)}
                     onDrop={handleDrop}
-                    className={`relative cursor-pointer rounded-xl border-2 border-dashed transition-all py-8 flex flex-col items-center justify-center gap-2 ${
+                    className={`relative cursor-pointer rounded-xl border-2 border-dashed transition-colors py-8 flex flex-col items-center justify-center gap-2 ${
                       dragOver
                         ? 'border-accent bg-accent/10 scale-[1.01]'
                         : uploading
@@ -314,7 +314,7 @@ export function ExtDataStatCard({ config, onDelete, deleting, onEdit }: {
                         <span className={`text-xs ${dragOver ? 'text-accent' : 'text-secondary'}`}>
                           拖拽文件到此处，或点击选择
                         </span>
-                        <span className="text-[10px] text-muted/70">支持 CSV / Excel，需包含 symbol 列</span>
+                        <span className="text-[11px] text-muted/70">支持 CSV / Excel，需包含 symbol 列</span>
                       </>
                     )}
                   </div>
@@ -334,7 +334,7 @@ export function ExtDataStatCard({ config, onDelete, deleting, onEdit }: {
                     <button
                       onClick={() => { setSettingsOpen(false); onEdit() }}
                       title="编辑名称、描述与字段定义"
-                      className="inline-flex items-center gap-1 h-7 px-2.5 rounded-lg text-[10px] text-muted hover:text-foreground hover:bg-elevated focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent/40 transition-colors"
+                      className="inline-flex items-center gap-1 h-7 px-2.5 rounded-lg text-[11px] text-muted hover:text-foreground hover:bg-elevated focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent/40 transition-colors"
                     >
                       <Pencil className="h-3 w-3" />
                       编辑配置
@@ -350,7 +350,7 @@ export function ExtDataStatCard({ config, onDelete, deleting, onEdit }: {
                       })
                     }}
                     title="历史数据 symbol 列缺交易所后缀时批量补全 (600000 → 600000.SH)"
-                    className="inline-flex items-center gap-1 h-7 px-2.5 rounded-lg text-[10px] text-muted hover:text-foreground hover:bg-elevated focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent/40 transition-colors"
+                    className="inline-flex items-center gap-1 h-7 px-2.5 rounded-lg text-[11px] text-muted hover:text-foreground hover:bg-elevated focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent/40 transition-colors"
                   >
                     <Tag className="h-3 w-3" />
                     修复代码格式
@@ -358,7 +358,7 @@ export function ExtDataStatCard({ config, onDelete, deleting, onEdit }: {
                 </div>
                 <button
                   onClick={() => setShowDelete(true)}
-                  className="inline-flex items-center gap-1 h-7 px-2.5 rounded-lg text-[10px] text-danger/60 hover:text-danger hover:bg-danger/[0.06] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-danger/40 transition-colors"
+                  className="inline-flex items-center gap-1 h-7 px-2.5 rounded-lg text-[11px] text-danger/60 hover:text-danger hover:bg-danger/[0.06] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-danger/40 transition-colors"
                 >
                   <Trash2 className="h-3 w-3" />
                   删除

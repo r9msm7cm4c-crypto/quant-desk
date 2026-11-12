@@ -123,11 +123,11 @@ export function PicksSymbolKlineModal({ symbol, result, periodStart, periodEnd, 
                     <span className="font-mono text-sm font-semibold text-foreground">{symbol}</span>
                     {name && <span className="truncate text-sm text-foreground">{name}</span>}
                     {tag && (
-                      <span className="rounded border border-accent/30 bg-accent/10 px-1.5 py-0.5 text-[10px] text-accent">
+                      <span className="rounded border border-accent/30 bg-accent/10 px-1.5 py-0.5 text-[11px] text-accent">
                         {tag}
                       </span>
                     )}
-                    <span className="rounded border border-accent/30 bg-accent/10 px-1.5 py-0.5 text-[10px] text-accent">标的回放</span>
+                    <span className="rounded border border-accent/30 bg-accent/10 px-1.5 py-0.5 text-[11px] text-accent">标的回放</span>
 
                     {/* 切标的: 上一只 / n·N / 下一只 */}
                     <NavPager nav={nav} prevLabel="上一只" nextLabel="下一只" />
@@ -135,7 +135,7 @@ export function PicksSymbolKlineModal({ symbol, result, periodStart, periodEnd, 
                   <div className="mt-1 text-[11px] text-muted">
                     回测 {periodStart} ~ {periodEnd} · {trades.length} 笔交易
                   </div>
-                  <div className="mt-1 text-[10px] text-muted/70">
+                  <div className="mt-1 text-[11px] text-muted/70">
                     ▲ 买入(红) · ▼ 卖出(绿) · 箭头旁为成交价 · 同日多笔合并显示
                   </div>
                 </div>

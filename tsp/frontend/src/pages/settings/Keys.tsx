@@ -35,7 +35,7 @@ function SectionHeading({ icon: Icon, title, badge, right }: {
         <Icon className="h-3.5 w-3.5 text-secondary shrink-0" />
         <h3 className="text-xs font-medium text-foreground">{title}</h3>
         {badge && (
-          <span className="px-1.5 py-0.5 text-[10px] font-mono rounded bg-elevated text-muted shrink-0">{badge}</span>
+          <span className="px-1.5 py-0.5 text-[11px] font-mono rounded bg-elevated text-muted shrink-0">{badge}</span>
         )}
       </div>
       {right}
@@ -112,7 +112,7 @@ export function TickFlowKeySection({ right }: { right?: React.ReactNode }) {
       {/* 当前状态 */}
       <div className="flex items-center justify-between mb-4">
         <div className="min-w-0">
-          <div className="text-[10px] uppercase tracking-widest text-muted">状态</div>
+          <div className="text-[11px] uppercase tracking-widest text-muted">状态</div>
           <div className="mt-1 flex items-center gap-2 min-w-0">
             {mode === 'api_key' ? (
               <>
@@ -175,7 +175,7 @@ export function TickFlowKeySection({ right }: { right?: React.ReactNode }) {
         <button
           type="submit"
           disabled={save.isPending || (!keyInput.trim() && !saved)}
-          className="h-9 shrink-0 px-4 rounded-xl bg-accent text-white text-sm font-semibold flex items-center justify-center gap-2 hover:bg-accent/90 disabled:opacity-40 transition-all"
+          className="h-9 shrink-0 px-4 rounded-xl bg-accent text-white text-sm font-semibold flex items-center justify-center gap-2 hover:bg-accent/90 disabled:opacity-40 transition-colors"
         >
           {save.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : saved ? <Check className="h-4 w-4" /> : <Save className="h-4 w-4" />}
           {save.isPending ? '保存中...' : saved ? '已保存' : '保存并检测'}

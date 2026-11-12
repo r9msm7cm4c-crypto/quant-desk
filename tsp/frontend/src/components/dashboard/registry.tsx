@@ -52,7 +52,7 @@ function sectionCard(children: ReactNode, opts: { className?: string; style?: CS
   return (
     <section
       style={opts.style}
-      className={`h-full overflow-hidden rounded-card border border-border bg-surface/80 p-1.5 shadow-[0_1px_2px_hsl(var(--border)/0.4)] backdrop-blur-sm transition-shadow hover:shadow-[0_2px_8px_hsl(var(--border)/0.5)] ${opts.className ?? ''}`}
+      className={`h-full overflow-hidden rounded-card border border-border bg-surface p-2 transition-colors hover:border-accent/30 ${opts.className ?? ''}`}
     >
       {children}
     </section>
@@ -136,12 +136,12 @@ function TrendWidget({ ctx }: { ctx: WidgetCtx }) {
 
 function MonitorSection({ ctx }: { ctx: WidgetCtx }) {
   return (
-    <section className="h-full overflow-hidden rounded-card border border-border bg-surface/80 p-1.5 shadow-[0_1px_2px_hsl(var(--border)/0.4)] backdrop-blur-sm transition-shadow hover:shadow-[0_2px_8px_hsl(var(--border)/0.5)]">
+    <section className="h-full overflow-hidden rounded-card border border-border bg-surface p-2 transition-colors hover:border-accent/30">
       <div className="mb-2 flex items-center justify-between gap-2">
         <div className="flex items-center gap-1.5">
           <BellRing className="h-3.5 w-3.5 text-accent" />
           <h2 className="text-xs font-semibold text-foreground">监控中心</h2>
-          <span className="font-mono text-[10px] text-muted">实时信号</span>
+          <span className="font-mono text-[11px] text-muted">实时信号</span>
         </div>
         <Link to="/monitor" className="inline-flex items-center justify-center h-5 w-5 rounded text-muted hover:text-accent hover:bg-accent/10 transition-colors" title="进入监控中心">
           <ArrowUpRight className="h-3.5 w-3.5" />
@@ -250,7 +250,7 @@ export const WIDGET_DEFS: WidgetDef[] = [
     id: 'ladder', label: '涨停梯队', icon: Flame, minW: 3, minH: 6, defW: 4, defH: 8,
     render: ctx => sectionCard(
       <>
-        <SectionTitle icon={Flame} title="涨停梯队" hint={<span className="inline-flex items-center gap-1">{`涨停 ${ctx.data.limit.limit_up}`}{ctx.isSealedDegrade && <span className="text-[9px] px-1 rounded bg-yellow-500/10 text-yellow-600 dark:text-yellow-500">{ctx.hasDepth ? '未修正' : '降级'}</span>}</span>} />
+        <SectionTitle icon={Flame} title="涨停梯队" hint={<span className="inline-flex items-center gap-1">{`涨停 ${ctx.data.limit.limit_up}`}{ctx.isSealedDegrade && <span className="text-[11px] px-1 rounded bg-yellow-500/10 text-yellow-600 dark:text-yellow-500">{ctx.hasDepth ? '未修正' : '降级'}</span>}</span>} />
         <LadderMini limit={ctx.data.limit} />
       </>,
     ),

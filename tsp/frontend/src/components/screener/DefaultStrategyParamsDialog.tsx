@@ -130,7 +130,7 @@ export function DefaultStrategyParamsDialog({ show, onClose }: Props) {
                 const active = bf.boards.includes(b)
                 return (
                   <button key={b} onClick={() => { const next = active ? bf.boards.filter(x => x !== b) : [...bf.boards, b]; set('boards', next.length === 0 ? [...ALL_BOARDS] : next) }}
-                    className={`px-1.5 py-0.5 rounded text-[10px] font-medium border transition-colors cursor-pointer ${active ? `${color.select.border} ${color.select.bgLight} ${color.select.text}` : `border-border bg-base text-muted ${color.select.borderHover}`}`}>{b}</button>
+                    className={`px-1.5 py-0.5 rounded text-[11px] font-medium border transition-colors cursor-pointer ${active ? `${color.select.border} ${color.select.bgLight} ${color.select.text}` : `border-border bg-base text-muted ${color.select.borderHover}`}`}>{b}</button>
                 )
               })}
             </div>
@@ -138,7 +138,7 @@ export function DefaultStrategyParamsDialog({ show, onClose }: Props) {
           <div className="flex items-center gap-1.5">
             <span className="text-[11px] text-secondary w-16 shrink-0 text-right">ST</span>
             <button onClick={() => set('exclude_st', !bf.exclude_st)}
-              className={`px-1.5 py-0.5 rounded text-[10px] font-medium border transition-colors cursor-pointer ${bf.exclude_st ? 'border-danger/40 bg-danger/10 text-danger' : 'border-border bg-base text-muted hover:border-danger/30'}`}>{bf.exclude_st ? '排除' : '包含'}</button>
+              className={`px-1.5 py-0.5 rounded text-[11px] font-medium border transition-colors cursor-pointer ${bf.exclude_st ? 'border-danger/40 bg-danger/10 text-danger' : 'border-border bg-base text-muted hover:border-danger/30'}`}>{bf.exclude_st ? '排除' : '包含'}</button>
           </div>
         </div>
       </div>

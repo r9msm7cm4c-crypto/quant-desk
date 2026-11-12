@@ -188,7 +188,7 @@ export function SettingsBackupPanel({ mode = 'all' }: { mode?: 'all' | 'export' 
   }
 
   return (
-    <div className="mx-auto max-w-3xl space-y-4">
+    <div className="mx-auto max-w-5xl space-y-4">
       {/* ── 导出 ── */}
       {mode !== 'import' && <div className="rounded-card border border-border bg-surface p-4">
         <CardHeader
@@ -223,7 +223,7 @@ export function SettingsBackupPanel({ mode = 'all' }: { mode?: 'all' | 'export' 
           <div className="mb-1.5 flex flex-wrap items-center justify-between gap-2 px-0.5">
             <div className="flex items-center gap-2 text-[11px] font-medium text-secondary">
               备份内容
-              <span className={`rounded-full px-1.5 py-px text-[10px] ${
+              <span className={`rounded-full px-1.5 py-px text-[11px] ${
                 exportSel.size > 0 ? 'bg-accent/10 text-accent' : 'bg-danger/10 text-danger'
               }`}>
                 已选 {exportSel.size} / {CATEGORY_OPTIONS.length}
@@ -505,7 +505,7 @@ export function SettingsBackupPanel({ mode = 'all' }: { mode?: 'all' | 'export' 
                       </div>
                       {!sm.ok && sm.issues.map((i, idx) => (
                         <div key={idx} className="mt-0.5 pl-4.5 text-[11px] text-danger">
-                          <span className="rounded bg-danger/10 px-1 py-px font-mono text-[10px]">{i.code}</span> {i.message}
+                          <span className="rounded bg-danger/10 px-1 py-px font-mono text-[11px]">{i.code}</span> {i.message}
                         </div>
                       ))}
                     </div>

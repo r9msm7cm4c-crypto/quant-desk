@@ -161,7 +161,7 @@ export function RpsRotationDialog({ onClose, kind = 'concept' }: Props) {
         if (!cell) {
           return (
             <td key={d} className="px-2 py-1 text-center text-muted/40">
-              <span className="text-[10px]">—</span>
+              <span className="text-[11px]">—</span>
             </td>
           )
         }
@@ -183,7 +183,7 @@ export function RpsRotationDialog({ onClose, kind = 'concept' }: Props) {
                 isSelected ? 'text-accent font-medium' : 'text-secondary',
               )} title={name}>{name}</span>
               <span className={cn(
-                'text-[10px] tabular-nums',
+                'text-[11px] tabular-nums',
                 pct > 0 ? 'text-bull' : pct < 0 ? 'text-bear' : 'text-muted',
               )}>{fmtPct(pct)}</span>
             </div>
@@ -196,7 +196,7 @@ export function RpsRotationDialog({ onClose, kind = 'concept' }: Props) {
           style={{ height: ROW_HEIGHT }}
           className="border-b border-border/30"
         >
-          <td className="sticky left-0 z-10 bg-surface px-2 text-center text-[10px] text-muted tabular-nums border-r border-border/40">
+          <td className="sticky left-0 z-10 bg-surface px-2 text-center text-[11px] text-muted tabular-nums border-r border-border/40">
             {displayIdx + 1}
           </td>
           {cells}
@@ -229,7 +229,7 @@ export function RpsRotationDialog({ onClose, kind = 'concept' }: Props) {
                       key={lv}
                       onClick={() => { setLevel(lv); setSelected(null) }}
                       className={cn(
-                        'h-5 rounded-[5px] px-2 text-[10px] font-medium transition-colors',
+                        'h-5 rounded-[5px] px-2 text-[11px] font-medium transition-colors',
                         level === lv ? 'bg-accent text-white shadow-sm' : 'text-secondary hover:text-foreground',
                       )}
                     >
@@ -369,13 +369,13 @@ export function RpsRotationDialog({ onClose, kind = 'concept' }: Props) {
                   {/* 表头: 日期列, 最新在最左 */}
                   <thead className="sticky top-0 z-20 bg-surface">
                     <tr>
-                      <th className="sticky left-0 z-30 bg-surface px-2 py-1.5 text-[10px] font-normal text-muted border-b border-r border-border/40">
+                      <th className="sticky left-0 z-30 bg-surface px-2 py-1.5 text-[11px] font-normal text-muted border-b border-r border-border/40">
                         #
                       </th>
                       {dates.map(d => (
                         <th
                           key={d}
-                          className="px-2 py-1.5 text-[10px] font-normal text-muted border-b border-border/40 whitespace-nowrap text-center"
+                          className="px-2 py-1.5 text-[11px] font-normal text-muted border-b border-border/40 whitespace-nowrap text-center"
                           title={d}
                         >
                           {shortDate(d)}
@@ -393,7 +393,7 @@ export function RpsRotationDialog({ onClose, kind = 'concept' }: Props) {
                           className="border-b border-accent/20 bg-accent/5"
                         >
                           <td className="sticky left-0 z-30 bg-surface px-2 py-1 text-center border-r border-border/40">
-                            <span className="text-[10px] text-accent truncate block max-w-[44px]" title={selected}>
+                            <span className="text-[11px] text-accent truncate block max-w-[44px]" title={selected}>
                               {selected}
                             </span>
                           </td>
@@ -408,14 +408,14 @@ export function RpsRotationDialog({ onClose, kind = 'concept' }: Props) {
                                     #{cell.rank}
                                   </span>
                                   <span className={cn(
-                                    'text-[10px] tabular-nums',
+                                    'text-[11px] tabular-nums',
                                     cell.pct > 0 ? 'text-bull' : cell.pct < 0 ? 'text-bear' : 'text-muted',
                                   )}>
                                     {fmtPct(cell.pct)}
                                   </span>
                                 </div>
                               ) : (
-                                <span className="text-[10px] text-muted/40">—</span>
+                                <span className="text-[11px] text-muted/40">—</span>
                               )}
                             </td>
                           ))}
@@ -445,7 +445,7 @@ export function RpsRotationDialog({ onClose, kind = 'concept' }: Props) {
 
           {/* 底部提示 */}
           <div className="px-4 py-1.5 border-t border-border shrink-0">
-            <span className="text-[10px] text-muted">
+            <span className="text-[11px] text-muted">
               每列各自按当日涨幅排序 · 点击单元格追踪概念在各日的排名变化
             </span>
           </div>

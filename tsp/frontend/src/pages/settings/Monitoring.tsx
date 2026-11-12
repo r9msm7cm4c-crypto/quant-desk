@@ -397,7 +397,7 @@ export function SettingsMonitoringPanel({ highlight }: { highlight?: string } = 
                 onChange={(e) => setIntervalDraft(parseFloat(e.target.value))}
                 className="flex-1 h-1 accent-accent cursor-pointer"
               />
-              <span className="text-[10px] text-muted shrink-0">
+              <span className="text-[11px] text-muted shrink-0">
                 {intervalDraft !== interval ? '2秒后保存' : `${minInterval}s — ${maxInterval}s`}
               </span>
             </div>
@@ -452,7 +452,7 @@ export function SettingsMonitoringPanel({ highlight }: { highlight?: string } = 
                 onChange={(e) => setIntradayIntervalDraft(parseInt(e.target.value, 10))}
                 className="flex-1 h-1 accent-accent cursor-pointer"
               />
-              <span className="text-[10px] text-muted shrink-0">
+              <span className="text-[11px] text-muted shrink-0">
                 {intradayIntervalDraft !== intradayInterval ? '2秒后保存' : '3s — 60s'}
               </span>
             </div>
@@ -500,12 +500,12 @@ export function SettingsMonitoringPanel({ highlight }: { highlight?: string } = 
                 onChange={(e) => setMinuteRefreshIntervalDraft(parseInt(e.target.value, 10))}
                 className="flex-1 h-1 accent-accent cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
               />
-              <span className="text-[10px] text-muted shrink-0">
+              <span className="text-[11px] text-muted shrink-0">
                 {minuteRefreshIntervalDraft !== minuteRefreshInterval ? '2秒后保存' : '3s — 120s'}
               </span>
             </div>
             {rs?.available && rs.rounds != null && rs.rounds > 0 && (
-              <div className="mt-2 text-[10px] text-muted">
+              <div className="mt-2 text-[11px] text-muted">
                 已 {rs.rounds} 轮 · 最近 {rs.last_symbols} 标的 / {rs.last_rows} 行 / {rs.last_requests} 请求
                 {rs.last_round_ms != null ? ` · ${(rs.last_round_ms / 1000).toFixed(1)}s` : ''}
                 {rs.last_error ? ` · ${rs.last_error}` : ''}
@@ -546,7 +546,7 @@ export function SettingsMonitoringPanel({ highlight }: { highlight?: string } = 
                 onChange={toggleLimitLadderMonitor}
               />
               <div className="mt-4 pt-3 border-t border-border">
-                <div className="text-[10px] uppercase tracking-widest text-muted mb-3">
+                <div className="text-[11px] uppercase tracking-widest text-muted mb-3">
                   五档盘口配置
                 </div>
                 <DepthConfigContent disabled={!limitLadderMonitor} />
@@ -583,11 +583,11 @@ export function SettingsMonitoringPanel({ highlight }: { highlight?: string } = 
                   className="h-3 w-3 accent-accent cursor-pointer"
                 />
                 <span className="text-[11px] font-medium text-foreground">飞书</span>
-                <span className="text-[9px] text-muted">群推送 Webhook</span>
+                <span className="text-[11px] text-muted">群推送 Webhook</span>
                 {webhookDefaultChannels.includes('feishu') && (
-                  <span className="rounded bg-accent/15 px-1 py-px text-[9px] text-accent">默认</span>
+                  <span className="rounded bg-accent/15 px-1 py-px text-[11px] text-accent">默认</span>
                 )}
-                <span className={`ml-auto text-[9px] ${feishuWebhookUrl ? 'text-emerald-500' : 'text-warning'}`}>
+                <span className={`ml-auto text-[11px] ${feishuWebhookUrl ? 'text-emerald-500' : 'text-warning'}`}>
                   {feishuWebhookUrl ? '已配置' : '未配置'}
                 </span>
                 <ChevronDown className={`h-3 w-3 text-muted transition-transform ${channelOpen ? 'rotate-180' : ''}`} />
@@ -631,12 +631,12 @@ export function SettingsMonitoringPanel({ highlight }: { highlight?: string } = 
                     </button>
                     <TestSendButton test={testFeishu} configured={!!feishuWebhookUrl} />
                     {feishuWebhookUrl && (
-                      <span className="text-[10px] text-emerald-500">● 已配置</span>
+                      <span className="text-[11px] text-emerald-500">● 已配置</span>
                     )}
                     <TestResult test={testFeishu} />
                   </div>
 
-                  <details className="mt-3 text-[10px] text-muted">
+                  <details className="mt-3 text-[11px] text-muted">
                     <summary className="cursor-pointer hover:text-secondary">如何获取飞书 Webhook 地址?</summary>
                     <ol className="mt-1.5 space-y-1 pl-4 list-decimal leading-relaxed">
                       <li>打开飞书,进入目标群聊 → 群设置 → <b>群推送 Webhook</b></li>
@@ -646,7 +646,7 @@ export function SettingsMonitoringPanel({ highlight }: { highlight?: string } = 
                       <li>粘贴到上方输入框并保存</li>
                     </ol>
                     <p className="mt-1.5 pl-4 text-muted/70">
-                      📖 官方文档:
+                      官方文档:
                       <a href="https://open.feishu.cn/document/client-docs/bot-v3/add-custom-bot?lang=zh-CN" target="_blank" rel="noreferrer" className="text-accent hover:text-accent/80">
                         自定义机器人使用指南 ↗
                       </a>
@@ -671,11 +671,11 @@ export function SettingsMonitoringPanel({ highlight }: { highlight?: string } = 
                   className="h-3 w-3 accent-accent cursor-pointer"
                 />
                 <span className="text-[11px] font-medium text-foreground">企业微信</span>
-                <span className="text-[9px] text-muted">群推送 Webhook</span>
+                <span className="text-[11px] text-muted">群推送 Webhook</span>
                 {webhookDefaultChannels.includes('wecom') && (
-                  <span className="rounded bg-accent/15 px-1 py-px text-[9px] text-accent">默认</span>
+                  <span className="rounded bg-accent/15 px-1 py-px text-[11px] text-accent">默认</span>
                 )}
-                <span className={`ml-auto text-[9px] ${wecomWebhookUrl ? 'text-emerald-500' : 'text-warning'}`}>
+                <span className={`ml-auto text-[11px] ${wecomWebhookUrl ? 'text-emerald-500' : 'text-warning'}`}>
                   {wecomWebhookUrl ? '已配置' : '未配置'}
                 </span>
                 <ChevronDown className={`h-3 w-3 text-muted transition-transform ${wecomOpen ? 'rotate-180' : ''}`} />
@@ -707,12 +707,12 @@ export function SettingsMonitoringPanel({ highlight }: { highlight?: string } = 
                     </button>
                     <TestSendButton test={testWecom} configured={!!wecomWebhookUrl} />
                     {wecomWebhookUrl && (
-                      <span className="text-[10px] text-emerald-500">● 已配置</span>
+                      <span className="text-[11px] text-emerald-500">● 已配置</span>
                     )}
                     <TestResult test={testWecom} />
                   </div>
 
-                  <details className="mt-3 text-[10px] text-muted">
+                  <details className="mt-3 text-[11px] text-muted">
                     <summary className="cursor-pointer hover:text-secondary">如何获取企业微信 Webhook 地址?</summary>
                     <ol className="mt-1.5 space-y-1 pl-4 list-decimal leading-relaxed">
                       <li>打开企业微信,进入目标群聊 → 右上角「...」→ <b>群推送 Webhook</b></li>
@@ -722,7 +722,7 @@ export function SettingsMonitoringPanel({ highlight }: { highlight?: string } = 
                       <li>企业微信群的消息可同步到绑定的个人微信,实现"微信推送"</li>
                     </ol>
                     <p className="mt-1.5 pl-4 text-muted/70">
-                      📖 官方文档:
+                      官方文档:
                       <a href="https://developer.work.weixin.qq.com/document/path/91770" target="_blank" rel="noreferrer" className="text-accent hover:text-accent/80">
                         群推送 Webhook 使用指南 ↗
                       </a>
@@ -747,11 +747,11 @@ export function SettingsMonitoringPanel({ highlight }: { highlight?: string } = 
                   className="h-3 w-3 accent-accent cursor-pointer"
                 />
                 <span className="text-[11px] font-medium text-foreground">第三方系统</span>
-                <span className="text-[9px] text-muted">JSON Webhook</span>
+                <span className="text-[11px] text-muted">JSON Webhook</span>
                 {webhookDefaultChannels.includes('custom') && (
-                  <span className="rounded bg-accent/15 px-1 py-px text-[9px] text-accent">默认</span>
+                  <span className="rounded bg-accent/15 px-1 py-px text-[11px] text-accent">默认</span>
                 )}
-                <span className={`ml-auto text-[9px] ${customWebhookUrl ? 'text-emerald-500' : 'text-warning'}`}>
+                <span className={`ml-auto text-[11px] ${customWebhookUrl ? 'text-emerald-500' : 'text-warning'}`}>
                   {customWebhookUrl ? '已配置' : '未配置'}
                 </span>
                 <ChevronDown className={`h-3 w-3 text-muted transition-transform ${customOpen ? 'rotate-180' : ''}`} />
@@ -790,7 +790,7 @@ export function SettingsMonitoringPanel({ highlight }: { highlight?: string } = 
                     <TestSendButton test={testCustom} configured={!!customWebhookUrl} />
                     <TestResult test={testCustom} />
                   </div>
-                  <details className="mt-3 text-[10px] text-muted">
+                  <details className="mt-3 text-[11px] text-muted">
                     <summary className="cursor-pointer hover:text-secondary">请求格式</summary>
                     <p className="mt-1.5 leading-relaxed">
                       POST JSON 包含 event、timestamp、title、body、data。配置密钥后会附带
@@ -816,11 +816,11 @@ export function SettingsMonitoringPanel({ highlight }: { highlight?: string } = 
                   className="h-3 w-3 accent-accent cursor-pointer"
                 />
                 <span className="text-[11px] font-medium text-foreground">邮件</span>
-                <span className="text-[9px] text-muted">SMTP</span>
+                <span className="text-[11px] text-muted">SMTP</span>
                 {webhookDefaultChannels.includes('email') && (
-                  <span className="rounded bg-accent/15 px-1 py-px text-[9px] text-accent">默认</span>
+                  <span className="rounded bg-accent/15 px-1 py-px text-[11px] text-accent">默认</span>
                 )}
-                <span className={`ml-auto text-[9px] ${emailConfigured ? 'text-emerald-500' : 'text-warning'}`}>
+                <span className={`ml-auto text-[11px] ${emailConfigured ? 'text-emerald-500' : 'text-warning'}`}>
                   {emailConfigured ? '已配置' : '未配置'}
                 </span>
                 <ChevronDown className={`h-3 w-3 text-muted transition-transform ${emailOpen ? 'rotate-180' : ''}`} />
@@ -892,8 +892,8 @@ export function SettingsMonitoringPanel({ highlight }: { highlight?: string } = 
                   className="h-3 w-3 accent-accent cursor-pointer disabled:opacity-40"
                 />
                 <span className="text-[11px] font-medium text-foreground">企业微信</span>
-                <span className="text-[9px] text-muted">智能机器人</span>
-                <span className={`ml-auto text-[9px] ${wecomBotId ? (botStatus?.connected ? 'text-emerald-500' : 'text-warning') : 'text-muted'}`}>
+                <span className="text-[11px] text-muted">智能机器人</span>
+                <span className={`ml-auto text-[11px] ${wecomBotId ? (botStatus?.connected ? 'text-emerald-500' : 'text-warning') : 'text-muted'}`}>
                   {wecomBotId ? (botStatus?.connected ? '已连接' : (wecomBotEnabled ? '连接中' : '已配置')) : '未配置'}
                 </span>
                 <ChevronDown className={`h-3 w-3 text-muted transition-transform ${botOpen ? 'rotate-180' : ''}`} />
@@ -901,7 +901,7 @@ export function SettingsMonitoringPanel({ highlight }: { highlight?: string } = 
 
               {botOpen && (
                 <div className="border-t border-border/60 bg-base/30 p-3">
-                  <p className="mb-2.5 text-[10px] text-muted leading-relaxed">
+                  <p className="mb-2.5 text-[11px] text-muted leading-relaxed">
                     勾选卡片左侧开关可启用长连接保活(开启后后端持续保持与企业微信的
                     WebSocket 连接)。保存凭证后需勾选才会连接, 取消勾选则立即断开。
                   </p>
@@ -943,11 +943,11 @@ export function SettingsMonitoringPanel({ highlight }: { highlight?: string } = 
                       {saveWecomBot.isPending ? '保存中…' : '保存并连接'}
                     </button>
                     {wecomBotId && (
-                      <span className="text-[10px] text-emerald-500">● 已配置</span>
+                      <span className="text-[11px] text-emerald-500">● 已配置</span>
                     )}
                   </div>
 
-                  <details className="mt-3 text-[10px] text-muted">
+                  <details className="mt-3 text-[11px] text-muted">
                     <summary className="cursor-pointer hover:text-secondary">如何获取 BotID 和 Secret?</summary>
                     <ol className="mt-1.5 space-y-1 pl-4 list-decimal leading-relaxed">
                       <li>登录<b>企业微信管理后台</b> → 应用管理 → <b>智能机器人</b> → 创建机器人</li>
@@ -956,11 +956,11 @@ export function SettingsMonitoringPanel({ highlight }: { highlight?: string } = 
                       <li>页面显示 <b>BotID</b> 和 <b>Secret</b>, 复制填到上方输入框</li>
                     </ol>
                     <p className="mt-1.5 pl-4 text-muted/70">
-                      💡 智能机器人支持 @交互和流式回复, 与群推送 Webhook(单向推送)互补。
+                      提示：智能机器人支持 @交互和流式回复, 与群推送 Webhook(单向推送)互补。
                       保存后后端会自动建立 WebSocket 长连接保活。
                     </p>
                     <p className="mt-1.5 pl-4 text-muted/70">
-                      📖 官方文档:
+                      官方文档:
                       <a href="https://developer.work.weixin.qq.com/document/path/101463" target="_blank" rel="noreferrer" className="text-accent hover:text-accent/80">
                         智能机器人长连接 ↗
                       </a>
@@ -1085,7 +1085,7 @@ function Card({ icon: Icon, title, badge, right, children, anchor }: CardProps &
           <Icon className="h-4 w-4 text-secondary" />
           <h2 className="text-sm font-medium text-foreground">{title}</h2>
           {badge && (
-            <span className="px-1.5 py-0.5 text-[10px] font-mono rounded bg-elevated text-muted">
+            <span className="px-1.5 py-0.5 text-[11px] font-mono rounded bg-elevated text-muted">
               {badge}
             </span>
           )}

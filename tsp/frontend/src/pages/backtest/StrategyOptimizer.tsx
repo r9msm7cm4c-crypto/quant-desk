@@ -149,7 +149,7 @@ export function StrategyOptimizer() {
           <select value={objective} onChange={e => setObjective(e.target.value)} className={INPUT_CLS}>
             {PRIMARY_OBJECTIVES.map(o => <option key={o.id} value={o.id}>{o.label}</option>)}
           </select>
-          <div className="mt-1 text-[10px] text-muted">胜率/持仓天数等退化目标已排除 (交易少时可被运气推高)</div>
+          <div className="mt-1 text-[11px] text-muted">胜率/持仓天数等退化目标已排除 (交易少时可被运气推高)</div>
         </div>
 
         <div className="grid grid-cols-2 gap-2">
@@ -181,14 +181,14 @@ export function StrategyOptimizer() {
             <div className="mb-1 text-[11px] font-medium text-secondary">验证窗预览 ({windows.length} 段)</div>
             <div className="space-y-0.5">
               {windows.map(w => (
-                <div key={w.start} className="flex justify-between text-[10px] text-muted">
+                <div key={w.start} className="flex justify-between text-[11px] text-muted">
                   <span>{w.start} ~ {w.end}</span>
                   <span>{w.days} 天</span>
                 </div>
               ))}
             </div>
             {previewWarnings.map(w => (
-              <div key={w} className="mt-1 text-[10px] text-amber-400">{w}</div>
+              <div key={w} className="mt-1 text-[11px] text-amber-400">{w}</div>
             ))}
           </div>
         )}
@@ -233,7 +233,7 @@ export function StrategyOptimizer() {
               <span>当前最优: {progress.best_score != null ? progress.best_score.toFixed(3) : '—'}</span>
             </div>
             <div className="h-1.5 overflow-hidden rounded-full bg-elevated">
-              <div className="h-full bg-accent transition-all" style={{ width: `${progress.total ? (progress.done / progress.total) * 100 : 0}%` }} />
+              <div className="h-full bg-accent transition-colors" style={{ width: `${progress.total ? (progress.done / progress.total) * 100 : 0}%` }} />
             </div>
           </div>
         )}

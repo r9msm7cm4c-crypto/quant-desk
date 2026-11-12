@@ -134,7 +134,7 @@ export function DashboardGrid({ ctx, items, onItemsChange, editing }: DashboardG
                 style={{ overflow: 'hidden' }}
               >
                 {editing && (
-                  <div className="absolute inset-x-0 top-0 z-10 flex h-6 items-center justify-between rounded-t-card bg-surface/95 pl-2 pr-5 text-[10px] text-secondary shadow-sm">
+                  <div className="absolute inset-x-0 top-0 z-10 flex h-6 items-center justify-between rounded-t-card bg-surface/95 pl-2 pr-5 text-[11px] text-secondary shadow-sm">
                     <span className="flex min-w-0 items-center gap-1">
                       {Icon && <Icon className="h-3 w-3 shrink-0 text-accent" />}
                       <span className="truncate">{def?.label ?? it.t}{it.t === 'ext-link' && it.p?.title ? ` · ${it.p.title}` : ''}</span>

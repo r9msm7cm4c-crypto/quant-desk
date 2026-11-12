@@ -100,7 +100,7 @@ export function GenerateFactorStrategyDialog({
           </div>
           <p className="mt-1 font-mono text-[11px] text-muted">{item.id}</p>
         </div>
-        <span className="shrink-0 rounded-btn bg-elevated px-1.5 py-0.5 text-[10px] text-secondary">{item.label}</span>
+        <span className="shrink-0 rounded-btn bg-elevated px-1.5 py-0.5 text-[11px] text-secondary">{item.label}</span>
       </div>
 
       <div className="min-h-0 flex-1 space-y-3 overflow-y-auto px-4 py-3">
@@ -109,11 +109,11 @@ export function GenerateFactorStrategyDialog({
           入场/离场评分、每日入选上限都是策略参数，回测时可直接调。
         </div>
         <label className="block">
-          <span className="mb-1 block text-[10px] text-muted">策略名称</span>
+          <span className="mb-1 block text-[11px] text-muted">策略名称</span>
           <input type="text" value={name} maxLength={24} onChange={event => setName(event.target.value)} className={INPUT_CLS} />
         </label>
         <div>
-          <span className="mb-1 block text-[10px] text-muted">因子方向（打分方向）</span>
+          <span className="mb-1 block text-[11px] text-muted">因子方向（打分方向）</span>
           <div className="flex gap-1.5">
             {([['high', '值大加分'], ['low', '值小加分']] as const).map(([value, label]) => (
               <button
@@ -128,9 +128,9 @@ export function GenerateFactorStrategyDialog({
               </button>
             ))}
           </div>
-          <p className="mt-1 text-[10px] text-muted">拿不准就先按默认生成，回测对比两个方向再定。</p>
+          <p className="mt-1 text-[11px] text-muted">拿不准就先按默认生成，回测对比两个方向再定。</p>
         </div>
-        <p className="text-[10px] leading-relaxed text-muted">
+        <p className="text-[11px] leading-relaxed text-muted">
           生成后：默认止损 -8%、最大持仓 30 个交易日、评分口径与检验/挖掘同一条计算管线（matrix_native）。策略文件保存在自定义策略目录，可在策略页查看。
         </p>
       </div>

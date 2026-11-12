@@ -33,7 +33,7 @@ function Stat({ label, value, hint, color }: { label: string; value: string; hin
     <div className="rounded-input border border-border bg-elevated/40 p-2.5">
       <div className="text-[11px] text-secondary">{label}</div>
       <div className="mt-0.5 text-sm font-semibold" style={color ? { color } : undefined}>{value}</div>
-      {hint && <div className="mt-0.5 text-[10px] text-secondary">{hint}</div>}
+      {hint && <div className="mt-0.5 text-[11px] text-secondary">{hint}</div>}
     </div>
   )
 }
@@ -63,9 +63,9 @@ function OosEquityChart({ curve }: { curve: { fold: number; date: string; value:
       <div className="mb-1 text-xs font-medium text-secondary">OOS 拼接净值 (逐折复利)</div>
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" preserveAspectRatio="none" style={{ height: 120 }}>
         <line x1={pad} y1={y(1)} x2={W - pad} y2={y(1)} stroke="currentColor" strokeWidth="0.5" className="text-border" strokeDasharray="3 3" />
-        <path d={d} fill="none" stroke={up ? '#34d399' : '#f87171'} strokeWidth="1.5" />
+        <path d={d} fill="none" stroke={up ? '#3FA97A' : '#E05A52'} strokeWidth="1.5" />
       </svg>
-      <div className="mt-0.5 text-[10px] text-secondary">终值 {last.toFixed(4)} · {curve.length} 折</div>
+      <div className="mt-0.5 text-[11px] text-secondary">终值 {last.toFixed(4)} · {curve.length} 折</div>
     </div>
   )
 }
@@ -201,14 +201,14 @@ export function StrategyWalkForward() {
             <div className="mb-1 text-[11px] font-medium text-secondary">折预览 (共 {foldPreview.data.n_folds} 折)</div>
             <div className="max-h-28 space-y-0.5 overflow-y-auto">
               {foldPreview.data.folds.map(f => (
-                <div key={f.index} className="flex justify-between text-[10px] text-muted">
+                <div key={f.index} className="flex justify-between text-[11px] text-muted">
                   <span>#{f.index + 1} 训 {f.train_start}~{f.train_end}</span>
                   <span>测 {f.test_start}~{f.test_end}</span>
                 </div>
               ))}
             </div>
             {(foldPreview.data.warnings ?? []).map(w => (
-              <div key={w} className="mt-1 text-[10px] text-amber-400">{w}</div>
+              <div key={w} className="mt-1 text-[11px] text-amber-400">{w}</div>
             ))}
           </div>
         )}
@@ -251,7 +251,7 @@ export function StrategyWalkForward() {
               <span>第 {progress.done}/{progress.total} 折</span>
             </div>
             <div className="h-1.5 overflow-hidden rounded-full bg-elevated">
-              <div className="h-full bg-accent transition-all" style={{ width: `${progress.total ? (progress.done / progress.total) * 100 : 0}%` }} />
+              <div className="h-full bg-accent transition-colors" style={{ width: `${progress.total ? (progress.done / progress.total) * 100 : 0}%` }} />
             </div>
           </div>
         )}
@@ -274,11 +274,11 @@ export function StrategyWalkForward() {
             {/* 汇总卡 — 可空数值已在上游用 fin() 归一, NaN/Infinity 走 '—' 而非渲染 "NaN" */}
             <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
               <Stat label="OOS 复利收益" value={fmtPct(compounded)}
-                color={compounded != null && compounded >= 0 ? '#34d399' : '#f87171'} />
+                color={compounded != null && compounded >= 0 ? '#3FA97A' : '#E05A52'} />
               <Stat label="IS→OOS 退化"
                 value={degradation != null ? degradation.toFixed(3) : '—'}
                 hint={degradation != null && degradation > 0 ? '样本外退化=过拟合' : '样本外未退化'}
-                color={degradation != null && degradation > 0 ? '#f87171' : '#34d399'} />
+                color={degradation != null && degradation > 0 ? '#E05A52' : '#3FA97A'} />
               <Stat label="一致性" value={fmtPct(summary.consistency)} hint="OOS 盈利折占比" />
               <Stat label="有效折" value={result.n_skipped > 0 ? `${result.n_folds} (跳过${result.n_skipped})` : String(result.n_folds)} />
             </div>
@@ -319,7 +319,7 @@ export function StrategyWalkForward() {
                 <div className="mb-1.5 text-xs font-medium text-secondary">跳过的折 ({result.skipped.length})</div>
                 <div className="max-h-32 space-y-0.5 overflow-y-auto">
                   {result.skipped.map((s, i) => (
-                    <div key={i} className="flex justify-between gap-2 text-[10px] text-muted">
+                    <div key={i} className="flex justify-between gap-2 text-[11px] text-muted">
                       <span>#{s.index + 1} 测试 {s.test_start}~{s.test_end}</span>
                       <span className="text-amber-400/80">{s.reason}</span>
                     </div>
@@ -355,7 +355,7 @@ export function StrategyWalkForward() {
                           {f.best_params ? Object.entries(f.best_params).map(([k, v]) => `${k}=${v}`).join(', ') : '—'}
                         </td>
                         <td className="px-2 py-1.5 text-right">{is != null ? is.toFixed(3) : '—'}</td>
-                        <td className="px-2 py-1.5 text-right" style={degraded ? { color: '#f87171' } : undefined}>
+                        <td className="px-2 py-1.5 text-right" style={degraded ? { color: '#E05A52' } : undefined}>
                           {oos != null ? oos.toFixed(3) : '—'}
                         </td>
                         <td className="px-2 py-1.5 text-right">
@@ -403,7 +403,7 @@ function ParamDrift({ folds }: { folds: { index: number; best_params: Record<str
             <div key={k} className="flex items-center gap-2 text-[11px]">
               <span className="w-32 shrink-0 truncate text-muted" title={k}>{k}</span>
               <span className="min-w-0 flex-1 truncate text-foreground">{seq.join(' → ')}</span>
-              <span className={`shrink-0 rounded-full border px-1.5 py-0.5 text-[10px] ${stable ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-400' : 'border-amber-500/40 bg-amber-500/10 text-amber-400'}`}>
+              <span className={`shrink-0 rounded-full border px-1.5 py-0.5 text-[11px] ${stable ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-400' : 'border-amber-500/40 bg-amber-500/10 text-amber-400'}`}>
                 {stable ? '稳定' : '漂移'}
               </span>
             </div>

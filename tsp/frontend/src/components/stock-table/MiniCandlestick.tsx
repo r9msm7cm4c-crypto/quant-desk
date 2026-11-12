@@ -12,10 +12,10 @@ export const MiniCandlestick = memo(function MiniCandlestick({ rows, width = 100
     return <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} className="block" aria-label="加载中" />
   }
 
-  const BULL = '#C74040'
-  const BEAR = '#2D9B65'
-  const NEUTRAL = '#A1A1AA'
-  const LINE_PREV_CLOSE = '#7A7A85'
+  const BULL = '#E05A52'
+  const BEAR = '#3FA97A'
+  const NEUTRAL = '#929BA8'
+  const LINE_PREV_CLOSE = '#6E7887'
 
   const W = width
   const H = height

@@ -207,7 +207,7 @@ export function CustomSignalDialog({ open, signal, defaultKind = 'exit', onClose
                     )}
                   </div>
                 )}
-                <p className="text-[10px] text-muted/60 px-1">
+                <p className="text-[11px] text-muted/60 px-1">
                   每个操作数左侧的 <span className="text-foreground/70">最新</span> 按钮可点击切换为「前N日」(取 N 个交易日前的值)。例:收盘价(最新) &gt; 收盘价(前1日) = 上涨。带偏移的条件仅盘后/回测生效, 盘中实时跳过。
                 </p>
               </div>

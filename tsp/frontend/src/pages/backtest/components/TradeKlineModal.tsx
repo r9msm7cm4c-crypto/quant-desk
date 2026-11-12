@@ -105,14 +105,14 @@ export function TradeKlineModal({ trade, navItems, currentKey, onNavigate, onClo
       {
         value: Number(trade.entry_price),
         label: `买入价 ${fmtPrice(trade.entry_price)}`,
-        color: '#C74040',
+        color: '#E05A52',
         start,
         end,
       },
       {
         value: Number(trade.exit_price),
         label: `卖出价 ${fmtPrice(trade.exit_price)}`,
-        color: '#2D9B65',
+        color: '#3FA97A',
         start,
         end,
       },
@@ -143,7 +143,7 @@ export function TradeKlineModal({ trade, navItems, currentKey, onNavigate, onClo
                 <div className="flex items-center gap-2">
                   <span className="font-mono text-sm font-semibold text-foreground">{trade.symbol}</span>
                   <span className="truncate text-sm text-foreground">{trade.name || '交易回放'}</span>
-                  <span className="rounded border border-accent/30 bg-accent/10 px-1.5 py-0.5 text-[10px] text-accent">交易回放</span>
+                  <span className="rounded border border-accent/30 bg-accent/10 px-1.5 py-0.5 text-[11px] text-accent">交易回放</span>
 
                   {/* 切交易: 上一笔 / n·N / 下一笔 */}
                   <NavPager nav={nav} prevLabel="上一笔" nextLabel="下一笔" />

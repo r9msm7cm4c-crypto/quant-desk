@@ -37,11 +37,11 @@ export function IndexTicker({ item }: { item: OverviewMarket['indices'][number] 
   return (
     <Link
       to={`/indices?symbol=${encodeURIComponent(item.symbol)}`}
-      className="grid min-w-0 grid-cols-[1fr_auto] items-center gap-x-2 gap-y-0.5 rounded-lg border border-border bg-elevated/45 px-1.5 py-1 shadow-[0_1px_1px_hsl(var(--border)/0.3)] backdrop-blur-sm transition-all hover:border-accent/40 hover:bg-elevated hover:shadow-[0_2px_6px_hsl(var(--accent)/0.15)]"
+      className="grid min-w-0 grid-cols-[1fr_auto] items-center gap-x-2 gap-y-0.5 rounded-lg border border-border bg-elevated/60 px-2 py-1.5 transition-colors hover:border-accent/40 hover:bg-elevated hover:shadow-[0_2px_6px_hsl(var(--accent)/0.15)]"
     >
       <div className="truncate text-xs font-medium text-foreground">{item.name || item.symbol}</div>
       <div className={`font-mono text-xs font-semibold ${pctClass(pct)}`}>{fmtIndexPct(pct)}</div>
-      <div className="font-mono text-[10px] text-muted">{item.symbol}</div>
+      <div className="font-mono text-[11px] text-muted">{item.symbol}</div>
       <div className={`flex items-center gap-1 font-mono text-[11px] ${pctClass(pct)}`}>
         {isUp ? <ArrowUpRight className="h-3 w-3" /> : <ArrowDownRight className="h-3 w-3" />}
         {fmtPrice(item.last_price)}
@@ -76,19 +76,24 @@ export function BreadthBar({ data }: { data: OverviewMarket['breadth'] }) {
 // ===== 涨跌分布直方 =====
 export function DistributionBars({ rows }: { rows: OverviewMarket['distribution'] }) {
   const maxCount = Math.max(...rows.map(r => r.count), 1)
+  // 轴标签只保留区间端点，宽列放得下；完整区间放进 title
+  const short = (label: string, i: number) => {
+    if (i === 0) return '≤' + label.replace(/[%<~]/g, '')
+    const parts = label.split('~')
+    return (parts[1] ?? parts[0]).replace('%', '')
+  }
   return (
     <div className="grid h-24 grid-cols-8 items-end gap-1 pt-1">
       {rows.map((r, i) => {
         const positive = i >= 4
         return (
-          <div key={r.label} className="flex h-full min-w-0 flex-col items-center justify-end gap-0.5">
-            <div className="font-mono text-[9px] text-muted">{r.count || ''}</div>
+          <div key={r.label} className="flex h-full min-w-0 flex-col items-center justify-end gap-1" title={`${r.label}: ${r.count}只`}>
+            <div className="font-mono text-[11px] leading-none text-muted">{r.count || ''}</div>
             <div
-              className={`w-2 rounded-full ${positive ? 'bg-gradient-to-t from-bull/45 to-bull/90' : 'bg-gradient-to-t from-bear/45 to-bear/90'}`}
-              style={{ height: `${Math.max(4, r.count / maxCount * 86)}%` }}
-              title={`${r.label}: ${r.count}只`}
+              className={`w-full max-w-[16px] rounded-sm ${positive ? 'bg-bull/85' : 'bg-bear/75'}`}
+              style={{ height: `${Math.max(3, r.count / maxCount * 80)}%` }}
             />
-            <div className="truncate text-[9px] text-muted">{r.label}</div>
+            <div className="w-full truncate text-center text-[11px] leading-none text-muted">{short(r.label, i)}</div>
           </div>
         )
       })}
@@ -156,7 +161,7 @@ export function EmotionRadar({ radar, score }: { radar: OverviewMarket['radar'];
         <circle cx={cx} cy={cy} r="29" fill="url(#emotionRadarCenter)" />
         <text x={cx} y={cy + 7} textAnchor="middle" className="fill-foreground font-mono text-[24px] font-bold">{score}</text>
         {points.map(p => (
-          <text key={`${p.key}-label`} x={p.lx} y={p.ly + 4} textAnchor="middle" className="fill-secondary text-[10px] font-medium">{p.label}</text>
+          <text key={`${p.key}-label`} x={p.lx} y={p.ly + 4} textAnchor="middle" className="fill-secondary text-[11px] font-medium">{p.label}</text>
         ))}
       </svg>
     </div>
@@ -188,7 +193,7 @@ export function LadderMini({ limit }: { limit: OverviewMarket['limit'] }) {
             {showStocks && (
               <div className="mt-1 flex flex-wrap gap-x-2 gap-y-0.5 pl-[50px]">
                 {stocks.map(s => (
-                  <span key={s.symbol} className="inline-flex items-center gap-0.5 text-[9px] text-secondary">
+                  <span key={s.symbol} className="inline-flex items-center gap-0.5 text-[11px] text-secondary">
                     {s.name || s.symbol}
                   </span>
                 ))}
@@ -208,10 +213,10 @@ export function StockList({ title, rows, mode, onStockClick, activeSymbol }: {
   activeSymbol?: string;
 }) {
   return (
-    <div className="rounded-card border border-border bg-surface/80 p-1.5 shadow-[0_1px_2px_hsl(var(--border)/0.4)] backdrop-blur-sm transition-shadow hover:shadow-[0_2px_8px_hsl(var(--border)/0.5)]">
+    <div className="rounded-card border border-border bg-surface p-2 transition-colors hover:border-accent/30">
       <div className="mb-1 flex items-center justify-between">
         <h3 className="text-xs font-semibold text-foreground">{title}</h3>
-        <span className="text-[9px] text-muted">TOP {Math.min(rows.length, 8)}</span>
+        <span className="text-[11px] text-muted">TOP {Math.min(rows.length, 8)}</span>
       </div>
       <div className="space-y-1">
         {rows.slice(0, 8).map((r, idx) => (
@@ -220,7 +225,7 @@ export function StockList({ title, rows, mode, onStockClick, activeSymbol }: {
             className={`grid grid-cols-[18px_1fr_auto] items-center gap-1.5 rounded-md px-1.5 py-1 cursor-pointer transition-colors border ${r.symbol === activeSymbol ? 'bg-accent/10 border-accent/30' : 'bg-elevated/40 border-transparent hover:bg-elevated hover:brightness-110 hover:border-border/60'}`}
             onClick={() => onStockClick?.(r.symbol, r.name ?? undefined)}
           >
-            <span className="text-center font-mono text-[10px] text-muted">{idx + 1}</span>
+            <span className="text-center font-mono text-[11px] text-muted">{idx + 1}</span>
             <div className="min-w-0">
               <div className="flex items-center gap-1">
                 <span className="truncate text-[11px] text-foreground">{r.name || r.symbol}</span>
@@ -233,23 +238,23 @@ export function StockList({ title, rows, mode, onStockClick, activeSymbol }: {
                   ) : null
                 })()}
               </div>
-              <span className="font-mono text-[9px] text-muted">{r.symbol}</span>
+              <span className="font-mono text-[11px] text-muted">{r.symbol}</span>
             </div>
             <div className="text-right">
               {mode === 'amount' ? (
                 <>
                   <div className="font-mono text-[11px] text-foreground">{fmtBigNum(r.amount)}</div>
-                  <div className={`font-mono text-[9px] ${pctClass(r.change_pct)}`}>{fmtStockPct(r.change_pct)}</div>
+                  <div className={`font-mono text-[11px] ${pctClass(r.change_pct)}`}>{fmtStockPct(r.change_pct)}</div>
                 </>
               ) : mode === 'active' ? (
                 <>
                   <div className="font-mono text-[11px] text-accent">{fmtPrice(r.turnover_rate, 1)}%</div>
-                  <div className={`font-mono text-[9px] ${pctClass(r.change_pct)}`}>{fmtStockPct(r.change_pct)}</div>
+                  <div className={`font-mono text-[11px] ${pctClass(r.change_pct)}`}>{fmtStockPct(r.change_pct)}</div>
                 </>
               ) : (
                 <>
                   <div className={`font-mono text-[11px] font-semibold ${pctClass(r.change_pct)}`}>{fmtStockPct(r.change_pct)}</div>
-                  <div className="font-mono text-[9px] text-muted">{fmtPrice(r.close)}</div>
+                  <div className="font-mono text-[11px] text-muted">{fmtPrice(r.close)}</div>
                 </>
               )}
             </div>
@@ -270,7 +275,7 @@ export function RankColumn({ title, rows, tone, onStockClick, onDimensionClick, 
 }) {
   return (
     <div className="min-w-0 space-y-1">
-      <div className={`text-[10px] font-medium ${tone === 'bull' ? 'text-bull' : 'text-bear'}`}>{title}</div>
+      <div className={`text-[11px] font-medium ${tone === 'bull' ? 'text-bull' : 'text-bear'}`}>{title}</div>
       {rows.slice(0, 5).map((r, idx) => {
         const kind = r.source_field ? dimensionKindForSourceField(r.source_field) : null
         const clickable = !!(r.source_field && kind && onDimensionClick)
@@ -288,26 +293,26 @@ export function RankColumn({ title, rows, tone, onStockClick, onDimensionClick, 
             isActive ? 'border-accent/30 bg-accent/10' : 'border-transparent bg-elevated/40'
           } ${clickable ? 'cursor-pointer hover:border-accent/40 hover:bg-elevated/70' : 'hover:border-border/60'}`}
         >
-          <span className="text-center font-mono text-[9px] text-muted">{idx + 1}</span>
+          <span className="text-center font-mono text-[11px] text-muted">{idx + 1}</span>
           <div className="min-w-0">
             <div className="truncate text-[11px] text-foreground" title={r.name}>
               {r.name}
               {clickable && <span className="ml-1 text-[8px] text-muted/50">↗</span>}
             </div>
             <div className="mt-0.5 flex items-center gap-1">
-              <span className="shrink-0 font-mono text-[9px] text-muted">{r.count}只</span>
+              <span className="shrink-0 font-mono text-[11px] text-muted">{r.count}只</span>
               <span className="text-muted">·</span>
               {r.leader?.symbol ? (
                 <button
                   onClick={(e) => { e.stopPropagation(); onStockClick?.(r.leader!.symbol!, r.leader!.name ?? undefined) }}
-                  className="truncate text-[10px] font-medium text-secondary hover:text-accent cursor-pointer transition-colors"
+                  className="truncate text-[11px] font-medium text-secondary hover:text-accent cursor-pointer transition-colors"
                   title={r.leader?.symbol ?? undefined}
                 >{r.leader?.name ?? '—'}</button>
               ) : (
-                <span className="truncate text-[10px] text-muted">{r.leader?.name ?? '—'}</span>
+                <span className="truncate text-[11px] text-muted">{r.leader?.name ?? '—'}</span>
               )}
               {r.leader?.change_pct != null && (
-                <span className={`shrink-0 font-mono text-[9px] tabular-nums ${pctClass(r.leader.change_pct)}`}>
+                <span className={`shrink-0 font-mono text-[11px] tabular-nums ${pctClass(r.leader.change_pct)}`}>
                   {fmtStockPct(r.leader.change_pct)}
                 </span>
               )}
@@ -321,7 +326,7 @@ export function RankColumn({ title, rows, tone, onStockClick, onDimensionClick, 
               })()}
             </div>
           </div>
-          <div className={`font-mono text-[10px] font-semibold ${pctClass(r.avg_pct)}`}>{fmtStockPct(r.avg_pct)}</div>
+          <div className={`font-mono text-[11px] font-semibold ${pctClass(r.avg_pct)}`}>{fmtStockPct(r.avg_pct)}</div>
         </div>
         )
       })}
@@ -339,7 +344,7 @@ export function HotRankCard({ title, rank, configUrl, onStockClick, onDimensionC
 }) {
   const hasData = (rank?.leading?.length ?? 0) > 0 || (rank?.lagging?.length ?? 0) > 0
   return (
-    <section className="rounded-card border border-border bg-surface/80 p-1.5 shadow-[0_1px_2px_hsl(var(--border)/0.4)] backdrop-blur-sm transition-shadow hover:shadow-[0_2px_8px_hsl(var(--border)/0.5)]">
+    <section className="rounded-card border border-border bg-surface p-2 transition-colors hover:border-accent/30">
       <SectionTitle icon={Flame} title={title} hint="领涨/领跌 · 点击板块看成分股" />
       {hasData ? (
         <div className="grid grid-cols-2 gap-2">
@@ -366,7 +371,7 @@ const _SOURCE_BADGE: Record<string, string> = {
   strategy: 'bg-amber-400/10 text-amber-400',
   signal: 'bg-accent/10 text-accent',
   price: 'bg-emerald-400/10 text-emerald-400',
-  market: 'bg-purple-500/10 text-purple-400',
+  market: 'bg-accent/10 text-accent',
   sector: 'bg-cyan-500/10 text-cyan-700 dark:text-cyan-300',
 }
 const _SOURCE_LABEL: Record<string, string> = {
@@ -423,7 +428,7 @@ export function MonitorWidget({ onStockClick, activeSymbol }: {
                   title={isSector ? '在监控中心查看板块告警' : ev.symbol ? `查看 ${ev.symbol} 日K` : undefined}
                   className={`inline-flex items-center gap-1 min-w-0 shrink-0 rounded hover:bg-elevated/60 transition-colors -mx-0.5 px-0.5 ${isSector || ev.symbol ? 'cursor-pointer' : 'cursor-default'}`}
                 >
-                  <span className="font-mono text-[10px] font-medium text-foreground/80 hover:text-accent">{ev.symbol?.replace(/\.(SH|SZ|BJ)$/, '')}</span>
+                  <span className="font-mono text-[11px] font-medium text-foreground/80 hover:text-accent">{ev.symbol?.replace(/\.(SH|SZ|BJ)$/, '')}</span>
                   {ev.symbol && (() => {
                     const board = boardTag(ev.symbol)
                     return board && (
@@ -432,14 +437,14 @@ export function MonitorWidget({ onStockClick, activeSymbol }: {
                       </span>
                     )
                   })()}
-                  {ev.name && <span className="text-[10px] text-secondary truncate max-w-[5rem] hover:text-foreground">{ev.name}</span>}
+                  {ev.name && <span className="text-[11px] text-secondary truncate max-w-[5rem] hover:text-foreground">{ev.name}</span>}
                 </button>
                 <span className="flex-1" />
                 {ev.price != null && (
-                  <span className="text-[10px] font-mono text-foreground/60 shrink-0">{fmtPrice(ev.price)}</span>
+                  <span className="text-[11px] font-mono text-foreground/60 shrink-0">{fmtPrice(ev.price)}</span>
                 )}
                 {ev.change_pct != null && (
-                  <span className={cn('text-[10px] font-mono font-medium shrink-0 w-12 text-right', pct >= 0 ? 'text-danger' : 'text-bear')}>
+                  <span className={cn('text-[11px] font-mono font-medium shrink-0 w-12 text-right', pct >= 0 ? 'text-danger' : 'text-bear')}>
                     {fmtPct(pct)}
                   </span>
                 )}
@@ -449,12 +454,12 @@ export function MonitorWidget({ onStockClick, activeSymbol }: {
                 <>
                   {ev.symbol ? (
                     <div className="mt-0.5 flex min-w-0 items-center gap-1.5">
-                      <span className={cn('shrink-0 text-[9px] font-medium', eventMeta.className)}>
+                      <span className={cn('shrink-0 text-[11px] font-medium', eventMeta.className)}>
                         {eventMeta.action}
                       </span>
                       {sname
-                        ? <span className="truncate text-[9px] font-medium text-amber-400">「{sname}」</span>
-                        : ev.message && <span className="truncate text-[9px] text-muted">{ev.message}</span>}
+                        ? <span className="truncate text-[11px] font-medium text-amber-400">「{sname}」</span>
+                        : ev.message && <span className="truncate text-[11px] text-muted">{ev.message}</span>}
                       <span className="flex-1" />
                       <span className="text-[8px] text-muted/50 shrink-0 font-mono">
                         {ev.ts ? new Date(ev.ts).toLocaleString('zh-CN', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }) : ''}
@@ -462,7 +467,7 @@ export function MonitorWidget({ onStockClick, activeSymbol }: {
                     </div>
                   ) : (
                     <div className="mt-0.5 flex min-w-0 items-center gap-1.5">
-                      <span className="truncate text-[9px] text-muted">{ev.message}</span>
+                      <span className="truncate text-[11px] text-muted">{ev.message}</span>
                       <span className="flex-1" />
                       <span className="text-[8px] text-muted/50 shrink-0 font-mono">
                         {ev.ts ? new Date(ev.ts).toLocaleString('zh-CN', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }) : ''}
@@ -484,7 +489,7 @@ export function MonitorWidget({ onStockClick, activeSymbol }: {
                       {_SOURCE_LABEL[ev.source] ?? ev.source}
                     </span>
                     {ev.message && (
-                      <span className="text-[9px] text-muted truncate flex-1">{ev.message}</span>
+                      <span className="text-[11px] text-muted truncate flex-1">{ev.message}</span>
                     )}
                     <span className="text-[8px] text-muted/50 shrink-0 font-mono">
                       {ev.ts ? new Date(ev.ts).toLocaleString('zh-CN', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }) : ''}

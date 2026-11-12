@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { motion } from 'framer-motion'
-import { ScanSearch, Clock, TrendingUp, Star, Filter, Layers, Network, Sparkles, RefreshCw, Settings2, Store, RotateCcw, X, SlidersHorizontal } from 'lucide-react'
+import { ScanSearch, Clock, TrendingUp, Star, Filter, Layers, Network, Plus, RefreshCw, Settings2, Store, RotateCcw, X, SlidersHorizontal } from 'lucide-react'
 import { api, genRuleId, type ScreenerStrategy, type ScreenerResult } from '@/lib/api'
 import { useMinuteBatchQuery } from '@/lib/useMinuteBatchQuery'
 import { fetchDailyBatchChunked } from '@/lib/klineBatchChunked'
@@ -967,7 +967,7 @@ export function Screener() {
                 <button
                   key={sz}
                   onClick={() => { setCardSize(sz); storage.screenerCardSize.set(sz) }}
-                  className={`h-full px-2 text-[10px] font-medium transition-colors cursor-pointer
+                  className={`h-full px-2 text-[11px] font-medium transition-colors cursor-pointer
                     ${cardSize === sz
                       ? 'bg-accent/10 text-accent'
                       : 'text-muted hover:text-secondary hover:bg-elevated'
@@ -986,28 +986,24 @@ export function Screener() {
             >
               <Layers className="h-3.5 w-3.5" />
               策略池
-              <span className="ml-0.5 min-w-[28px] h-4 flex items-center justify-center rounded-full bg-accent/15 text-accent text-[10px] font-bold">
+              <span className="ml-0.5 font-mono text-[11px] text-muted">
                 {visiblePool.length}/{strategyPresets.length}
               </span>
             </button>
             {/* 创建叠加策略 */}
             <button
               onClick={() => setShowComposite(true)}
-              className="inline-flex items-center gap-1.5 h-7 px-3 rounded-btn
-                text-xs font-medium text-teal-400 border border-teal-500/20 bg-teal-500/5
-                hover:bg-teal-500/15 transition-colors cursor-pointer"
+              className="inline-flex h-7 items-center gap-1.5 rounded-btn border border-border bg-surface px-3 text-xs font-medium text-secondary transition-colors hover:border-accent/40 hover:text-foreground"
             >
-              <Layers className="h-3.5 w-3.5" />
+              <Layers strokeWidth={1.5} className="h-3.5 w-3.5" />
               叠加策略
             </button>
             {/* 创建策略 */}
             <button
               onClick={() => { setBuilderMode('create'); setShowBuilder(true) }}
-              className="inline-flex items-center gap-1.5 h-7 px-3 rounded-btn
-                text-xs font-medium text-amber-400 border border-amber-400/20 bg-amber-400/5
-                hover:bg-amber-400/15 transition-colors cursor-pointer"
+              className="inline-flex h-7 items-center gap-1.5 rounded-btn border border-accent/40 bg-accent px-3 text-xs font-medium text-[hsl(214_30%_10%)] transition-colors hover:bg-accent/90"
             >
-              <Sparkles className="h-3.5 w-3.5" />
+              <Plus strokeWidth={1.5} className="h-3.5 w-3.5" />
               创建策略 · AI
             </button>
             {/* 获取策略（占位，敬请期待）— 暂时隐藏 */}
@@ -1070,11 +1066,11 @@ export function Screener() {
               {pool.length === 0 && (
                 <div className="mt-2 flex flex-wrap items-center justify-center gap-x-1.5 gap-y-1 text-[11px] leading-relaxed text-muted/80">
                   <span>自己写策略看</span>
-                  <code className="rounded bg-elevated/70 px-1 py-px font-mono text-[10px] text-secondary">docs/strategy.md</code>
+                  <code className="rounded bg-elevated/70 px-1 py-px font-mono text-[11px] text-secondary">docs/strategy.md</code>
                   <span>（三种扩展方式：自定义信号 / AI 生成 / 手写代码）</span>
                   <span className="text-border" aria-hidden="true">·</span>
                   <span>用 AI 迭代已有策略看</span>
-                  <code className="rounded bg-elevated/70 px-1 py-px font-mono text-[10px] text-secondary">docs/strategy-iteration.md</code>
+                  <code className="rounded bg-elevated/70 px-1 py-px font-mono text-[11px] text-secondary">docs/strategy-iteration.md</code>
                 </div>
               )}
             </div>
@@ -1165,7 +1161,7 @@ export function Screener() {
                         <Filter className="h-3 w-3" />
                         筛选
                         {filterActive(filter) && (
-                          <span className="bg-accent text-white rounded-full min-w-4 h-4 px-1 flex items-center justify-center text-[10px] font-bold leading-none">
+                          <span className="bg-accent text-white rounded-full min-w-4 h-4 px-1 flex items-center justify-center text-[11px] font-bold leading-none">
                             {countActiveFilters(filter)}
                           </span>
                         )}

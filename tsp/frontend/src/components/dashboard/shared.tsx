@@ -13,11 +13,11 @@ export function n(v: number | null | undefined) {
 
 export function scoreColor(v: number) {
   // A 股惯例: 强势=红, 弱式=绿
-  if (v >= 70) return '#F04438'
-  if (v >= 55) return '#FB923C'
-  if (v >= 45) return '#F59E0B'
-  if (v >= 30) return '#84CC16'
-  return '#12B76A'
+  if (v >= 70) return '#E05A52'
+  if (v >= 55) return '#DB9A2B'
+  if (v >= 45) return '#DB9A2B'
+  if (v >= 30) return '#7FA88C'
+  return '#3FA97A'
 }
 
 export function fmtPrice(v: number | null | undefined, digits = 2) {
@@ -58,7 +58,7 @@ export function compactCount(v: number | null | undefined) {
   return x.toFixed(0)
 }
 
-export function SectionTitle({ icon: Icon, title, hint, onConfig, configTitle }: {
+export function SectionTitle({ icon: _Icon, title, hint, onConfig, configTitle }: {
   icon: typeof Activity
   title: string
   hint?: ReactNode
@@ -68,13 +68,11 @@ export function SectionTitle({ icon: Icon, title, hint, onConfig, configTitle }:
 }) {
   return (
     <div className="mb-2 flex items-center justify-between gap-2">
-      <div className="flex items-center gap-1.5">
-        <span className="h-3 w-0.5 rounded-full bg-gradient-to-b from-accent to-accent/30" />
-        <Icon className="h-3.5 w-3.5 text-accent" />
-        <h2 className="text-xs font-semibold text-foreground">{title}</h2>
+      <div className="flex min-w-0 items-center gap-2">
+        <h2 className="tf-section-title truncate text-[12px]">{title}</h2>
       </div>
       <div className="flex shrink-0 items-center gap-1.5">
-        {hint && <span className="font-mono text-[10px] text-muted">{hint}</span>}
+        {hint && <span className="font-mono text-[11px] text-muted">{hint}</span>}
         {onConfig && (
           <button
             type="button"
@@ -94,7 +92,7 @@ export function SectionTitle({ icon: Icon, title, hint, onConfig, configTitle }:
 export function MiniMetric({ label, value, cls = 'text-foreground' }: { label: string; value: string; cls?: string }) {
   return (
     <div className="rounded-md bg-elevated/45 px-2 py-1.5 border border-border/40">
-      <div className="text-[10px] text-muted">{label}</div>
+      <div className="text-[11px] text-muted">{label}</div>
       <div className={`mt-0.5 font-mono text-xs font-semibold ${cls}`}>{value}</div>
     </div>
   )
@@ -104,10 +102,10 @@ export function KpiCell({ label, value, sub, tone = 'neutral' }: { label: ReactN
   const isPlain = typeof value === 'string' || typeof value === 'number'
   const color = tone === 'bull' ? 'text-bull' : tone === 'bear' ? 'text-bear' : tone === 'accent' ? 'text-accent' : 'text-foreground'
   return (
-    <div className="min-w-0 overflow-hidden rounded-lg border border-border bg-surface/80 px-2 py-1 shadow-[0_1px_2px_hsl(var(--border)/0.4)] backdrop-blur-sm transition-all hover:border-accent/30 hover:shadow-[0_2px_8px_hsl(var(--accent)/0.15)]">
+    <div className="min-w-0 overflow-hidden rounded-lg border border-border bg-surface px-2.5 py-1.5 transition-colors hover:border-accent/30">
       <div className="flex items-center gap-1 text-[11px] text-muted">{label}</div>
       <div className={`mt-1 truncate font-mono text-lg font-semibold leading-none tabular-nums ${isPlain ? color : 'text-foreground'}`}>{value}</div>
-      {sub && <div className="mt-1 truncate text-[10px] text-muted">{sub}</div>}
+      {sub && <div className="mt-1 truncate text-[11px] text-muted">{sub}</div>}
     </div>
   )
 }

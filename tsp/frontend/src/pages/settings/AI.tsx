@@ -515,7 +515,7 @@ export function SettingsAIPanel({ highlight }: { highlight?: string } = {}) {
         <div className="flex shrink-0 items-center gap-2 pt-0.5">
           {testResult && (
             <span title="测试只验证当前表单, 不会保存配置; 通过后请点「保存配置」生效"
-              className={`inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-[10px] ${testResult.ok ? 'border-bear/25 bg-bear/[0.06] text-bear' : 'border-danger/25 bg-danger/[0.06] text-danger'}`}>
+              className={`inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-[11px] ${testResult.ok ? 'border-bear/25 bg-bear/[0.06] text-bear' : 'border-danger/25 bg-danger/[0.06] text-danger'}`}>
               <span className={`h-1 w-1 rounded-full ${testResult.ok ? 'bg-bear' : 'bg-danger'}`} />
               {testResult.msg}
             </span>
@@ -523,7 +523,7 @@ export function SettingsAIPanel({ highlight }: { highlight?: string } = {}) {
           {(configured || canTest) && (
             <button onClick={handleTest} disabled={testing}
               title="测试当前表单的连接, 不保存配置"
-              className="inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs text-secondary transition-colors hover:bg-elevated hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-1 focus-visible:ring-offset-surface active:scale-[0.98] disabled:opacity-50">
+              className="inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs text-secondary transition-colors hover:bg-elevated hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-1 focus-visible:ring-offset-surface disabled:opacity-50">
               {testing ? <Loader2 className="h-3 w-3 animate-spin" /> : <Wifi className="h-3 w-3" />}
               {testing ? '测试中' : '测试'}
             </button>
@@ -541,7 +541,7 @@ export function SettingsAIPanel({ highlight }: { highlight?: string } = {}) {
               const Icon = p.icon
               return (
                 <button key={p.label} type="button" onClick={() => handlePreset(p)} aria-pressed={active}
-                  className={`group relative flex flex-col gap-1.5 rounded-lg border p-2.5 text-left transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-1 focus-visible:ring-offset-surface active:scale-[0.98] ${
+                  className={`group relative flex flex-col gap-1.5 rounded-lg border p-2.5 text-left transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-1 focus-visible:ring-offset-surface ${
                     active
                       ? 'border-accent/60 bg-accent/[0.09] shadow-[0_0_0_1px_rgba(59,130,246,0.12),0_0_12px_-3px_rgba(59,130,246,0.45)]'
                       : 'border-border/60 bg-base/40 hover:border-accent/30 hover:bg-base'
@@ -558,9 +558,9 @@ export function SettingsAIPanel({ highlight }: { highlight?: string } = {}) {
                       <Icon className="h-3.5 w-3.5" />
                     </span>
                     <span className={`truncate text-xs font-medium ${active ? 'text-foreground' : 'text-secondary'}`}>{p.label}</span>
-                    {p.sponsor && <span className="ml-auto shrink-0 rounded-full bg-amber-400/15 px-1.5 py-px text-[9px] font-semibold leading-none text-amber-600 dark:text-amber-400">优惠</span>}
+                    {p.sponsor && <span className="ml-auto shrink-0 rounded-full bg-amber-400/15 px-1.5 py-px text-[11px] font-semibold leading-none text-amber-600 dark:text-amber-400">优惠</span>}
                   </span>
-                  <span className="truncate font-mono text-[10px] text-muted">{presetMeta(p)}</span>
+                  <span className="truncate font-mono text-[11px] text-muted">{presetMeta(p)}</span>
                 </button>
               )
             })}
@@ -591,7 +591,7 @@ export function SettingsAIPanel({ highlight }: { highlight?: string } = {}) {
                 title="Chat Completions 兼容面最广; Responses 为 OpenAI 官方新协议, 仅官方及少数网关支持。不确定就保持默认。">
                 {(['chat_completions', 'responses'] as const).map(p => (
                   <button key={p} type="button" onClick={() => setProtocol(p)} aria-pressed={protocol === p}
-                    className={`rounded-full px-2.5 py-1 font-mono text-[10px] leading-none transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 ${
+                    className={`rounded-full px-2.5 py-1 font-mono text-[11px] leading-none transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 ${
                       protocol === p ? 'bg-accent/15 text-accent' : 'text-muted hover:text-secondary'
                     }`}>
                     {p === 'chat_completions' ? 'Chat Completions' : 'Responses'}
@@ -600,7 +600,7 @@ export function SettingsAIPanel({ highlight }: { highlight?: string } = {}) {
               </div>
             )}
             {isCodexProvider && (
-              <span className="ml-auto inline-flex items-center gap-1.5 text-[10px] text-muted" title="Use local Codex CLI via codex exec">
+              <span className="ml-auto inline-flex items-center gap-1.5 text-[11px] text-muted" title="Use local Codex CLI via codex exec">
                 <span className="rounded-full border border-border/40 bg-base/50 px-1.5 py-px font-mono">codex exec</span>
                 CLI
               </span>
@@ -682,11 +682,11 @@ export function SettingsAIPanel({ highlight }: { highlight?: string } = {}) {
                                 <span className="truncate font-mono text-xs">{m.id}</span>
                                 <span className="ml-auto flex shrink-0 items-center gap-1.5">
                                   {fmtContext(m.context_length) && (
-                                    <span className="text-[10px] text-muted">{fmtContext(m.context_length)}</span>
+                                    <span className="text-[11px] text-muted">{fmtContext(m.context_length)}</span>
                                   )}
                                   {bands ? (
                                     <span
-                                      className={`rounded-full px-1.5 py-px text-[10px] font-medium ${
+                                      className={`rounded-full px-1.5 py-px text-[11px] font-medium ${
                                         isOffPeak
                                           ? 'bg-emerald-400/15 text-emerald-600 dark:text-emerald-400'
                                           : 'bg-amber-400/15 text-amber-600 dark:text-amber-400'
@@ -696,7 +696,7 @@ export function SettingsAIPanel({ highlight }: { highlight?: string } = {}) {
                                       {bands}{isOffPeak ? ' · 当前闲时' : ' · 当前忙时'}
                                     </span>
                                   ) : discounted && (
-                                    <span className="rounded-full bg-amber-400/15 px-1.5 py-px text-[10px] font-medium text-amber-600 dark:text-amber-400">
+                                    <span className="rounded-full bg-amber-400/15 px-1.5 py-px text-[11px] font-medium text-amber-600 dark:text-amber-400">
                                       {fmtDiscount(m.discount_rate!)}
                                     </span>
                                   )}
@@ -730,13 +730,13 @@ export function SettingsAIPanel({ highlight }: { highlight?: string } = {}) {
 
               <div className="flex items-center gap-2 border-t border-border/30 pt-3.5">
                 <span className="text-xs font-medium text-secondary">自定义 User-Agent</span>
-                <span className="text-[10px] text-muted">绕过 CDN/WAF 的 Bot 拦截</span>
+                <span className="text-[11px] text-muted">绕过 CDN/WAF 的 Bot 拦截</span>
                 <div className="ml-auto"><Toggle checked={customUa} onChange={() => setCustomUa(v => !v)} /></div>
               </div>
               {customUa && (
                 <div className="flex gap-2">
                   <input type="text" value={userAgent} onChange={e => setUserAgent(e.target.value)} placeholder="粘贴浏览器 User-Agent" className={`${INPUT_CLS} flex-1`} />
-                  <button type="button" onClick={genRandomUa} title="随机生成浏览器 User-Agent" className="h-9 px-2.5 rounded-lg border border-border/50 text-xs text-secondary hover:text-accent hover:border-accent/30 transition-all flex items-center gap-1.5 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 active:scale-[0.98]">
+                  <button type="button" onClick={genRandomUa} title="随机生成浏览器 User-Agent" className="h-9 px-2.5 rounded-lg border border-border/50 text-xs text-secondary hover:text-accent hover:border-accent/30 transition-colors flex items-center gap-1.5 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60">
                     <Shuffle className="h-3 w-3" /> 随机
                   </button>
                 </div>
@@ -786,22 +786,22 @@ export function SettingsAIPanel({ highlight }: { highlight?: string } = {}) {
           <div className="flex shrink-0 flex-wrap items-center justify-end gap-2">
             {testResult && (
               <span title="测试只验证当前表单, 不会保存配置; 通过后请点「保存配置」生效"
-                className={`inline-flex max-w-[280px] items-center gap-1.5 rounded-full border px-2 py-0.5 text-[10px] ${testResult.ok ? 'border-bear/25 bg-bear/[0.06] text-bear' : 'border-danger/25 bg-danger/[0.06] text-danger'}`}>
+                className={`inline-flex max-w-[280px] items-center gap-1.5 rounded-full border px-2 py-0.5 text-[11px] ${testResult.ok ? 'border-bear/25 bg-bear/[0.06] text-bear' : 'border-danger/25 bg-danger/[0.06] text-danger'}`}>
                 <span className={`h-1 w-1 shrink-0 rounded-full ${testResult.ok ? 'bg-bear' : 'bg-danger'}`} />
                 <span className="min-w-0 truncate">{testResult.msg}</span>
               </span>
             )}
             {configured && (
-              <button onClick={() => setConfirmClear(true)} disabled={clear.isPending} className="h-9 px-3.5 rounded-lg text-secondary hover:bg-danger/10 hover:text-danger text-sm flex items-center justify-center gap-1.5 disabled:opacity-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-danger/60 focus-visible:ring-offset-1 focus-visible:ring-offset-surface active:scale-[0.98]" title="Clear AI provider configuration">
+              <button onClick={() => setConfirmClear(true)} disabled={clear.isPending} className="h-9 px-3.5 rounded-lg text-secondary hover:bg-danger/10 hover:text-danger text-sm flex items-center justify-center gap-1.5 disabled:opacity-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-danger/60 focus-visible:ring-offset-1 focus-visible:ring-offset-surface" title="Clear AI provider configuration">
                 <Trash2 className="h-3.5 w-3.5" />
                 清空
               </button>
             )}
-            <button onClick={handleTest} disabled={testing || !canTest} className="h-9 px-3.5 rounded-lg text-secondary hover:bg-elevated hover:text-foreground text-sm flex items-center justify-center gap-1.5 disabled:opacity-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-1 focus-visible:ring-offset-surface active:scale-[0.98]" title="测试当前表单的连接, 不保存配置">
+            <button onClick={handleTest} disabled={testing || !canTest} className="h-9 px-3.5 rounded-lg text-secondary hover:bg-elevated hover:text-foreground text-sm flex items-center justify-center gap-1.5 disabled:opacity-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-1 focus-visible:ring-offset-surface" title="测试当前表单的连接, 不保存配置">
               {testing ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Wifi className="h-3.5 w-3.5" />}
               {testing ? '测试中' : '测试连接'}
             </button>
-            <button onClick={() => save.mutate()} disabled={save.isPending || !canSave} className="h-9 px-5 rounded-lg bg-accent text-white text-sm font-medium flex items-center justify-center gap-2 hover:bg-accent/90 disabled:opacity-40 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-1 focus-visible:ring-offset-surface active:scale-[0.98]">
+            <button onClick={() => save.mutate()} disabled={save.isPending || !canSave} className="h-9 px-5 rounded-lg bg-accent text-white text-sm font-medium flex items-center justify-center gap-2 hover:bg-accent/90 disabled:opacity-40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-1 focus-visible:ring-offset-surface">
               {save.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : saved ? <Check className="h-4 w-4" /> : <Save className="h-4 w-4" />}
               {save.isPending ? '保存中...' : saved ? '已保存' : '保存配置'}
             </button>
@@ -830,7 +830,7 @@ export function SettingsAIPanel({ highlight }: { highlight?: string } = {}) {
                 </button>
               </span>
             </div>
-            <p className="mt-1.5 pl-[22px] text-[10px] leading-relaxed text-muted/80">
+            <p className="mt-1.5 pl-[22px] text-[11px] leading-relaxed text-muted/80">
               可直接用编辑器修改本文件, 保存后点「重新加载」同步; 所有 AI 与数据源 Key 均在此统一管理。
             </p>
           </div>
@@ -866,7 +866,7 @@ export function SettingsAIPanel({ highlight }: { highlight?: string } = {}) {
 
 function SectionHeader({ label, inline }: { label: string; inline?: boolean }) {
   return (
-    <div className={`${inline ? '' : 'mb-3'} text-[10px] font-medium uppercase tracking-[0.14em] text-muted`}>
+    <div className={`${inline ? '' : 'mb-3'} text-[11px] font-medium  text-muted`}>
       {label}
     </div>
   )
@@ -884,8 +884,8 @@ function Field({ label, hint, inline, children }: {
     return (
       <div className="flex items-center justify-between gap-3">
         <div>
-          <div className="text-[10px] font-medium text-muted">{label}</div>
-          {hint && <div className="text-[10px] text-muted/70 mt-0.5">{hint}</div>}
+          <div className="text-[11px] font-medium text-muted">{label}</div>
+          {hint && <div className="text-[11px] text-muted/70 mt-0.5">{hint}</div>}
         </div>
         {children}
       </div>
@@ -893,9 +893,9 @@ function Field({ label, hint, inline, children }: {
   }
   return (
     <div className="space-y-1.5">
-      <div className="text-[10px] font-medium tracking-wide text-muted">{label}</div>
+      <div className="text-[11px] font-medium tracking-wide text-muted">{label}</div>
       {children}
-      {hint && <div className="text-[10px] text-muted/80">{hint}</div>}
+      {hint && <div className="text-[11px] text-muted/80">{hint}</div>}
     </div>
   )
 }

@@ -56,7 +56,7 @@ export const AssistantMessage = memo(function AssistantMessage({
 /** 回答完成后的固定合规提示: 风险 + 数据口径。前端固定渲染, 不依赖模型自觉追加。 */
 function AnswerDisclaimer() {
   return (
-    <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-0.5 border-t border-border/60 pt-1.5 text-[10px] leading-relaxed text-muted">
+    <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-0.5 border-t border-border/60 pt-1.5 text-[11px] leading-relaxed text-muted">
       <span className="inline-flex items-center gap-1">
         <ShieldAlert className="h-3 w-3 shrink-0" />
         风险提示: AI 生成内容仅供参考, 不构成投资建议
@@ -263,7 +263,7 @@ function ConfirmCard({ call }: { call: ToolCallRecord }) {
         >
           {isRounds ? '停止' : '取消'}
         </button>
-        <span className="text-[10px] text-muted">
+        <span className="text-[11px] text-muted">
           {isRounds ? '120 秒内未选择将自动停止' : '120 秒内未确认将自动取消'}
         </span>
       </div>

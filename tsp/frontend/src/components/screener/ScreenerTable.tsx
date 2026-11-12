@@ -118,7 +118,7 @@ function renderTagList(
       {!showAll && hiddenCount > 0 && (
         <button
           onClick={onToggle}
-          className="inline-block px-1.5 py-px rounded text-[10px] font-medium leading-tight text-accent bg-accent/10 hover:bg-accent/20 transition-colors"
+          className="inline-block px-1.5 py-px rounded text-[11px] font-medium leading-tight text-accent bg-accent/10 hover:bg-accent/20 transition-colors"
         >
           +{hiddenCount}
         </button>
@@ -126,7 +126,7 @@ function renderTagList(
       {showAll && maxTags > 0 && tags.length > maxTags && (
         <button
           onClick={onToggle}
-          className="inline-block px-1.5 py-px rounded text-[10px] font-medium leading-tight text-muted hover:text-foreground transition-colors"
+          className="inline-block px-1.5 py-px rounded text-[11px] font-medium leading-tight text-muted hover:text-foreground transition-colors"
         >
           收起
         </button>
@@ -135,8 +135,8 @@ function renderTagList(
   )
 }
 
-const EXT_TAG_CLS = 'inline-block px-1.5 py-px rounded text-[10px] font-medium leading-tight text-yellow-500 bg-yellow-500/10'
-const STRATEGY_TAG_CLS = 'inline-block px-1.5 py-px rounded text-[10px] font-medium leading-tight bg-amber-500/10 text-amber-600 border border-amber-500/20'
+const EXT_TAG_CLS = 'inline-block px-1.5 py-px rounded text-[11px] font-medium leading-tight text-yellow-500 bg-yellow-500/10'
+const STRATEGY_TAG_CLS = 'inline-block px-1.5 py-px rounded text-[11px] font-medium leading-tight bg-amber-500/10 text-amber-600 border border-amber-500/20'
 
 function renderExtValue(
   val: any,
@@ -284,7 +284,7 @@ export function ScreenerTable({
                 className={`flex items-center gap-2 text-left ${isExpired ? 'cursor-default' : ''}`}
               >
                 {board ? (
-                  <span className={`shrink-0 inline-flex items-center justify-center w-[18px] h-[18px] rounded text-[9px] font-bold leading-none border ${board.color}`}>
+                  <span className={`shrink-0 inline-flex items-center justify-center w-[18px] h-[18px] rounded text-[11px] font-bold leading-none border ${board.color}`}>
                     {board.label}
                   </span>
                 ) : (
@@ -300,7 +300,7 @@ export function ScreenerTable({
                 )}
               </button>
               {isExpired ? (
-                <span className="shrink-0 inline-flex items-center px-1.5 py-px rounded text-[9px] font-medium leading-tight bg-red-500/10 text-red-400/60 border border-red-500/15">
+                <span className="shrink-0 inline-flex items-center px-1.5 py-px rounded text-[11px] font-medium leading-tight bg-red-500/10 text-red-400/60 border border-red-500/15">
                   失效
                 </span>
               ) : (
@@ -366,12 +366,12 @@ export function ScreenerTable({
             {signals.length > 0 ? (
               <div className="flex flex-wrap gap-0.5">
                 {signals.slice(0, 3).map((s) => (
-                  <span key={s.label} className={`inline-block px-1.5 py-px rounded text-[10px] font-medium leading-tight ${signalCls(s.type)}`}>
+                  <span key={s.label} className={`inline-block px-1.5 py-px rounded text-[11px] font-medium leading-tight ${signalCls(s.type)}`}>
                     {s.label}
                   </span>
                 ))}
                 {signals.length > 3 && (
-                  <span className="text-[10px] text-muted">+{signals.length - 3}</span>
+                  <span className="text-[11px] text-muted">+{signals.length - 3}</span>
                 )}
               </div>
             ) : (
@@ -419,7 +419,7 @@ export function ScreenerTable({
                     volume={intradayResolved.volume}
                     auctionWidth={intradayResolved.auctionWidth}
                   />
-                : <span className="text-[10px] text-muted">分时</span>}
+                : <span className="text-[11px] text-muted">分时</span>}
             </div>
           </td>
         )
@@ -511,7 +511,7 @@ export function ScreenerTable({
                 <button
                   type="button"
                   onClick={(event) => { event.stopPropagation(); onToggleIntradayYMode() }}
-                  className={`inline-flex items-center justify-center h-5 px-1 rounded text-[10px] whitespace-nowrap transition-colors ${
+                  className={`inline-flex items-center justify-center h-5 px-1 rounded text-[11px] whitespace-nowrap transition-colors ${
                     intradayYMode === 'limit'
                       ? 'text-accent bg-accent/10 hover:bg-accent/20'
                       : 'text-muted hover:text-foreground hover:bg-elevated'

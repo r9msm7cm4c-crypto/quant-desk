@@ -165,23 +165,23 @@ export const SUB_CHARTS: SubChartDef[] = [
           type: 'line',
           data: ma5Data,
           smooth: true, symbol: 'none', animation: false,
-          lineStyle: { width: 1, color: '#FACC15' },
-          itemStyle: { color: '#FACC15' },
+          lineStyle: { width: 1, color: '#DB9A2B' },
+          itemStyle: { color: '#DB9A2B' },
         },
         {
           name: 'VOL10',
           type: 'line',
           data: ma10Data,
           smooth: true, symbol: 'none', animation: false,
-          lineStyle: { width: 1, color: '#8B5CF6' },
-          itemStyle: { color: '#8B5CF6' },
+          lineStyle: { width: 1, color: '#63A7D9' },
+          itemStyle: { color: '#63A7D9' },
         },
       ]
     },
     buildInfo: (d) => {
       if (!d) return []
       return [
-        { label: '量', color: d.close >= d.open ? '#C74040' : '#2D9B65', value: fmtVol(d.volume) },
+        { label: '量', color: d.close >= d.open ? '#E05A52' : '#3FA97A', value: fmtVol(d.volume) },
       ]
     },
   },
@@ -195,16 +195,16 @@ export const SUB_CHARTS: SubChartDef[] = [
         type: 'line',
         data: data.map(d => d.macd_dif != null ? Number(d.macd_dif) : '-'),
         smooth: true, symbol: 'none', animation: false,
-        lineStyle: { width: 1, color: '#FACC15' },
-        itemStyle: { color: '#FACC15' },
+        lineStyle: { width: 1, color: '#DB9A2B' },
+        itemStyle: { color: '#DB9A2B' },
       },
       {
         name: 'DEA',
         type: 'line',
         data: data.map(d => d.macd_dea != null ? Number(d.macd_dea) : '-'),
         smooth: true, symbol: 'none', animation: false,
-        lineStyle: { width: 1, color: '#8B5CF6' },
-        itemStyle: { color: '#8B5CF6' },
+        lineStyle: { width: 1, color: '#63A7D9' },
+        itemStyle: { color: '#63A7D9' },
       },
       {
         name: 'MACD',
@@ -224,9 +224,9 @@ export const SUB_CHARTS: SubChartDef[] = [
     buildInfo: (d) => {
       if (!d) return []
       return [
-        { label: 'DIF', color: '#FACC15', value: d.macd_dif != null ? d.macd_dif.toFixed(3) : '—' },
-        { label: 'DEA', color: '#8B5CF6', value: d.macd_dea != null ? d.macd_dea.toFixed(3) : '—' },
-        { label: 'MACD', color: d.macd_hist != null && d.macd_hist >= 0 ? '#C74040' : '#2D9B65', value: d.macd_hist != null ? d.macd_hist.toFixed(3) : '—' },
+        { label: 'DIF', color: '#DB9A2B', value: d.macd_dif != null ? d.macd_dif.toFixed(3) : '—' },
+        { label: 'DEA', color: '#63A7D9', value: d.macd_dea != null ? d.macd_dea.toFixed(3) : '—' },
+        { label: 'MACD', color: d.macd_hist != null && d.macd_hist >= 0 ? '#E05A52' : '#3FA97A', value: d.macd_hist != null ? d.macd_hist.toFixed(3) : '—' },
       ]
     },
   },
@@ -241,32 +241,32 @@ export const SUB_CHARTS: SubChartDef[] = [
         type: 'line',
         data: data.map(d => d.rsi_6 != null ? Number(d.rsi_6) : '-'),
         smooth: true, symbol: 'none', animation: false,
-        lineStyle: { width: 1, color: '#FACC15' },
-        itemStyle: { color: '#FACC15' },
+        lineStyle: { width: 1, color: '#DB9A2B' },
+        itemStyle: { color: '#DB9A2B' },
       },
       {
         name: 'RSI14',
         type: 'line',
         data: data.map(d => d.rsi_14 != null ? Number(d.rsi_14) : '-'),
         smooth: true, symbol: 'none', animation: false,
-        lineStyle: { width: 1, color: '#3B82F6' },
-        itemStyle: { color: '#3B82F6' },
+        lineStyle: { width: 1, color: '#63A7D9' },
+        itemStyle: { color: '#63A7D9' },
       },
       {
         name: 'RSI24',
         type: 'line',
         data: data.map(d => d.rsi_24 != null ? Number(d.rsi_24) : '-'),
         smooth: true, symbol: 'none', animation: false,
-        lineStyle: { width: 1, color: '#8B5CF6' },
-        itemStyle: { color: '#8B5CF6' },
+        lineStyle: { width: 1, color: '#63A7D9' },
+        itemStyle: { color: '#63A7D9' },
       },
     ],
     buildInfo: (d) => {
       if (!d) return []
       return [
-        { label: 'RSI6', color: '#FACC15', value: d.rsi_6 != null ? d.rsi_6.toFixed(1) : '—' },
-        { label: 'RSI14', color: '#3B82F6', value: d.rsi_14 != null ? d.rsi_14.toFixed(1) : '—' },
-        { label: 'RSI24', color: '#8B5CF6', value: d.rsi_24 != null ? d.rsi_24.toFixed(1) : '—' },
+        { label: 'RSI6', color: '#DB9A2B', value: d.rsi_6 != null ? d.rsi_6.toFixed(1) : '—' },
+        { label: 'RSI14', color: '#63A7D9', value: d.rsi_14 != null ? d.rsi_14.toFixed(1) : '—' },
+        { label: 'RSI24', color: '#63A7D9', value: d.rsi_24 != null ? d.rsi_24.toFixed(1) : '—' },
       ]
     },
   },
@@ -280,32 +280,32 @@ export const SUB_CHARTS: SubChartDef[] = [
         type: 'line',
         data: data.map(d => d.kdj_k != null ? Number(d.kdj_k) : '-'),
         smooth: true, symbol: 'none', animation: false,
-        lineStyle: { width: 1, color: '#FACC15' },
-        itemStyle: { color: '#FACC15' },
+        lineStyle: { width: 1, color: '#DB9A2B' },
+        itemStyle: { color: '#DB9A2B' },
       },
       {
         name: 'D',
         type: 'line',
         data: data.map(d => d.kdj_d != null ? Number(d.kdj_d) : '-'),
         smooth: true, symbol: 'none', animation: false,
-        lineStyle: { width: 1, color: '#3B82F6' },
-        itemStyle: { color: '#3B82F6' },
+        lineStyle: { width: 1, color: '#63A7D9' },
+        itemStyle: { color: '#63A7D9' },
       },
       {
         name: 'J',
         type: 'line',
         data: data.map(d => d.kdj_j != null ? Number(d.kdj_j) : '-'),
         smooth: true, symbol: 'none', animation: false,
-        lineStyle: { width: 1, color: '#8B5CF6' },
-        itemStyle: { color: '#8B5CF6' },
+        lineStyle: { width: 1, color: '#63A7D9' },
+        itemStyle: { color: '#63A7D9' },
       },
     ],
     buildInfo: (d) => {
       if (!d) return []
       return [
-        { label: 'K', color: '#FACC15', value: d.kdj_k != null ? d.kdj_k.toFixed(1) : '—' },
-        { label: 'D', color: '#3B82F6', value: d.kdj_d != null ? d.kdj_d.toFixed(1) : '—' },
-        { label: 'J', color: '#8B5CF6', value: d.kdj_j != null ? d.kdj_j.toFixed(1) : '—' },
+        { label: 'K', color: '#DB9A2B', value: d.kdj_k != null ? d.kdj_k.toFixed(1) : '—' },
+        { label: 'D', color: '#63A7D9', value: d.kdj_d != null ? d.kdj_d.toFixed(1) : '—' },
+        { label: 'J', color: '#63A7D9', value: d.kdj_j != null ? d.kdj_j.toFixed(1) : '—' },
       ]
     },
   },
@@ -346,14 +346,14 @@ interface Props {
 
 // 序列颜色 (双主题通用); 画布轴/网格/文字等主题相关色走 CT() 动态取
 const THEME = {
-  bull: '#C74040',
-  bear: '#2D9B65',
+  bull: '#E05A52',
+  bear: '#3FA97A',
   bullAlpha: 'rgba(240,68,56,0.7)',
   bearAlpha: 'rgba(18,183,106,0.7)',
-  ma5: '#A1A1AA',
-  ma10: '#3B82F6',
-  ma20: '#F97316',
-  ma60: '#8B5CF6',
+  ma5: '#929BA8',
+  ma10: '#63A7D9',
+  ma20: '#DB9A2B',
+  ma60: '#63A7D9',
   bg: 'transparent',
 }
 
@@ -364,7 +364,7 @@ const CT = () => chartTheme(getTheme())
 const COMPACT_THRESHOLD = 60
 
 /** 加入自选日竖线颜色 (蓝色虚线, 与同花顺的标注观感一致) */
-const ADDED_DATE_COLOR = '#3B82F6'
+const ADDED_DATE_COLOR = '#63A7D9'
 
 /** 子图上方信息栏高度 (px) */
 const INFO_BAR_H = 16
@@ -396,13 +396,13 @@ function buildSubInfoGraphics(
       }
       const vol5 = calcVolMa(5)
       const vol10 = calcVolMa(10)
-      items.push({ label: 'VOL5', color: '#FACC15', value: fmtVol(vol5) })
-      items.push({ label: 'VOL10', color: '#8B5CF6', value: fmtVol(vol10) })
+      items.push({ label: 'VOL5', color: '#DB9A2B', value: fmtVol(vol5) })
+      items.push({ label: 'VOL10', color: '#63A7D9', value: fmtVol(vol10) })
       if (volumeCompare.enabled) {
         const ratio = volumeRatioAt(data, infoIdx, volumeCompare.days)
         items.push({
           label: `量比${volumeCompare.days}`,
-          color: ratio != null && ratio >= 1 ? '#C74040' : '#2D9B65',
+          color: ratio != null && ratio >= 1 ? '#E05A52' : '#3FA97A',
           value: fmtVolumeRatio(ratio),
         })
       }
@@ -422,7 +422,7 @@ function buildSubInfoGraphics(
       style: {
         text: def.label,
         x: 4, y: curTop + 4,
-        fill: '#8E8E96',
+        fill: '#929BA8',
         fontSize: 10, fontFamily: 'JetBrains Mono, monospace',
         fontWeight: 'bold',
       },
@@ -495,7 +495,7 @@ function buildOption(
       const isSell = m.kind === 'sell'
 
       if (m.above) {
-        const dotColor = m.color ?? (isBuy ? '#FACC15' : CT().text)
+        const dotColor = m.color ?? (isBuy ? '#DB9A2B' : CT().text)
         if (compact) {
           markPointData.push({
             name: m.date, coord: [m.date, d.high],
@@ -655,16 +655,16 @@ function buildOption(
   if (linkedPrice != null) {
     markLineData.push({
       yAxis: linkedPrice,
-      lineStyle: { color: '#3B82F6', type: 'dashed', width: 1, opacity: 0.7 },
+      lineStyle: { color: '#63A7D9', type: 'dashed', width: 1, opacity: 0.7 },
       label: {
         show: true,
         formatter: linkedPrice.toFixed(2),
         position: 'insideEndTop',
-        color: '#3B82F6',
+        color: '#63A7D9',
         fontSize: 10,
         fontFamily: 'JetBrains Mono, monospace',
         backgroundColor: CT().tooltipBg,
-        borderColor: '#3B82F6',
+        borderColor: '#63A7D9',
         borderWidth: 1,
         padding: [1, 4],
         borderRadius: 2,
@@ -1185,7 +1185,7 @@ export function EChartsCandlestick({
       const isBuy = m.kind === 'buy'
       const isSell = m.kind === 'sell'
       if (m.above) {
-        const dotColor = m.color ?? (isBuy ? '#FACC15' : CT().text)
+        const dotColor = m.color ?? (isBuy ? '#DB9A2B' : CT().text)
         if (compact) {
           markPointData.push({
             name: m.date, coord: [m.date, d.high],

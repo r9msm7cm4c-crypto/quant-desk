@@ -135,7 +135,7 @@ export function MiningOosChart({ folds }: MiningOosChartProps) {
             ? null
             : {
                 value: fold.return * 100,
-                itemStyle: { color: fold.return >= 0 ? '#ef4444' : '#22c55e' },
+                itemStyle: { color: fold.return >= 0 ? '#E05A52' : '#3FA97A' },
               }),
           barMaxWidth: 28,
         },
@@ -147,8 +147,8 @@ export function MiningOosChart({ folds }: MiningOosChartProps) {
           connectNulls: false,
           symbol: 'circle',
           symbolSize: 6,
-          lineStyle: { color: '#3b82f6', width: 1.5 },
-          itemStyle: { color: '#3b82f6' },
+          lineStyle: { color: '#63A7D9', width: 1.5 },
+          itemStyle: { color: '#63A7D9' },
           z: 5,
         },
         {

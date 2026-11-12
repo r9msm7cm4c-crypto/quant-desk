@@ -186,7 +186,7 @@ export function Financials() {
               </span>
             )}
             <button
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-btn bg-gradient-to-r from-accent/25 to-accent/10 border border-accent/30 text-accent text-xs font-medium hover:from-accent/35 hover:to-accent/20 transition-all duration-150 disabled:opacity-40 disabled:cursor-not-allowed"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-btn bg-accent/[0.14] border border-accent/30 text-accent text-xs font-medium transition-colors duration-150 disabled:opacity-40 disabled:cursor-not-allowed"
               onClick={() => handleSync('all')}
               disabled={syncing}
               title={syncing ? '正在同步，请稍候…' : '同步全部财务表'}
@@ -260,12 +260,12 @@ export function Financials() {
                     </div>
                     <div className="mt-2 text-xl font-semibold tabular-nums text-foreground">
                       {fmtBigNum(info?.rows ?? 0)}
-                      <span className="text-[10px] text-muted ml-1 font-normal">行</span>
+                      <span className="text-[11px] text-muted ml-1 font-normal">行</span>
                     </div>
                     <div className="text-[11px] text-muted mt-0.5">
                       {fmtBigNum(info?.symbols ?? 0)} 只标的
                     </div>
-                    <div className="mt-auto pt-2 border-t border-border/40 text-[10px] text-muted flex items-center gap-1">
+                    <div className="mt-auto pt-2 border-t border-border/40 text-[11px] text-muted flex items-center gap-1">
                       <Clock className="h-2.5 w-2.5 shrink-0" />
                       {lsTime
                         ? new Date(lsTime).toLocaleString('zh-CN', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })

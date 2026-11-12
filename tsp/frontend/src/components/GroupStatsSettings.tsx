@@ -57,7 +57,7 @@ export function GroupStatsSettings({
       </button>
       {open && (
         <div className="absolute right-0 top-full z-30 mt-1 w-64 rounded-card border border-border bg-base p-3 shadow-xl">
-          <div className="text-[10px] uppercase tracking-wider text-muted">指标</div>
+          <div className="text-[11px] uppercase tracking-wider text-muted">指标</div>
           <div className="mt-1 flex flex-wrap gap-1">
             {GROUP_METRICS.map(m => (
               <button
@@ -75,7 +75,7 @@ export function GroupStatsSettings({
               </button>
             ))}
           </div>
-          <div className="mt-2.5 text-[10px] uppercase tracking-wider text-muted">排序</div>
+          <div className="mt-2.5 text-[11px] uppercase tracking-wider text-muted">排序</div>
           <div className="mt-1 flex flex-wrap gap-1">
             {GROUP_SORT_OPTIONS.map(s => (
               <button
@@ -94,7 +94,7 @@ export function GroupStatsSettings({
           </div>
           {showCardLimit && (
             <>
-              <div className="mt-2.5 text-[10px] uppercase tracking-wider text-muted">卡片显示</div>
+              <div className="mt-2.5 text-[11px] uppercase tracking-wider text-muted">卡片显示</div>
               <div className="mt-1 flex items-center gap-2" title="分组卡片默认展示组内前 N 条, 可展开查看全部">
                 <button
                   type="button"
@@ -132,7 +132,7 @@ export function GroupStatsSettings({
                     }`}
                   >
                     <span
-                      className={`absolute top-0.5 h-3 w-3 rounded-full transition-all ${
+                      className={`absolute top-0.5 h-3 w-3 rounded-full transition-colors ${
                         config.cardColorBar ? 'left-[14px] bg-white' : 'left-0.5 bg-muted'
                       }`}
                     />
@@ -151,7 +151,7 @@ export function GroupStatsSettings({
                     }`}
                   >
                     <span
-                      className={`absolute top-0.5 h-3 w-3 rounded-full transition-all ${
+                      className={`absolute top-0.5 h-3 w-3 rounded-full transition-colors ${
                         config.cardRank ? 'left-[14px] bg-white' : 'left-0.5 bg-muted'
                       }`}
                     />
@@ -160,7 +160,7 @@ export function GroupStatsSettings({
               </div>
             </>
           )}
-          <div className="mt-2.5 text-[10px] leading-relaxed text-muted">
+          <div className="mt-2.5 text-[11px] leading-relaxed text-muted">
             {GROUP_METRICS.find(m => m.id === config.metric)?.hint}
           </div>
         </div>

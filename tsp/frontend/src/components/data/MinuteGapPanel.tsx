@@ -141,7 +141,7 @@ export function MinuteGapPanel({ hasCap = true, onJobStart }: { hasCap?: boolean
       {summary.length > 0 && (
         <div className="flex flex-wrap gap-1.5">
           {summary.map(c => (
-            <span key={c.date} className="rounded bg-warning/10 px-2 py-0.5 text-[10px] text-warning">
+            <span key={c.date} className="rounded bg-warning/10 px-2 py-0.5 text-[11px] text-warning">
               {c.date} · {c.gap_symbols} 只 · 缺 {c.missing_bars} 根
             </span>
           ))}
@@ -167,7 +167,7 @@ export function MinuteGapPanel({ hasCap = true, onJobStart }: { hasCap?: boolean
             </div>
           ) : (
           <div className="minute-gap-list rounded-card border border-border/60">
-            <div aria-hidden="true" className="minute-gap-columns rounded-t-card border-b border-border bg-base/50 px-3 py-2 text-[10px] font-medium text-muted">
+            <div aria-hidden="true" className="minute-gap-columns rounded-t-card border-b border-border bg-base/50 px-3 py-2 text-[11px] font-medium text-muted">
               <span>代码</span><span>日期</span>
               <span className="text-right">实有 / 应有</span><span className="text-right">缺失</span>
               <span>数据范围</span><span className="text-right">操作</span>
@@ -184,15 +184,15 @@ export function MinuteGapPanel({ hasCap = true, onJobStart }: { hasCap?: boolean
                   </div>
                   <dl className="minute-gap-metrics">
                     <div className="minute-gap-metric">
-                      <dt className="minute-gap-label text-[10px] text-muted">实有 / 应有</dt>
+                      <dt className="minute-gap-label text-[11px] text-muted">实有 / 应有</dt>
                       <dd className="whitespace-nowrap font-mono text-warning">{g.actual_bars}/{g.expected_bars}</dd>
                     </div>
                     <div className="minute-gap-metric">
-                      <dt className="minute-gap-label text-[10px] text-muted">缺失</dt>
+                      <dt className="minute-gap-label text-[11px] text-muted">缺失</dt>
                       <dd className="font-mono text-warning">{g.missing_bars} 根</dd>
                     </div>
                     <div className="minute-gap-metric minute-gap-range">
-                      <dt className="minute-gap-label text-[10px] text-muted">数据范围</dt>
+                      <dt className="minute-gap-label text-[11px] text-muted">数据范围</dt>
                       <dd className="whitespace-nowrap font-mono text-secondary">{g.first_time ?? '—'} ~ {g.last_time ?? '—'}</dd>
                     </div>
                   </dl>
@@ -201,7 +201,7 @@ export function MinuteGapPanel({ hasCap = true, onJobStart }: { hasCap?: boolean
                       type="button"
                       disabled={!hasCap || busySymbol !== null || batchRepair.isPending}
                       onClick={() => { setBusySymbol(g.symbol); repair.mutate(g.symbol) }}
-                      className="whitespace-nowrap rounded-btn border border-border px-2 py-1.5 text-[10px] text-secondary hover:border-accent hover:text-accent disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60"
+                      className="whitespace-nowrap rounded-btn border border-border px-2 py-1.5 text-[11px] text-secondary hover:border-accent hover:text-accent disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60"
                     >
                       {busySymbol === g.symbol ? '补齐中…' : '尝试补齐'}
                     </button>

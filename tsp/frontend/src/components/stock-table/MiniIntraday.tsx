@@ -171,11 +171,11 @@ function AuctionOnly({ rows, prevClose, match, unmatched, width, height, auction
   height: number
   auctionWidth?: AuctionBarWidth
 }) {
-  const BULL = '#C74040'
-  const BEAR = '#2D9B65'
-  const FLAT = '#A1A1AA'
-  const LINE_PREV_CLOSE = '#7A7A85'
-  const LINE_MATCH = '#E0B84A'
+  const BULL = '#E05A52'
+  const BEAR = '#3FA97A'
+  const FLAT = '#929BA8'
+  const LINE_PREV_CLOSE = '#6E7887'
+  const LINE_MATCH = '#DB9A2B'
   const padY = 3
   const W = width
   const H = height
@@ -257,11 +257,11 @@ export const MiniIntraday = memo(function MiniIntraday({ rows, prevClose, change
   /** 竞价窄栏宽度档 (R3): 窄/标准/宽, 默认 'standard'≈30% 整图宽 */
   auctionWidth?: AuctionBarWidth
 }) {
-  const BULL = '#C74040'
-  const BEAR = '#2D9B65'
-  const FLAT = '#A1A1AA'              // 压线 (平盘): 灰, 与 EChartsIntraday 一致
-  const LINE_PREV_CLOSE = '#7A7A85'   // 昨收基准线: 深灰实线
-  const LINE_AVG = '#E0B84A'          // 均线: 暖黄
+  const BULL = '#E05A52'
+  const BEAR = '#3FA97A'
+  const FLAT = '#929BA8'              // 压线 (平盘): 灰, 与 EChartsIntraday 一致
+  const LINE_PREV_CLOSE = '#6E7887'   // 昨收基准线: 深灰实线
+  const LINE_AVG = '#DB9A2B'          // 均线: 暖黄
 
   const W = width
   const H = height

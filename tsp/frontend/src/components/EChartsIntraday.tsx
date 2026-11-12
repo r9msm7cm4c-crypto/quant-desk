@@ -9,9 +9,9 @@ type YMode = 'adaptive' | 'limit'
 
 // 序列颜色 (双主题通用); 画布轴/网格/十字线等主题相关色走 ChartTheme
 const THEME = {
-  line: '#3B82F6',
+  line: '#63A7D9',
   areaFill: 'rgba(59,130,246,0.40)',
-  avgLine: '#F59E0B',
+  avgLine: '#DB9A2B',
   volUp: 'rgba(240,68,56,0.6)',
   volDown: 'rgba(18,183,106,0.6)',
 }
@@ -444,7 +444,7 @@ export function EChartsIntraday({
   const lastClose = data.length > 0 ? data[data.length - 1].close : null
   const lineIsUp = lastClose != null && prevClose != null ? lastClose > prevClose : true
   const lineIsFlat = lastClose != null && prevClose != null ? lastClose === prevClose : false
-  const lineColor = lineIsFlat ? '#A1A1AA' : lineIsUp ? '#C74040' : '#2D9B65'
+  const lineColor = lineIsFlat ? '#929BA8' : lineIsUp ? '#E05A52' : '#3FA97A'
   const areaFill = lineIsFlat ? 'rgba(180,180,190,0.40)' : lineIsUp ? 'rgba(199,64,64,0.40)' : 'rgba(34,197,94,0.40)'
 
   useEffect(() => {
@@ -560,7 +560,7 @@ export function EChartsIntraday({
   const chg = d && prevClose != null ? d.close - prevClose : null
   const isUp = chg != null ? chg > 0 : true
   const isFlat = chg != null ? chg === 0 : false
-  const priceClr = isFlat ? '#A1A1AA' : isUp ? '#C74040' : '#2D9B65'
+  const priceClr = isFlat ? '#929BA8' : isUp ? '#E05A52' : '#3FA97A'
 
   return (
     <div className="w-full">
@@ -569,7 +569,7 @@ export function EChartsIntraday({
         <div className="inline-flex items-center rounded bg-elevated overflow-hidden">
           <button
             onClick={() => setYMode('adaptive')}
-            className={`px-2.5 py-0.5 text-[10px] font-mono cursor-pointer transition-colors ${
+            className={`px-2.5 py-0.5 text-[11px] font-mono cursor-pointer transition-colors ${
               yMode === 'adaptive'
                 ? 'bg-accent/20 text-accent'
                 : 'text-muted hover:text-secondary'
@@ -580,7 +580,7 @@ export function EChartsIntraday({
           <div className="w-px h-3 bg-border/40" />
           <button
             onClick={() => setYMode('limit')}
-            className={`px-2.5 py-0.5 text-[10px] font-mono cursor-pointer transition-colors ${
+            className={`px-2.5 py-0.5 text-[11px] font-mono cursor-pointer transition-colors ${
               yMode === 'limit'
                 ? 'bg-accent/20 text-accent'
                 : 'text-muted hover:text-secondary'

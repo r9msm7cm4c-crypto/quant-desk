@@ -46,12 +46,12 @@ export function SettingsApiTokensPanel() {
   const tokens = (tokensQ.data?.tokens ?? []).filter(t => !t.revoked)
 
   return (
-    <div className="mx-auto max-w-3xl space-y-4">
+    <div className="mx-auto max-w-5xl space-y-4">
       <div className="rounded-card border border-border bg-surface p-4">
         <div className="flex items-center gap-2">
           <KeyRound className="h-4 w-4 text-accent" />
           <div className="text-sm font-medium">API Token</div>
-          <span className="text-[10px] text-muted">外部调用方的第二认证通道 — 与面板密码并行, 互不影响</span>
+          <span className="text-[11px] text-muted">外部调用方的第二认证通道 — 与面板密码并行, 互不影响</span>
           <button
             onClick={() => setCreating(v => !v)}
             className="ml-auto flex items-center gap-1 rounded-btn border border-border px-2 py-1 text-[11px] text-muted transition-colors hover:border-accent/40 hover:text-accent"
@@ -85,14 +85,14 @@ export function SettingsApiTokensPanel() {
                   <span className="min-w-0">
                     <span className="text-xs text-foreground">
                       {s.label}
-                      <span className="ml-1.5 font-mono text-[10px] text-accent/80">{s.key}</span>
-                      {s.default && <span className="ml-1 rounded bg-accent/10 px-1 text-[9px] text-accent">默认</span>}
+                      <span className="ml-1.5 font-mono text-[11px] text-accent/80">{s.key}</span>
+                      {s.default && <span className="ml-1 rounded bg-accent/10 px-1 text-[11px] text-accent">默认</span>}
                     </span>
-                    <span className="block text-[10px] text-muted">{s.desc}</span>
+                    <span className="block text-[11px] text-muted">{s.desc}</span>
                   </span>
                 </label>
               ))}
-              <div className="text-[10px] text-muted">
+              <div className="text-[11px] text-muted">
                 扩展表的结构配置/上传/拉取、数据同步、设置等管理接口永不开放给 Token (行数据写入走 write:ext)。调用方式: <span className="font-mono">Authorization: Bearer tsp_...</span>, 默认限流 120 次/分钟, 契约文档 <span className="font-mono text-accent/80">/api/openapi.json?tier=a</span>
               </div>
             </div>
@@ -140,13 +140,13 @@ export function SettingsApiTokensPanel() {
                   <div className="min-w-0 flex-1">
                     <div className="text-xs text-foreground">
                       {t.name}
-                      <span className="ml-1.5 font-mono text-[10px] text-muted">{t.id}</span>
+                      <span className="ml-1.5 font-mono text-[11px] text-muted">{t.id}</span>
                     </div>
                     <div className="mt-0.5 flex flex-wrap items-center gap-1">
                       {t.scopes.map(s => (
-                        <span key={s} className="rounded bg-accent/10 px-1.5 py-px font-mono text-[9px] text-accent">{s}</span>
+                        <span key={s} className="rounded bg-accent/10 px-1.5 py-px font-mono text-[11px] text-accent">{s}</span>
                       ))}
-                      <span className="ml-1 text-[9px] text-muted">
+                      <span className="ml-1 text-[11px] text-muted">
                         创建 {t.created_at?.slice(0, 16).replace('T', ' ')}
                         {t.last_used_at ? ` · 最近使用 ${t.last_used_at.slice(11, 16)}` : ' · 未使用过'}
                       </span>
@@ -155,7 +155,7 @@ export function SettingsApiTokensPanel() {
                   <button
                     onClick={() => revokeM.mutate(t.id)}
                     disabled={revokeM.isPending}
-                    className={cn('shrink-0 rounded-btn border border-border px-2 py-1 text-[10px] text-muted transition-colors hover:border-danger/40 hover:text-danger')}
+                    className={cn('shrink-0 rounded-btn border border-border px-2 py-1 text-[11px] text-muted transition-colors hover:border-danger/40 hover:text-danger')}
                   >
                     吊销
                   </button>

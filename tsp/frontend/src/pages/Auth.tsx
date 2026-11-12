@@ -92,12 +92,12 @@ export function Auth() {
           <h1 className="text-lg font-semibold text-foreground">Tick Stock Panel</h1>
         </div>
 
-        <div className="rounded-card border border-border bg-surface/90 p-6 shadow-2xl backdrop-blur">
+        <div className="rounded-card border border-border bg-surface p-6">
           {/* 标题区: 图标 + 文案随模式切换 */}
           <div className="mb-5 flex items-center gap-2.5">
             <div className={cn(
               'grid h-9 w-9 place-items-center rounded-lg',
-              isSetup ? 'bg-accent/15 text-accent' : 'bg-purple-500/15 text-purple-400',
+              isSetup ? 'bg-accent/15 text-accent' : 'bg-accent/15 text-accent',
             )}>
               {isSetup ? <ShieldCheck className="h-5 w-5" /> : <Lock className="h-5 w-5" />}
             </div>
@@ -166,7 +166,7 @@ export function Auth() {
 
           {/* 提示: 设密码模式告知本机限制 */}
           {isSetup && (
-            <div className="mt-3 space-y-1.5 text-[10px] leading-relaxed text-muted/70">
+            <div className="mt-3 space-y-1.5 text-[11px] leading-relaxed text-muted/70">
               <p>
                 出于安全考虑, 首次设置密码需在服务器本机或内网访问时操作。公网环境下仅可登录。
               </p>
@@ -185,7 +185,7 @@ export function Auth() {
           )}
         </div>
 
-        <div className="mt-4 flex items-center justify-center gap-1.5 text-[10px] text-muted/60">
+        <div className="mt-4 flex items-center justify-center gap-1.5 text-[11px] text-muted/60">
           <Sparkles className="h-3 w-3" />
           自托管量化工作台 · 数据完全掌握在自己手里
         </div>

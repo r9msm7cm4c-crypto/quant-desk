@@ -88,7 +88,7 @@ export function ConditionEditor({ conditions, onChange, options, max = 8, title,
           const condOps = isStr ? stringOperators : operators
           return (
             <div key={i} className="flex flex-wrap items-center gap-1.5">
-              <span className="text-[10px] text-muted/60 w-5 text-right shrink-0">{i === 0 ? '当' : '且'}</span>
+              <span className="text-[11px] text-muted/60 w-5 text-right shrink-0">{i === 0 ? '当' : '且'}</span>
 
               {/* 左操作数: 前N日 + 字段(弹出选择) */}
               {!hideDays && <DaysInput value={c.leftDays ?? 0} max={maxDays} onChange={v => updateCond(i, { leftDays: v })} />}
@@ -202,7 +202,7 @@ function FieldPicker({ value, fields, groups, onChange }: {
                   {filteredGroups ? (
                     filteredGroups.length > 0 ? filteredGroups.map(g => (
                       <div key={g.key} className="mb-1">
-                        <div className="px-2 py-1 text-[10px] text-muted/60 font-medium">{g.label}</div>
+                        <div className="px-2 py-1 text-[11px] text-muted/60 font-medium">{g.label}</div>
                         {g.fields.map(f => (
                           <button
                             key={f.key}

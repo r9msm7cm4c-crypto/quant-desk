@@ -18,7 +18,7 @@ export function ScheduleEditor({ value, onSave, loading, hint }: {
 
   return (
     <div className="flex items-center gap-2 pt-1.5">
-      <span className="text-[10px] text-muted">每日</span>
+      <span className="text-[11px] text-muted">每日</span>
       <input
         type="number" min={0} max={23} value={h}
         onChange={e => setH(Math.max(0, Math.min(23, Number(e.target.value))))}
@@ -37,7 +37,7 @@ export function ScheduleEditor({ value, onSave, loading, hint }: {
       >
         {loading ? '保存中…' : '保存'}
       </button>
-      <span className="text-[10px] text-muted">工作日自动执行{hint ? ` · ${hint}` : ''}</span>
+      <span className="text-[11px] text-muted">工作日自动执行{hint ? ` · ${hint}` : ''}</span>
     </div>
   )
 }

@@ -104,7 +104,7 @@ export function AddWidgetPanel({
           style={{ left: anchor.left, top: anchor.top, width: PANEL_W }}
           className="fixed z-[9999] rounded-card border border-border bg-surface p-2 shadow-2xl shadow-black/40"
         >
-          <div className="mb-1.5 px-0.5 text-[10px] font-medium text-muted">内置组件</div>
+          <div className="mb-1.5 px-0.5 text-[11px] font-medium text-muted">内置组件</div>
           <div className="max-h-56 space-y-0.5 overflow-y-auto">
             {WIDGET_DEFS.filter(d => d.id !== 'ext-link').map(d => {
               const placed = placedTypes.has(d.id)
@@ -124,14 +124,14 @@ export function AddWidgetPanel({
                 >
                   <d.icon className="h-3.5 w-3.5 shrink-0 text-accent" />
                   <span className="flex-1 truncate">{d.label}</span>
-                  {placed && <span className="text-[9px]">已添加</span>}
+                  {placed && <span className="text-[11px]">已添加</span>}
                 </button>
               )
             })}
           </div>
 
           <div className="mt-2 border-t border-border/60 pt-2">
-            <div className="mb-1.5 px-0.5 text-[10px] font-medium text-muted">外部链接(可加多个)</div>
+            <div className="mb-1.5 px-0.5 text-[11px] font-medium text-muted">外部链接(可加多个)</div>
             <div className="space-y-1.5">
               <input
                 value={title}
@@ -146,7 +146,7 @@ export function AddWidgetPanel({
                 placeholder="https://… (仅 http/https)"
                 className="w-full rounded-btn bg-base px-2 py-1.5 font-mono text-xs text-foreground ring-1 ring-border/40 placeholder:text-muted/40 focus:outline-none focus:ring-2 focus:ring-accent/40"
               />
-              {urlError && <div className="text-[10px] text-danger">{urlError}</div>}
+              {urlError && <div className="text-[11px] text-danger">{urlError}</div>}
               <button
                 type="button"
                 onClick={addExtLink}

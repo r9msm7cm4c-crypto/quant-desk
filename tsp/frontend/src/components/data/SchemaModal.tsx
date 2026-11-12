@@ -75,7 +75,7 @@ export function EnrichedSchemaModal({ table, onClose }: { table: string | null; 
           >
             <div className="flex items-center justify-between px-5 py-3 border-b border-border">
               <h3 className="text-sm font-medium text-foreground">{title} 字段说明</h3>
-              <span className="text-[10px] text-muted font-mono">{fields.length} 个字段</span>
+              <span className="text-[11px] text-muted font-mono">{fields.length} 个字段</span>
             </div>
             <div className="px-5 py-3 overflow-y-auto max-h-[calc(70vh-48px)]">
               {schema.isLoading ? (
@@ -84,7 +84,7 @@ export function EnrichedSchemaModal({ table, onClose }: { table: string | null; 
                 <div className="space-y-3">
                   {Object.entries(groups).map(([cat, items]) => (
                     <div key={cat}>
-                      <div className="text-[10px] font-medium text-accent/70 uppercase tracking-wider mb-1.5">{cat}</div>
+                      <div className="text-[11px] font-medium text-accent/70 uppercase tracking-wider mb-1.5">{cat}</div>
                       <div className="space-y-1">
                         {items.map((f) => (
                           <div key={f.name} className="flex items-baseline gap-2 text-[11px]">

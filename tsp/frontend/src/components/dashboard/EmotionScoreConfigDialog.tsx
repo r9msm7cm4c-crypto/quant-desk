@@ -117,7 +117,7 @@ export function EmotionScoreConfigDialog({ onClose }: { onClose: () => void }) {
           <Sigma className="h-4 w-4 shrink-0 text-accent" />
           <h3 className="text-sm font-medium text-foreground">情绪评分 · 计算方式</h3>
           {payload?.customized && (
-            <span className="rounded-full bg-accent/15 px-2 py-0.5 text-[10px] font-medium leading-none text-accent">
+            <span className="rounded-full bg-accent/15 px-2 py-0.5 text-[11px] font-medium leading-none text-accent">
               已自定义
             </span>
           )}
@@ -144,7 +144,7 @@ export function EmotionScoreConfigDialog({ onClose }: { onClose: () => void }) {
                   各维度再按 <span className="text-foreground">维度权重</span> 加权平均得到总分。
                   <div className="mt-1 text-muted">
                     子项权重会在维度内自动归一化（权重和不必等于 1）；标记
-                    <span className="mx-0.5 rounded bg-elevated/70 px-1 py-px font-mono text-[10px]">逆向</span>
+                    <span className="mx-0.5 rounded bg-elevated/70 px-1 py-px font-mono text-[11px]">逆向</span>
                     的维度表示「越强得分越低」（如抗跌：下跌越多，得分越少）。
                   </div>
                 </div>
@@ -161,10 +161,10 @@ export function EmotionScoreConfigDialog({ onClose }: { onClose: () => void }) {
                     <div className="flex items-center gap-2 border-b border-border/40 px-3 py-2">
                       <span className="text-xs font-medium text-foreground">{dim.label}</span>
                       {dim.invert && (
-                        <span className="rounded bg-warning/15 px-1.5 py-px text-[9px] font-medium leading-none text-warning">逆向</span>
+                        <span className="rounded bg-warning/15 px-1.5 py-px text-[11px] font-medium leading-none text-warning">逆向</span>
                       )}
                       <span className="ml-auto flex items-center gap-1.5">
-                        <span className="text-[10px] text-muted">维度权重</span>
+                        <span className="text-[11px] text-muted">维度权重</span>
                         <input
                           type="number" min={0} max={10} step={0.1}
                           value={dim.weight}
@@ -174,7 +174,7 @@ export function EmotionScoreConfigDialog({ onClose }: { onClose: () => void }) {
                       </span>
                     </div>
                     <div className="px-3 py-2">
-                      <div className="grid grid-cols-[1fr_54px_64px_64px] items-center gap-2 pb-1 text-[10px] text-muted">
+                      <div className="grid grid-cols-[1fr_54px_64px_64px] items-center gap-2 pb-1 text-[11px] text-muted">
                         <span>指标</span>
                         <span className="text-right">权重</span>
                         <span className="text-right">归一化下限</span>
@@ -184,7 +184,7 @@ export function EmotionScoreConfigDialog({ onClose }: { onClose: () => void }) {
                         <div key={term.key} className="grid grid-cols-[1fr_54px_64px_64px] items-center gap-2 py-0.5">
                           <span className="truncate text-[11px] text-secondary" title={`${term.label}${term.unit ? ` (${term.unit})` : ''}`}>
                             {term.label}
-                            {term.unit && <span className="ml-1 text-[10px] text-muted/70">{term.unit}</span>}
+                            {term.unit && <span className="ml-1 text-[11px] text-muted/70">{term.unit}</span>}
                           </span>
                           {(['weight', 'low', 'high'] as const).map(field => (
                             <input

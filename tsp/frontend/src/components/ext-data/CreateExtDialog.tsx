@@ -392,7 +392,7 @@ export function CreateExtDialog({ onClose }: { onClose: () => void }) {
                   <button
                     key={key}
                     onClick={() => selectSource(key)}
-                    className={`inline-flex items-center justify-center gap-1.5 rounded-lg px-3 py-2 text-xs font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent/40 ${
+                    className={`inline-flex items-center justify-center gap-1.5 rounded-lg px-3 py-2 text-xs font-medium transition-colors duration-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent/40 ${
                       active
                         ? 'bg-surface text-foreground shadow-sm'
                         : 'text-muted hover:text-secondary hover:bg-elevated/60'
@@ -416,7 +416,7 @@ export function CreateExtDialog({ onClose }: { onClose: () => void }) {
                   <button
                     key={m}
                     onClick={() => setMode(m)}
-                    className={`relative flex items-start gap-3 px-4 py-3.5 rounded-xl border text-left transition-all duration-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-amber-500/40 ${
+                    className={`relative flex items-start gap-3 px-4 py-3.5 rounded-xl border text-left transition-colors duration-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-amber-500/40 ${
                       active
                         ? 'border-amber-500/40 bg-amber-500/[0.07] shadow-sm shadow-amber-500/10'
                         : 'border-border bg-elevated/30 hover:bg-elevated/60 hover:border-border'
@@ -430,9 +430,9 @@ export function CreateExtDialog({ onClose }: { onClose: () => void }) {
                     <div className="flex-1 min-w-0">
                       <div className={`text-xs font-medium ${active ? 'text-foreground' : 'text-secondary'}`}>
                         {m === 'snapshot' ? '快照型' : '时序型'}
-                        <span className="ml-1.5 text-[10px] font-normal text-muted">{m === 'snapshot' ? '每股一条' : '按日分区'}</span>
+                        <span className="ml-1.5 text-[11px] font-normal text-muted">{m === 'snapshot' ? '每股一条' : '按日分区'}</span>
                       </div>
-                      <div className="text-[10px] text-muted mt-1 leading-relaxed">
+                      <div className="text-[11px] text-muted mt-1 leading-relaxed">
                         {m === 'snapshot' ? '每个标的一条最新值，如概念、行业、人气排名' : '按日期记录历史，如资金流、情绪指数、竞价序列'}
                       </div>
                     </div>
@@ -488,7 +488,7 @@ export function CreateExtDialog({ onClose }: { onClose: () => void }) {
               <div>
                 <div className="text-[11px] font-medium text-secondary mb-1.5">
                   标识符
-                  <span className="ml-1.5 text-[10px] font-normal text-muted">建表后不可改</span>
+                  <span className="ml-1.5 text-[11px] font-normal text-muted">建表后不可改</span>
                 </div>
                 <input
                   value={id}
@@ -515,7 +515,7 @@ export function CreateExtDialog({ onClose }: { onClose: () => void }) {
               <div className="flex items-center gap-1.5 text-xs font-semibold text-foreground">
                 <Link2 className="h-3.5 w-3.5 text-amber-500" />
                 <span>接口请求</span>
-                <span className="ml-1 text-[10px] font-normal text-muted">先测试识别，系统按返回数据生成字段</span>
+                <span className="ml-1 text-[11px] font-normal text-muted">先测试识别，系统按返回数据生成字段</span>
               </div>
               <div className="flex gap-2">
                 <select
@@ -535,7 +535,7 @@ export function CreateExtDialog({ onClose }: { onClose: () => void }) {
                 <button
                   onClick={handleDetectUrl}
                   disabled={detecting || !url.trim()}
-                  className="h-9 inline-flex items-center gap-1.5 rounded-lg bg-accent px-3.5 text-xs font-medium text-white hover:bg-accent/90 active:translate-y-px disabled:opacity-40 disabled:pointer-events-none focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent/40 transition-all"
+                  className="h-9 inline-flex items-center gap-1.5 rounded-lg bg-accent px-3.5 text-xs font-medium text-white hover:bg-accent/90 active:translate-y-px disabled:opacity-40 disabled:pointer-events-none focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent/40 transition-colors"
                 >
                   {detecting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <RefreshCw className="h-3.5 w-3.5" />}
                   测试识别
@@ -543,7 +543,7 @@ export function CreateExtDialog({ onClose }: { onClose: () => void }) {
               </div>
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <div className="text-[10px] text-muted mb-1">响应数据路径</div>
+                  <div className="text-[11px] text-muted mb-1">响应数据路径</div>
                   <input
                     value={responsePath}
                     onChange={(e) => setResponsePath(e.target.value)}
@@ -552,7 +552,7 @@ export function CreateExtDialog({ onClose }: { onClose: () => void }) {
                   />
                 </div>
                 <div>
-                  <div className="text-[10px] text-muted mb-1">拉取超时（秒）</div>
+                  <div className="text-[11px] text-muted mb-1">拉取超时（秒）</div>
                   <input
                     type="number" min={5} max={300} step={5}
                     value={timeoutSec}
@@ -563,11 +563,11 @@ export function CreateExtDialog({ onClose }: { onClose: () => void }) {
                 </div>
               </div>
               <div className="rounded-lg border border-border/50 bg-base/40 p-2.5 space-y-2">
-                <div className="text-[10px] text-muted">调度方式</div>
+                <div className="text-[11px] text-muted">调度方式</div>
                 <div className="grid grid-cols-2 gap-1 rounded-lg bg-elevated/50 p-1 border border-border/40">
                   <button
                     onClick={() => { setScheduleMode('interval'); setScheduleTime('') }}
-                    className={`h-8 rounded-md text-[11px] font-medium transition-all ${
+                    className={`h-8 rounded-md text-[11px] font-medium transition-colors ${
                       scheduleMode === 'interval' ? 'bg-surface text-foreground shadow-sm' : 'text-muted hover:text-secondary hover:bg-elevated/40'
                     }`}
                   >
@@ -575,7 +575,7 @@ export function CreateExtDialog({ onClose }: { onClose: () => void }) {
                   </button>
                   <button
                     onClick={() => setScheduleMode('fixed')}
-                    className={`h-8 rounded-md text-[11px] font-medium transition-all ${
+                    className={`h-8 rounded-md text-[11px] font-medium transition-colors ${
                       scheduleMode === 'fixed' ? 'bg-surface text-foreground shadow-sm' : 'text-muted hover:text-secondary hover:bg-elevated/40'
                     }`}
                   >
@@ -584,7 +584,7 @@ export function CreateExtDialog({ onClose }: { onClose: () => void }) {
                 </div>
                 {scheduleMode === 'interval' ? (
                   <div>
-                    <div className="text-[10px] text-muted/70 mb-1">间隔（分钟）</div>
+                    <div className="text-[11px] text-muted/70 mb-1">间隔（分钟）</div>
                     <input
                       type="number"
                       min={1}
@@ -592,7 +592,7 @@ export function CreateExtDialog({ onClose }: { onClose: () => void }) {
                       onChange={(e) => setSchedule(Number(e.target.value) || 1)}
                       className={`${INPUT_SM_CLS} font-mono tabular-nums`}
                     />
-                    <div className="text-[9px] text-muted/70 mt-1">
+                    <div className="text-[11px] text-muted/70 mt-1">
                       每隔 N 分钟拉取一次（从启用时刻起算）—「每天 09:30」这类日程请用固定时刻
                     </div>
                   </div>
@@ -631,7 +631,7 @@ export function CreateExtDialog({ onClose }: { onClose: () => void }) {
                           <button
                             type="button"
                             onClick={() => setScheduleTime('')}
-                            className="h-8 shrink-0 px-2.5 rounded-lg border border-border bg-base text-[10px] text-muted hover:text-foreground hover:bg-elevated focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent/40 transition-colors"
+                            className="h-8 shrink-0 px-2.5 rounded-lg border border-border bg-base text-[11px] text-muted hover:text-foreground hover:bg-elevated focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent/40 transition-colors"
                           >
                             清除
                           </button>
@@ -645,7 +645,7 @@ export function CreateExtDialog({ onClose }: { onClose: () => void }) {
                         onChange={(e) => setScheduleTradingOnly(e.target.checked)}
                         className="h-3.5 w-3.5 shrink-0 accent-amber-500"
                       />
-                      <span className="text-[10px] text-secondary">
+                      <span className="text-[11px] text-secondary">
                         仅交易日 — 跳过周六日
                         <span className="text-muted/70">（节假日无法离线判定，仍会按期尝试）</span>
                       </span>
@@ -655,41 +655,41 @@ export function CreateExtDialog({ onClose }: { onClose: () => void }) {
               </div>
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <div className="text-[10px] text-muted mb-1">Headers（JSON，可选）</div>
+                  <div className="text-[11px] text-muted mb-1">Headers（JSON，可选）</div>
                   <textarea
                     value={headerStr}
                     onChange={(e) => setHeaderStr(e.target.value)}
                     rows={2}
                     placeholder='{"Authorization":"Bearer xxx"}'
-                    className="w-full rounded-lg border border-border bg-base px-2.5 py-1.5 text-[10px] font-mono text-foreground placeholder:text-muted/40 resize-none focus:outline-none focus:ring-1 focus:ring-accent/25 focus:border-accent/50 transition-shadow"
+                    className="w-full rounded-lg border border-border bg-base px-2.5 py-1.5 text-[11px] font-mono text-foreground placeholder:text-muted/40 resize-none focus:outline-none focus:ring-1 focus:ring-accent/25 focus:border-accent/50 transition-shadow"
                   />
                 </div>
                 <div>
-                  <div className="text-[10px] text-muted mb-1">字段映射（外部名 → 内部名，可选）</div>
+                  <div className="text-[11px] text-muted mb-1">字段映射（外部名 → 内部名，可选）</div>
                   <textarea
                     value={fieldMapStr}
                     onChange={(e) => setFieldMapStr(e.target.value)}
                     rows={2}
                     placeholder='{"code":"symbol","val":"score"}'
-                    className="w-full rounded-lg border border-border bg-base px-2.5 py-1.5 text-[10px] font-mono text-foreground placeholder:text-muted/40 resize-none focus:outline-none focus:ring-1 focus:ring-accent/25 focus:border-accent/50 transition-shadow"
+                    className="w-full rounded-lg border border-border bg-base px-2.5 py-1.5 text-[11px] font-mono text-foreground placeholder:text-muted/40 resize-none focus:outline-none focus:ring-1 focus:ring-accent/25 focus:border-accent/50 transition-shadow"
                   />
                 </div>
               </div>
               {method === 'POST' && (
                 <div>
-                  <div className="text-[10px] text-muted mb-1">请求体（JSON，可选）</div>
+                  <div className="text-[11px] text-muted mb-1">请求体（JSON，可选）</div>
                   <textarea
                     value={body}
                     onChange={(e) => setBody(e.target.value)}
                     rows={3}
                     placeholder='{"page":1}'
-                    className="w-full rounded-lg border border-border bg-base px-2.5 py-1.5 text-[10px] font-mono text-foreground placeholder:text-muted/40 resize-none focus:outline-none focus:ring-1 focus:ring-accent/25 focus:border-accent/50 transition-shadow"
+                    className="w-full rounded-lg border border-border bg-base px-2.5 py-1.5 text-[11px] font-mono text-foreground placeholder:text-muted/40 resize-none focus:outline-none focus:ring-1 focus:ring-accent/25 focus:border-accent/50 transition-shadow"
                   />
                 </div>
               )}
               {urlPreview && (
                 <div className="rounded-lg border border-border/50 bg-base/60 p-3 space-y-2">
-                  <div className="flex items-center justify-between text-[10px]">
+                  <div className="flex items-center justify-between text-[11px]">
                     <span className="text-secondary tabular-nums">
                       识别到 <span className="text-foreground font-medium">{urlPreview.total_rows}</span> 行 · 路径{' '}
                       <span className="font-mono">{urlPreview.response_path || '根数组'}</span>
@@ -700,7 +700,7 @@ export function CreateExtDialog({ onClose }: { onClose: () => void }) {
                   </div>
                   {previewColumns.length > 0 && (
                     <div className="overflow-x-auto rounded-md border border-border/40">
-                      <table className="min-w-full text-left text-[10px]">
+                      <table className="min-w-full text-left text-[11px]">
                         <thead className="bg-elevated/50 text-muted">
                           <tr>
                             {previewColumns.map(col => <th key={col} className="px-2 py-1 font-medium font-mono">{col}</th>)}
@@ -734,7 +734,7 @@ export function CreateExtDialog({ onClose }: { onClose: () => void }) {
                     <button
                       onClick={() => detectFileRef.current?.click()}
                       disabled={detecting}
-                      className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] text-muted hover:text-accent hover:bg-accent/[0.06] disabled:opacity-40 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent/40 transition-colors"
+                      className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] text-muted hover:text-accent hover:bg-accent/[0.06] disabled:opacity-40 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent/40 transition-colors"
                     >
                       {detecting ? <Loader2 className="h-3 w-3 animate-spin" /> : <Upload className="h-3 w-3" />}
                       从数据文件识别
@@ -742,7 +742,7 @@ export function CreateExtDialog({ onClose }: { onClose: () => void }) {
                   )}
                   <button
                     onClick={addField}
-                    className="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-md text-[10px] text-muted hover:text-accent hover:bg-accent/[0.06] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent/40 transition-colors"
+                    className="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-md text-[11px] text-muted hover:text-accent hover:bg-accent/[0.06] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent/40 transition-colors"
                   >
                     <Plus className="h-3 w-3" />
                     添加字段
@@ -766,7 +766,7 @@ export function CreateExtDialog({ onClose }: { onClose: () => void }) {
                 exit={{ opacity: 0, height: 0 }}
                 className="mb-2 rounded-lg border border-amber-500/30 bg-amber-500/[0.06] px-3 py-2.5 space-y-2"
               >
-                <div className="text-[10px] text-amber-500 font-medium">
+                <div className="text-[11px] text-amber-500 font-medium">
                   未自动识别到唯一标的代码，请选择哪一列作为标的代码
                 </div>
                 <div className="flex flex-wrap gap-1.5">
@@ -774,14 +774,14 @@ export function CreateExtDialog({ onClose }: { onClose: () => void }) {
                     <button
                       key={f.name}
                       onClick={() => applyManualMapping(f.name)}
-                      className="px-2.5 py-1 rounded-md bg-accent/10 text-accent text-[10px] font-medium hover:bg-accent/20 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent/40 transition-colors"
+                      className="px-2.5 py-1 rounded-md bg-accent/10 text-accent text-[11px] font-medium hover:bg-accent/20 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent/40 transition-colors"
                     >
                       {f.name}
                     </button>
                   ))}
                   <button
                     onClick={() => setSelectMapping(null)}
-                    className="px-2.5 py-1 rounded-md bg-elevated text-muted text-[10px] hover:text-secondary focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent/40 transition-colors"
+                    className="px-2.5 py-1 rounded-md bg-elevated text-muted text-[11px] hover:text-secondary focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent/40 transition-colors"
                   >
                     取消
                   </button>
@@ -800,7 +800,7 @@ export function CreateExtDialog({ onClose }: { onClose: () => void }) {
                   const file = e.dataTransfer.files[0]
                   if (file) detectFile(file)
                 }}
-                className={`rounded-xl border-2 border-dashed py-8 flex flex-col items-center justify-center gap-2 cursor-pointer transition-all duration-200 ${
+                className={`rounded-xl border-2 border-dashed py-8 flex flex-col items-center justify-center gap-2 cursor-pointer transition-colors duration-200 ${
                   dragOver
                     ? 'border-amber-500 bg-amber-500/[0.06] scale-[1.01]'
                     : detecting
@@ -816,7 +816,7 @@ export function CreateExtDialog({ onClose }: { onClose: () => void }) {
                       <Upload className="h-5 w-5" />
                     </div>
                     <span className="text-[11px] text-secondary">拖拽或点击上传数据文件（CSV / Excel）</span>
-                    <span className="text-[10px] text-muted/70">自动识别列名和类型，symbol / code 列自动匹配</span>
+                    <span className="text-[11px] text-muted/70">自动识别列名和类型，symbol / code 列自动匹配</span>
                   </>
                 )}
               </div>
@@ -830,7 +830,7 @@ export function CreateExtDialog({ onClose }: { onClose: () => void }) {
                 <span className="text-[11px] text-muted">手动添加字段后即可创建空表结构</span>
                 <button
                   onClick={addField}
-                  className="inline-flex items-center gap-1 rounded-lg bg-accent px-3.5 py-1.5 text-xs font-medium text-white hover:bg-accent/90 active:translate-y-px focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent/40 transition-all"
+                  className="inline-flex items-center gap-1 rounded-lg bg-accent px-3.5 py-1.5 text-xs font-medium text-white hover:bg-accent/90 active:translate-y-px focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent/40 transition-colors"
                 >
                   <Plus className="h-3.5 w-3.5" />
                   添加字段
@@ -850,9 +850,9 @@ export function CreateExtDialog({ onClose }: { onClose: () => void }) {
                   >
                     <span className="w-16 shrink-0 text-[11px] text-secondary">{row.name}</span>
                     <span className="flex-1 text-[11px] font-mono text-muted">{row.key}</span>
-                    <span className="w-10 text-center text-[10px] text-muted/50">文本</span>
+                    <span className="w-10 text-center text-[11px] text-muted/50">文本</span>
                     {row.mapped
-                      ? <span className="inline-flex items-center gap-1 text-[10px] text-green-600 dark:text-green-500/80 shrink-0">
+                      ? <span className="inline-flex items-center gap-1 text-[11px] text-green-600 dark:text-green-500/80 shrink-0">
                           <Check className="h-3 w-3" strokeWidth={2.5} />
                           {row.hint}
                         </span>
@@ -888,7 +888,7 @@ export function CreateExtDialog({ onClose }: { onClose: () => void }) {
                       <button
                         onClick={() => removeField(idx)}
                         aria-label="删除字段"
-                        className="p-1.5 rounded-md text-muted/40 hover:text-danger hover:bg-danger/10 opacity-0 group-hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-danger/40 transition-all"
+                        className="p-1.5 rounded-md text-muted/40 hover:text-danger hover:bg-danger/10 opacity-0 group-hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-danger/40 transition-colors"
                       >
                         <X className="h-3 w-3" />
                       </button>
@@ -926,7 +926,7 @@ export function CreateExtDialog({ onClose }: { onClose: () => void }) {
                   />
                   <span className="text-[11px] text-secondary leading-relaxed">
                     {opt.label}
-                    <span className="block text-[10px] text-muted/80">{opt.hint}</span>
+                    <span className="block text-[11px] text-muted/80">{opt.hint}</span>
                   </span>
                 </label>
               ))}
@@ -942,7 +942,7 @@ export function CreateExtDialog({ onClose }: { onClose: () => void }) {
         </div>
 
         <div className="flex items-center justify-between gap-4 px-6 py-4 border-t border-border/50 bg-elevated/30">
-          <div className="text-[10px] text-muted/70 leading-relaxed">
+          <div className="text-[11px] text-muted/70 leading-relaxed">
             {sourceMode === 'url'
               ? '创建后可在扩展数据卡片中继续调整拉取配置'
               : sourceMode === 'file'
@@ -959,7 +959,7 @@ export function CreateExtDialog({ onClose }: { onClose: () => void }) {
             <button
               onClick={() => create.mutate()}
               disabled={!valid || create.isPending}
-              className="px-5 py-2 inline-flex items-center gap-1.5 rounded-lg bg-accent text-white text-xs font-medium hover:bg-accent/90 active:translate-y-px disabled:opacity-40 disabled:pointer-events-none focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent/40 transition-all shadow-sm shadow-accent/20"
+              className="px-5 py-2 inline-flex items-center gap-1.5 rounded-lg bg-accent text-white text-xs font-medium hover:bg-accent/90 active:translate-y-px disabled:opacity-40 disabled:pointer-events-none focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent/40 transition-colors shadow-sm shadow-accent/20"
             >
               {create.isPending
                 ? <><Loader2 className="h-3.5 w-3.5 animate-spin" />创建中…</>

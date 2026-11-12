@@ -123,7 +123,7 @@ export function AutoMiningDialog({
       <div className="min-h-0 flex-1 overflow-y-auto px-4 py-3">
         <div className="space-y-3">
           <div>
-            <div className="mb-1 text-[10px] text-muted">资产</div>
+            <div className="mb-1 text-[11px] text-muted">资产</div>
             <div className="inline-flex rounded-btn border border-border bg-surface/80 p-0.5">
               {(['stock', 'etf'] as const).map(value => (
                 <button
@@ -138,7 +138,7 @@ export function AutoMiningDialog({
             </div>
           </div>
           <label className="block">
-            <span className="mb-1 block text-[10px] text-muted">验证档位（决定筛选门槛与样本要求）</span>
+            <span className="mb-1 block text-[11px] text-muted">验证档位（决定筛选门槛与样本要求）</span>
             <select
               value={profile}
               onChange={event => { setProfileTouched(true); setProfile(event.target.value as MiningBudgetProfile) }}
@@ -157,11 +157,11 @@ export function AutoMiningDialog({
           </label>
           <div className="grid grid-cols-2 gap-2">
             <label className="block">
-              <span className="mb-1 block text-[10px] text-muted">开始</span>
+              <span className="mb-1 block text-[11px] text-muted">开始</span>
               <input type="date" value={start} onChange={event => setStart(event.target.value)} className={INPUT_CLS} />
             </label>
             <label className="block">
-              <span className="mb-1 block text-[10px] text-muted">结束</span>
+              <span className="mb-1 block text-[11px] text-muted">结束</span>
               <input type="date" value={end} onChange={event => setEnd(event.target.value)} className={INPUT_CLS} />
             </label>
           </div>
@@ -173,7 +173,7 @@ export function AutoMiningDialog({
                 : '请在数据页补充更多历史行情后重试。'}
             </div>
           )}
-          <p className="text-[10px] leading-relaxed text-muted">
+          <p className="text-[11px] leading-relaxed text-muted">
             点击后立即转入「挖掘」页：第一步全量筛选（近一年窗口，约 1-3 分钟）在后台运行，可随意切换页面；筛选完成后挖掘任务自动开跑，结果在「最近运行」查看。
           </p>
         </div>

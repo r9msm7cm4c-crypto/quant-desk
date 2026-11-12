@@ -2,24 +2,37 @@
 @tailwind components;
 @tailwind utilities;
 
-/* === §6.0 设计语言 CSS variables ===
- * 暗色为默认(html.dark) / 亮色用 :root 反转
+/* === Quant Desk · Design Tokens ===
+ * 方向：Institutional Quantitative Research Terminal
+ * 世界：夜盘监控台 — 石墨蓝灰机箱、冷白字符、单一钢蓝信号灯
+ * 暗色为默认(html.dark) / 亮色用 :root
  * HSL 形式以兼容 Tailwind alpha-value 语法
+ *
+ * !!! 命名保持不变：--base / --surface / --elevated / --border /
+ * --fg-primary / --fg-secondary / --fg-muted / --accent / --bull / --bear
+ * 全站 Tailwind 类均通过这些变量取值，改值即全局生效。
  */
 :root {
-  /* 亮色(可切换) */
-  --base: 0 0% 98%;          /* #FAFAFA */
-  --surface: 0 0% 100%;      /* #FFFFFF */
-  --elevated: 240 5% 96%;    /* #F4F4F5 */
-  --border: 240 6% 90%;      /* #E4E4E7 */
-  --fg-primary: 240 6% 10%;  /* #18181B */
-  --fg-secondary: 240 4% 35%;/* #52525B */
-  --fg-muted: 240 5% 65%;    /* #A1A1AA */
-  --accent: 217 91% 60%;     /* #3B82F6 电光蓝 */
-  --bull: 4 87% 60%;         /* #F04438 红涨 */
-  --bear: 152 67% 45%;       /* #12B76A 绿跌 */
-  --warning: 32 95% 50%;     /* #F79009 */
-  --danger: 4 87% 60%;       /* #F04438 */
+  /* 亮色（可切换）— 冷灰纸面，不是纯白 */
+  --base: 210 20% 98%;        /* #F7F9FB */
+  --surface: 0 0% 100%;       /* #FFFFFF */
+  --elevated: 213 20% 96%;    /* #F2F5F8 */
+  --border: 213 15% 88%;      /* #DCE2E9 */
+  --fg-primary: 213 25% 12%;  /* #161C24 */
+  --fg-secondary: 214 12% 38%;/* #55606F */
+  --fg-muted: 214 10% 52%;    /* #7A8595 */
+  --accent: 206 55% 46%;      /* #3B84B8 — 亮底加深保证 4.5:1 */
+  --bull: 4 62% 52%;          /* #D14A44 红涨 */
+  --bear: 153 42% 38%;        /* #38916A 绿跌 */
+  --warning: 38 65% 44%;      /* #B8862A */
+  --danger: 4 62% 52%;
+  /* 图表色板 — 一图一主色，其余为中性阶梯 */
+  --chart-1: 206 55% 46%;
+  --chart-2: 4 62% 52%;
+  --chart-3: 153 42% 38%;
+  --chart-4: 38 62% 46%;
+  --chart-5: 214 12% 55%;
+  --chart-6: 268 24% 52%;
   /* 原生滚动条/表单控件外观跟随主题。实测 (mac WKWebView, 2026-10): 声明了
    * 标准 scrollbar-color 后引擎按规范压掉 ::-webkit-scrollbar 伪类, 但颜色值
    * 又不被支持 → 落回亮色默认, 深色主题下出现白色滚动条 (桌面客户端反馈);
@@ -29,18 +42,24 @@
 
 html.dark {
   color-scheme: dark;
-  --base: 240 5% 5%;         /* #0A0A0B */
-  --surface: 240 7% 10%;     /* #18181B 略亮一点,与 base 对比清晰 */
-  --elevated: 240 9% 14%;    /* #212126 */
-  --border: 240 5% 22%;      /* #353539 边框加亮,易识别 */
-  --fg-primary: 0 0% 98%;    /* #FAFAFA */
-  --fg-secondary: 240 5% 78%;/* #C4C4CB 大幅提亮 — 子标题/导航非激活态 */
-  --fg-muted: 240 5% 58%;    /* #8E8E96 muted 提亮 — 辅助提示 */
-  --accent: 217 91% 60%;
-  --bull: 4 87% 60%;
-  --bear: 152 67% 45%;
-  --warning: 32 95% 50%;
-  --danger: 4 87% 60%;
+  --base: 214 18% 8%;         /* #101317 页面底 */
+  --surface: 213 19% 11%;     /* #171C22 主面板 */
+  --elevated: 213 21% 14%;    /* #1D242C 次级面板 */
+  --border: 213 17% 20%;      /* #2B333D 边框 */
+  --fg-primary: 216 25% 92%;  /* #E6EAF0 主文字 */
+  --fg-secondary: 215 11% 62%;/* #929BA8 次级文字 */
+  --fg-muted: 216 10% 48%;    /* #6E7887 弱化文字 */
+  --accent: 206 61% 62%;      /* #63A7D9 强调色 */
+  --bull: 4 70% 60%;          /* #E05A52 红涨 */
+  --bear: 153 46% 46%;        /* #3FA97A 绿跌 */
+  --warning: 38 70% 55%;      /* #DB9A2B */
+  --danger: 4 70% 60%;
+  --chart-1: 206 61% 62%;
+  --chart-2: 4 70% 60%;
+  --chart-3: 153 46% 46%;
+  --chart-4: 38 70% 55%;
+  --chart-5: 215 11% 62%;
+  --chart-6: 268 30% 66%;
 }
 
 /* 价格 / 数字一律等宽 */
@@ -59,13 +78,13 @@ html.dark {
   background: transparent;
 }
 *::-webkit-scrollbar-thumb {
-  background: hsl(var(--border) / 0.72);
+  background: hsl(var(--border) / 0.9);
   border: 2px solid transparent;
   border-radius: 999px;
   background-clip: content-box;
 }
 *::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--accent) / 0.75);
+  background: hsl(var(--fg-muted) / 0.6);
   background-clip: content-box;
 }
 .tabular { font-variant-numeric: tabular-nums; }
@@ -89,7 +108,6 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* 选区用主色 (默认蓝底破坏暗色氛围) */
 /* 联想下拉 (SuggestInput portal) 进入动画: 2px 上浮 + 淡入, 120ms 快进快出 */
 @keyframes sg-drop-in {
   from { opacity: 0; transform: translateY(-2px) scale(0.995); }
@@ -97,7 +115,7 @@ body {
 }
 
 ::selection {
-  background: hsl(var(--accent) / 0.3);
+  background: hsl(var(--accent) / 0.28);
 }
 
 /* 侧栏导航滚动条: 默认隐形, 悬停浮现 (长菜单不被常驻滚动条切割) */
@@ -122,33 +140,162 @@ body {
   to { transform: translateX(-50%); }
 }
 
-/* 呼吸灯: 透明度 + 橘黄色光晕同步起伏 (侧栏"有新版本"下载图标) */
+/* 「有新版本」提示：只做透明度呼吸，不带彩色光晕 */
 @keyframes breath-glow {
-  0%, 100% {
-    opacity: 0.5;
-    filter: drop-shadow(0 0 1px rgba(251, 191, 36, 0.35));
-  }
-  50% {
-    opacity: 1;
-    filter: drop-shadow(0 0 5px rgba(251, 191, 36, 0.9));
-  }
+  0%, 100% { opacity: 0.55; }
+  50%      { opacity: 1; }
 }
 .animate-breath {
   animation: breath-glow 2.8s ease-in-out infinite;
 }
 
-/* 呼吸灯(同步按钮): 透明度起伏 + 主色光晕同步强弱 (数据页「立即同步」无数据态) */
+/* 「立即同步」无数据态：表面亮度呼吸，保留可点击感但不发光 */
 @keyframes breath-sync {
-  0%, 100% {
-    opacity: 1;
-    box-shadow: 0 0 10px 1px hsl(var(--accent) / 0.45);
-  }
-  50% {
-    opacity: 0.65;
-    box-shadow: 0 0 2px 0 hsl(var(--accent) / 0.12);
-  }
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.72; }
 }
 .animate-breath-sync {
   animation: breath-sync 2.8s ease-in-out infinite;
 }
 
+/* === 基础层统一 ===
+ * 全站表格、输入、焦点环的默认工艺；页面可覆盖，但默认值必须先对。
+ */
+@layer base {
+  /* 数字列默认等宽，避免每处补类 */
+  table { font-variant-numeric: tabular-nums; }
+
+  /* 表头：中性、不抢注意力，字号统一 12px */
+  thead th {
+    font-weight: 500;
+    letter-spacing: 0;
+    color: hsl(var(--fg-secondary));
+  }
+
+  /* 键盘焦点：全站同一个环，颜色取自 accent */
+  :focus-visible {
+    outline: 2px solid hsl(var(--accent) / 0.55);
+    outline-offset: 1px;
+  }
+
+  /* 输入控件继承主题，避免浏览器默认白底 */
+  input, select, textarea {
+    color-scheme: inherit;
+  }
+  html.dark input:not([type='checkbox']):not([type='radio']):not([type='range']):not([type='color']):not([type='file']),
+  html.dark select,
+  html.dark textarea {
+    background-color: hsl(var(--elevated) / 0.6);
+    color: hsl(var(--fg-primary));
+  }
+  html.dark input::placeholder,
+  html.dark textarea::placeholder { color: hsl(var(--fg-muted)); }
+
+  /* 标题不做渐变、不做 700+ 字重 */
+  h1, h2, h3, h4 {
+    letter-spacing: 0;
+    font-weight: 500;
+  }
+}
+
+@layer components {
+  /* 面板：表面阶梯 + hairline，无阴影无模糊 */
+  .tf-panel {
+    background: hsl(var(--surface));
+    border: 1px solid hsl(var(--border));
+    border-radius: 8px;
+  }
+
+  /* 次级面板：嵌在面板内的分组，靠底色区分而非再套一层卡 */
+  .tf-subpanel {
+    background: hsl(var(--elevated) / 0.55);
+    border: 1px solid hsl(var(--border) / 0.7);
+    border-radius: 6px;
+  }
+
+  /* 区块标题：左侧 2px 刻度条（signature），无图标、无渐变 */
+  .tf-section-title {
+    position: relative;
+    padding-left: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    color: hsl(var(--fg-primary));
+  }
+  .tf-section-title::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    height: 12px;
+    width: 2px;
+    transform: translateY(-50%);
+    background: hsl(var(--accent) / 0.75);
+    border-radius: 1px;
+  }
+
+  /* 状态刻度：行首 2px，涨红跌绿，全站表格共用 */
+  .tf-tick {
+    display: inline-block;
+    width: 2px;
+    height: 12px;
+    border-radius: 1px;
+    background: hsl(var(--border));
+    vertical-align: -1px;
+  }
+  .tf-tick[data-tone='up'] { background: hsl(var(--bull)); }
+  .tf-tick[data-tone='down'] { background: hsl(var(--bear)); }
+
+  /* 主按钮：暗色下用 accent 实底 + 深色字，悬停只提亮表面 */
+  .tf-btn-primary {
+    background: hsl(var(--accent));
+    color: hsl(214 30% 10%);
+    border-radius: 6px;
+    font-weight: 500;
+    transition: background-color 140ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .tf-btn-primary:hover { background: hsl(var(--accent) / 0.88); }
+  .tf-btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
+
+  /* 次级按钮：表面 + hairline */
+  .tf-btn-secondary {
+    background: hsl(var(--elevated));
+    color: hsl(var(--fg-primary));
+    border: 1px solid hsl(var(--border));
+    border-radius: 6px;
+    transition: background-color 140ms cubic-bezier(0.22, 1, 0.36, 1),
+                border-color 140ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .tf-btn-secondary:hover {
+    background: hsl(var(--elevated) / 0.78);
+    border-color: hsl(var(--border) / 1.4);
+  }
+
+  /* 输入框 */
+  .tf-input {
+    background: hsl(var(--base) / 0.6);
+    border: 1px solid hsl(var(--border));
+    border-radius: 6px;
+    color: hsl(var(--fg-primary));
+    transition: border-color 140ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .tf-input:focus {
+    border-color: hsl(var(--accent) / 0.7);
+    outline: none;
+  }
+  .tf-input::placeholder { color: hsl(var(--fg-muted)); }
+}
+
+/* 移动端：任何工具栏都不允许把文字压成竖排 */
+@media (max-width: 767px) {
+  .tf-toolbar {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tf-toolbar::-webkit-scrollbar { display: none; }
+  .tf-toolbar > * {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+}

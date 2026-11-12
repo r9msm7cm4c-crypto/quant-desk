@@ -142,9 +142,9 @@ function fmtSealAmount(v: number): string {
 // ===== 板块标识 =====
 
 function boardTag(symbol: string): { label: string; cls: string } | null {
-  if (/^(300|301)/.test(symbol)) return { label: '创', cls: 'text-[#f97316] bg-[#f97316]/12 border-[#f97316]/25' }
+  if (/^(300|301)/.test(symbol)) return { label: '创', cls: 'text-[#DB9A2B] bg-[#DB9A2B]/12 border-[#DB9A2B]/25' }
   if (/^688/.test(symbol))       return { label: '科', cls: 'text-cyan-400 bg-cyan-400/12 border-cyan-400/25' }
-  if (/\.BJ$/.test(symbol))      return { label: '北', cls: 'text-purple-400 bg-purple-400/12 border-purple-400/25' }
+  if (/\.BJ$/.test(symbol))      return { label: '北', cls: 'text-accent bg-accent/12 border-accent/25' }
   return null
 }
 
@@ -180,18 +180,18 @@ const STATUS_STYLE: Record<string, { bg: string; bar: string; nameCls: string; c
   },
   broken: {
     bg: 'opacity-75',
-    bar: 'border-l border-purple-400/30',
+    bar: 'border-l border-accent/30',
     nameCls: 'text-foreground/70 text-xs',
     codeCls: 'text-muted/60',
-    badge: 'text-purple-400',
+    badge: 'text-accent',
     badgeText: d => d === 'down' ? '撬' : '炸',
   },
   recovery: {
     bg: 'opacity-75',
-    bar: 'border-l border-purple-400/30',
+    bar: 'border-l border-accent/30',
     nameCls: 'text-foreground/70 text-xs',
     codeCls: 'text-muted/60',
-    badge: 'text-purple-400',
+    badge: 'text-accent',
     badgeText: '撬',
   },
   failed: {
@@ -255,9 +255,9 @@ const StockCard = React.memo(function StockCard({ stock, extFields, direction, s
   // badgeText 可能是函数(涨跌停共用 status 如 failed/broken)
   const badgeText = typeof style.badgeText === 'function' ? style.badgeText(direction) : style.badgeText
 
-  const tagCls = 'text-[9px] leading-none px-1 py-px rounded-sm'
-  const conceptCls = 'text-[10px] leading-none px-1.5 py-0.5 rounded-sm text-orange-800 bg-orange-100/80 dark:text-orange-200/60 dark:bg-orange-400/[0.05]'
-  const industryCls = 'text-[10px] leading-none px-1.5 py-0.5 rounded-sm text-sky-800 bg-sky-100/80 dark:text-sky-300/90 dark:bg-sky-400/10'
+  const tagCls = 'text-[11px] leading-none px-1 py-px rounded-sm'
+  const conceptCls = 'text-[11px] leading-none px-1.5 py-0.5 rounded-sm text-orange-800 bg-orange-100/80 dark:text-orange-200/60 dark:bg-orange-400/[0.05]'
+  const industryCls = 'text-[11px] leading-none px-1.5 py-0.5 rounded-sm text-sky-800 bg-sky-100/80 dark:text-sky-300/90 dark:bg-sky-400/10'
   const textCls = `${tagCls} text-secondary bg-elevated/60 dark:text-secondary/60`
 
   const hasTags = conceptTags.length > 0 || industryTags.length > 0
@@ -302,7 +302,7 @@ const StockCard = React.memo(function StockCard({ stock, extFields, direction, s
         event.preventDefault()
         onClick(stock.symbol, stock.name ?? undefined)
       }}
-      className={`w-full flex flex-col items-start gap-1 px-2.5 py-2 rounded-md transition-all duration-200 cursor-pointer hover:opacity-100 ${style.bg} ${style.bar} ${monitored ? 'ring-1 ring-amber-400/50 ring-inset' : ''} ${active ? 'ring-1 ring-accent/60 ring-inset' : ''}`}
+      className={`w-full flex flex-col items-start gap-1 px-2.5 py-2 rounded-md transition-colors duration-200 cursor-pointer hover:opacity-100 ${style.bg} ${style.bar} ${monitored ? 'ring-1 ring-amber-400/50 ring-inset' : ''} ${active ? 'ring-1 ring-accent/60 ring-inset' : ''}`}
       style={style.cardStyle ? { ...style.cardStyle } : undefined}
       onMouseEnter={e => {
         if (!style.cardStyle || !style.hoverShadow) return
@@ -317,42 +317,42 @@ const StockCard = React.memo(function StockCard({ stock, extFields, direction, s
       <div className="flex items-center gap-1.5 w-full min-w-0 pr-4">
         <span className={`${style.nameCls} font-medium truncate`}>{stock.name}</span>
         {stock.is_one_word && (
-          <span className={`shrink-0 rounded-sm border px-1 py-px text-[9px] font-medium leading-none ${
+          <span className={`shrink-0 rounded-sm border px-1 py-px text-[11px] font-medium leading-none ${
             direction === 'down'
               ? 'border-bear/25 bg-bear/10 text-bear'
               : 'border-bull/25 bg-bull/10 text-bull'
           }`}>一字</span>
         )}
         {tag && (
-          <span className={`shrink-0 text-[9px] px-1 py-px rounded-full border leading-none ${tag.cls}`}>{tag.label}</span>
+          <span className={`shrink-0 text-[11px] px-1 py-px rounded-full border leading-none ${tag.cls}`}>{tag.label}</span>
         )}
       </div>
       {/* 代码 + 数字行 */}
       <div className="flex items-center gap-1.5 w-full">
-        <span className={`${style.codeCls} font-mono text-[10px] tracking-tight`}>{code}</span>
+        <span className={`${style.codeCls} font-mono text-[11px] tracking-tight`}>{code}</span>
         <span className="ml-auto flex items-center gap-1">
           {!isLimitHit ? (
-            <span className={`text-[10px] font-semibold tabular-nums ${priceColorClass(stock.change_pct)}`}>
+            <span className={`text-[11px] font-semibold tabular-nums ${priceColorClass(stock.change_pct)}`}>
               {fmtPct(stock.change_pct)}
             </span>
           ) : stock.sealed_status === 'real' && stock.sealed_vol != null ? (
             /* 已修正真封板: 右侧显示封单(量或额, 替代连板数)。
                sealed_vol 单位是手, 1手=100股, 算金额需 ×100 */
-            <span className="text-[10px] font-semibold tabular-nums text-accent/80">
+            <span className="text-[11px] font-semibold tabular-nums text-accent/80">
               {sealMode === 'amount' && stock.close
                 ? fmtSealAmount(stock.sealed_vol * 100 * stock.close)
                 : fmtSealVol(stock.sealed_vol)}
             </span>
           ) : stock.sealed_status === 'pending' ? (
-            <span className="text-[9px] text-yellow-500/60 leading-none">待确认</span>
+            <span className="text-[11px] text-yellow-500/60 leading-none">待确认</span>
           ) : (
             /* 未修正: 显示连板数 */
-            <span className="text-[10px] font-semibold tabular-nums text-accent/80">
+            <span className="text-[11px] font-semibold tabular-nums text-accent/80">
               {consecNum}
             </span>
           )}
           {badgeText && (
-            <span className={`text-[9px] font-medium ${style.badge}`}>{badgeText}</span>
+            <span className={`text-[11px] font-medium ${style.badge}`}>{badgeText}</span>
           )}
         </span>
       </div>
@@ -532,15 +532,15 @@ function MonitorMenu({ stock, direction, sealMode, monitorRule, anchorRect, hasD
         <div className="px-3 py-2.5 space-y-2.5">
           {/* 预警类型徽章 */}
           <div className="flex items-center gap-2">
-            <span className="text-[10px] text-muted shrink-0">类型</span>
-            <span className={`px-1.5 py-0.5 rounded text-[10px] font-medium ${direction === 'down' ? 'bg-bear/15 text-bear' : 'bg-bull/15 text-bull'}`}>
+            <span className="text-[11px] text-muted shrink-0">类型</span>
+            <span className={`px-1.5 py-0.5 rounded text-[11px] font-medium ${direction === 'down' ? 'bg-bear/15 text-bear' : 'bg-bull/15 text-bull'}`}>
               {warnLabel}
             </span>
           </div>
 
           {/* 监控指标: 段控风格 */}
           <div className="flex items-center gap-2">
-            <span className="text-[10px] text-muted shrink-0 w-8">指标</span>
+            <span className="text-[11px] text-muted shrink-0 w-8">指标</span>
             <div className="flex gap-0.5 flex-1 bg-elevated/50 rounded p-0.5">
               <button
                 onClick={() => switchMetric('sealed_vol')}
@@ -555,7 +555,7 @@ function MonitorMenu({ stock, direction, sealMode, monitorRule, anchorRect, hasD
 
           {/* 阈值: 输入 + 单位 */}
           <div className="flex items-center gap-2">
-            <span className="text-[10px] text-muted shrink-0 w-8">阈值</span>
+            <span className="text-[11px] text-muted shrink-0 w-8">阈值</span>
             <input
               type="number"
               value={threshold}
@@ -576,7 +576,7 @@ function MonitorMenu({ stock, direction, sealMode, monitorRule, anchorRect, hasD
 
           {/* 推送渠道: 多选胶囊标签 */}
           <div className="flex items-start gap-2">
-            <span className="text-[10px] text-muted shrink-0 w-8">推送</span>
+            <span className="text-[11px] text-muted shrink-0 w-8">推送</span>
             <div className="flex flex-wrap gap-1">
               {([
                 { key: 'feishu', label: '飞书' },
@@ -590,7 +590,7 @@ function MonitorMenu({ stock, direction, sealMode, monitorRule, anchorRect, hasD
                     key={ch.key}
                     type="button"
                     onClick={() => togglePushChannel(ch.key)}
-                    className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-medium transition-colors border cursor-pointer ${
+                    className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-[11px] font-medium transition-colors border cursor-pointer ${
                       on
                         ? 'bg-accent/15 text-accent border-accent/40'
                         : 'bg-elevated/40 text-muted border-border hover:text-secondary'
@@ -606,7 +606,7 @@ function MonitorMenu({ stock, direction, sealMode, monitorRule, anchorRect, hasD
 
           {/* 权限提示 (免费用户) */}
           {!hasDepth && (
-            <div className="flex items-start gap-1.5 rounded border border-amber-400/30 bg-amber-400/5 px-2 py-1.5 text-[10px] leading-relaxed text-amber-400/90">
+            <div className="flex items-start gap-1.5 rounded border border-amber-400/30 bg-amber-400/5 px-2 py-1.5 text-[11px] leading-relaxed text-amber-400/90">
               <AlertCircle className="h-3 w-3 shrink-0 mt-px" />
               <span>当前 Key 权限无法获取五档行情,后续会适配免费数据源</span>
             </div>
@@ -626,7 +626,7 @@ function MonitorMenu({ stock, direction, sealMode, monitorRule, anchorRect, hasD
             onClick={handleSave}
             disabled={saving || !threshold || !hasDepth}
             title={!hasDepth ? '五档盘口(批量)数据不可用' : ''}
-            className="flex-1 h-7 rounded text-[11px] font-medium transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed bg-accent text-white hover:bg-accent/90 active:scale-[0.98] disabled:active:scale-100"
+            className="flex-1 h-7 rounded text-[11px] font-medium transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed bg-accent text-white hover:bg-accent/90 disabled:"
           >
             {saving ? '保存中…' : !hasDepth ? '五档盘口不可用' : existing ? '更新监控' : '开启监控'}
           </button>
@@ -816,7 +816,7 @@ function OverviewBar({ tiers, dateValue, onDateChange, filterKeys, bf, direction
           )
         })}
         {showBroken && totalBroken > 0 && (
-          <span className="text-purple-400 font-medium">{brokenLabel} {totalBroken}</span>
+          <span className="text-accent font-medium">{brokenLabel} {totalBroken}</span>
         )}
         {showFailed && totalFailed > 0 && (
           <span className="text-yellow-500 font-medium">{failedLabel} {totalFailed}</span>
@@ -876,10 +876,10 @@ function TagStats({ title, tiers, extFields, fieldKey, color, selectedTag, onSel
         onClick={() => needsExpand && setExpanded(v => !v)}
         className={`flex items-center gap-1.5 mb-1.5 w-full group ${needsExpand ? 'cursor-pointer' : 'cursor-default'}`}
       >
-        <span className="text-[10px] tracking-wider text-muted">{title}</span>
-        <span className="text-[10px] text-muted/50">{stats.length}</span>
+        <span className="text-[11px] tracking-wider text-muted">{title}</span>
+        <span className="text-[11px] text-muted/50">{stats.length}</span>
         {needsExpand && (
-          <span className="text-[10px] text-muted/60 group-hover:text-muted ml-auto flex items-center gap-0.5 transition-colors">
+          <span className="text-[11px] text-muted/60 group-hover:text-muted ml-auto flex items-center gap-0.5 transition-colors">
             {expanded ? '收起' : '展开'}
             <ChevronDown className={`h-3 w-3 transition-transform ${expanded ? 'rotate-180' : ''}`} />
           </span>
@@ -887,7 +887,7 @@ function TagStats({ title, tiers, extFields, fieldKey, color, selectedTag, onSel
       </button>
       <div className="relative">
         <div
-          className={`flex flex-wrap gap-1.5 pt-0.5 pl-1 transition-all duration-300 ${
+          className={`flex flex-wrap gap-1.5 pt-0.5 pl-1 transition-colors duration-300 ${
             expanded ? 'pb-2.5' : 'pb-0.5 max-h-[3.5rem] overflow-hidden'
           }`}
         >
@@ -901,7 +901,7 @@ function TagStats({ title, tiers, extFields, fieldKey, color, selectedTag, onSel
                   onSelect(isSelected ? null : { fieldKey, tag: name })
                   onDimensionClick(fieldKey, name, extFields[fieldKey]?.field)
                 }}
-                className="text-[11px] px-2 py-1 rounded-sm whitespace-nowrap cursor-pointer hover:brightness-110 transition-all"
+                className="text-[11px] px-2 py-1 rounded-sm whitespace-nowrap cursor-pointer hover:brightness-110 transition-colors"
                 style={{
                   // 亮色: 深色阶文字 + 更淡的底; 选中态不用白字 (黄底白字在亮色下不可读)
                   color: isSelected
@@ -1055,7 +1055,7 @@ function TierGroup({ tier, defaultOpen, extFields, filterKeys, bf, onStockClick,
         <span className={`text-sm font-bold tabular-nums ${tierTextCls(tier.boards)}`}>{tierLabel(tier.boards, direction)}<span className="text-muted/40 mx-1">·</span>{luCount}</span>
         {(showBroken && brCount > 0) || (showFailed && faCount > 0) ? (
           <span className="text-[11px] text-muted/60">
-            {showBroken && brCount > 0 && <span className="text-purple-400">{brCount}{brokenBadge}</span>}
+            {showBroken && brCount > 0 && <span className="text-accent">{brCount}{brokenBadge}</span>}
             {showBroken && brCount > 0 && showFailed && faCount > 0 && <span className="text-muted/40"> · </span>}
             {showFailed && faCount > 0 && <span className="text-muted/80">{faCount}{failedBadge}</span>}
           </span>
@@ -1080,7 +1080,7 @@ function TierGroup({ tier, defaultOpen, extFields, filterKeys, bf, onStockClick,
               <div className="px-3 pt-1 pb-2 space-y-1">
                 {groupConceptStats.length > 0 && (
                   <div className="flex flex-wrap gap-1 items-center">
-                    <span className="text-[9px] tracking-wider text-yellow-700/80 dark:text-yellow-400/70 mr-0.5">概念</span>
+                    <span className="text-[11px] tracking-wider text-yellow-700/80 dark:text-yellow-400/70 mr-0.5">概念</span>
                     {groupConceptStats.slice(0, 20).map(([name, count]) => {
                       const isSelected = selectedTag?.fieldKey === 'concept' && selectedTag?.tag === name
                       return (
@@ -1090,7 +1090,7 @@ function TierGroup({ tier, defaultOpen, extFields, filterKeys, bf, onStockClick,
                             onSelectTag(isSelected ? null : { fieldKey: 'concept', tag: name })
                             onDimensionClick('concept', name, extFields.concept?.field)
                           }}
-                          className="text-[10px] px-1.5 py-0.5 rounded-sm whitespace-nowrap cursor-pointer hover:brightness-110 transition-all"
+                          className="text-[11px] px-1.5 py-0.5 rounded-sm whitespace-nowrap cursor-pointer hover:brightness-110 transition-colors"
                           style={{
                             color: isSelected
                               ? (isDarkTheme ? '#fff' : 'rgb(161,98,7)')
@@ -1110,7 +1110,7 @@ function TierGroup({ tier, defaultOpen, extFields, filterKeys, bf, onStockClick,
                 )}
                 {groupIndustryStats.length > 0 && (
                   <div className="flex flex-wrap gap-1 items-center">
-                    <span className="text-[9px] tracking-wider text-blue-700/80 dark:text-blue-400/70 mr-0.5">行业</span>
+                    <span className="text-[11px] tracking-wider text-blue-700/80 dark:text-blue-400/70 mr-0.5">行业</span>
                     {groupIndustryStats.slice(0, 20).map(([name, count]) => {
                       const isSelected = selectedTag?.fieldKey === 'industry' && selectedTag?.tag === name
                       return (
@@ -1120,7 +1120,7 @@ function TierGroup({ tier, defaultOpen, extFields, filterKeys, bf, onStockClick,
                             onSelectTag(isSelected ? null : { fieldKey: 'industry', tag: name })
                             onDimensionClick('industry', name, extFields.industry?.field)
                           }}
-                          className="text-[10px] px-1.5 py-0.5 rounded-sm whitespace-nowrap cursor-pointer hover:brightness-110 transition-all"
+                          className="text-[11px] px-1.5 py-0.5 rounded-sm whitespace-nowrap cursor-pointer hover:brightness-110 transition-colors"
                           style={{
                             color: isSelected
                               ? (isDarkTheme ? '#fff' : 'rgb(29,78,216)')
@@ -1286,7 +1286,7 @@ function ExtFieldSection({ item, onChange, options }: {
                   className="flex-1 min-w-0 h-7 bg-elevated border border-border rounded text-xs text-foreground px-2 placeholder:text-muted focus:outline-none focus:border-accent/50"
                 />
               </div>
-              <div className="text-[10px] text-muted mt-1" style={{ paddingLeft: 72 }}>
+              <div className="text-[11px] text-muted mt-1" style={{ paddingLeft: 72 }}>
                 留空自动识别：、 , ， ; ； -
               </div>
             </div>
@@ -1320,7 +1320,7 @@ function ExtFieldSection({ item, onChange, options }: {
                         const next = hidden ? cur.filter(x => x !== i) : [...cur, i]
                         updateDisplay({ hiddenIndices: next.length ? next : undefined })
                       }}
-                      className={`w-6 h-6 rounded text-[10px] font-medium transition-colors ${hidden ? 'bg-elevated text-muted line-through' : 'bg-accent/15 text-accent'}`}
+                      className={`w-6 h-6 rounded text-[11px] font-medium transition-colors ${hidden ? 'bg-elevated text-muted line-through' : 'bg-accent/15 text-accent'}`}
                     >{i + 1}</button>
                   )
                 })}
@@ -1337,7 +1337,7 @@ function ExtFieldSection({ item, onChange, options }: {
             </div>
           )}
           <div className="flex justify-end">
-            <button onClick={() => onChange({ field, display: { displayMode: 'tag' } })} className="text-[10px] text-muted hover:text-foreground">恢复默认</button>
+            <button onClick={() => onChange({ field, display: { displayMode: 'tag' } })} className="text-[11px] text-muted hover:text-foreground">恢复默认</button>
           </div>
         </>
       )}
@@ -1356,23 +1356,23 @@ function BrokenFailedSection({ bf, onChange }: {
     <div className="space-y-3">
       {/* 炸板 */}
       <div className="space-y-2">
-        <span className="text-[10px] font-semibold text-purple-400 uppercase tracking-wider">炸板</span>
+        <span className="text-[11px] font-semibold text-accent uppercase tracking-wider">炸板</span>
         <Toggle label="显示炸板股票" checked={bf.brokenShow ?? true} onChange={v => update({ brokenShow: v })} />
         <Toggle label="计入炸板数量" checked={bf.brokenCount ?? true} onChange={v => update({ brokenCount: v })} />
         <NumInput label="最低板数（含）" value={bf.brokenMinBoards ?? 0} onChange={v => update({ brokenMinBoards: v ?? 0 })} min={0} max={50} placeholder="0=不限" />
         {(bf.brokenMinBoards ?? 0) > 0 && (
-          <span className="text-[10px] text-muted pl-1">低于 {bf.brokenMinBoards} 板的炸板不显示也不计数</span>
+          <span className="text-[11px] text-muted pl-1">低于 {bf.brokenMinBoards} 板的炸板不显示也不计数</span>
         )}
       </div>
       <div className="h-px bg-border" />
       {/* 断板 */}
       <div className="space-y-2">
-        <span className="text-[10px] font-semibold text-yellow-500 uppercase tracking-wider">断板</span>
+        <span className="text-[11px] font-semibold text-yellow-500 uppercase tracking-wider">断板</span>
         <Toggle label="显示断板股票" checked={bf.failedShow ?? true} onChange={v => update({ failedShow: v })} />
         <Toggle label="计入断板数量" checked={bf.failedCount ?? true} onChange={v => update({ failedCount: v })} />
         <NumInput label="最低板数（含）" value={bf.failedMinBoards ?? 0} onChange={v => update({ failedMinBoards: v ?? 0 })} min={0} max={50} placeholder="0=不限" />
         {(bf.failedMinBoards ?? 0) > 0 && (
-          <span className="text-[10px] text-muted pl-1">低于 {bf.failedMinBoards} 板的断板不显示也不计数</span>
+          <span className="text-[11px] text-muted pl-1">低于 {bf.failedMinBoards} 板的断板不显示也不计数</span>
         )}
       </div>
     </div>
@@ -1422,7 +1422,7 @@ function ExtConfigDialog({ fields, onSave, onClose }: {
         {/* 三列平铺 */}
         <div className="flex gap-0 border-b border-border px-2 overflow-hidden">
           <div className="flex-1 min-w-0 p-3 border-r border-border" style={{ minWidth: 180 }}>
-            <span className="text-[10px] font-semibold text-sky-400 uppercase tracking-wider mb-2 block">概念</span>
+            <span className="text-[11px] font-semibold text-sky-400 uppercase tracking-wider mb-2 block">概念</span>
             <ExtFieldSection item={draft.concept} onChange={v => setDraft(d => ({ ...d, concept: v }))} options={options} />
             <div className="h-px bg-border my-3" />
             <Toggle label="显示概念分布统计" checked={draft.showConceptStats ?? true} onChange={v => setDraft(d => ({ ...d, showConceptStats: v }))} />
@@ -1430,7 +1430,7 @@ function ExtConfigDialog({ fields, onSave, onClose }: {
             <Toggle label="显示分组概念统计" checked={draft.showConceptGroupStats ?? false} onChange={v => setDraft(d => ({ ...d, showConceptGroupStats: v }))} />
           </div>
           <div className="flex-1 min-w-0 p-3 border-r border-border" style={{ minWidth: 180 }}>
-            <span className="text-[10px] font-semibold text-blue-400 uppercase tracking-wider mb-2 block">行业</span>
+            <span className="text-[11px] font-semibold text-blue-400 uppercase tracking-wider mb-2 block">行业</span>
             <ExtFieldSection item={draft.industry} onChange={v => setDraft(d => ({ ...d, industry: v }))} options={options} />
             <div className="h-px bg-border my-3" />
             <Toggle label="显示行业分布统计" checked={draft.showIndustryStats ?? true} onChange={v => setDraft(d => ({ ...d, showIndustryStats: v }))} />
@@ -1438,7 +1438,7 @@ function ExtConfigDialog({ fields, onSave, onClose }: {
             <Toggle label="显示分组行业统计" checked={draft.showIndustryGroupStats ?? false} onChange={v => setDraft(d => ({ ...d, showIndustryGroupStats: v }))} />
           </div>
           <div className="flex-1 min-w-0 p-3" style={{ minWidth: 160 }}>
-            <span className="text-[10px] font-semibold text-muted uppercase tracking-wider mb-2 block">炸板/断板</span>
+            <span className="text-[11px] font-semibold text-muted uppercase tracking-wider mb-2 block">炸板/断板</span>
             <BrokenFailedSection bf={{ ...DEFAULT_BF, ...draft.bf }} onChange={v => setDraft(d => ({ ...d, bf: v }))} />
           </div>
         </div>
@@ -1645,7 +1645,7 @@ export function LimitUpLadder() {
             <div className="flex items-center rounded-full bg-elevated/60 p-0.5">
               <button
                 onClick={() => direction !== 'up' && toggleDirection('up')}
-                className={`flex items-center gap-1 px-2.5 h-7 rounded-full text-xs tabular-nums transition-all ${
+                className={`flex items-center gap-1 px-2.5 h-7 rounded-full text-xs tabular-nums transition-colors ${
                   direction === 'up'
                     ? 'bg-bull/15 text-bull font-semibold'
                     : 'text-muted hover:text-bull/70'
@@ -1656,7 +1656,7 @@ export function LimitUpLadder() {
               </button>
               <button
                 onClick={() => direction !== 'down' && toggleDirection('down')}
-                className={`flex items-center gap-1 px-2.5 h-7 rounded-full text-xs tabular-nums transition-all ${
+                className={`flex items-center gap-1 px-2.5 h-7 rounded-full text-xs tabular-nums transition-colors ${
                   direction === 'down'
                     ? 'bg-bear/15 text-bear font-semibold'
                     : 'text-muted hover:text-bear/70'
@@ -1681,7 +1681,7 @@ export function LimitUpLadder() {
                         setSealMode(m)
                         storage.limitLadderSealMode.set(m)
                       }}
-                      className={`flex items-center px-2 py-1 rounded-full text-xs transition-all ${
+                      className={`flex items-center px-2 py-1 rounded-full text-xs transition-colors ${
                         sealMode === m
                           ? 'bg-accent/15 text-accent font-medium'
                           : 'text-muted hover:text-secondary'

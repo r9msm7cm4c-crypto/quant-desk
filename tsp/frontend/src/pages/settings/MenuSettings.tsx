@@ -130,7 +130,7 @@ function SortableItem({ entry, hidden, onToggleHidden, badgeEnabled, onToggleBad
           return (
             <span
               title={arch.reason}
-              className={`shrink-0 cursor-help font-mono text-[9px] font-medium uppercase leading-4 tracking-[0.08em] ${
+              className={`shrink-0 cursor-help font-mono text-[11px] font-medium uppercase leading-4 ${
                 arch.kind === 'core' ? 'text-accent' : 'text-muted/80'
               }`}
             >
@@ -139,7 +139,7 @@ function SortableItem({ entry, hidden, onToggleHidden, badgeEnabled, onToggleBad
           )
         })()}
         {hidden && (
-          <span className="rounded bg-elevated px-1.5 py-0.5 text-[10px] text-muted shrink-0">已隐藏</span>
+          <span className="rounded bg-elevated px-1.5 py-0.5 text-[11px] text-muted shrink-0">已隐藏</span>
         )}
         <span className="truncate text-[11px] text-muted font-mono">{entry.id}</span>
       </div>
@@ -381,7 +381,7 @@ export function SettingsMenuSettingsPanel() {
   return (
     <div className="max-w-5xl space-y-6">
       <section className="rounded-2xl border border-border bg-surface p-6 bg-[radial-gradient(circle_at_top_right,rgba(59,130,246,0.12),transparent_38%)]">
-        <div className="text-[11px] uppercase tracking-[0.2em] text-accent/80">菜单设置</div>
+        <div className="text-[11px]  text-accent/80">菜单设置</div>
         <h2 className="mt-2 text-2xl font-semibold tracking-tight text-foreground">调整左侧菜单顺序</h2>
         <p className="mt-2 max-w-3xl text-sm leading-6 text-secondary">
           拖动左侧手柄调整菜单排列顺序，点击眼睛图标控制菜单在侧边栏中的显示或隐藏。
@@ -390,18 +390,18 @@ export function SettingsMenuSettingsPanel() {
         <p className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-muted">
           <span>架构归属 (悬停看原因):</span>
           <span className="inline-flex items-center gap-1">
-            <span className="rounded bg-accent/10 px-1 py-px text-[9px] leading-4 text-accent">核心</span>
+            <span className="rounded bg-accent/10 px-1 py-px text-[11px] leading-4 text-accent">核心</span>
             页面承载核心域能力 (数据底座 / 订阅锚点 / 策略回测 / 环境生产)
           </span>
           <span className="inline-flex items-center gap-1">
-            <span className="rounded border border-border px-1 py-px text-[9px] leading-4 text-muted">扩展</span>
+            <span className="rounded border border-border px-1 py-px text-[11px] leading-4 text-muted">扩展</span>
             核心数据的消费页 — 二次开发可用「扩展页面」平行实现替换, 不伤核心
           </span>
         </p>
       </section>
 
       <section className="rounded-card border border-border bg-surface overflow-hidden">
-        <div className="grid grid-cols-[2.5rem_1fr_4.5rem_3rem_4.5rem_3rem] items-center border-b border-border bg-elevated/40 px-4 py-1.5 text-[10px] font-medium uppercase tracking-[0.06em] text-muted">
+        <div className="grid grid-cols-[2.5rem_1fr_4.5rem_3rem_4.5rem_3rem] items-center border-b border-border bg-elevated/40 px-4 py-1.5 text-[11px] font-medium  text-muted">
           <div />
           <div>菜单 · 归属</div>
           <div>类型</div>

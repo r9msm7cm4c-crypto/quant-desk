@@ -152,7 +152,7 @@ export function ExtDataPullPanel({ config, onSaved }: {
           </button>
         </div>
 
-        <div className="text-[10px] leading-relaxed">
+        <div className="text-[11px] leading-relaxed">
           {enabled ? (
             <div className="space-y-0.5">
               <div className="flex items-center gap-1 text-accent">
@@ -179,11 +179,11 @@ export function ExtDataPullPanel({ config, onSaved }: {
               <AlertCircle className="h-3 w-3 text-danger shrink-0 mt-px" />
             )}
             <div className="min-w-0 flex-1">
-              <div className={`text-[10px] font-medium truncate ${pull.last_status === 'success' ? 'text-emerald-500' : 'text-danger'}`}>
+              <div className={`text-[11px] font-medium truncate ${pull.last_status === 'success' ? 'text-emerald-500' : 'text-danger'}`}>
                 {pull.last_message || (pull.last_status === 'success' ? '成功' : '失败')}
               </div>
               {fmtTime(pull.last_run) && (
-                <div className="text-[9px] text-muted">{fmtTime(pull.last_run)}</div>
+                <div className="text-[11px] text-muted">{fmtTime(pull.last_run)}</div>
               )}
             </div>
           </div>
@@ -212,7 +212,7 @@ export function ExtDataPullPanel({ config, onSaved }: {
       </div>
 
       {runResult && (
-        <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/[0.06] p-2.5 flex items-center justify-between text-[10px]">
+        <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/[0.06] p-2.5 flex items-center justify-between text-[11px]">
           <span className="text-emerald-500 font-medium flex items-center gap-1">
             <CheckCircle2 className="h-3 w-3" />拉取成功
           </span>
@@ -221,7 +221,7 @@ export function ExtDataPullPanel({ config, onSaved }: {
       )}
 
       {error && (
-        <div className="text-[10px] text-danger text-center bg-danger/[0.06] rounded-lg py-1.5">
+        <div className="text-[11px] text-danger text-center bg-danger/[0.06] rounded-lg py-1.5">
           {error}
         </div>
       )}
@@ -474,7 +474,7 @@ function ExtPullConfigDialog({ config, onSaved, onClose }: {
               <h3 className="text-[15px] leading-6 font-semibold text-foreground">拉取设置</h3>
               <div className="flex items-center gap-1.5 mt-0.5 flex-wrap">
                 <span className="text-[11px] font-mono text-muted">{config.id}</span>
-                <span className={`inline-flex items-center gap-1 px-1.5 py-px rounded text-[10px] border ${
+                <span className={`inline-flex items-center gap-1 px-1.5 py-px rounded text-[11px] border ${
                   enabled
                     ? 'bg-emerald-500/10 border-emerald-500/25 text-emerald-500'
                     : 'bg-elevated border-border/60 text-muted'
@@ -503,13 +503,13 @@ function ExtPullConfigDialog({ config, onSaved, onClose }: {
               </div>
               <p className="mt-1.5 text-[11px] leading-relaxed text-muted">
                 接口只提供「类别清单」+「单类别成员」时用这个配方：先取第一级目录，再按
-                <span className="mx-0.5 font-mono text-[10px] text-secondary">{fanout.param}</span>
+                <span className="mx-0.5 font-mono text-[11px] text-secondary">{fanout.param}</span>
                 参数并发拉每个条目的成员，最后反转为「标的 → {fanout.value_col}」。接入自有源时在「新建扩展数据 → URL」填写第一级地址，配方存于表的
-                <span className="mx-0.5 rounded bg-elevated/70 px-1 py-px font-mono text-[10px]">config.json</span>
-                的 <span className="font-mono text-[10px]">pull.fanout</span> 字段；详见
-                <span className="mx-0.5 rounded bg-elevated/70 px-1 py-px font-mono text-[10px]">docs/custom-data-source.md</span>
+                <span className="mx-0.5 rounded bg-elevated/70 px-1 py-px font-mono text-[11px]">config.json</span>
+                的 <span className="font-mono text-[11px]">pull.fanout</span> 字段；详见
+                <span className="mx-0.5 rounded bg-elevated/70 px-1 py-px font-mono text-[11px]">docs/custom-data-source.md</span>
               </p>
-              <div className="mt-2 space-y-1 text-[10px] leading-relaxed">
+              <div className="mt-2 space-y-1 text-[11px] leading-relaxed">
                 {([
                   ['第二级 URL', fanout.url],
                   ['参数 / 取值字段', `${fanout.param} ← ${fanout.id_field}`],
@@ -530,7 +530,7 @@ function ExtPullConfigDialog({ config, onSaved, onClose }: {
           {/* 01 请求 */}
           <section>
             <SectionHead num="01" title={fanout ? '第一级 (目录) 请求' : '请求'}>
-              <span className="text-[10px] text-muted/70">保存后「测试」会按此配置真实请求一次</span>
+              <span className="text-[11px] text-muted/70">保存后「测试」会按此配置真实请求一次</span>
             </SectionHead>
             <div className="flex gap-2">
               <select
@@ -548,16 +548,16 @@ function ExtPullConfigDialog({ config, onSaved, onClose }: {
             </div>
             <div className="mt-3 grid grid-cols-2 gap-2">
               <div>
-                <div className="text-[10px] text-muted mb-1">Headers（JSON，可选）</div>
+                <div className="text-[11px] text-muted mb-1">Headers（JSON，可选）</div>
                 <textarea
                   value={headerStr} onChange={e => setHeaderStr(e.target.value)}
                   placeholder='{"X-Custom": "value"}'
                   rows={3}
-                  className="w-full rounded-lg border border-border bg-base px-2.5 py-1.5 text-[10px] font-mono text-foreground placeholder:text-muted/40 resize-none focus:outline-none focus:ring-1 focus:ring-accent/25 focus:border-accent/50 transition-shadow"
+                  className="w-full rounded-lg border border-border bg-base px-2.5 py-1.5 text-[11px] font-mono text-foreground placeholder:text-muted/40 resize-none focus:outline-none focus:ring-1 focus:ring-accent/25 focus:border-accent/50 transition-shadow"
                 />
               </div>
               <div>
-                <div className="text-[10px] text-muted mb-1">
+                <div className="text-[11px] text-muted mb-1">
                   请求体（JSON，可选）{method !== 'POST' && <span className="text-muted/60">· 仅 POST</span>}
                 </div>
                 <textarea
@@ -565,14 +565,14 @@ function ExtPullConfigDialog({ config, onSaved, onClose }: {
                   placeholder='{"page": 1}'
                   rows={3}
                   disabled={method !== 'POST'}
-                  className="w-full rounded-lg border border-border bg-base px-2.5 py-1.5 text-[10px] font-mono text-foreground placeholder:text-muted/40 resize-none disabled:opacity-40 focus:outline-none focus:ring-1 focus:ring-accent/25 focus:border-accent/50 transition-shadow"
+                  className="w-full rounded-lg border border-border bg-base px-2.5 py-1.5 text-[11px] font-mono text-foreground placeholder:text-muted/40 resize-none disabled:opacity-40 focus:outline-none focus:ring-1 focus:ring-accent/25 focus:border-accent/50 transition-shadow"
                 />
               </div>
             </div>
             <div className="mt-3">
               <div className="text-[11px] font-medium text-secondary mb-1.5">
                 拉取超时（秒）
-                <span className="ml-1.5 text-[10px] font-normal text-muted">5~300 · 大响应接口可调高</span>
+                <span className="ml-1.5 text-[11px] font-normal text-muted">5~300 · 大响应接口可调高</span>
               </div>
               <input
                 type="number" min={5} max={300} step={5}
@@ -610,7 +610,7 @@ function ExtPullConfigDialog({ config, onSaved, onClose }: {
               <div className="grid grid-cols-2 gap-1 rounded-lg bg-elevated/50 p-1 border border-border/40">
                 <button
                   onClick={() => { setScheduleMode('interval'); setScheduleTime('') }}
-                  className={`h-8 rounded-md text-[11px] font-medium transition-all ${
+                  className={`h-8 rounded-md text-[11px] font-medium transition-colors ${
                     scheduleMode === 'interval' ? 'bg-surface text-foreground shadow-sm' : 'text-muted hover:text-secondary hover:bg-elevated/40'
                   }`}
                 >
@@ -618,7 +618,7 @@ function ExtPullConfigDialog({ config, onSaved, onClose }: {
                 </button>
                 <button
                   onClick={() => setScheduleMode('fixed')}
-                  className={`h-8 rounded-md text-[11px] font-medium transition-all ${
+                  className={`h-8 rounded-md text-[11px] font-medium transition-colors ${
                     scheduleMode === 'fixed' ? 'bg-surface text-foreground shadow-sm' : 'text-muted hover:text-secondary hover:bg-elevated/40'
                   }`}
                 >
@@ -630,7 +630,7 @@ function ExtPullConfigDialog({ config, onSaved, onClose }: {
                 <div className="space-y-3">
                   <div className="grid grid-cols-3 gap-2">
                     <div>
-                      <div className="text-[10px] text-muted mb-1">间隔（分钟）</div>
+                      <div className="text-[11px] text-muted mb-1">间隔（分钟）</div>
                       <input
                         type="number" min={1} value={schedule} onChange={e => setSchedule(Number(e.target.value))}
                         title="每隔 N 分钟拉取一次 (从启用时刻起算)"
@@ -638,7 +638,7 @@ function ExtPullConfigDialog({ config, onSaved, onClose }: {
                       />
                     </div>
                     <div>
-                      <div className="text-[10px] text-muted mb-1">窗口起（留空=不限）</div>
+                      <div className="text-[11px] text-muted mb-1">窗口起（留空=不限）</div>
                       <input
                         type="time" value={timeWindowStart} onChange={e => setTimeWindowStart(e.target.value)}
                         title="每日允许拉取的时间窗口"
@@ -646,7 +646,7 @@ function ExtPullConfigDialog({ config, onSaved, onClose }: {
                       />
                     </div>
                     <div>
-                      <div className="text-[10px] text-muted mb-1">窗口止（留空=不限）</div>
+                      <div className="text-[11px] text-muted mb-1">窗口止（留空=不限）</div>
                       <input
                         type="time" value={timeWindowEnd} onChange={e => setTimeWindowEnd(e.target.value)}
                         title="每日允许拉取的时间窗口"
@@ -654,7 +654,7 @@ function ExtPullConfigDialog({ config, onSaved, onClose }: {
                       />
                     </div>
                   </div>
-                  <div className="text-[10px] text-muted/70 leading-relaxed">
+                  <div className="text-[11px] text-muted/70 leading-relaxed">
                     间隔制锁相在启用时刻 — 「每天 09:30」这类日程请用固定时刻。
                   </div>
                 </div>
@@ -693,7 +693,7 @@ function ExtPullConfigDialog({ config, onSaved, onClose }: {
                       {scheduleTime && (
                         <button
                           type="button" onClick={() => setScheduleTime('')}
-                          className="h-8 shrink-0 px-2 rounded-lg border border-border bg-base text-[10px] text-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent/40 transition-colors"
+                          className="h-8 shrink-0 px-2 rounded-lg border border-border bg-base text-[11px] text-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent/40 transition-colors"
                         >
                           清除
                         </button>
@@ -707,18 +707,18 @@ function ExtPullConfigDialog({ config, onSaved, onClose }: {
                       title="跳过周六日; 法定节假日无法离线判定, 仍会按期尝试 (拉取幂等, 失败仅记状态)"
                       className="h-3 w-3 shrink-0 accent-amber-500"
                     />
-                    <span className="text-[10px] text-secondary">
+                    <span className="text-[11px] text-secondary">
                       仅交易日 — 跳过周六日
                       <span className="text-muted/70">（节假日无法离线判定，仍会按期尝试）</span>
                     </span>
                   </label>
-                  <div className="text-[10px] text-muted/70 leading-relaxed">
+                  <div className="text-[11px] text-muted/70 leading-relaxed">
                     北京时间墙钟对齐，忽略间隔与时间窗口。
                   </div>
                 </div>
               )}
 
-              <div className="text-[10px] text-muted border-t border-border/40 pt-2">
+              <div className="text-[11px] text-muted border-t border-border/40 pt-2">
                 当前生效：<span className="text-secondary">{scheduleSummary}</span>
               </div>
             </div>
@@ -728,7 +728,7 @@ function ExtPullConfigDialog({ config, onSaved, onClose }: {
           <section>
             <SectionHead num="03" title="接口鉴权（API Key）">
               {authType !== 'none' && keyInfo && (
-                <span className={`text-[10px] ${keyInfo.key_set ? 'text-emerald-500' : 'text-amber-500'}`}>
+                <span className={`text-[11px] ${keyInfo.key_set ? 'text-emerald-500' : 'text-amber-500'}`}>
                   {keyInfo.key_set ? `已设置 ${keyInfo.masked_key}` : '未设置 Key'}
                 </span>
               )}
@@ -781,7 +781,7 @@ function ExtPullConfigDialog({ config, onSaved, onClose }: {
               )}
             </div>
             {authType !== 'none' && (
-              <div className="mt-2 text-[10px] text-muted/70">
+              <div className="mt-2 text-[11px] text-muted/70">
                 Key 仅存本机 secrets.json（不写入配置文件、不随配置导出）；随「保存配置 / 测试」一起生效。
               </div>
             )}
@@ -790,7 +790,7 @@ function ExtPullConfigDialog({ config, onSaved, onClose }: {
           {/* 04 数据解析 */}
           <section>
             <SectionHead num="04" title="数据解析">
-              <span className="text-[10px] text-muted/70">从响应 JSON 到表行的映射</span>
+              <span className="text-[11px] text-muted/70">从响应 JSON 到表行的映射</span>
             </SectionHead>
             <div className="space-y-3">
               <div className="grid grid-cols-2 gap-3">
@@ -805,7 +805,7 @@ function ExtPullConfigDialog({ config, onSaved, onClose }: {
                 <div>
                   <div className="text-[11px] font-medium text-secondary mb-1.5">
                     时间字段
-                    <span className="ml-1.5 text-[10px] font-normal text-muted">日内多行数据填，如 ts；无时间列填 __pull_ts__</span>
+                    <span className="ml-1.5 text-[11px] font-normal text-muted">日内多行数据填，如 ts；无时间列填 __pull_ts__</span>
                   </div>
                   <input
                     value={timeField} onChange={e => setTimeField(e.target.value)}
@@ -818,7 +818,7 @@ function ExtPullConfigDialog({ config, onSaved, onClose }: {
               <div>
                 <div className="text-[11px] font-medium text-secondary mb-1.5">
                   序列粒度
-                  <span className="ml-1.5 text-[10px] font-normal text-muted">决定列表迷你图口径: 当日逐盘 / 近N日每日一值</span>
+                  <span className="ml-1.5 text-[11px] font-normal text-muted">决定列表迷你图口径: 当日逐盘 / 近N日每日一值</span>
                 </div>
                 <select
                   aria-label="序列粒度"
@@ -835,7 +835,7 @@ function ExtPullConfigDialog({ config, onSaved, onClose }: {
                   <option value="daily">日级别（近 N 日每日一值）</option>
                 </select>
                 {granularity === 'auto' && (
-                  <div className="mt-1 text-[10px] text-muted/70">
+                  <div className="mt-1 text-[11px] text-muted/70">
                     按时间列数据形态判断: 存在非零时刻 → 日内多盘; 日期形态 / 00:00:00 / 未配时间字段 → 日级别
                   </div>
                 )}
@@ -848,13 +848,13 @@ function ExtPullConfigDialog({ config, onSaved, onClose }: {
                   value={fieldMapStr} onChange={e => setFieldMapStr(e.target.value)}
                   placeholder='{"code": "symbol", "val": "score"}'
                   rows={2}
-                  className="w-full rounded-lg border border-border bg-base px-2.5 py-1.5 text-[10px] font-mono text-foreground placeholder:text-muted/40 resize-none focus:outline-none focus:ring-1 focus:ring-accent/25 focus:border-accent/50 transition-shadow"
+                  className="w-full rounded-lg border border-border bg-base px-2.5 py-1.5 text-[11px] font-mono text-foreground placeholder:text-muted/40 resize-none focus:outline-none focus:ring-1 focus:ring-accent/25 focus:border-accent/50 transition-shadow"
                 />
               </div>
               <div>
                 <div className="text-[11px] font-medium text-secondary mb-1.5">
                   日期参数名
-                  <span className="ml-1.5 text-[10px] font-normal text-muted">接口支持按日查询时填，如 date · 配合历史回补</span>
+                  <span className="ml-1.5 text-[11px] font-normal text-muted">接口支持按日查询时填，如 date · 配合历史回补</span>
                 </div>
                 <div className="flex gap-2">
                   <input
@@ -879,7 +879,7 @@ function ExtPullConfigDialog({ config, onSaved, onClose }: {
               <div>
                 <div className="text-[11px] font-medium text-secondary mb-1.5">
                   增量参数名
-                  <span className="ml-1.5 text-[10px] font-normal text-muted">盘中多盘表填，如 since · 免每次全量重拉</span>
+                  <span className="ml-1.5 text-[11px] font-normal text-muted">盘中多盘表填，如 since · 免每次全量重拉</span>
                 </div>
                 <input
                   value={sinceParam} onChange={e => setSinceParam(e.target.value)}
@@ -889,26 +889,26 @@ function ExtPullConfigDialog({ config, onSaved, onClose }: {
                   className="h-9 w-full rounded-lg border border-border bg-base px-3 text-xs font-mono text-foreground placeholder:text-muted/40 focus:outline-none focus:ring-1 focus:ring-accent/25 focus:border-accent/50 transition-shadow disabled:opacity-40"
                 />
                 {!timeField.trim() && (
-                  <div className="mt-1 text-[10px] text-muted/70">需先填「时间字段」才能增量续传</div>
+                  <div className="mt-1 text-[11px] text-muted/70">需先填「时间字段」才能增量续传</div>
                 )}
               </div>
               <div>
                 <div className="text-[11px] font-medium text-secondary mb-1.5">
                   分页（仅 GET）
-                    <span className="ml-1.5 text-[10px] font-normal text-muted">留空页码参数=单次请求</span>
+                    <span className="ml-1.5 text-[11px] font-normal text-muted">留空页码参数=单次请求</span>
                   </div>
                   <div className="grid grid-cols-2 gap-1.5">
                     <input
                       value={pageParam} onChange={e => setPageParam(e.target.value)}
                       placeholder="页码参数 · page"
                       title="配置后按页循环拉取, 直到空页/最后一页/达上限"
-                      className="h-8 rounded-lg border border-border bg-base px-2 text-[10px] font-mono text-foreground placeholder:text-muted/40 focus:outline-none focus:ring-1 focus:ring-accent/25 focus:border-accent/50 transition-shadow"
+                      className="h-8 rounded-lg border border-border bg-base px-2 text-[11px] font-mono text-foreground placeholder:text-muted/40 focus:outline-none focus:ring-1 focus:ring-accent/25 focus:border-accent/50 transition-shadow"
                     />
                     <input
                       value={pageSizeParam} onChange={e => setPageSizeParam(e.target.value)}
                       placeholder="条数参数 · pageSize"
                       title="配合每页条数一起发送; 也用于短页判停"
-                      className="h-8 rounded-lg border border-border bg-base px-2 text-[10px] font-mono text-foreground placeholder:text-muted/40 focus:outline-none focus:ring-1 focus:ring-accent/25 focus:border-accent/50 transition-shadow"
+                      className="h-8 rounded-lg border border-border bg-base px-2 text-[11px] font-mono text-foreground placeholder:text-muted/40 focus:outline-none focus:ring-1 focus:ring-accent/25 focus:border-accent/50 transition-shadow"
                     />
                     <input
                       type="number" min={1}
@@ -916,7 +916,7 @@ function ExtPullConfigDialog({ config, onSaved, onClose }: {
                       onChange={e => setPageSize(Number(e.target.value))}
                       placeholder="每页条数"
                       title="每页条数值 (>0 且已填参数名才发送)"
-                      className="h-8 rounded-lg border border-border bg-base px-2 text-[10px] font-mono text-foreground placeholder:text-muted/40 focus:outline-none focus:ring-1 focus:ring-accent/25 focus:border-accent/50 transition-shadow"
+                      className="h-8 rounded-lg border border-border bg-base px-2 text-[11px] font-mono text-foreground placeholder:text-muted/40 focus:outline-none focus:ring-1 focus:ring-accent/25 focus:border-accent/50 transition-shadow"
                     />
                     <input
                       type="number" min={1} max={200}
@@ -924,7 +924,7 @@ function ExtPullConfigDialog({ config, onSaved, onClose }: {
                       onChange={e => setMaxPages(Number(e.target.value))}
                       placeholder="最多页 · 20"
                       title="安全上限, 防止接口永远返回数据拖死拉取循环"
-                      className="h-8 rounded-lg border border-border bg-base px-2 text-[10px] font-mono text-foreground placeholder:text-muted/40 focus:outline-none focus:ring-1 focus:ring-accent/25 focus:border-accent/50 transition-shadow"
+                      className="h-8 rounded-lg border border-border bg-base px-2 text-[11px] font-mono text-foreground placeholder:text-muted/40 focus:outline-none focus:ring-1 focus:ring-accent/25 focus:border-accent/50 transition-shadow"
                     />
                   </div>
               </div>
@@ -935,7 +935,7 @@ function ExtPullConfigDialog({ config, onSaved, onClose }: {
           {config.mode === 'timeseries' && (
             <section>
               <SectionHead num="05" title="历史回补">
-                {!dateParam.trim() && <span className="text-[10px] text-amber-500">需先填日期参数名并保存</span>}
+                {!dateParam.trim() && <span className="text-[11px] text-amber-500">需先填日期参数名并保存</span>}
               </SectionHead>
               <div className="rounded-xl border border-border/60 bg-elevated/20 p-3.5 space-y-2">
                 <div className="flex items-center gap-2">
@@ -958,7 +958,7 @@ function ExtPullConfigDialog({ config, onSaved, onClose }: {
                     回补
                   </button>
                 </div>
-                <div className="text-[10px] text-muted/70">
+                <div className="text-[11px] text-muted/70">
                   单次上限 120 天（数秒至数分钟，取决于接口）；已有分区自动跳过，接口无该日数据记为空，可重复执行。
                 </div>
                 {bfResult && (
@@ -973,7 +973,7 @@ function ExtPullConfigDialog({ config, onSaved, onClose }: {
                     {bfResult.failed.length > 0 && (
                       <div className="max-h-28 overflow-y-auto rounded-lg bg-base px-2 py-1.5 space-y-0.5">
                         {bfResult.failed.map(f => (
-                          <div key={f.date} className="text-[9px] text-danger/90 font-mono">
+                          <div key={f.date} className="text-[11px] text-danger/90 font-mono">
                             {f.date} · {f.reason}
                           </div>
                         ))}
@@ -1004,7 +1004,7 @@ function ExtPullConfigDialog({ config, onSaved, onClose }: {
                 <div className="text-[11px] text-amber-500">数据缺少 symbol 字段，请配置字段映射</div>
               )}
               {testResult.preview.length > 0 && (
-                <pre className="text-[9px] font-mono text-muted bg-elevated rounded px-2 py-1.5 overflow-x-auto max-h-32">
+                <pre className="text-[11px] font-mono text-muted bg-elevated rounded px-2 py-1.5 overflow-x-auto max-h-32">
                   {JSON.stringify(testResult.preview, null, 2)}
                 </pre>
               )}
@@ -1040,7 +1040,7 @@ function ExtPullConfigDialog({ config, onSaved, onClose }: {
           <button
             onClick={() => handleSave(false)}
             disabled={saving || !url}
-            className="inline-flex items-center gap-1.5 h-9 px-5 rounded-lg bg-accent text-white text-xs font-medium hover:bg-accent/90 active:translate-y-px disabled:opacity-40 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent/40 transition-all shadow-sm shadow-accent/20"
+            className="inline-flex items-center gap-1.5 h-9 px-5 rounded-lg bg-accent text-white text-xs font-medium hover:bg-accent/90 active:translate-y-px disabled:opacity-40 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent/40 transition-colors shadow-sm shadow-accent/20"
           >
             {saving ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Check className="h-3.5 w-3.5" />}
             保存配置

@@ -146,7 +146,7 @@ export function FilterPanel({ value, onChange, onClose, onReset }: {
           <Filter className="h-3.5 w-3.5 text-accent" />
           <span className="text-xs font-medium text-accent">筛选条件</span>
           {filterActive(value) && (
-            <span className="bg-accent/15 text-accent rounded-full px-1.5 h-4 inline-flex items-center text-[10px] font-bold leading-none">
+            <span className="bg-accent/15 text-accent rounded-full px-1.5 h-4 inline-flex items-center text-[11px] font-bold leading-none">
               {countActiveFilters(value)}
             </span>
           )}
@@ -221,7 +221,7 @@ export function FilterPanel({ value, onChange, onClose, onReset }: {
               />
               {isRange && (
                 <>
-                  <span className="text-[10px] text-muted">~</span>
+                  <span className="text-[11px] text-muted">~</span>
                   <input
                     type="number"
                     placeholder="最大"
@@ -232,12 +232,12 @@ export function FilterPanel({ value, onChange, onClose, onReset }: {
                   />
                 </>
               )}
-              {f.unit && <span className="text-[10px] text-muted shrink-0">{f.unit}</span>}
+              {f.unit && <span className="text-[11px] text-muted shrink-0">{f.unit}</span>}
             </div>
           )
         })}
       </div>
-      <div className="text-[10px] text-muted/70 pl-1">输入即生效 · 点击市场/ST 按钮切换</div>
+      <div className="text-[11px] text-muted/70 pl-1">输入即生效 · 点击市场/ST 按钮切换</div>
     </div>
   )
 }

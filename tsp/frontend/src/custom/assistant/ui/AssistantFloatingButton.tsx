@@ -8,7 +8,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { motion } from 'framer-motion'
-import { Sparkles } from 'lucide-react'
+import { MessageSquare } from 'lucide-react'
 import { cn } from '@/lib/cn'
 import { getPageScale } from '@/lib/pageZoom'
 import { toggleAssistant, useAssistantStore } from '../store'
@@ -148,13 +148,13 @@ export function AssistantFloatingButton() {
         // z-30 = 常驻入口层: 在页面内容之上, 但低于 z-40 遮罩与 z-50 弹窗 —
         // 弹窗打开时悬浮球被盖住, 不再悬浮遮挡弹窗内容 (与 AiConfigEntry 同层)。
         'fixed z-30 flex touch-none cursor-pointer items-center justify-center',
-        'rounded-full border border-white/15 bg-gradient-to-br from-accent to-accent/80',
-        'text-white shadow-[0_8px_24px_rgba(59,130,246,0.45)] backdrop-blur-sm',
-        'transition-shadow duration-150 ease-smooth',
+        'rounded-full border border-accent/40 bg-accent',
+        'text-[hsl(214_30%_10%)] shadow-pop',
+        'transition-colors duration-140 ease-smooth hover:bg-accent/90',
         open && 'ring-2 ring-accent/60 ring-offset-2 ring-offset-surface',
       )}
     >
-      <Sparkles className="h-5 w-5" />
+      <MessageSquare strokeWidth={1.75} className="h-5 w-5" />
       {sending && (
         <span
           className="absolute -right-0.5 -top-0.5 h-3 w-3 animate-pulse rounded-full border-2 border-surface bg-warning"

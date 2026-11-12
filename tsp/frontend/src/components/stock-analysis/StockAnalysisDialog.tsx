@@ -100,9 +100,9 @@ export function StockAnalysisDialog({ task, mode, minimized }: Props) {
           className="w-full max-w-3xl max-h-[88vh] bg-surface/95 backdrop-blur-xl border border-border/50 rounded-2xl shadow-2xl flex flex-col overflow-hidden"
         >
           {/* 头部 —— 蓝色主题 */}
-          <div className="relative px-5 py-3.5 border-b border-border/50 bg-gradient-to-r from-sky-500/[0.06] via-blue-500/[0.04] to-transparent">
+          <div className="relative px-5 py-3.5 border-b border-border/50 bg-accent/[0.12]">
             <div className="flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-sky-500/20 to-blue-500/15 border border-sky-400/30 shrink-0">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-accent/[0.12] border border-sky-400/30 shrink-0">
                 {isHistory
                   ? <History className="h-4.5 w-4.5 text-sky-300" />
                   : <LineChart className="h-4.5 w-4.5 text-sky-300" />}
@@ -113,9 +113,9 @@ export function StockAnalysisDialog({ task, mode, minimized }: Props) {
                     {isHistory ? '历史分析报告' : 'AI 个股分析'}
                   </span>
                   {task && <span className="text-xs text-secondary truncate">{task.name}</span>}
-                  {task && <span className="text-[10px] font-mono text-muted shrink-0">{task.symbol}</span>}
+                  {task && <span className="text-[11px] font-mono text-muted shrink-0">{task.symbol}</span>}
                 </div>
-                <div className="flex items-center gap-2 mt-0.5 text-[10px] text-muted">
+                <div className="flex items-center gap-2 mt-0.5 text-[11px] text-muted">
                   {meta?.summary ? (
                     <span className="flex items-center gap-1 truncate">
                       <Sparkles className="h-2.5 w-2.5 shrink-0" />
@@ -160,13 +160,13 @@ export function StockAnalysisDialog({ task, mode, minimized }: Props) {
             {phase === 'loading' && !content && (
               <div className="flex flex-col items-center justify-center py-16 gap-3">
                 <div className="relative">
-                  <div className="h-10 w-10 rounded-full bg-gradient-to-br from-sky-500/20 to-blue-500/15 border border-sky-400/30 flex items-center justify-center">
+                  <div className="h-10 w-10 rounded-full bg-accent/[0.12] border border-sky-400/30 flex items-center justify-center">
                     <LineChart className="h-4.5 w-4.5 text-sky-300 animate-pulse" />
                   </div>
                   <Loader2 className="absolute -inset-1 h-12 w-12 text-sky-400/40 animate-spin" style={{ animationDuration: '3s' }} />
                 </div>
                 <div className="text-xs text-secondary">AI 正在分析行情与关键价位…</div>
-                <div className="text-[10px] text-muted">读取日 K / 技术指标 / 压力支撑 / 财务,生成四维分析</div>
+                <div className="text-[11px] text-muted">读取日 K / 技术指标 / 压力支撑 / 财务,生成四维分析</div>
               </div>
             )}
 
@@ -203,7 +203,7 @@ export function StockAnalysisDialog({ task, mode, minimized }: Props) {
           {/* 底部:关注点输入 */}
           <div className="border-t border-border/50 bg-surface/60 px-5 py-3">
             <div className="flex items-center gap-2">
-              <div className="flex items-center gap-1.5 text-[10px] text-muted shrink-0">
+              <div className="flex items-center gap-1.5 text-[11px] text-muted shrink-0">
                 <Wand2 className="h-3 w-3" />
                 <span className="hidden sm:inline">关注重点</span>
               </div>
@@ -222,7 +222,7 @@ export function StockAnalysisDialog({ task, mode, minimized }: Props) {
               {isHistory ? (
                 <button
                   onClick={handleStartNew}
-                  className="inline-flex items-center gap-1.5 h-8 px-3 rounded-lg bg-gradient-to-r from-sky-500/20 to-blue-500/15 border border-sky-400/30 text-xs font-medium text-sky-300 hover:from-sky-500/30 hover:to-blue-500/20 transition-all shrink-0"
+                  className="inline-flex items-center gap-1.5 h-8 px-3 rounded-lg bg-accent/[0.12] border border-sky-400/30 text-xs font-medium text-sky-300 transition-colors shrink-0"
                   title="以此关注点重新生成新报告"
                 >
                   <RefreshCw className="h-3.5 w-3.5" />重新生成
@@ -231,7 +231,7 @@ export function StockAnalysisDialog({ task, mode, minimized }: Props) {
                 <button
                   onClick={handleStartNew}
                   disabled={isWorking}
-                  className="inline-flex items-center gap-1.5 h-8 px-3 rounded-lg bg-gradient-to-r from-sky-500/20 to-blue-500/15 border border-sky-400/30 text-xs font-medium text-sky-300 hover:from-sky-500/30 hover:to-blue-500/20 disabled:opacity-40 disabled:cursor-not-allowed transition-all shrink-0"
+                  className="inline-flex items-center gap-1.5 h-8 px-3 rounded-lg bg-accent/[0.12] border border-sky-400/30 text-xs font-medium text-sky-300 disabled:opacity-40 disabled:cursor-not-allowed transition-colors shrink-0"
                   title={focus.trim() ? '按关注重点重新分析' : '重新分析'}
                 >
                   {isWorking ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : phase === 'done' ? <RefreshCw className="h-3.5 w-3.5" /> : <Send className="h-3.5 w-3.5" />}
@@ -239,7 +239,7 @@ export function StockAnalysisDialog({ task, mode, minimized }: Props) {
                 </button>
               )}
             </div>
-            <p className="mt-1.5 text-[10px] text-muted/50 leading-relaxed">
+            <p className="mt-1.5 text-[11px] text-muted/50 leading-relaxed">
               {isHistory
                 ? '历史报告为静态记录;修改关注重点后将作为新任务重新生成。报告仅供参考,不构成投资建议。'
                 : '报告由项目已配置的 AI 模型基于本地行情与财务数据生成;消息面维度暂依据价量异动推断。报告仅供参考,不构成投资建议。'}

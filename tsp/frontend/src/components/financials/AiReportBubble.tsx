@@ -166,7 +166,7 @@ function BubbleItem({ task, isLast, onPointerDown }: {
 
   // 状态配色
   const accent = isWorking
-    ? 'from-purple-500/25 to-fuchsia-500/20 text-purple-300 border-purple-300/40 shadow-[0_6px_24px_-10px_rgba(168,85,247,0.5)]'
+    ? ' text-accent border-accent/40 shadow-[0_6px_24px_-10px_rgba(168,85,247,0.5)]'
     : isError
       ? 'from-red-500/20 to-red-500/10 text-red-300 border-red-300/40 shadow-[0_6px_20px_-10px_rgba(239,68,68,0.4)]'
       : 'from-emerald-500/20 to-emerald-500/10 text-emerald-300 border-emerald-300/40 shadow-[0_6px_20px_-10px_rgba(16,185,129,0.35)]'
@@ -184,12 +184,12 @@ function BubbleItem({ task, isLast, onPointerDown }: {
         role="button"
         tabIndex={0}
         title={isWorking ? '生成中,点击恢复对话框' : isError ? '分析失败,点击重试' : '点击查看报告'}
-        className={`group relative flex w-full cursor-pointer items-center gap-1.5 overflow-hidden rounded-lg border bg-gradient-to-br px-2 py-1.5 backdrop-blur-xl transition-all duration-200 hover:scale-[1.02] active:scale-[0.99] ${accent}`}
+        className={`group relative flex w-full cursor-pointer items-center gap-1.5 overflow-hidden rounded-lg border px-2 py-1.5 transition-colors duration-200 ${accent}`}
       >
         {/* 生成中:顶部进度流光 */}
         {isWorking && (
           <div className="absolute inset-x-0 top-0 h-px overflow-hidden">
-            <div className="h-full w-1/2 bg-gradient-to-r from-transparent via-purple-200 to-transparent animate-bubble-progress" />
+            <div className="h-full w-1/2 bg-accent/[0.14] animate-bubble-progress" />
           </div>
         )}
 
@@ -210,9 +210,9 @@ function BubbleItem({ task, isLast, onPointerDown }: {
         </span>
 
         {/* 状态后缀 */}
-        <span className="shrink-0 text-[9px] leading-none">
+        <span className="shrink-0 text-[11px] leading-none">
           {isWorking ? (
-            <span className="text-purple-300/80">分析中</span>
+            <span className="text-accent/80">分析中</span>
           ) : isError ? (
             <span className="text-red-300/80">失败</span>
           ) : (

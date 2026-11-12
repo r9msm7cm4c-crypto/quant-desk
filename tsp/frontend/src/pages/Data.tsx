@@ -616,7 +616,7 @@ export function Data() {
             <button
               onClick={() => adjGate.guard(() => startSync.mutate())}
               disabled={isStarting}
-              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-btn bg-gradient-to-r from-accent/25 to-accent/10 border border-accent/30 text-accent text-xs font-medium hover:from-accent/35 hover:to-accent/20 disabled:opacity-40 transition-all duration-150 ${
+              className={`inline-flex h-8 items-center gap-1.5 rounded-btn border border-accent/40 bg-accent px-3 text-xs font-medium text-[hsl(214_30%_10%)] transition-colors duration-140 hover:bg-accent/90 disabled:opacity-40 ${
                 !hasData && !isLoading && !isStarting && !isRunning ? 'animate-breath-sync' : ''
               }`}
             >
@@ -631,7 +631,7 @@ export function Data() {
               <button
                 onClick={() => setShowStopConfirm(true)}
                 title="停止当前同步任务"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-btn bg-danger/12 border border-danger/30 text-danger text-xs font-medium hover:bg-danger/20 transition-all duration-150"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-btn bg-danger/12 border border-danger/30 text-danger text-xs font-medium hover:bg-danger/20 transition-colors duration-150"
               >
                 <Square className="h-3 w-3 fill-current" />
                 停止
@@ -699,7 +699,7 @@ export function Data() {
         }
       />
 
-      <div className="mx-auto px-8 py-6 space-y-6 max-w-6xl">
+      <div className="mx-auto max-w-6xl space-y-5 px-4 py-5 sm:px-6 lg:px-8">
         {/* 无 Key 提示 —— 非阻断: 历史日K走免费通道, 实时等能力取决于所选数据源 */}
         {isNoKey && (
           <div className="flex items-center gap-2 rounded-card border border-border bg-elevated/40 px-3 py-2 text-xs">
@@ -762,7 +762,7 @@ export function Data() {
               </div>
             ) : (
               <div className="space-y-2">
-                <div className="flex items-center gap-1.5 text-[10px] text-muted pb-2 border-b border-border/50 flex-wrap">
+                <div className="flex items-center gap-1.5 text-[11px] text-muted pb-2 border-b border-border/50 flex-wrap">
                   <span className="text-accent/60 font-medium">盘前</span>
                   <span>个股维表</span>
                   <span className="text-border">→</span>
@@ -1156,7 +1156,7 @@ export function Data() {
                         key={u}
                         onClick={() => { setIndexExtendUnit(u); if (u === 'year' && indexExtendValue > 10) setIndexExtendValue(1); if (u === 'month' && indexExtendValue > 36) setIndexExtendValue(6) }}
                         disabled={!hasDailyBatchCap || !!activeJobId || syncIndexDaily.isPending}
-                        className={`px-2 py-0.5 text-[10px] font-medium transition-colors disabled:opacity-40 ${
+                        className={`px-2 py-0.5 text-[11px] font-medium transition-colors disabled:opacity-40 ${
                           indexExtendUnit === u ? 'bg-accent/15 text-accent' : 'text-secondary hover:bg-elevated'
                         }`}
                       >{u === 'month' ? '月' : '年'}</button>
@@ -1164,7 +1164,7 @@ export function Data() {
                   </div>
                 </div>
 
-                <div className="text-[10px] text-muted">
+                <div className="text-[11px] text-muted">
                   预计扩展至 <span className="font-mono text-secondary">{indexTargetDateText}</span>
                   {indexEarliestDate && <span> (当前最早: <span className="font-mono text-secondary">{indexEarliestDate}</span>)</span>}
                 </div>
@@ -1173,7 +1173,7 @@ export function Data() {
                   <div className="flex items-center justify-between gap-3">
                     <div>
                       <div className="text-xs font-medium text-foreground">批次大小</div>
-                      <div className="text-[10px] text-muted mt-0.5">每批同步并计算的指数数量，默认 100。</div>
+                      <div className="text-[11px] text-muted mt-0.5">每批同步并计算的指数数量，默认 100。</div>
                     </div>
                     <div className="flex items-center gap-2">
                       <input
@@ -1198,7 +1198,7 @@ export function Data() {
                       </button>
                     </div>
                   </div>
-                  <div className="text-[10px] text-muted">
+                  <div className="text-[11px] text-muted">
                     当前生效: <span className="font-mono text-secondary">{indexDailyBatchSize}</span>
                   </div>
                 </div>

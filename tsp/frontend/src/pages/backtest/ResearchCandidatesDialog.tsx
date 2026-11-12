@@ -195,7 +195,7 @@ export function ResearchCandidatesDialog({ onClose, onLoadStrategy }: {
             <div className="grid grid-cols-1 gap-3 px-4 py-3 md:grid-cols-[minmax(0,1fr)_8rem_7rem] md:items-center">
               <div className="min-w-0">
                 <div className="flex items-center gap-2">
-                  <span className={`shrink-0 rounded border px-1.5 py-0.5 text-[9px] font-medium ${item.kind === 'factor'
+                  <span className={`shrink-0 rounded border px-1.5 py-0.5 text-[11px] font-medium ${item.kind === 'factor'
                     ? 'border-cyan-400/30 bg-cyan-400/10 text-cyan-400'
                     : 'border-amber-400/30 bg-amber-400/10 text-amber-400'
                   }`}>
@@ -263,7 +263,7 @@ export function ResearchCandidatesDialog({ onClose, onLoadStrategy }: {
             {linking && linkDraft && (
               <div className="grid gap-3 border-t border-border/60 bg-surface/45 px-4 py-3 md:grid-cols-[minmax(12rem,1fr)_9rem_8rem_auto] md:items-end">
                 <label className="block min-w-0">
-                  <span className="mb-1 block text-[10px] text-muted">目标策略</span>
+                  <span className="mb-1 block text-[11px] text-muted">目标策略</span>
                   <select
                     value={linkDraft.strategyId}
                     onChange={event => setLinkDraft(current => current ? { ...current, strategyId: event.target.value } : current)}
@@ -277,7 +277,7 @@ export function ResearchCandidatesDialog({ onClose, onLoadStrategy }: {
                   </select>
                 </label>
                 <div>
-                  <span className="mb-1 block text-[10px] text-muted">评分方向</span>
+                  <span className="mb-1 block text-[11px] text-muted">评分方向</span>
                   <div className="grid h-8 grid-cols-2 overflow-hidden rounded-input border border-border bg-base">
                     {([['high', ArrowUp, '高值'], ['low', ArrowDown, '低值']] as const).map(([value, Icon, label]) => (
                       <button
@@ -299,7 +299,7 @@ export function ResearchCandidatesDialog({ onClose, onLoadStrategy }: {
                   </div>
                 </div>
                 <label className="block">
-                  <span className="mb-1 flex items-center justify-between text-[10px] text-muted">
+                  <span className="mb-1 flex items-center justify-between text-[11px] text-muted">
                     初始权重
                     {ic != null && <span>{ic < 0 ? 'IC<0 推荐低值' : 'IC≥0 推荐高值'}</span>}
                   </span>
@@ -317,7 +317,7 @@ export function ResearchCandidatesDialog({ onClose, onLoadStrategy }: {
                       } : current)}
                       className="h-8 w-full rounded-input border border-border bg-base px-2 pr-7 text-xs text-foreground focus:border-accent focus:outline-none"
                     />
-                    <span className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-[10px] text-muted">%</span>
+                    <span className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-[11px] text-muted">%</span>
                   </div>
                 </label>
                 <div className="flex items-center justify-end gap-2">

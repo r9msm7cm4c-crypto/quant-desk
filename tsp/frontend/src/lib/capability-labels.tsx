@@ -43,7 +43,7 @@ export function MissingCapChip({ capKey, label, to = '/settings?tab=data-sources
   )
   if (to == null) {
     return (
-      <span className={`text-[10px] text-warning/90 bg-warning/8 rounded px-1.5 py-px font-medium ${className}`} title="该数据当前不可用">
+      <span className={`text-[11px] text-warning/90 bg-warning/8 rounded px-1.5 py-px font-medium ${className}`} title="该数据当前不可用">
         {content}
       </span>
     )
@@ -52,7 +52,7 @@ export function MissingCapChip({ capKey, label, to = '/settings?tab=data-sources
     <button
       type="button"
       onClick={(e) => { e.stopPropagation(); navigate(to) }}
-      className={`text-[10px] text-warning/90 bg-warning/8 rounded px-1.5 py-px font-medium hover:bg-warning/15 transition-colors ${className}`}
+      className={`text-[11px] text-warning/90 bg-warning/8 rounded px-1.5 py-px font-medium hover:bg-warning/15 transition-colors ${className}`}
       title="前往 设置 → 数据源"
     >
       {content}
@@ -112,32 +112,32 @@ const TIER_STYLE: Record<string, TierStyle> = {
   none: {
     desc: '未配置 Key · 仅历史日K',
     tagBg: { background: 'rgba(113,113,122,0.15)' },
-    dotStyle: { background: '#52525b' },
+    dotStyle: { background: '#6E7887' },
     labelTextStyle: { color: '#71717a' },
   },
   free: {
     desc: '历史日K · 自选实时',
     tagBg: { background: 'rgba(113,113,122,0.3)' },
     dotStyle: { background: '#71717a' },
-    labelTextStyle: { color: '#a1a1aa' },
+    labelTextStyle: { color: '#929BA8' },
   },
   starter: {
     desc: '除权因子 · 全市场实时',
     tagBg: { background: 'rgba(59,130,246,0.2)' },
-    dotStyle: { background: '#3b82f6' },
-    labelTextStyle: { color: '#60a5fa' },
+    dotStyle: { background: '#63A7D9' },
+    labelTextStyle: { color: '#63A7D9' },
   },
   pro: {
     desc: '分钟K · 盘口',
     tagBg: { background: 'linear-gradient(135deg, rgba(168,85,247,0.2), rgba(124,58,237,0.15))' },
-    dotStyle: { background: 'linear-gradient(135deg, #a855f7, #7c3aed)' },
-    labelTextStyle: { background: 'linear-gradient(135deg, #c084fc, #a855f7)', WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent' },
+    dotStyle: { background: 'linear-gradient(135deg, #63A7D9, #63A7D9)' },
+    labelTextStyle: { background: 'linear-gradient(135deg, #c084fc, #63A7D9)', WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent' },
   },
   expert: {
     desc: 'WebSocket · 财务数据',
     tagBg: { background: 'linear-gradient(135deg, rgba(59,130,246,0.2), rgba(168,85,247,0.2), rgba(245,158,11,0.2))' },
-    dotStyle: { background: 'linear-gradient(135deg, #3b82f6, #a855f7, #f59e0b)' },
-    labelTextStyle: { background: 'linear-gradient(135deg, #60a5fa, #c084fc, #fbbf24)', WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent' },
+    dotStyle: { background: 'linear-gradient(135deg, #63A7D9, #63A7D9, #DB9A2B)' },
+    labelTextStyle: { background: 'linear-gradient(135deg, #63A7D9, #c084fc, #DB9A2B)', WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent' },
   },
 }
 
@@ -167,7 +167,7 @@ export function TierTag({ label, className = '' }: { label: string; className?: 
   const display = base === 'none' ? 'None' : base
   return (
     <span
-      className={`inline-flex h-[18px] max-w-[80px] shrink-0 items-center overflow-hidden rounded px-1.5 text-[10px] font-bold font-mono leading-none ${className}`}
+      className={`inline-flex h-[18px] max-w-[80px] shrink-0 items-center overflow-hidden rounded px-1.5 text-[11px] font-bold font-mono leading-none ${className}`}
       style={t.tagBg}
     >
       <span className="truncate capitalize" style={t.labelTextStyle}>{display}</span>

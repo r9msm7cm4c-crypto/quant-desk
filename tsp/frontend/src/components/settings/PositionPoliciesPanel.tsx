@@ -31,7 +31,7 @@ function SectionTitle({ children, hint }: { children: React.ReactNode; hint?: st
   return (
     <div className="flex items-baseline justify-between">
       <div className="text-xs font-medium text-foreground">{children}</div>
-      {hint && <div className="text-[10px] text-muted">{hint}</div>}
+      {hint && <div className="text-[11px] text-muted">{hint}</div>}
     </div>
   )
 }
@@ -170,7 +170,7 @@ export function PositionPoliciesPanel() {
           <div key={p.id} className="flex items-center gap-2 rounded-btn border border-border px-3 py-2">
             <div className="min-w-0 flex-1">
               <div className="truncate text-xs font-medium text-foreground">{p.label}</div>
-              <div className="truncate text-[10px] text-muted">
+              <div className="truncate text-[11px] text-muted">
                 {p.id}
                 {p.params.length > 0 ? ` · ${p.params.length} 个参数` : ''}
                 {p.description ? ` · ${p.description}` : ''}
@@ -272,7 +272,7 @@ export function PositionPoliciesPanel() {
                 </div>
               ) : (
                 <div className="space-y-1.5">
-                  <div className="grid grid-cols-[1fr_1.2fr_4.5rem_5rem_1.75rem] gap-1.5 px-0.5 text-[10px] text-muted">
+                  <div className="grid grid-cols-[1fr_1.2fr_4.5rem_5rem_1.75rem] gap-1.5 px-0.5 text-[11px] text-muted">
                     <span>标识 (代码里引用)</span>
                     <span>显示名称</span>
                     <span>类型</span>
@@ -347,7 +347,7 @@ export function PositionPoliciesPanel() {
                 onChange={e => setEditor({ ...editor, code: e.target.value })}
                 spellCheck={false}
               />
-              <div className="rounded-btn bg-accent/5 px-3 py-2 font-mono text-[10px] leading-relaxed text-muted">
+              <div className="rounded-btn bg-accent/5 px-3 py-2 font-mono text-[11px] leading-relaxed text-muted">
                 ctx.selected 当日候选(按信号降序) · ctx.recent_returns 近60日收益 · ctx.closed_trades 已平仓快照 ·
                 ctx.portfolio 现金/权益/回撤 · ctx.params 上面的参数
                 <br />
@@ -381,7 +381,7 @@ export function PositionPoliciesPanel() {
 
           {/* 底部操作栏 */}
           <div className="flex shrink-0 items-center justify-between border-t border-border px-5 py-3">
-            <div className="text-[10px] text-muted">保存时自动执行安全校验 + 冒烟</div>
+            <div className="text-[11px] text-muted">保存时自动执行安全校验 + 冒烟</div>
             <div className="flex items-center gap-2">
               <button
                 className="rounded-btn border border-border px-3 py-1.5 text-xs text-secondary transition-colors hover:text-foreground disabled:opacity-50"

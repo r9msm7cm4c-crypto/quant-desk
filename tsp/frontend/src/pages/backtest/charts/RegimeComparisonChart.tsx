@@ -52,7 +52,7 @@ export function RegimeComparisonChart({ rows }: RegimeComparisonChartProps) {
 
     return {
       animation: false,
-      color: ['#ef4444', '#22c55e', '#3b82f6'],
+      color: ['#E05A52', '#3FA97A', '#63A7D9'],
       grid: { left: 54, right: 48, top: 48, bottom: 48 },
       legend: {
         top: 2,
@@ -134,14 +134,14 @@ export function RegimeComparisonChart({ rows }: RegimeComparisonChartProps) {
           type: 'bar',
           data: preparedRows.map(row => row.return == null ? null : row.return * 100),
           barMaxWidth: 24,
-          itemStyle: { color: '#ef4444' },
+          itemStyle: { color: '#E05A52' },
         },
         {
           name: '最大回撤',
           type: 'bar',
           data: preparedRows.map(row => row.maxDrawdown == null ? null : row.maxDrawdown * 100),
           barMaxWidth: 24,
-          itemStyle: { color: '#22c55e' },
+          itemStyle: { color: '#3FA97A' },
         },
         {
           name: 'Sharpe',
@@ -151,8 +151,8 @@ export function RegimeComparisonChart({ rows }: RegimeComparisonChartProps) {
           connectNulls: false,
           symbol: 'circle',
           symbolSize: 6,
-          lineStyle: { color: '#3b82f6', width: 1.5 },
-          itemStyle: { color: '#3b82f6' },
+          lineStyle: { color: '#63A7D9', width: 1.5 },
+          itemStyle: { color: '#63A7D9' },
           z: 5,
         },
       ],

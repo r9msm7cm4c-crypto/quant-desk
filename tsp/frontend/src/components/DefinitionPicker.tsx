@@ -27,9 +27,9 @@ function DepChips({ deps }: { deps: string[] }) {
   return (
     <span className="flex flex-wrap items-center gap-1" title={deps.join(', ')}>
       {visible.map((d) => (
-        <span key={d} className="rounded-full bg-elevated px-1.5 py-px text-[10px] text-muted">{d}</span>
+        <span key={d} className="rounded-full bg-elevated px-1.5 py-px text-[11px] text-muted">{d}</span>
       ))}
-      {rest > 0 && <span className="text-[10px] text-muted">+{rest}</span>}
+      {rest > 0 && <span className="text-[11px] text-muted">+{rest}</span>}
     </span>
   )
 }
@@ -51,7 +51,7 @@ function SmokeResultView({ r }: { r: DefinitionSmokeResult }) {
     <div className="mt-1.5 space-y-0.5">
       {r.issues.map((i, idx) => (
         <div key={idx} className="text-[11px] text-danger">
-          <span className="rounded bg-danger/10 px-1 py-px font-mono text-[10px]">{i.code}</span> {i.message}
+          <span className="rounded bg-danger/10 px-1 py-px font-mono text-[11px]">{i.code}</span> {i.message}
         </div>
       ))}
     </div>
@@ -158,7 +158,7 @@ export function DefinitionPicker({ kinds = ['signal', 'factor'], onSelect, selec
                 }`}
               >
                 <div className="flex items-center gap-2">
-                  <span className={`shrink-0 rounded-full px-1.5 py-px text-[10px] ${
+                  <span className={`shrink-0 rounded-full px-1.5 py-px text-[11px] ${
                     it.kind === 'signal' ? 'bg-accent/10 text-accent' : 'bg-secondary/10 text-secondary'
                   }`}>
                     {KIND_LABEL[it.kind]}
@@ -166,25 +166,25 @@ export function DefinitionPicker({ kinds = ['signal', 'factor'], onSelect, selec
                   <span className="min-w-0 truncate text-xs font-medium text-foreground" title={it.id}>
                     {it.label}
                   </span>
-                  <span className="shrink-0 truncate font-mono text-[10px] text-muted" title={it.id}>{it.id}</span>
+                  <span className="shrink-0 truncate font-mono text-[11px] text-muted" title={it.id}>{it.id}</span>
                   <span className="ml-auto flex shrink-0 items-center gap-1.5">
                     {it.lang && LANG_LABEL[it.lang] && (
-                      <span className="rounded-full bg-elevated px-1.5 py-px text-[10px] text-muted">{LANG_LABEL[it.lang]}</span>
+                      <span className="rounded-full bg-elevated px-1.5 py-px text-[11px] text-muted">{LANG_LABEL[it.lang]}</span>
                     )}
                     {it.timeframe && it.timeframe !== 'daily' && (
-                      <span className="rounded-full bg-elevated px-1.5 py-px text-[10px] text-muted">{it.timeframe}</span>
+                      <span className="rounded-full bg-elevated px-1.5 py-px text-[11px] text-muted">{it.timeframe}</span>
                     )}
                     {it.kind === 'signal' && it.enabled === false && (
-                      <span className="rounded-full bg-warning/10 px-1.5 py-px text-[10px] text-warning">已停用</span>
+                      <span className="rounded-full bg-warning/10 px-1.5 py-px text-[11px] text-warning">已停用</span>
                     )}
                     {it.kind === 'factor' && it.status && it.status !== 'active' && (
-                      <span className="rounded-full bg-elevated px-1.5 py-px text-[10px] text-muted">{it.status}</span>
+                      <span className="rounded-full bg-elevated px-1.5 py-px text-[11px] text-muted">{it.status}</span>
                     )}
                     <button
                       onClick={(e) => { e.stopPropagation(); smokeM.mutate(it) }}
                       disabled={smoking}
                       title="冒烟: 校验 → 编译 → 依赖可解析 (不跑回测)"
-                      className="inline-flex items-center gap-1 rounded-btn border border-border px-2 py-1 text-[10px] text-muted transition-colors hover:border-accent/30 hover:text-accent disabled:opacity-50"
+                      className="inline-flex items-center gap-1 rounded-btn border border-border px-2 py-1 text-[11px] text-muted transition-colors hover:border-accent/30 hover:text-accent disabled:opacity-50"
                     >
                       {smoking ? <Loader2 className="h-3 w-3 animate-spin" /> : <FlaskConical className="h-3 w-3" />}
                       冒烟
@@ -200,7 +200,7 @@ export function DefinitionPicker({ kinds = ['signal', 'factor'], onSelect, selec
                     <>
                       <DepChips deps={it.dependencies ?? []} />
                       {it.warmup_bars != null && (
-                        <span className="text-[10px] text-muted">预热 {it.warmup_bars} bars</span>
+                        <span className="text-[11px] text-muted">预热 {it.warmup_bars} bars</span>
                       )}
                     </>
                   )}

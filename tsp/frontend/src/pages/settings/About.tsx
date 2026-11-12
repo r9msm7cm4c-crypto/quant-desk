@@ -44,7 +44,7 @@ export function SettingsAboutPanel() {
             <Scale className="h-4 w-4 text-accent" />
             <h3 className="text-sm font-medium text-foreground">版权</h3>
           </div>
-          <span className="shrink-0 rounded-full border border-accent/30 bg-accent/10 px-2 py-0.5 text-[10px] font-medium text-accent">
+          <span className="shrink-0 rounded-full border border-accent/30 bg-accent/10 px-2 py-0.5 text-[11px] font-medium text-accent">
             {PROJECT_LICENSE_NAME}
           </span>
         </div>
@@ -168,13 +168,13 @@ export function SettingsAboutPanel() {
       </section>
 
       {/* ===== 打赏 ===== */}
-      <section className="rounded-card border border-accent/25 bg-gradient-to-b from-accent/[0.10] to-transparent p-5">
+      <section className="rounded-card border border-accent/25 bg-accent/[0.14] p-5">
         <div className="flex items-center justify-between gap-3 mb-4">
           <div className="flex items-center gap-2">
             <Heart className="h-4 w-4 text-accent" />
             <h3 className="text-sm font-medium text-foreground">打赏</h3>
           </div>
-          <span className="shrink-0 rounded-full border border-border bg-elevated px-2 py-0.5 text-[10px] text-muted">
+          <span className="shrink-0 rounded-full border border-border bg-elevated px-2 py-0.5 text-[11px] text-muted">
             完全自愿 · 不影响任何功能
           </span>
         </div>
@@ -197,7 +197,7 @@ export function SettingsAboutPanel() {
                 赞赏支持
               </button>
             </div>
-            <p className="mt-3 text-[10px] leading-relaxed text-muted">
+            <p className="mt-3 text-[11px] leading-relaxed text-muted">
               项目基于 MIT 协议永久免费, 打赏不会解锁任何功能; 数据源等第三方服务费用与本站无关。
             </p>
           </div>
@@ -214,7 +214,7 @@ export function SettingsAboutPanel() {
               alt="微信赞赏码"
               className="h-28 w-28 object-contain"
             />
-            <div className="mt-1 text-center text-[10px] text-neutral-500 group-hover:text-neutral-700">
+            <div className="mt-1 text-center text-[11px] text-neutral-500 group-hover:text-neutral-700">
               微信赞赏
             </div>
           </button>

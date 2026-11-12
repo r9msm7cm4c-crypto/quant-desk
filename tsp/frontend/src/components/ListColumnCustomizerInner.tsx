@@ -217,7 +217,7 @@ function SortableActiveCol({ col, onRemove, onConfig, configOpen, extTableLabel,
         {showStandaloneToggle && (
           <button
             onClick={() => onToggleStandalone?.(col.id)}
-            className={`flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[10px] transition-colors shrink-0 ${
+            className={`flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[11px] transition-colors shrink-0 ${
               col.standalone
                 ? 'text-accent bg-accent/10'
                 : 'text-muted hover:text-secondary opacity-0 group-hover:opacity-100'
@@ -601,7 +601,7 @@ function extGranularityOf(
                       const next = hidden ? cur.filter(x => x !== i) : [...cur, i]
                       updateExtDisplay(col.id, { hiddenIndices: next.length ? next : undefined })
                     }}
-                    className={`w-6 h-6 rounded text-[10px] font-medium transition-colors ${
+                    className={`w-6 h-6 rounded text-[11px] font-medium transition-colors ${
                       hidden ? 'bg-elevated text-muted line-through' : 'bg-accent/15 text-accent'
                     }`}
                   >
@@ -636,7 +636,7 @@ function extGranularityOf(
         {/* 时序表的序列形态: 日内多盘 (集合竞价等) / 日级别 (近N日) 按生效粒度分流 */}
         {col.source.type === 'ext' && extGranularityOf(extTables, (col.source as { configId: string }).configId) === 'intraday' && (
           <>
-            <div className="border-t border-border/40 pt-2 mt-1 text-[10px] text-muted">日内多盘</div>
+            <div className="border-t border-border/40 pt-2 mt-1 text-[11px] text-muted">日内多盘</div>
             <label className="flex items-center gap-2 text-xs">
               <span className="text-secondary w-16 shrink-0">展示形态</span>
               <select
@@ -659,7 +659,7 @@ function extGranularityOf(
                   title="取该时刻或之前最近一盘的值; 留空=末盘定型值"
                   className="flex-1 h-7 rounded bg-elevated border border-border text-foreground text-xs px-2 focus:outline-none focus:border-accent/50"
                 />
-                <span className="text-[10px] text-muted shrink-0">留空=末盘</span>
+                <span className="text-[11px] text-muted shrink-0">留空=末盘</span>
               </label>
             ) : (
               <div className="flex items-center gap-2 text-xs">
@@ -681,14 +681,14 @@ function extGranularityOf(
                     className="w-16 h-7 rounded bg-elevated border border-border text-foreground text-xs px-2 text-center focus:outline-none focus:border-accent/50"
                   />
                 </label>
-                <span className="text-[10px] text-muted">px · 当天全序列</span>
+                <span className="text-[11px] text-muted">px · 当天全序列</span>
               </div>
             )}
           </>
         )}
         {col.source.type === 'ext' && extGranularityOf(extTables, (col.source as { configId: string }).configId) === 'daily' && (
           <>
-            <div className="border-t border-border/40 pt-2 mt-1 text-[10px] text-muted">日级序列</div>
+            <div className="border-t border-border/40 pt-2 mt-1 text-[11px] text-muted">日级序列</div>
             <label className="flex items-center gap-2 text-xs">
               <span className="text-secondary w-16 shrink-0">展示形态</span>
               <select
@@ -730,7 +730,7 @@ function extGranularityOf(
                     className="w-16 h-7 rounded bg-elevated border border-border text-foreground text-xs px-2 text-center focus:outline-none focus:border-accent/50"
                   />
                 </label>
-                <span className="text-[10px] text-muted">px · 近N日全序列</span>
+                <span className="text-[11px] text-muted">px · 近N日全序列</span>
               </div>
             )}
           </>
@@ -738,7 +738,7 @@ function extGranularityOf(
         {/* 数字格式化配置: 千分位 + 单位换算 + 小数位(仅 number 类型字段) */}
         {col.source.type === 'ext' && isNumericFieldType(col.source.fieldType) && (
           <>
-            <div className="border-t border-border/40 pt-2 mt-1 text-[10px] text-muted">数字格式</div>
+            <div className="border-t border-border/40 pt-2 mt-1 text-[11px] text-muted">数字格式</div>
             <label className="flex items-center gap-2 text-xs">
               <span className="text-secondary w-16 shrink-0">千分位</span>
               <button
@@ -753,7 +753,7 @@ function extGranularityOf(
                   col.extDisplay?.thousandSeparator ? 'translate-x-[14px]' : 'translate-x-0.5'
                 }`} />
               </button>
-              <span className="text-[10px] text-muted">如 1,234,567</span>
+              <span className="text-[11px] text-muted">如 1,234,567</span>
             </label>
             <label className="flex items-center gap-2 text-xs">
               <span className="text-secondary w-16 shrink-0">单位换算</span>
@@ -777,14 +777,14 @@ function extGranularityOf(
                   onChange={e => updateExtDisplay(col.id, { unitDecimals: Math.max(0, Math.min(6, Number(e.target.value) || 0)) })}
                   className="w-16 h-7 rounded bg-elevated border border-border text-foreground text-xs px-2 text-center focus:outline-none focus:border-accent/50"
                 />
-                <span className="text-[10px] text-muted">换算后保留几位</span>
+                <span className="text-[11px] text-muted">换算后保留几位</span>
               </label>
             )}
           </>
         )}
         {col.extDisplay && (
           <div className="flex justify-end pt-1">
-            <button onClick={() => resetExtDisplay(col.id)} className="text-[10px] text-muted hover:text-foreground transition-colors">
+            <button onClick={() => resetExtDisplay(col.id)} className="text-[11px] text-muted hover:text-foreground transition-colors">
               恢复默认
             </button>
           </div>
@@ -830,7 +830,7 @@ function extGranularityOf(
                       const next = hidden ? cur.filter(x => x !== i) : [...cur, i]
                       updateExtDisplay(col.id, { hiddenIndices: next.length ? next : undefined })
                     }}
-                    className={`w-6 h-6 rounded text-[10px] font-medium transition-colors ${
+                    className={`w-6 h-6 rounded text-[11px] font-medium transition-colors ${
                       hidden ? 'bg-elevated text-muted line-through' : 'bg-accent/15 text-accent'
                     }`}
                   >
@@ -862,7 +862,7 @@ function extGranularityOf(
         </label>
         {col.extDisplay && (
           <div className="flex justify-end pt-1">
-            <button onClick={() => resetExtDisplay(col.id)} className="text-[10px] text-muted hover:text-foreground transition-colors">
+            <button onClick={() => resetExtDisplay(col.id)} className="text-[11px] text-muted hover:text-foreground transition-colors">
               恢复默认
             </button>
           </div>
@@ -897,11 +897,11 @@ function extGranularityOf(
 
     return (
       <>
-        <div className="border-t border-border/40 pt-2 mt-1 text-[10px] text-muted">
+        <div className="border-t border-border/40 pt-2 mt-1 text-[11px] text-muted">
           {host === 'candle' ? '与分时联动' : '与日k联动'}
         </div>
         <div className="flex items-center justify-between">
-          <div className="text-[10px] text-muted">统一高度</div>
+          <div className="text-[11px] text-muted">统一高度</div>
           <button
             type="button"
             onClick={() => updateChartLink(linkOn ? { linkHeight: false } : { linkHeight: true, height: seedHeight })}
@@ -923,20 +923,20 @@ function extGranularityOf(
                 className="flex-1 h-7 rounded bg-elevated border border-border text-foreground text-xs px-2 focus:outline-none focus:border-accent/50 tabular-nums"
               />
             </label>
-            <div className="text-[10px] text-muted leading-relaxed">
+            <div className="text-[11px] text-muted leading-relaxed">
               两列共用展开高度；宽度与收起高度仍在各自列设置。
             </div>
           </>
         ) : (
-          <div className="text-[10px] text-muted leading-relaxed">
+          <div className="text-[11px] text-muted leading-relaxed">
             当前 日k {candleRes.enabledHeight} · 分时 {intradayRes.height}，开启后统一。
           </div>
         )}
         {host === 'candle' && !intradayCol?.visible && (
-          <div className="text-[10px] text-muted leading-relaxed">分时列当前未显示，联动配置仍会保存。</div>
+          <div className="text-[11px] text-muted leading-relaxed">分时列当前未显示，联动配置仍会保存。</div>
         )}
         {host === 'intraday' && !candleCol?.visible && (
-          <div className="text-[10px] text-muted leading-relaxed">日k列当前未显示，联动配置仍会保存。</div>
+          <div className="text-[11px] text-muted leading-relaxed">日k列当前未显示，联动配置仍会保存。</div>
         )}
       </>
     )
@@ -995,13 +995,13 @@ function extGranularityOf(
           {numInput('enabledHeight', '开启高度')}
           {numInput('disabledWidth', '收起宽度')}
           {numInput('disabledHeight', '收起高度')}
-          <div className="text-[10px] text-muted leading-relaxed pt-0.5">
+          <div className="text-[11px] text-muted leading-relaxed pt-0.5">
             宽度 40–300 / 高度 32–200 / 天数 1–60，越界自动钳制到边界
           </div>
           {renderLinkControls('candle')}
           {/* 成交量副图: 本列自管 (与分时各自独立) */}
           <div className="border-t border-border/40 pt-2 mt-1 flex items-center justify-between">
-            <div className="text-[10px] text-muted">成交量副图</div>
+            <div className="text-[11px] text-muted">成交量副图</div>
             <button
               type="button"
               onClick={() => updateCandleConfig(col.id, { volume: !cfg.volume })}
@@ -1012,12 +1012,12 @@ function extGranularityOf(
               <span className={`inline-block h-3 w-3 rounded-full bg-white shadow-sm transition-transform duration-200 ${cfg.volume ? 'translate-x-[14px]' : 'translate-x-0.5'}`} />
             </button>
           </div>
-          <div className="text-[10px] text-muted leading-relaxed">
+          <div className="text-[11px] text-muted leading-relaxed">
             开启后在价格区下方显示成交量柱；分时副图在分时列单独设置。
           </div>
           {/* 效果预览: 固定样例 K, 宽高与量带即时反映 (阈值与列表同源: 带宽 ≥3px 即画) */}
           <div className="border-t border-border/40 pt-2 mt-1">
-            <div className="text-[10px] text-muted mb-1.5">效果预览（示例日K，配置改动即时反映）</div>
+            <div className="text-[11px] text-muted mb-1.5">效果预览（示例日K，配置改动即时反映）</div>
             <div className="rounded bg-base border border-border/60 flex items-center justify-center overflow-hidden">
               <MiniCandlestick
                 rows={PREVIEW_KLINES}
@@ -1029,7 +1029,7 @@ function extGranularityOf(
           </div>
           {col.candleConfig && (
             <div className="flex justify-end pt-1">
-              <button onClick={() => resetCandleConfig(col.id)} className="text-[10px] text-muted hover:text-foreground transition-colors">
+              <button onClick={() => resetCandleConfig(col.id)} className="text-[11px] text-muted hover:text-foreground transition-colors">
                 恢复默认
               </button>
             </div>
@@ -1149,7 +1149,7 @@ function extGranularityOf(
         <div className="pl-10 pr-3 py-2 space-y-2 border-l-2 border-accent/20 ml-[18px]">
           {numInput('width', '宽度')}
           {numInput('height', '高度')}
-          <div className="text-[10px] text-muted leading-relaxed pt-0.5">
+          <div className="text-[11px] text-muted leading-relaxed pt-0.5">
             宽度 60–300 / 高度 32–200，越界自动钳制到边界
           </div>
           {renderLinkControls('intraday')}
@@ -1157,7 +1157,7 @@ function extGranularityOf(
           {/* 成交量副图: 本列自管 (与日k各自独立)。R2: 竞价配了量字段时量带本身
               恒显示 — 开关只控制分钟量柱, 不禁用 */}
           <div className="border-t border-border/40 pt-2 mt-1 flex items-center justify-between">
-            <div className="text-[10px] text-muted">成交量副图</div>
+            <div className="text-[11px] text-muted">成交量副图</div>
             <button
               type="button"
               onClick={() => updateIntradayConfig(col.id, { volume: !cfg.volume })}
@@ -1168,13 +1168,13 @@ function extGranularityOf(
               <span className={`inline-block h-3 w-3 rounded-full bg-white shadow-sm transition-transform duration-200 ${cfg.volume ? 'translate-x-[14px]' : 'translate-x-0.5'}`} />
             </button>
           </div>
-          <div className="text-[10px] text-muted leading-relaxed">
+          <div className="text-[11px] text-muted leading-relaxed">
             开启后在价格区下方显示分钟成交量柱；日k量带在日k列单独设置。
             {forced && ' 已配竞价量字段时量带始终显示（竞价量柱不受此开关影响）。'}
           </div>
 
           <div className="border-t border-border/40 pt-2 mt-1 flex items-center justify-between">
-            <div className="text-[10px] text-muted">集合竞价叠加</div>
+            <div className="text-[11px] text-muted">集合竞价叠加</div>
             <button
               type="button"
               onClick={() => updateAuction({ enabled: !auction?.enabled })}
@@ -1210,7 +1210,7 @@ function extGranularityOf(
                 </select>
               </label>
               {multiTables.length === 0 && (
-                <div className="text-[10px] text-amber-500 leading-relaxed">
+                <div className="text-[11px] text-amber-500 leading-relaxed">
                   暂无可用的日内多盘扩展表 — 需先在「数据 → 扩展数据」创建时序表并配置时间列（如集合竞价）。
                 </div>
               )}
@@ -1235,21 +1235,21 @@ function extGranularityOf(
                       ))}
                     </div>
                   </div>
-                  <div className="text-[10px] text-muted leading-relaxed">
+                  <div className="text-[11px] text-muted leading-relaxed">
                     竞价栏约占总宽 {Math.round(AUCTION_WIDTH_RATIOS[cfg.auctionWidth] * 100)}%，价格与分时共用同一纵轴；配置量字段后竞价量柱画在底部量带。
                   </div>
                   {/* 竞价数据列: 一键把已配字段加为独立可排序列 (chip 态=列已显示,
                       再点隐藏; 复用 addExtColumn 的去重与插入逻辑) */}
                   {auctionDataCols.length > 0 && (
                     <div className="border-t border-border/40 pt-2 mt-1">
-                      <div className="text-[10px] text-muted mb-1.5">竞价数据列（可排序，取末盘值）</div>
+                      <div className="text-[11px] text-muted mb-1.5">竞价数据列（可排序，取末盘值）</div>
                       <div className="flex flex-wrap gap-1.5">
                         {auctionDataCols.map(c => (
                           <button
                             key={c.key}
                             type="button"
                             onClick={() => addExtColumn(auction!.configId!, c.field, c.label, c.type)}
-                            className={`px-2 py-1 rounded border text-[10px] transition-colors cursor-pointer ${
+                            className={`px-2 py-1 rounded border text-[11px] transition-colors cursor-pointer ${
                               c.added
                                 ? 'bg-accent/15 border-accent/40 text-accent'
                                 : 'bg-elevated border-border text-secondary hover:text-foreground'
@@ -1260,7 +1260,7 @@ function extGranularityOf(
                           </button>
                         ))}
                       </div>
-                      <div className="text-[10px] text-muted leading-relaxed mt-1">
+                      <div className="text-[11px] text-muted leading-relaxed mt-1">
                         窄栏叠加看竞价形态与价格对比；数据列可排序、可拖到任意位置，适合盘前扫全市场。再次点击显示/隐藏该列。
                       </div>
                     </div>
@@ -1272,7 +1272,7 @@ function extGranularityOf(
 
           {/* 效果预览 (R4): 固定样例数据渲染真组件, 配置改动即时反映 (所见即所得) */}
           <div className="border-t border-border/40 pt-2 mt-1">
-            <div className="text-[10px] text-muted mb-1.5">效果预览（示例数据，配置改动即时反映）</div>
+            <div className="text-[11px] text-muted mb-1.5">效果预览（示例数据，配置改动即时反映）</div>
             <div className="rounded bg-base border border-border/60 flex items-center justify-center overflow-hidden">
               <MiniIntraday
                 rows={PREVIEW_ROWS}
@@ -1288,7 +1288,7 @@ function extGranularityOf(
 
           {col.intradayConfig && (
             <div className="flex justify-end pt-1">
-              <button onClick={() => resetIntradayConfig(col.id)} className="text-[10px] text-muted hover:text-foreground transition-colors">
+              <button onClick={() => resetIntradayConfig(col.id)} className="text-[11px] text-muted hover:text-foreground transition-colors">
                 恢复默认
               </button>
             </div>
@@ -1320,7 +1320,7 @@ function extGranularityOf(
       {showStandaloneToggle && col.visible && (
         <button
           onClick={() => toggleStandalone(col.id)}
-          className={`flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[10px] transition-colors shrink-0 ${
+          className={`flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[11px] transition-colors shrink-0 ${
             col.standalone
               ? 'text-accent bg-accent/10'
               : 'text-muted hover:text-secondary'
@@ -1345,7 +1345,7 @@ function extGranularityOf(
       >
         {renderCheckbox(checked)}
         <span className={`flex-1 text-xs truncate ${checked ? 'text-foreground' : 'text-muted'}`}>{field.label || field.name}</span>
-        <span className="text-[10px] text-muted shrink-0">{field.type}</span>
+        <span className="text-[11px] text-muted shrink-0">{field.type}</span>
       </button>
     )
   }
@@ -1378,7 +1378,7 @@ function extGranularityOf(
                   className="w-full h-8 pl-8 pr-3 rounded-lg bg-elevated border border-border text-xs text-foreground placeholder:text-muted focus:outline-none focus:border-accent/50 transition-colors"
                 />
               </div>
-              <span className="ml-auto text-[10px] text-muted tabular-nums shrink-0">已选 {activeCols.length} 列</span>
+              <span className="ml-auto text-[11px] text-muted tabular-nums shrink-0">已选 {activeCols.length} 列</span>
               {baselineStore && (
                 <button
                   onClick={saveAsBaseline}
@@ -1400,14 +1400,14 @@ function extGranularityOf(
               {/* ── 左栏: 所有列 ── */}
               <div className="w-[340px] shrink-0 border-r border-border flex flex-col min-h-0 bg-surface/20">
                 <div className="flex items-center justify-between px-3 py-1.5 border-b border-border/50 shrink-0">
-                  <span className="text-[10px] font-semibold text-muted uppercase tracking-wider">{builtinSectionLabel}</span>
-                  <span className="text-[10px] text-muted">勾选即加入</span>
+                  <span className="text-[11px] font-semibold text-muted uppercase tracking-wider">{builtinSectionLabel}</span>
+                  <span className="text-[11px] text-muted">勾选即加入</span>
                 </div>
                 <div className="flex-1 overflow-y-auto px-2 py-1.5 space-y-1">
               <div>
                 <div className="flex items-center gap-1.5 px-1 py-1.5">
                   <Plus className="h-3 w-3 text-muted" />
-                  <span className="text-[10px] font-semibold text-muted uppercase tracking-wider">{builtinSectionLabel}</span>
+                  <span className="text-[11px] font-semibold text-muted uppercase tracking-wider">{builtinSectionLabel}</span>
                 </div>
 
                 {filteredGroups.map(group => {
@@ -1429,7 +1429,7 @@ function extGranularityOf(
                         {isExpanded ? <ChevronDown className="h-3 w-3 text-muted" /> : <ChevronRight className="h-3 w-3 text-muted" />}
                         {group.icon && <span className="text-[11px]">{group.icon}</span>}
                         <span className="text-[11px] font-medium text-secondary">{group.label}</span>
-                        <span className="text-[10px] text-muted ml-auto">{visCount}/{groupCols.length}</span>
+                        <span className="text-[11px] text-muted ml-auto">{visCount}/{groupCols.length}</span>
                       </button>
                       <AnimatePresence>
                         {isExpanded && (
@@ -1453,7 +1453,7 @@ function extGranularityOf(
                 <div className="pt-1 border-t border-border mt-1">
                   <div className="flex items-center gap-1.5 px-1 py-1.5">
                     <Database className="h-3 w-3 text-accent/70" />
-                    <span className="text-[10px] font-semibold text-accent/80 uppercase tracking-wider">扩展数据列</span>
+                    <span className="text-[11px] font-semibold text-accent/80 uppercase tracking-wider">扩展数据列</span>
                   </div>
                   <div className="space-y-0.5">
                     {extTables.map(table => {
@@ -1474,10 +1474,10 @@ function extGranularityOf(
                             {isExpanded ? <ChevronDown className="h-3 w-3 text-muted" /> : <ChevronRight className="h-3 w-3 text-muted" />}
                             <Database className="h-3 w-3 text-accent shrink-0" />
                             <span className="text-[11px] font-medium text-secondary flex-1 truncate">{table.label}</span>
-                            <span className="text-[10px] text-muted px-1.5 py-0.5 rounded bg-elevated shrink-0">
+                            <span className="text-[11px] text-muted px-1.5 py-0.5 rounded bg-elevated shrink-0">
                               {table.mode === 'snapshot' ? '快照' : '时序'}
                             </span>
-                            <span className="text-[10px] text-muted tabular-nums w-8 text-right shrink-0">
+                            <span className="text-[11px] text-muted tabular-nums w-8 text-right shrink-0">
                               {activeCount}/{dataFields.length}
                             </span>
                           </button>
@@ -1512,12 +1512,12 @@ function extGranularityOf(
               {/* ── 右栏: 已选择 (拖拽排序 + 就地配置) ── */}
               <div className="flex-1 flex flex-col min-w-0 min-h-0">
                 <div className="flex items-center justify-between px-3 py-1.5 border-b border-border/50 shrink-0">
-                  <span className="text-[10px] font-semibold text-accent/80 uppercase tracking-wider">已选择 · 拖拽排序</span>
+                  <span className="text-[11px] font-semibold text-accent/80 uppercase tracking-wider">已选择 · 拖拽排序</span>
                   <div className="flex items-center gap-2">
-                    <span className="text-[10px] text-muted tabular-nums">{activeCols.length} 列</span>
+                    <span className="text-[11px] text-muted tabular-nums">{activeCols.length} 列</span>
                     <button
                       onClick={() => setConfirmReset(true)}
-                      className="text-[10px] text-muted hover:text-foreground transition-colors"
+                      className="text-[11px] text-muted hover:text-foreground transition-colors"
                     >
                       恢复默认
                     </button>

@@ -103,8 +103,8 @@ export function ActiveJobCard({ job }: { job: PipelineJob }) {
           </div>
           {job.stage_pct > 0 && (
             <div className="flex items-center justify-between mt-1">
-              <span className="text-[10px] text-muted">当前阶段</span>
-              <span className="text-[10px] font-mono text-secondary">{job.stage_pct}%</span>
+              <span className="text-[11px] text-muted">当前阶段</span>
+              <span className="text-[11px] font-mono text-secondary">{job.stage_pct}%</span>
             </div>
           )}
         </div>
@@ -134,7 +134,7 @@ export function ActiveJobCard({ job }: { job: PipelineJob }) {
         <div className="mt-3 rounded-btn border border-danger/40 bg-danger/5 px-3 py-2 text-xs text-danger">
           {job.error}
           {job.error.includes('超时自动取消') && (
-            <div className="mt-1 text-[10px] text-muted">
+            <div className="mt-1 text-[11px] text-muted">
               判定依据是「无进度」而非总时长, 任务只要仍在推进就不会被中断;
               若网络环境较慢可在 设置 → 网络设置 中调大停滞阈值。
             </div>

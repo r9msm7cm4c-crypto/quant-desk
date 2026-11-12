@@ -233,14 +233,14 @@ function RhPromoBanner() {
       href={RH_PROMO_URL}
       target="_blank"
       rel="noreferrer"
-      className="flex shrink-0 items-center gap-1 pr-8 text-[10px] leading-relaxed text-secondary transition-colors hover:text-foreground"
+      className="flex shrink-0 items-center gap-1 pr-8 text-[11px] leading-relaxed text-secondary transition-colors hover:text-foreground"
     >
       <span className="font-medium text-amber-600 dark:text-amber-400">Claude、ChatGPT、Gemini</span>
       <span>等国际模型直连稳定不掉线，</span>
       <span className="font-medium text-amber-600 dark:text-amber-400">DeepSeek v4.1 Flash {range}</span>
       <span>，</span>
       <span className="font-medium text-amber-600 dark:text-amber-400">注册赠送 1000 RH 积分</span>
-      <span>🎁</span>
+      
     </a>
   )
   // 窗口(overflow-hidden)裁剪滚动内容, 礼包图标与 X 按钮在窗口外, 永不被文字盖住;
@@ -286,7 +286,7 @@ function DrawerHeader({
       <span className="shrink-0 text-sm font-semibold text-foreground">AI 助手</span>
       {status?.model && (
         <span
-          className="min-w-0 truncate rounded-btn bg-elevated px-1.5 py-0.5 font-mono text-[10px] text-muted"
+          className="min-w-0 truncate rounded-btn bg-elevated px-1.5 py-0.5 font-mono text-[11px] text-muted"
           title={`模型: ${status.model}\n供应商: ${status.provider ?? '-'}`}
         >
           {status.model}
@@ -368,7 +368,7 @@ function AssistantSettingsMenu({ onDone }: { onDone: () => void }) {
         </button>
       </div>
       {enabled && (
-        <div className="mt-2 rounded-btn bg-warning/10 px-2 py-1.5 text-[10px] leading-relaxed text-warning">
+        <div className="mt-2 rounded-btn bg-warning/10 px-2 py-1.5 text-[11px] leading-relaxed text-warning">
           已开启: 助手会不经确认直接写入。轮次检查点仍然有效 (防止单轮无限调用)。
         </div>
       )}
@@ -400,11 +400,11 @@ function AssistantSettingsMenu({ onDone }: { onDone: () => void }) {
         </button>
       </div>
       <div className="mt-2 flex items-center justify-between border-t border-border/50 pt-2">
-        <span className="text-[10px] text-muted">更多 AI 配置在设置页</span>
+        <span className="text-[11px] text-muted">更多 AI 配置在设置页</span>
         <button
           type="button"
           onClick={onDone}
-          className="cursor-pointer rounded-btn px-2 py-0.5 text-[10px] text-muted transition-colors hover:bg-elevated hover:text-foreground"
+          className="cursor-pointer rounded-btn px-2 py-0.5 text-[11px] text-muted transition-colors hover:bg-elevated hover:text-foreground"
         >
           关闭
         </button>
@@ -456,7 +456,7 @@ function SessionMenu({
               title={session.title}
             >
               <span className="block truncate">{session.title || '新对话'}</span>
-              <span className="block text-[10px] leading-tight text-muted">
+              <span className="block text-[11px] leading-tight text-muted">
                 {formatSessionTime(session.createdAt)}
               </span>
             </button>
@@ -632,7 +632,7 @@ function EmptyState({ status, suggests }: { status: AssistantStatus | null; sugg
 
   return (
     <div className="space-y-4 pb-2 pt-2">
-      <div className="rounded-card border border-border bg-gradient-to-b from-accent/10 to-transparent px-4 py-4 text-center">
+      <div className="rounded-card border border-border bg-accent/[0.14] px-4 py-4 text-center">
         <div className="mx-auto flex h-9 w-9 items-center justify-center rounded-full bg-accent/15 text-accent">
           <Bot className="h-4.5 w-4.5" />
         </div>
@@ -654,7 +654,7 @@ function EmptyState({ status, suggests }: { status: AssistantStatus | null; sugg
                   key={suggest.id}
                   type="button"
                   onClick={() => sendMessage(suggest.prompt)}
-                  className="max-w-full shrink-0 cursor-pointer rounded-card border border-border bg-base/60 px-3 py-2 text-left text-xs text-secondary transition-all duration-150 ease-smooth hover:border-accent/40 hover:bg-elevated hover:text-foreground"
+                  className="max-w-full shrink-0 cursor-pointer rounded-card border border-border bg-base/60 px-3 py-2 text-left text-xs text-secondary transition-colors duration-150 ease-smooth hover:border-accent/40 hover:bg-elevated hover:text-foreground"
                 >
                   {suggest.label}
                 </button>
@@ -731,7 +731,7 @@ function InputArea({ sending, blocked }: { sending: boolean; blocked: boolean })
             onClick={stopSending}
             title="停止生成"
             aria-label="停止生成"
-            className="mr-0.5 mb-0.5 flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full border border-border bg-elevated text-secondary transition-all duration-150 ease-smooth hover:border-danger/40 hover:text-danger active:scale-95"
+            className="mr-0.5 mb-0.5 flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full border border-border bg-elevated text-secondary transition-colors duration-150 ease-smooth hover:border-danger/40 hover:text-danger"
           >
             <Square className="h-3 w-3 fill-current" />
           </button>
@@ -743,7 +743,7 @@ function InputArea({ sending, blocked }: { sending: boolean; blocked: boolean })
             title="发送"
             aria-label="发送"
             className={cn(
-              'mr-0.5 mb-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-all duration-150 ease-smooth active:scale-95',
+              'mr-0.5 mb-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-colors duration-150 ease-smooth',
               canSend
                 ? 'cursor-pointer bg-accent text-white shadow-sm hover:bg-accent/90'
                 // 空输入时退为幽灵态而非褪色实心块, 视觉重心不被锁死在右下角
@@ -755,10 +755,10 @@ function InputArea({ sending, blocked }: { sending: boolean; blocked: boolean })
         )}
       </div>
       <div className="mt-2 flex items-center justify-between gap-2 px-1">
-        <p className="text-[10px] leading-relaxed text-muted">
+        <p className="text-[11px] leading-relaxed text-muted">
           回答基于本地数据, 不构成投资建议
         </p>
-        <span className="shrink-0 text-[10px] text-muted/70">
+        <span className="shrink-0 text-[11px] text-muted/70">
           Enter 发送 · ⌘K 呼出 · 左缘拖拽调宽
         </span>
       </div>

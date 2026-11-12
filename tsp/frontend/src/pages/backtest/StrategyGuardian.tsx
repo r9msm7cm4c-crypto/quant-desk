@@ -104,7 +104,7 @@ function ConfigCard({ config }: { config: GuardianConfig }) {
             className={`${INPUT_CLS} mt-0.5 w-24`}
           />
         </label>
-        <div className="text-[10px] text-secondary">基线后退化为百分比; 段回测失败只降级到观察, 不会直接退役</div>
+        <div className="text-[11px] text-secondary">基线后退化为百分比; 段回测失败只降级到观察, 不会直接退役</div>
       </div>
       {error && <div className="mt-2 text-[11px] text-red-400">{error}</div>}
     </div>
@@ -141,7 +141,7 @@ function AdoptCard({ onChanged }: { onChanged: () => void }) {
           <ShieldCheck className="h-3.5 w-3.5" /> 入护并复验
         </button>
       </div>
-      <div className="mt-1.5 text-[10px] text-secondary">
+      <div className="mt-1.5 text-[11px] text-secondary">
         手动入护用入护日前 252 个交易日的尾随表现作参考基线 (非样本外), 判定只针对此后新数据; 挖掘发布的策略自动入护 (门槛基线, 天然 OOS)。
       </div>
       {error && <div className="mt-2 text-[11px] text-red-400">{error}</div>}
@@ -320,7 +320,7 @@ export function StrategyGuardian() {
           </div>
           <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-elevated">
             <div
-              className="h-full bg-accent transition-all"
+              className="h-full bg-accent transition-colors"
               style={{ width: `${progress?.total ? ((progress.done ?? 0) / progress.total) * 100 : 0}%` }}
             />
           </div>
@@ -383,13 +383,13 @@ export function StrategyGuardian() {
                   <tr key={p.strategy_id} className="border-b border-border/40 align-top hover:bg-elevated/50">
                     <td className="px-3 py-2">
                       <div className="font-medium">{p.name ?? p.strategy_id}</div>
-                      <div className="text-[10px] text-secondary">{p.strategy_id}</div>
+                      <div className="text-[11px] text-secondary">{p.strategy_id}</div>
                     </td>
                     <td className="px-2 py-2">
                       <div className="flex flex-col items-start gap-1">
                         <StatusBadge status={p.status} />
                         {p.alert && (
-                          <span className="inline-flex items-center gap-0.5 text-[10px] text-amber-400">
+                          <span className="inline-flex items-center gap-0.5 text-[11px] text-amber-400">
                             <BellRing className="h-3 w-3" /> 连续 {p.consecutive_watch} 次观察
                           </span>
                         )}
@@ -397,18 +397,18 @@ export function StrategyGuardian() {
                     </td>
                     <td className="px-2 py-2 text-secondary">
                       <div>{BASELINE_KIND_LABEL[p.baseline.kind ?? ''] ?? '—'}</div>
-                      <div className="text-[10px]">
+                      <div className="text-[11px]">
                         {p.baseline.objective ?? '—'} {fmtNum(p.baseline.score)} · {p.baseline.n_trades ?? '—'} 笔 · 截至 {p.baseline.data_as_of ?? '—'}
                       </div>
                     </td>
                     <td className="px-2 py-2 text-secondary">
                       <div>{last?.checked_at ? new Date(last.checked_at).toLocaleString('zh-CN', { hour12: false }) : '—'}</div>
-                      <div className="max-w-56 truncate text-[10px]" title={lastText}>{lastText}</div>
+                      <div className="max-w-56 truncate text-[11px]" title={lastText}>{lastText}</div>
                     </td>
-                    <td className="px-2 py-2 text-right font-medium" style={{ color: last?.degradation_pct != null && last.degradation_pct > 0 ? '#f87171' : undefined }}>
+                    <td className="px-2 py-2 text-right font-medium" style={{ color: last?.degradation_pct != null && last.degradation_pct > 0 ? '#E05A52' : undefined }}>
                       {fmtDegradation(last?.degradation_pct)}
                     </td>
-                    <td className="max-w-64 px-2 py-2 text-[10px] text-secondary">
+                    <td className="max-w-64 px-2 py-2 text-[11px] text-secondary">
                       {(last?.reasons?.length ? last.reasons : [p.status_reason]).filter(Boolean).join('; ') || '—'}
                     </td>
                     <td className="px-2 py-2">

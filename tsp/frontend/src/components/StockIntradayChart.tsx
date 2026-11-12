@@ -127,7 +127,7 @@ export function StockIntradayChart({
       {minuteRows.length > 0 && (
         <>
           {minute.data?.source === 'local_partial' && (
-            <div className="mb-1 flex items-center gap-2 rounded border border-warning/30 bg-warning/5 px-2 py-1 text-[10px] text-warning">
+            <div className="mb-1 flex items-center gap-2 rounded border border-warning/30 bg-warning/5 px-2 py-1 text-[11px] text-warning">
               <span>
                 该日分钟数据不完整：{minute.data.actual ?? minuteRows.length}/{minute.data.expected ?? 240} 根
               </span>

@@ -161,9 +161,9 @@ export function Indices() {
       >
         <div className="flex items-center justify-between gap-2">
           <span className="truncate text-xs font-medium">{item.name || item.symbol}</span>
-          <span className={`text-[10px] font-mono ${Number(pct ?? 0) >= 0 ? 'text-bull' : 'text-bear'}`}>{fmtPct(pct)}</span>
+          <span className={`text-[11px] font-mono ${Number(pct ?? 0) >= 0 ? 'text-bull' : 'text-bear'}`}>{fmtPct(pct)}</span>
         </div>
-        <div className="mt-0.5 flex items-center justify-between text-[10px] font-mono text-muted">
+        <div className="mt-0.5 flex items-center justify-between text-[11px] font-mono text-muted">
           <span>{item.symbol}</span>
           <span>{fmtNum(current)}</span>
         </div>
@@ -264,7 +264,7 @@ export function Indices() {
                   <div className="flex h-full flex-col items-center justify-center gap-2 text-center">
                     <Lock className="h-5 w-5 text-muted" />
                     <div className="text-xs text-secondary">指数分时数据不可用</div>
-                    <div className="text-[10px] text-muted">分钟K(批量)数据不可用</div>
+                    <div className="text-[11px] text-muted">分钟K(批量)数据不可用</div>
                   </div>
                 ) : (
                   <>

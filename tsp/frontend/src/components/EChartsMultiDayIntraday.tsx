@@ -6,10 +6,10 @@ import { computeIntradayAverage, formatMinuteTime, FULL_DAY_TIMES } from '@/lib/
 import { useChartTheme } from '@/lib/theme'
 
 const COLORS = {
-  up: '#C74040',
-  down: '#2D9B65',
-  flat: '#A1A1AA',
-  average: '#F59E0B',
+  up: '#E05A52',
+  down: '#3FA97A',
+  flat: '#929BA8',
+  average: '#DB9A2B',
   volumeUp: 'rgba(240,68,56,0.58)',
   volumeDown: 'rgba(18,183,106,0.58)',
   volumeFlat: 'rgba(161,161,170,0.45)',
@@ -429,7 +429,7 @@ export function EChartsMultiDayIntraday({
             </>
           ) : <span className="text-muted">—</span>}
         </div>
-        <div className="shrink-0 text-[10px] text-muted">{sessions.length} 个交易日 · {rowCount} 分钟</div>
+        <div className="shrink-0 text-[11px] text-muted">{sessions.length} 个交易日 · {rowCount} 分钟</div>
       </div>
       <div ref={containerRef} className="w-full" style={{ height: height - 40, cursor: 'crosshair' }} />
     </div>

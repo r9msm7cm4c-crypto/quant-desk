@@ -685,7 +685,7 @@ function UpgradeGuardCard() {
         </div>
         {st?.enabled && (
           <div className="flex shrink-0 items-center gap-2">
-            <span className="text-[10px] text-muted">清单 {st?.manifest_version ?? '—'} · 当前 {st?.current_version}</span>
+            <span className="text-[11px] text-muted">清单 {st?.manifest_version ?? '—'} · 当前 {st?.current_version}</span>
             <button onClick={scan} disabled={busy === 'scan' || !!st?.scanning}
               title="重新扫描程序目录, 刷新常备备份 (修改程序文件后可手动执行)"
               className="inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs text-secondary transition-colors hover:bg-elevated hover:text-foreground disabled:opacity-50">
@@ -701,11 +701,11 @@ function UpgradeGuardCard() {
           <button onClick={() => setListOpen(v => !v)} className="flex w-full items-center gap-1.5 text-left text-xs text-secondary hover:text-foreground">
             <ChevronDown className={`h-3 w-3 transition-transform ${listOpen ? '' : '-rotate-90'}`} />
             当前检测到 <b className="text-foreground">{st?.modified?.length ?? 0}</b> 个修改文件、<b className="text-foreground">{st?.added?.length ?? 0}</b> 个新增文件
-            <span className="text-[10px] text-muted">（上次扫描 {st?.last_scan?.replace('T', ' ').slice(0, 19) ?? '—'}）</span>
+            <span className="text-[11px] text-muted">（上次扫描 {st?.last_scan?.replace('T', ' ').slice(0, 19) ?? '—'}）</span>
           </button>
           {listOpen && (
-            <div className="mt-2 max-h-48 overflow-y-auto rounded-lg border border-border/60 bg-base/40 p-2 font-mono text-[10px] leading-5">
-              {st?.modified?.map(f => <div key={f} className="truncate text-warning">✎ {f}</div>)}
+            <div className="mt-2 max-h-48 overflow-y-auto rounded-lg border border-border/60 bg-base/40 p-2 font-mono text-[11px] leading-5">
+              {st?.modified?.map(f => <div key={f} className="truncate text-warning">{f}</div>)}
               {st?.added?.map(f => <div key={f} className="truncate text-bear">＋ {f}</div>)}
               {(st?.modified?.length ?? 0) + (st?.added?.length ?? 0) === 0 && (
                 <div className="text-muted">无二次开发改动</div>
@@ -746,14 +746,14 @@ function UpgradeGuardCard() {
           <div className="mt-2 max-h-56 overflow-y-auto rounded-md border border-border/40 bg-base/40 p-2">
             {reportFiles.map(f => (
               <div key={f.relpath} className="flex items-center justify-between gap-2 py-0.5">
-                <span className="min-w-0 truncate font-mono text-[10px] text-secondary" title={f.relpath}>{f.relpath}</span>
+                <span className="min-w-0 truncate font-mono text-[11px] text-secondary" title={f.relpath}>{f.relpath}</span>
                 <span className="flex shrink-0 items-center gap-1.5">
-                  <span className={`text-[10px] ${f.category === 'conflict' ? 'text-warning' : f.category === 'match' ? 'text-muted' : 'text-bear'}`}>
+                  <span className={`text-[11px] ${f.category === 'conflict' ? 'text-warning' : f.category === 'match' ? 'text-muted' : 'text-bear'}`}>
                     {UPGRADE_CATEGORY_LABEL[f.category]}
                   </span>
                   {(f.category === 'restorable' || f.category === 'added_lost') && (
                     <button onClick={() => restore(report.id, f.relpath)} disabled={busy === f.relpath}
-                      className="rounded px-1.5 py-0.5 text-[10px] text-accent hover:bg-accent/10 disabled:opacity-50">
+                      className="rounded px-1.5 py-0.5 text-[11px] text-accent hover:bg-accent/10 disabled:opacity-50">
                       {busy === f.relpath ? '恢复中' : '恢复'}
                     </button>
                   )}
@@ -762,7 +762,7 @@ function UpgradeGuardCard() {
             ))}
           </div>
           {report.counts.conflict > 0 && (
-            <div className="mt-2 text-[10px] leading-relaxed text-muted">
+            <div className="mt-2 text-[11px] leading-relaxed text-muted">
               冲突项不自动合并: 你的版本已归档在 <code>{report.dir}</code>, 磁盘上是新版文件, 请对照手动合并后重新扫描。
             </div>
           )}
@@ -874,10 +874,10 @@ function BatchSymbolsRow({
           </button>
         )}
       </div>
-      {hint && <div className="mt-1.5 text-[10px] text-warning">{hint}</div>}
+      {hint && <div className="mt-1.5 text-[11px] text-warning">{hint}</div>}
       {overWarn && editing && (
         <div className="mt-2 rounded-btn border border-warning/20 bg-warning/10 px-3 py-1.5">
-          <span className="text-[10px] leading-relaxed text-warning">{warnText}</span>
+          <span className="text-[11px] leading-relaxed text-warning">{warnText}</span>
         </div>
       )}
     </div>

@@ -54,7 +54,7 @@ export function EnrichedRebuildPanel({
         <div className="flex items-center justify-between">
           <div>
             <div className="text-xs font-medium text-foreground">批次大小</div>
-            <div className="text-[10px] text-muted">每批计算的标的数量，影响内存占用与进度粒度</div>
+            <div className="text-[11px] text-muted">每批计算的标的数量，影响内存占用与进度粒度</div>
           </div>
           {editing ? (
             <div className="flex items-center gap-1.5">
@@ -74,13 +74,13 @@ export function EnrichedRebuildPanel({
               <button
                 onClick={() => clampAndSave(parseInt(draftSize))}
                 disabled={saveBatch.isPending}
-                className="px-2 py-1 text-[10px] rounded-btn bg-accent/15 text-accent hover:bg-accent/25 disabled:opacity-50 transition-colors"
+                className="px-2 py-1 text-[11px] rounded-btn bg-accent/15 text-accent hover:bg-accent/25 disabled:opacity-50 transition-colors"
               >
                 {saveBatch.isPending ? '…' : '保存'}
               </button>
               <button
                 onClick={() => setEditing(false)}
-                className="px-2 py-1 text-[10px] rounded-btn bg-elevated text-muted hover:text-foreground transition-colors"
+                className="px-2 py-1 text-[11px] rounded-btn bg-elevated text-muted hover:text-foreground transition-colors"
               >
                 取消
               </button>
@@ -95,12 +95,12 @@ export function EnrichedRebuildPanel({
           )}
         </div>
         <div className="flex items-start gap-1.5 px-3 py-1.5 rounded-btn bg-warning/10 border border-warning/20">
-          <span className="text-[10px] text-warning leading-relaxed">
+          <span className="text-[11px] text-warning leading-relaxed">
             每批内存占用 = 批次大小 × 日K历史天数。批次越大或日K历史越长，内存占用越高，可能导致程序崩溃。内存不足时请适当降低此值。
           </span>
         </div>
         {hint && (
-          <div className="px-3 py-1 rounded-btn bg-accent/10 border border-accent/20 text-[10px] text-accent">
+          <div className="px-3 py-1 rounded-btn bg-accent/10 border border-accent/20 text-[11px] text-accent">
             {hint}
           </div>
         )}
@@ -108,7 +108,7 @@ export function EnrichedRebuildPanel({
 
       <div>
         {isTurnoverRebuild && (
-          <div className={`mb-3 rounded-btn border px-3 py-2 text-[10px] leading-relaxed ${
+          <div className={`mb-3 rounded-btn border px-3 py-2 text-[11px] leading-relaxed ${
             canRebuild
               ? 'border-accent/20 bg-accent/5 text-secondary'
               : 'border-warning/20 bg-warning/10 text-warning'
@@ -118,7 +118,7 @@ export function EnrichedRebuildPanel({
               : '未检测到历史股本数据，请先在财务概况页面同步“股本表”，再执行重算。'}
           </div>
         )}
-        <div className="text-[10px] text-muted mb-2">
+        <div className="text-[11px] text-muted mb-2">
           {isTurnoverRebuild
             ? '为保证数据一致性，将基于现有日 K、除权因子和历史股本重新生成 Enriched；其他指标也会按当前逻辑同步更新。'
             : '基于已有 kline_daily + adj_factor 全量计算前复权 + 技术指标 + 信号'}
@@ -135,7 +135,7 @@ export function EnrichedRebuildPanel({
           )}
         </button>
         {rebuild.isError && (
-          <div className="mt-2 text-[10px] text-danger">
+          <div className="mt-2 text-[11px] text-danger">
             启动失败：{String((rebuild.error as Error)?.message ?? rebuild.error)}
           </div>
         )}

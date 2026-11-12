@@ -26,7 +26,7 @@ export const CARD_META: Record<string, {
 export function Pill({ label, value }: { label: string; value: number | string }) {
   return (
     <div className="rounded-btn bg-base/40 border border-border px-3 py-1.5">
-      <div className="text-[10px] uppercase tracking-wider text-muted">{label}</div>
+      <div className="text-[11px] uppercase tracking-wider text-muted">{label}</div>
       <div className="font-mono text-sm font-medium tabular-nums mt-0.5">{value}</div>
     </div>
   )
@@ -47,7 +47,7 @@ function CapBadge({ hasCap, isLocal, missingCapName, capInfo, localSuffix, custo
   // 走自定义数据源时, 显示数据源名 (能力来源对所有数据源统一表达)
   if (customProvider) {
     return (
-      <span className="text-[10px] text-accent/80 bg-accent/8 rounded px-1.5 py-px font-medium">
+      <span className="text-[11px] text-accent/80 bg-accent/8 rounded px-1.5 py-px font-medium">
         {customProvider}
       </span>
     )
@@ -55,7 +55,7 @@ function CapBadge({ hasCap, isLocal, missingCapName, capInfo, localSuffix, custo
 
   if (isLocal) {
     return (
-      <span className="text-[10px] text-secondary bg-elevated rounded px-1.5 py-px font-medium">
+      <span className="text-[11px] text-secondary bg-elevated rounded px-1.5 py-px font-medium">
         本地计算{localSuffix ? ` · ${localSuffix}` : ''}
       </span>
     )
@@ -65,7 +65,7 @@ function CapBadge({ hasCap, isLocal, missingCapName, capInfo, localSuffix, custo
     const parts = ['可用', `${capInfo.rpm}/min`]
     if (capInfo.batch != null && capInfo.batch > 1) parts.push(`${capInfo.batch}股/批`)
     return (
-      <span className="text-[10px] text-accent/80 bg-accent/8 rounded px-1.5 py-px font-mono font-medium">
+      <span className="text-[11px] text-accent/80 bg-accent/8 rounded px-1.5 py-px font-mono font-medium">
         {parts.join(' · ')}
       </span>
     )
@@ -78,7 +78,7 @@ function CapBadge({ hasCap, isLocal, missingCapName, capInfo, localSuffix, custo
 
   if (hasCap) {
     return (
-      <span className="text-[10px] text-accent/80 bg-accent/8 rounded px-1.5 py-px font-medium">
+      <span className="text-[11px] text-accent/80 bg-accent/8 rounded px-1.5 py-px font-medium">
         可用
       </span>
     )
@@ -212,20 +212,20 @@ export function StatCard({
   }
 
   return (
-    <div className={`rounded-card border ${borderCls} ${bgCls} flex flex-col transition-all duration-300 ${active ? 'shadow-[0_0_16px_rgba(61,214,140,0.08)]' : ''}`}>
+    <div className={`rounded-card border ${borderCls} ${bgCls} flex flex-col transition-colors duration-300 ${active ? '' : ''}`}>
       <div className="flex items-center justify-between px-4 pt-4 pb-2">
         <h3 className="text-sm font-medium text-foreground">{title}</h3>
         <div className="flex items-center gap-1.5">
           {auto !== undefined && !loading && (
-            <span className="inline-flex items-center gap-1 text-[10px] font-medium">
-              <span className={`inline-block h-1.5 w-1.5 rounded-full ${auto ? 'bg-accent shadow-[0_0_4px_rgba(61,214,140,0.5)]' : 'bg-muted'}`} />
+            <span className="inline-flex items-center gap-1 text-[11px] font-medium">
+              <span className={`inline-block h-1.5 w-1.5 rounded-full ${auto ? 'bg-accent' : 'bg-muted'}`} />
               <span className={auto ? 'text-accent/70' : 'text-muted'}>{auto ? '自动' : '关闭'}</span>
             </span>
           )}
           {active && <Loader2 className="h-3.5 w-3.5 text-accent animate-spin" />}
           {done && !active && !skipped && <CheckCircle2 className="h-3.5 w-3.5 text-bear" />}
           {skipped && !active && (
-            <span className="text-[10px] text-muted bg-elevated rounded px-1.5 py-px font-medium">
+            <span className="text-[11px] text-muted bg-elevated rounded px-1.5 py-px font-medium">
               本次跳过
             </span>
           )}
@@ -253,7 +253,7 @@ export function StatCard({
         </div>
       </div>
 
-      <div className="px-4 pb-1 text-[10px] text-muted">{hint}</div>
+      <div className="px-4 pb-1 text-[11px] text-muted">{hint}</div>
 
       <div className="px-4 pb-2">
         {loading ? (

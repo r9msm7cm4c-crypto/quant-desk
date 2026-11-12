@@ -206,7 +206,7 @@ export function FactorBacktest({ initialFactorName = 'momentum_20d', autoRun = f
       <section className="space-y-3 border-b xl:border-b-0 xl:border-r border-border bg-base/25 px-3 py-3 xl:overflow-y-auto">
         <div className="border-b border-border/70 pb-2">
           <div className="text-xs font-semibold text-foreground">因子配置</div>
-          <div className="mt-0.5 text-[10px] leading-4 text-muted">选择因子、区间和分组方式。默认最近 3 个月。</div>
+          <div className="mt-0.5 text-[11px] leading-4 text-muted">选择因子、区间和分组方式。默认最近 3 个月。</div>
         </div>
 
         <div>
@@ -260,7 +260,7 @@ export function FactorBacktest({ initialFactorName = 'momentum_20d', autoRun = f
         <div className="rounded-btn border border-border bg-surface p-2.5">
           <div className="flex items-center justify-between gap-2">
             <div className="text-xs font-medium text-foreground">回测区间</div>
-            <span className="shrink-0 rounded-full border border-accent/25 bg-accent/10 px-2 py-0.5 text-[10px] font-medium text-accent">
+            <span className="shrink-0 rounded-full border border-accent/25 bg-accent/10 px-2 py-0.5 text-[11px] font-medium text-accent">
               {rangeTitle}
             </span>
           </div>

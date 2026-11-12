@@ -263,7 +263,7 @@ export function Analysis() {
                     <ChevronDown className="h-3.5 w-3.5" />
                   </button>
                   {menu.builtin ? (
-                    <span className="rounded bg-accent/10 px-1.5 py-0.5 text-[10px] text-accent">默认</span>
+                    <span className="rounded bg-accent/10 px-1.5 py-0.5 text-[11px] text-accent">默认</span>
                   ) : (
                     <button onClick={() => del.mutate(menu.id)} disabled={del.isPending} className="p-1 rounded text-muted hover:text-danger hover:bg-danger/10">
                       <Trash2 className="h-3.5 w-3.5" />

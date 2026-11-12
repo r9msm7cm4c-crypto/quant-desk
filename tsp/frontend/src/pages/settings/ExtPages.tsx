@@ -158,7 +158,7 @@ export function SettingsExtPagesPanel() {
       <section className="rounded-2xl border border-border bg-surface p-6 bg-[radial-gradient(circle_at_top_right,rgba(139,92,246,0.14),transparent_38%)]">
         <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
           <div>
-            <div className="text-[11px] uppercase tracking-[0.2em] text-accent/80">扩展页面</div>
+            <div className="text-[11px]  text-accent/80">扩展页面</div>
             <h2 className="mt-2 text-2xl font-semibold tracking-tight text-foreground">把扩展数据配置成左侧分析菜单</h2>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-secondary">
               选择扩展数据源、分析模板、分组字段和列表列后，系统会生成一个可访问的动态分析页面。
@@ -220,7 +220,7 @@ export function SettingsExtPagesPanel() {
                   placeholder="https://example.com/page"
                   className="h-9 w-full rounded-btn border border-border bg-base px-3 text-xs text-foreground"
                 />
-                <span className="block text-[10px] text-muted/70">仅 http(s)、≤500 字符，不支持嵌入本站；部分站点可拒绝被嵌入</span>
+                <span className="block text-[11px] text-muted/70">仅 http(s)、≤500 字符，不支持嵌入本站；部分站点可拒绝被嵌入</span>
               </label>
             ) : (
               <label className="space-y-1.5">
@@ -306,8 +306,8 @@ export function SettingsExtPagesPanel() {
               <div>
                 <div className="flex items-center gap-2">
                   <h3 className="text-sm font-medium text-foreground">{menu.label}</h3>
-                  {menu.builtin && <span className="rounded bg-accent/10 px-1.5 py-0.5 text-[10px] text-accent">默认</span>}
-                  {!menu.visible && <span className="rounded bg-muted/10 px-1.5 py-0.5 text-[10px] text-muted">已隐藏</span>}
+                  {menu.builtin && <span className="rounded bg-accent/10 px-1.5 py-0.5 text-[11px] text-accent">默认</span>}
+                  {!menu.visible && <span className="rounded bg-muted/10 px-1.5 py-0.5 text-[11px] text-muted">已隐藏</span>}
                 </div>
                 <p className="mt-1 text-[11px] text-muted font-mono">{menu.id}</p>
               </div>

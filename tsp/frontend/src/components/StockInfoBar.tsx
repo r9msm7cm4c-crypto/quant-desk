@@ -8,8 +8,8 @@ import { INFO_GROUPS, type ColumnConfig } from '@/lib/stock-info-fields'
 import { storage } from '@/lib/storage'
 import { buildStockExternalUrl, loadStockExternalTemplate } from '@/lib/stock-external-link'
 
-const BULL = '#C74040'
-const BEAR = '#2D9B65'
+const BULL = '#E05A52'
+const BEAR = '#3FA97A'
 
 interface Props {
   symbol: string
@@ -74,14 +74,14 @@ function renderExtInline(
   return (
     <span className="inline-flex flex-wrap items-center gap-0.5">
       {shown.map((tag, i) => (
-        <span key={i} className="inline-block px-1 rounded text-[10px] leading-tight text-yellow-500 bg-yellow-500/10">
+        <span key={i} className="inline-block px-1 rounded text-[11px] leading-tight text-yellow-500 bg-yellow-500/10">
           {tag}
         </span>
       ))}
       {!showAll && overflow > 0 && (
         <button
           onClick={onToggle}
-          className="inline-block px-1 rounded text-[10px] leading-tight text-accent bg-accent/10 hover:bg-accent/20 transition-colors"
+          className="inline-block px-1 rounded text-[11px] leading-tight text-accent bg-accent/10 hover:bg-accent/20 transition-colors"
         >
           +{overflow}
         </button>
@@ -89,7 +89,7 @@ function renderExtInline(
       {showAll && maxTags > 0 && tags.length > maxTags && (
         <button
           onClick={onToggle}
-          className="inline-block px-1 rounded text-[10px] leading-tight text-muted hover:text-foreground transition-colors"
+          className="inline-block px-1 rounded text-[11px] leading-tight text-muted hover:text-foreground transition-colors"
         >
           收起
         </button>
@@ -275,7 +275,7 @@ export function StockInfoBar({
               type="button"
               onClick={onRemoveFromWatchlist}
               disabled={watchlistPending}
-              className="rounded-btn p-1 text-[#FACC15] transition-colors cursor-pointer hover:bg-elevated disabled:opacity-50"
+              className="rounded-btn p-1 text-[#DB9A2B] transition-colors cursor-pointer hover:bg-elevated disabled:opacity-50"
               title="移出自选"
               aria-label={`将 ${symbol} 移出自选`}
             >
@@ -304,7 +304,7 @@ export function StockInfoBar({
               区间判断, 也覆盖「区间外」与「周末加入」两种情况 */}
           {addedDate && (
             <span
-              className="shrink-0 font-mono text-[10px] text-muted"
+              className="shrink-0 font-mono text-[11px] text-muted"
               title="加入自选日 (北京时间); 该日无K线时不画竖线"
             >
               自选于 {addedDate}

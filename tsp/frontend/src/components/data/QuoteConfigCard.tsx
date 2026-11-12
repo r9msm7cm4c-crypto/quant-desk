@@ -19,7 +19,7 @@ export function QuoteConfigCard({ enabled, running, isTrading, lastFetchMs, inte
   onIntervalChange: (v: number) => void
 }) {
   const statusColor = running && isTrading
-    ? 'bg-accent shadow-[0_0_6px_rgba(61,214,140,0.5)]'
+    ? 'bg-accent'
     : enabled && running
       ? 'bg-warning/60'
       : 'bg-muted'
@@ -48,7 +48,7 @@ export function QuoteConfigCard({ enabled, running, isTrading, lastFetchMs, inte
           disabled={toggling}
           className={`relative inline-flex h-4 w-7 items-center rounded-full shrink-0 transition-colors duration-200 ${
             enabled
-              ? 'bg-accent shadow-[0_0_6px_rgba(59,130,246,0.3)]'
+              ? 'bg-accent'
               : 'bg-elevated'
           } ${toggling ? 'opacity-50' : 'cursor-pointer'}`}
         >
@@ -130,7 +130,7 @@ function IntervalEditor({ min, max, value, onChange }: {
 
   return (
     <div className="mt-2 pt-2 border-t border-border/50">
-      <div className="text-[10px] text-muted mb-1.5">
+      <div className="text-[11px] text-muted mb-1.5">
         轮询间隔 <span className="text-muted/60">({min}s ~ {max}s)</span>
       </div>
       <div className="flex flex-wrap gap-1 mb-2">
@@ -138,7 +138,7 @@ function IntervalEditor({ min, max, value, onChange }: {
           <button
             key={p}
             onClick={() => { setDraft(p); onChange(p) }}
-            className={`px-1.5 py-0.5 rounded text-[10px] font-mono transition-colors ${
+            className={`px-1.5 py-0.5 rounded text-[11px] font-mono transition-colors ${
               Math.abs(clamped - p) < 0.01
                 ? 'bg-accent/15 text-accent border border-accent/30'
                 : 'bg-elevated text-secondary hover:text-foreground border border-transparent'
@@ -156,7 +156,7 @@ function IntervalEditor({ min, max, value, onChange }: {
           onChange={e => { const v = parseFloat(e.target.value); setDraft(v); onChange(v) }}
           className="flex-1 h-1 accent-accent cursor-pointer"
         />
-        <span className="text-[10px] font-mono text-foreground w-8 text-right">
+        <span className="text-[11px] font-mono text-foreground w-8 text-right">
           {clamped < 1 ? clamped.toFixed(1) : clamped.toFixed(0)}s
         </span>
       </div>

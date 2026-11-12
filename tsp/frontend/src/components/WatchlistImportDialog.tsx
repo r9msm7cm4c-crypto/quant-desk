@@ -461,12 +461,12 @@ export function WatchlistImportDialog({
     const checked = !!sym && selected.has(sym)
     let status: ReactNode = null
     if (!c.matched || !sym) {
-      status = <span className="text-[10px] text-warning/90">{NO_MATCH_MSG}</span>
+      status = <span className="text-[11px] text-warning/90">{NO_MATCH_MSG}</span>
     } else if (state.inAllSelected) {
-      status = <span className="text-[10px] text-muted">已在所选分组</span>
+      status = <span className="text-[11px] text-muted">已在所选分组</span>
     } else if (state.inWatchlist) {
       status = (
-        <span className="text-[10px] text-muted">
+        <span className="text-[11px] text-muted">
           {targetGroupIds.length > 0 ? '已在自选 · 将并入所选分组' : '已在自选'}
         </span>
       )
@@ -736,7 +736,7 @@ export function WatchlistImportDialog({
                         aria-pressed={active}
                         aria-label={`颜色 ${option.label}`}
                         title={option.label}
-                        className={`h-4 w-4 rounded-full transition-transform ${option.dot} ${active ? `ring-2 ${option.ring} scale-110` : 'hover:scale-110'}`}
+                        className={`h-4 w-4 rounded-full transition-transform ${option.dot} ${active ? `ring-2 ${option.ring} scale-110` : ''}`}
                       />
                     )
                   })}

@@ -334,7 +334,7 @@ export function ExtDimensionAnalysis({
                       <h3 className="text-sm font-medium text-foreground">分组榜单</h3>
                       <p className="mt-0.5 text-[11px] text-muted">按覆盖标的数量排序</p>
                     </div>
-                    <span className="text-[10px] text-muted">Top {Math.min(filteredGroups.length, 100)}</span>
+                    <span className="text-[11px] text-muted">Top {Math.min(filteredGroups.length, 100)}</span>
                   </div>
                   <div className="p-3 border-b border-border/60">
                     <div className="relative">
@@ -359,7 +359,7 @@ export function ExtDimensionAnalysis({
                           className={`w-full rounded-lg px-3 py-2 text-left transition-colors ${active ? 'bg-accent/10 border border-accent/25' : 'border border-transparent hover:bg-elevated/60'}`}
                         >
                           <div className="flex items-center gap-2">
-                            <span className="w-5 text-[10px] font-mono text-muted">#{i + 1}</span>
+                            <span className="w-5 text-[11px] font-mono text-muted">#{i + 1}</span>
                             <span className="flex-1 truncate text-xs font-medium text-foreground">{group.key}</span>
                             <span className="font-mono text-xs text-secondary">{group.count}</span>
                           </div>
@@ -369,7 +369,7 @@ export function ExtDimensionAnalysis({
                               style={{ width: `${Math.max(6, (group.count / (filteredGroups[0]?.count || 1)) * 100)}%` }}
                             />
                           </div>
-                          <div className="mt-1 flex flex-wrap gap-x-3 gap-y-1 text-[10px] text-muted">
+                          <div className="mt-1 flex flex-wrap gap-x-3 gap-y-1 text-[11px] text-muted">
                             {groupColumns.filter(c => !['__dimension', '__count'].includes(c.field)).slice(0, 3).map(col => (
                               <span key={col.field}>{col.label || col.field}: {formatValue(group.metrics[col.field], col)}</span>
                             ))}
@@ -386,7 +386,7 @@ export function ExtDimensionAnalysis({
                   <div>
                     <div className="flex items-center gap-2">
                       <h3 className="text-[16px] leading-6 font-semibold text-foreground">{menu?.template === 'table' || menu?.template === 'ranking' ? '明细列表' : currentGroup?.key ?? `选择${activeKindLabel}`}</h3>
-                      <span className="rounded-full bg-accent/10 px-2 py-0.5 text-[10px] text-accent">{tableRows.length} 条</span>
+                      <span className="rounded-full bg-accent/10 px-2 py-0.5 text-[11px] text-accent">{tableRows.length} 条</span>
                     </div>
                     <p className="mt-1 text-xs text-muted">列来自菜单 detail_columns：{displayColumns.map(f => f.label || f.field).join(' / ') || '暂无字段'}</p>
                   </div>

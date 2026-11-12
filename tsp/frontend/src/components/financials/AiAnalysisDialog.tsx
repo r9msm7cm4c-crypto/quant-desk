@@ -101,12 +101,12 @@ export function AiAnalysisDialog({ task, mode, minimized }: Props) {
           className="w-full max-w-3xl max-h-[88vh] bg-surface/95 backdrop-blur-xl border border-border/50 rounded-2xl shadow-2xl flex flex-col overflow-hidden"
         >
           {/* ===== 头部 ===== */}
-          <div className="relative px-5 py-3.5 border-b border-border/50 bg-gradient-to-r from-purple-500/[0.06] via-fuchsia-500/[0.04] to-transparent">
+          <div className="relative px-5 py-3.5 border-b border-border/50 bg-accent/[0.14]">
             <div className="flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500/20 to-fuchsia-500/15 border border-purple-400/30 shrink-0">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-accent/[0.14] border border-accent/30 shrink-0">
                 {isHistory
-                  ? <History className="h-4.5 w-4.5 text-purple-300" />
-                  : <Sparkles className="h-4.5 w-4.5 text-purple-300" />}
+                  ? <History className="h-4.5 w-4.5 text-accent" />
+                  : <Sparkles className="h-4.5 w-4.5 text-accent" />}
               </div>
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2">
@@ -114,9 +114,9 @@ export function AiAnalysisDialog({ task, mode, minimized }: Props) {
                     {isHistory ? '历史分析报告' : 'AI 财务分析'}
                   </span>
                   {task && <span className="text-xs text-secondary truncate">{task.name}</span>}
-                  {task && <span className="text-[10px] font-mono text-muted shrink-0">{task.symbol}</span>}
+                  {task && <span className="text-[11px] font-mono text-muted shrink-0">{task.symbol}</span>}
                 </div>
-                <div className="flex items-center gap-2 mt-0.5 text-[10px] text-muted">
+                <div className="flex items-center gap-2 mt-0.5 text-[11px] text-muted">
                   {meta?.summary ? (
                     <span className="flex items-center gap-1 truncate">
                       <Database className="h-2.5 w-2.5 shrink-0" />
@@ -124,8 +124,8 @@ export function AiAnalysisDialog({ task, mode, minimized }: Props) {
                     </span>
                   ) : isWorking ? <span>正在准备数据…</span> : null}
                   {phase === 'streaming' && (
-                    <span className="flex items-center gap-1 text-purple-300 shrink-0">
-                      <span className="h-1.5 w-1.5 rounded-full bg-purple-400 animate-pulse" />生成中
+                    <span className="flex items-center gap-1 text-accent shrink-0">
+                      <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />生成中
                     </span>
                   )}
                   {isHistory && task && 'created_at' in task && (
@@ -166,13 +166,13 @@ export function AiAnalysisDialog({ task, mode, minimized }: Props) {
             {phase === 'loading' && !content && (
               <div className="flex flex-col items-center justify-center py-16 gap-3">
                 <div className="relative">
-                  <div className="h-10 w-10 rounded-full bg-gradient-to-br from-purple-500/20 to-fuchsia-500/15 border border-purple-400/30 flex items-center justify-center">
-                    <Sparkles className="h-4.5 w-4.5 text-purple-300 animate-pulse" />
+                  <div className="h-10 w-10 rounded-full bg-accent/[0.14] border border-accent/30 flex items-center justify-center">
+                    <Sparkles className="h-4.5 w-4.5 text-accent animate-pulse" />
                   </div>
-                  <Loader2 className="absolute -inset-1 h-12 w-12 text-purple-400/40 animate-spin" style={{ animationDuration: '3s' }} />
+                  <Loader2 className="absolute -inset-1 h-12 w-12 text-accent/40 animate-spin" style={{ animationDuration: '3s' }} />
                 </div>
                 <div className="text-xs text-secondary">AI 正在分析财务数据…</div>
-                <div className="text-[10px] text-muted">读取利润表 / 资负表 / 现金流 / 核心指标,生成专业报告</div>
+                <div className="text-[11px] text-muted">读取利润表 / 资负表 / 现金流 / 核心指标,生成专业报告</div>
               </div>
             )}
 
@@ -191,7 +191,7 @@ export function AiAnalysisDialog({ task, mode, minimized }: Props) {
                   </button>
                 )}
                 <button onClick={handleStartNew}
-                  className="mt-1 inline-flex items-center gap-1.5 h-8 px-3 rounded-lg bg-purple-500/15 border border-purple-400/30 text-xs text-purple-300 hover:bg-purple-500/20 transition-colors">
+                  className="mt-1 inline-flex items-center gap-1.5 h-8 px-3 rounded-lg bg-accent/15 border border-accent/30 text-xs text-accent hover:bg-accent/20 transition-colors">
                   <RefreshCw className="h-3.5 w-3.5" /> 重试
                 </button>
               </div>
@@ -202,7 +202,7 @@ export function AiAnalysisDialog({ task, mode, minimized }: Props) {
               <div className="relative">
                 <MarkdownRenderer content={content} />
                 {phase === 'streaming' && (
-                  <span className="inline-block w-1.5 h-3.5 bg-purple-400 ml-0.5 align-middle animate-pulse rounded-sm" />
+                  <span className="inline-block w-1.5 h-3.5 bg-accent ml-0.5 align-middle animate-pulse rounded-sm" />
                 )}
               </div>
             )}
@@ -211,7 +211,7 @@ export function AiAnalysisDialog({ task, mode, minimized }: Props) {
           {/* ===== 底部:自定义关注点输入 ===== */}
           <div className="border-t border-border/50 bg-surface/60 px-5 py-3">
             <div className="flex items-center gap-2">
-              <div className="flex items-center gap-1.5 text-[10px] text-muted shrink-0">
+              <div className="flex items-center gap-1.5 text-[11px] text-muted shrink-0">
                 <Wand2 className="h-3 w-3" />
                 <span className="hidden sm:inline">关注重点</span>
               </div>
@@ -225,13 +225,13 @@ export function AiAnalysisDialog({ task, mode, minimized }: Props) {
                 placeholder={isHistory ? '修改关注重点,回车重新生成' : (phase === 'done' ? '如:重点看债务风险…回车重新分析' : '可留空,留空则全面分析')}
                 className={cn(
                   'flex-1 h-8 px-3 rounded-lg bg-base ring-1 ring-border/30 text-xs text-foreground placeholder:text-muted/40',
-                  'focus:outline-none focus:ring-2 focus:ring-purple-400/30 transition-shadow disabled:opacity-50',
+                  'focus:outline-none focus:ring-2 focus:ring-accent/30 transition-shadow disabled:opacity-50',
                 )}
               />
               {isHistory ? (
                 <button
                   onClick={handleStartNew}
-                  className="inline-flex items-center gap-1.5 h-8 px-3 rounded-lg bg-gradient-to-r from-purple-500/20 to-fuchsia-500/15 border border-purple-400/30 text-xs font-medium text-purple-300 hover:from-purple-500/30 hover:to-fuchsia-500/20 transition-all shrink-0"
+                  className="inline-flex items-center gap-1.5 h-8 px-3 rounded-lg bg-accent/[0.14] border border-accent/30 text-xs font-medium text-accent transition-colors shrink-0"
                   title="以此关注点重新生成新报告"
                 >
                   <RefreshCw className="h-3.5 w-3.5" />重新生成
@@ -240,7 +240,7 @@ export function AiAnalysisDialog({ task, mode, minimized }: Props) {
                 <button
                   onClick={handleStartNew}
                   disabled={isWorking}
-                  className="inline-flex items-center gap-1.5 h-8 px-3 rounded-lg bg-gradient-to-r from-purple-500/20 to-fuchsia-500/15 border border-purple-400/30 text-xs font-medium text-purple-300 hover:from-purple-500/30 hover:to-fuchsia-500/20 disabled:opacity-40 disabled:cursor-not-allowed transition-all shrink-0"
+                  className="inline-flex items-center gap-1.5 h-8 px-3 rounded-lg bg-accent/[0.14] border border-accent/30 text-xs font-medium text-accent disabled:opacity-40 disabled:cursor-not-allowed transition-colors shrink-0"
                   title={focus.trim() ? '按关注重点重新分析' : '重新分析'}
                 >
                   {isWorking ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : phase === 'done' ? <RefreshCw className="h-3.5 w-3.5" /> : <Send className="h-3.5 w-3.5" />}
@@ -248,7 +248,7 @@ export function AiAnalysisDialog({ task, mode, minimized }: Props) {
                 </button>
               )}
             </div>
-            <p className="mt-1.5 text-[10px] text-muted/50 leading-relaxed">
+            <p className="mt-1.5 text-[11px] text-muted/50 leading-relaxed">
               {isHistory
                 ? '历史报告为静态记录;修改关注重点后将作为新任务重新生成。报告仅供参考,不构成投资建议。'
                 : '报告由项目已配置的 AI 模型基于本地财务数据生成;可在输入框追加关注点后重新生成。报告仅供参考,不构成投资建议。'}

@@ -39,11 +39,11 @@ const SOURCE_BADGE_STYLE: Record<string, string> = {
   strategy: 'bg-amber-400/10 text-amber-400 border-amber-400/20',
   signal:   'bg-accent/10 text-accent border-accent/20',
   price:    'bg-emerald-400/10 text-emerald-400 border-emerald-400/20',
-  market:   'bg-purple-500/10 text-purple-400 border-purple-500/20',
+  market:   'bg-accent/10 text-accent border-accent/20',
   sector:   'bg-cyan-500/10 text-cyan-700 border-cyan-500/20 dark:text-cyan-300',
   abnormal: 'bg-orange-500/10 text-orange-500 border-orange-500/20 dark:text-orange-400',
   volume_delta: 'bg-rose-500/10 text-rose-400 border-rose-500/20 dark:text-rose-300',
-  date:     'bg-violet-500/10 text-violet-500 border-violet-500/20 dark:text-violet-300',
+  date:     'bg-accent/10 text-accent border-accent/20 dark:text-accent',
 }
 
 /**
@@ -100,7 +100,7 @@ function AlertExtTags({ ev, fields, onTagClick }: {
         <button
           key={`i${i}`}
           onClick={event => { event.stopPropagation(); onTagClick('industry', t, fields.industry?.field) }}
-          className="rounded bg-sky-500/10 px-1 py-px text-[9px] leading-tight text-sky-700 hover:brightness-95 dark:text-sky-400"
+          className="rounded bg-sky-500/10 px-1 py-px text-[11px] leading-tight text-sky-700 hover:brightness-95 dark:text-sky-400"
         >
           {t}
         </button>
@@ -109,7 +109,7 @@ function AlertExtTags({ ev, fields, onTagClick }: {
         <button
           key={`c${i}`}
           onClick={event => { event.stopPropagation(); onTagClick('concept', t, fields.concept?.field) }}
-          className="rounded bg-orange-500/10 px-1 py-px text-[9px] leading-tight text-orange-700 hover:brightness-95 dark:text-orange-400"
+          className="rounded bg-orange-500/10 px-1 py-px text-[11px] leading-tight text-orange-700 hover:brightness-95 dark:text-orange-400"
         >
           {t}
         </button>
@@ -229,7 +229,7 @@ export function Monitor() {
                     key={f}
                     onClick={() => setFilter(f)}
                     className={cn(
-                      'rounded-md px-1.5 py-0.5 text-[10px] font-medium transition-all cursor-pointer',
+                      'rounded-md px-1.5 py-0.5 text-[11px] font-medium transition-colors cursor-pointer',
                       filter === f ? 'bg-accent/15 text-accent' : 'text-muted hover:bg-elevated/60 hover:text-secondary',
                     )}
                   >
@@ -243,17 +243,17 @@ export function Monitor() {
                   onClick={() => setExtConfigOpen(true)}
                   title="配置行业/概念标签"
                   className={cn(
-                    'inline-flex h-6 w-6 items-center justify-center rounded-lg border transition-all cursor-pointer',
+                    'inline-flex h-6 w-6 items-center justify-center rounded-lg border transition-colors cursor-pointer',
                     extConfigOpen ? 'border-accent/40 text-accent' : 'border-border/60 bg-surface text-muted hover:border-accent/40 hover:text-accent',
                   )}
                 >
                   <Tags className="h-3.5 w-3.5" />
                 </button>
-                <span className="rounded-md bg-elevated/50 px-1.5 py-0.5 text-[10px] font-medium text-muted">{total}</span>
+                <span className="rounded-md bg-elevated/50 px-1.5 py-0.5 text-[11px] font-medium text-muted">{total}</span>
                 {total > 0 && (
                   <button
                     onClick={() => setConfirmClear(true)}
-                    className="inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[10px] text-muted transition-colors hover:bg-danger/10 hover:text-danger cursor-pointer"
+                    className="inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[11px] text-muted transition-colors hover:bg-danger/10 hover:text-danger cursor-pointer"
                   >
                     <Trash2 className="h-2.5 w-2.5" />清空
                   </button>
@@ -269,12 +269,12 @@ export function Monitor() {
           <section className="flex min-h-0 w-full flex-col overflow-hidden rounded-xl border border-border bg-surface/40 shadow-lg shadow-black/5 lg:w-[400px] lg:shrink-0">
             <div className="flex items-center gap-3 border-b border-border/60 bg-surface/60 px-4 py-2.5">
               <SectionHeader icon={ListChecks} title="监控规则" />
-              <span className="rounded-md bg-elevated/50 px-1.5 py-0.5 text-[10px] font-medium text-muted">{rulesCount}</span>
+              <span className="rounded-md bg-elevated/50 px-1.5 py-0.5 text-[11px] font-medium text-muted">{rulesCount}</span>
               <div className="ml-auto flex items-center gap-1">
                 <button
                   onClick={() => { setEditingRule(null); setEditorPreset(null); setEditorOpen(true) }}
                   title="新建规则"
-                  className="inline-flex h-6 w-6 items-center justify-center rounded-lg border border-border/60 bg-surface text-muted transition-all hover:border-accent/40 hover:text-accent hover:shadow-sm cursor-pointer"
+                  className="inline-flex h-6 w-6 items-center justify-center rounded-lg border border-border/60 bg-surface text-muted transition-colors hover:border-accent/40 hover:text-accent hover:shadow-sm cursor-pointer"
                 >
                   <Plus className="h-3.5 w-3.5" />
                 </button>
@@ -282,7 +282,7 @@ export function Monitor() {
                   onClick={() => setConfirmClearRules(true)}
                   disabled={rulesCount === 0}
                   title="清除全部规则"
-                  className="inline-flex h-6 w-6 items-center justify-center rounded-lg border border-border/60 bg-surface text-muted transition-all hover:border-danger/40 hover:text-danger disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
+                  className="inline-flex h-6 w-6 items-center justify-center rounded-lg border border-border/60 bg-surface text-muted transition-colors hover:border-danger/40 hover:text-danger disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
                 >
                   <Trash2 className="h-3.5 w-3.5" />
                 </button>
@@ -433,7 +433,7 @@ function AlertsList({ alertsQuery, confirmClear, setConfirmClear, total, enterTs
                 } : { opacity: 1, y: 0 }}
                 transition={isNew ? { duration: 1.2, times: [0, 0.2, 0.5, 0.75, 1] } : { duration: 0.2, delay: Math.min(i * 0.02, 0.2) }}
                 className={cn(
-                  'group relative flex items-start gap-3 overflow-hidden rounded-lg border bg-surface pl-3.5 pr-3 py-2.5 shadow-sm transition-all duration-200 hover:border-border hover:shadow-md hover:shadow-black/10 hover:-translate-y-px',
+                  'group relative flex items-start gap-3 overflow-hidden rounded-lg border bg-surface pl-3.5 pr-3 py-2.5 shadow-sm transition-colors duration-200 hover:border-border hover:shadow-md hover:shadow-black/10 hover:-translate-y-px',
                   isNew ? 'border-accent/60 ring-1 ring-accent/30' : 'border-border/50',
                 )}
               >
@@ -478,7 +478,7 @@ function AlertsList({ alertsQuery, confirmClear, setConfirmClear, total, enterTs
                               {fmtPct(_pct)}
                             </span>
                           )}
-                          <span className={cn('rounded border px-1.5 py-0.5 text-[9px] font-medium', SOURCE_BADGE_STYLE.strategy)}>
+                          <span className={cn('rounded border px-1.5 py-0.5 text-[11px] font-medium', SOURCE_BADGE_STYLE.strategy)}>
                             {sname}
                           </span>
                         </div>
@@ -489,7 +489,7 @@ function AlertsList({ alertsQuery, confirmClear, setConfirmClear, total, enterTs
                             </span>
                             {sname
                               ? <span className="text-[11px] font-medium text-amber-400">「{sname}」</span>
-                              : ev.message && <span className="truncate text-[10px] text-muted">{ev.message}</span>}
+                              : ev.message && <span className="truncate text-[11px] text-muted">{ev.message}</span>}
                           </div>
                         ) : (
                           <div className="mt-1 truncate text-[11px] text-muted">{ev.message}</div>
@@ -497,7 +497,7 @@ function AlertsList({ alertsQuery, confirmClear, setConfirmClear, total, enterTs
                         {ev.signals && ev.signals.length > 0 && (
                           <div className="mt-1.5 flex flex-wrap gap-1">
                             {ev.signals.map((signal: string) => (
-                              <span key={signal} className="rounded bg-accent/8 px-1.5 py-0.5 text-[9px] text-accent/70">{cnSignal(signal, customNames)}</span>
+                              <span key={signal} className="rounded bg-accent/8 px-1.5 py-0.5 text-[11px] text-accent/70">{cnSignal(signal, customNames)}</span>
                             ))}
                           </div>
                         )}
@@ -524,7 +524,7 @@ function AlertsList({ alertsQuery, confirmClear, setConfirmClear, total, enterTs
                           >
                             <Tags className="h-3.5 w-3.5 text-cyan-600 dark:text-cyan-300" />
                             <span>{ev.sector_name ?? ev.name}</span>
-                            {ev.symbol && <span className="font-mono text-[10px] text-muted">{ev.symbol}</span>}
+                            {ev.symbol && <span className="font-mono text-[11px] text-muted">{ev.symbol}</span>}
                           </button>
                         )}
                         {ev.symbol && ev.source !== 'sector' && (() => {
@@ -556,7 +556,7 @@ function AlertsList({ alertsQuery, confirmClear, setConfirmClear, total, enterTs
                             {fmtPct(ev.change_pct)}
                           </span>
                         )}
-                        <span className={cn('rounded border px-1.5 py-0.5 text-[9px] font-medium', SOURCE_BADGE_STYLE[ev.source] ?? 'bg-elevated text-muted border-border')}>
+                        <span className={cn('rounded border px-1.5 py-0.5 text-[11px] font-medium', SOURCE_BADGE_STYLE[ev.source] ?? 'bg-elevated text-muted border-border')}>
                           {(() => {
                             // 优先用规则名 (如 "策略监控 · 空中加油" → "空中加油"); 退回到 type 标签
                             const rn = ev.rule_name ?? ''
@@ -570,7 +570,7 @@ function AlertsList({ alertsQuery, confirmClear, setConfirmClear, total, enterTs
                         <div className="mt-1 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-[11px]">
                           <span className="text-muted">命中</span>
                           {ev.signals.map((s: string, j: number) => (
-                            <span key={j} className="rounded bg-accent/10 px-1.5 py-0.5 text-[10px] font-medium text-accent">{cnSignal(s, customNames)}</span>
+                            <span key={j} className="rounded bg-accent/10 px-1.5 py-0.5 text-[11px] font-medium text-accent">{cnSignal(s, customNames)}</span>
                           ))}
                           {ev.price != null && (
                             <>
@@ -608,7 +608,7 @@ function AlertsList({ alertsQuery, confirmClear, setConfirmClear, total, enterTs
                       )}
                       {/* 规则全量条件 (次要灰字): 已有命中信号主行时展示, 供回溯规则定义 */}
                       {ev.signals && ev.signals.length > 0 && ev.conditions && ev.conditions.length > 0 && (
-                        <div className="mt-1 flex flex-wrap items-center gap-x-1 gap-y-0.5 text-[10px] text-muted/70">
+                        <div className="mt-1 flex flex-wrap items-center gap-x-1 gap-y-0.5 text-[11px] text-muted/70">
                           <span>规则</span>
                           {ev.conditions.map((c: MonitorCondition, ci: number) => (
                             <span key={ci} className="inline-flex items-center gap-0.5">
@@ -633,7 +633,7 @@ function AlertsList({ alertsQuery, confirmClear, setConfirmClear, total, enterTs
                   />
                 </div>
                 <div className="flex shrink-0 flex-col items-end gap-1">
-                  <span className="text-[10px] text-muted/60 font-mono">
+                  <span className="text-[11px] text-muted/60 font-mono">
                     {new Date(ev.ts).toLocaleString('zh-CN', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}
                   </span>
                   {confirmTs === ev.ts ? (
@@ -641,7 +641,7 @@ function AlertsList({ alertsQuery, confirmClear, setConfirmClear, total, enterTs
                     <button
                       onClick={() => handleClickDelete(ev.ts)}
                       title="再次点击确认删除"
-                      className="inline-flex items-center gap-1 rounded-md bg-danger/15 px-1.5 py-0.5 text-[10px] font-medium text-danger border border-danger/30 animate-pulse cursor-pointer"
+                      className="inline-flex items-center gap-1 rounded-md bg-danger/15 px-1.5 py-0.5 text-[11px] font-medium text-danger border border-danger/30 animate-pulse cursor-pointer"
                     >
                       <Trash2 className="h-2.5 w-2.5" />确认
                     </button>
@@ -820,7 +820,7 @@ function RulesList({ rulesQuery, onEdit }: {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.2 }}
               className={cn(
-                'group relative overflow-hidden rounded-lg border pl-3.5 pr-2.5 py-2 shadow-sm transition-all duration-200 hover:shadow-md hover:shadow-black/10',
+                'group relative overflow-hidden rounded-lg border pl-3.5 pr-2.5 py-2 shadow-sm transition-colors duration-200 hover:shadow-md hover:shadow-black/10',
                 r.enabled
                   ? 'border-border/50 bg-surface hover:border-accent/30'
                   : 'border-border/30 bg-surface/40 opacity-70 hover:opacity-100',
@@ -832,14 +832,14 @@ function RulesList({ rulesQuery, onEdit }: {
               {/* 第一行: 分类标签 + 名称 + 操作按钮 */}
               <div className="flex items-center justify-between gap-2">
                 <div className="flex min-w-0 items-center gap-2">
-                  <span className={cn('shrink-0 rounded px-1.5 py-0.5 text-[9px] font-semibold', SOURCE_BADGE_STYLE[r.type] ?? 'bg-elevated text-muted')}>
+                  <span className={cn('shrink-0 rounded px-1.5 py-0.5 text-[11px] font-semibold', SOURCE_BADGE_STYLE[r.type] ?? 'bg-elevated text-muted')}>
                     {TYPE_LABEL[r.type]}
                   </span>
                   {r.lot_id && (
-                    <span className="shrink-0 rounded px-1.5 py-0.5 text-[9px] font-semibold bg-emerald-400/10 text-emerald-500" title="由「持仓提醒」页托管, 请在持仓提醒页修改或删除">批次</span>
+                    <span className="shrink-0 rounded px-1.5 py-0.5 text-[11px] font-semibold bg-emerald-400/10 text-emerald-500" title="由「持仓提醒」页托管, 请在持仓提醒页修改或删除">批次</span>
                   )}
                   {r.asset_type === 'index' && (
-                    <span className="shrink-0 rounded px-1.5 py-0.5 text-[9px] font-semibold bg-sky-500/10 text-sky-400">指数</span>
+                    <span className="shrink-0 rounded px-1.5 py-0.5 text-[11px] font-semibold bg-sky-500/10 text-sky-400">指数</span>
                   )}
                   {/* 个股类型: 直接显示可点击的代码+名称; 分组类型: 分组chip跳自选页; 其他类型显示规则名 */}
                   {r.scope === 'symbols' && r.symbols.length > 0 ? (
@@ -865,20 +865,20 @@ function RulesList({ rulesQuery, onEdit }: {
                         >
                           <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${resolveWatchlistGroupColor(meta.color).dot}`} />
                           <span className="truncate text-xs font-medium text-foreground hover:text-accent">{meta.name}</span>
-                          <span className="shrink-0 font-mono text-[10px] tabular-nums text-muted">{meta.count}只</span>
-                          <span className="shrink-0 text-[9px] text-muted/60">· 分组作用域</span>
+                          <span className="shrink-0 font-mono text-[11px] tabular-nums text-muted">{meta.count}只</span>
+                          <span className="shrink-0 text-[11px] text-muted/60">· 分组作用域</span>
                         </Link>
                       )
                     })()
                   ) : (
                     <h3 className={cn('text-xs font-medium truncate', r.enabled ? 'text-foreground' : 'text-muted')}>{displayName}</h3>
                   )}
-                  {!r.enabled && <span className="shrink-0 text-[9px] text-secondary">· 停用</span>}
+                  {!r.enabled && <span className="shrink-0 text-[11px] text-secondary">· 停用</span>}
                 </div>
                 <div className="flex items-center gap-0.5 shrink-0">
                   {r.lot_id ? (
                     <span
-                      className="inline-flex items-center rounded-md border border-border/60 bg-elevated/60 px-1.5 py-0.5 text-[9px] text-secondary"
+                      className="inline-flex items-center rounded-md border border-border/60 bg-elevated/60 px-1.5 py-0.5 text-[11px] text-secondary"
                       title="由「持仓提醒」页生成的规则, 该页托管; 启停/修改/删除请到持仓提醒页"
                     >
                       批次托管
@@ -889,7 +889,7 @@ function RulesList({ rulesQuery, onEdit }: {
                         onClick={() => toggleEnabled(r)}
                         title={r.enabled ? '停用' : '启用'}
                         className={cn(
-                          'p-1 rounded-md transition-all cursor-pointer',
+                          'p-1 rounded-md transition-colors cursor-pointer',
                           r.enabled ? 'text-accent hover:bg-accent/10' : 'text-muted hover:bg-elevated hover:text-accent',
                         )}
                       >
@@ -897,7 +897,7 @@ function RulesList({ rulesQuery, onEdit }: {
                       </button>
                       <button
                         onClick={() => onEdit(r)}
-                        className="p-1 rounded-md text-secondary transition-all hover:bg-accent/10 hover:text-accent cursor-pointer"
+                        className="p-1 rounded-md text-secondary transition-colors hover:bg-accent/10 hover:text-accent cursor-pointer"
                         title="编辑"
                       >
                         <Settings2 className="h-3.5 w-3.5" />
@@ -906,7 +906,7 @@ function RulesList({ rulesQuery, onEdit }: {
                         <button
                           onClick={() => handleClickDelete(r.id)}
                           title="再次点击确认删除"
-                          className="inline-flex items-center gap-1 rounded-md bg-danger/15 px-1.5 py-0.5 text-[9px] font-medium text-danger border border-danger/30 animate-pulse cursor-pointer"
+                          className="inline-flex items-center gap-1 rounded-md bg-danger/15 px-1.5 py-0.5 text-[11px] font-medium text-danger border border-danger/30 animate-pulse cursor-pointer"
                         >
                           <Trash2 className="h-2.5 w-2.5" />确认
                         </button>
@@ -914,7 +914,7 @@ function RulesList({ rulesQuery, onEdit }: {
                         <button
                           onClick={() => handleClickDelete(r.id)}
                           disabled={del.isPending}
-                          className="p-1 rounded-md text-secondary transition-all hover:bg-danger/10 hover:text-danger cursor-pointer"
+                          className="p-1 rounded-md text-secondary transition-colors hover:bg-danger/10 hover:text-danger cursor-pointer"
                           title="删除"
                         >
                           <Trash2 className="h-3.5 w-3.5" />
@@ -926,7 +926,7 @@ function RulesList({ rulesQuery, onEdit }: {
               </div>
 
               {r.runtime_warning && (
-                <div className="mt-1 flex items-center gap-1 text-[9px] text-warning">
+                <div className="mt-1 flex items-center gap-1 text-[11px] text-warning">
                   <AlertTriangle className="h-3 w-3 shrink-0" />
                   <span className="truncate" title={r.runtime_warning}>{r.runtime_warning}</span>
                 </div>
@@ -936,49 +936,49 @@ function RulesList({ rulesQuery, onEdit }: {
               {r.type === 'sector' ? (
                 <div className="mt-1 flex min-w-0 flex-wrap items-center gap-1 pl-0.5">
                   {(r.sector_targets ?? []).slice(0, 3).map(target => (
-                    <span key={target.key} className="max-w-28 truncate rounded bg-cyan-500/8 px-1.5 py-0.5 text-[9px] text-cyan-700 dark:text-cyan-300">
+                    <span key={target.key} className="max-w-28 truncate rounded bg-cyan-500/8 px-1.5 py-0.5 text-[11px] text-cyan-700 dark:text-cyan-300">
                       {target.name}
                     </span>
                   ))}
                   {(r.sector_targets?.length ?? 0) > 3 && (
-                    <span className="text-[9px] text-muted">+{(r.sector_targets?.length ?? 0) - 3}</span>
+                    <span className="text-[11px] text-muted">+{(r.sector_targets?.length ?? 0) - 3}</span>
                   )}
-                  <span className="text-[9px] text-secondary">·</span>
-                  <span className="text-[9px] text-secondary">
+                  <span className="text-[11px] text-secondary">·</span>
+                  <span className="text-[11px] text-secondary">
                     {r.sector_trigger === 'momentum' ? `${r.window_minutes ?? 5}分钟异动` : '涨跌幅'}
                     {r.direction === 'down' ? ' ≤ -' : ' ≥ '}{r.threshold_pct ?? 1}%
                   </span>
                 </div>
               ) : r.type === 'abnormal' ? (
                 <div className="mt-1 flex min-w-0 flex-wrap items-center gap-1 pl-0.5">
-                  <span className="rounded bg-orange-500/8 px-1.5 py-0.5 text-[9px] text-orange-500 dark:text-orange-400">
+                  <span className="rounded bg-orange-500/8 px-1.5 py-0.5 text-[11px] text-orange-500 dark:text-orange-400">
                     接近度 ≥ {r.threshold_pct ?? 70}%
                   </span>
-                  <span className="rounded bg-elevated px-1.5 py-0.5 text-[9px] text-secondary">
+                  <span className="rounded bg-elevated px-1.5 py-0.5 text-[11px] text-secondary">
                     {r.abnormal_window && r.abnormal_window !== 'any' ? `${r.abnormal_window.toUpperCase()} 窗口` : '全部窗口'}
                   </span>
-                  <span className="rounded bg-elevated px-1.5 py-0.5 text-[9px] text-secondary">
+                  <span className="rounded bg-elevated px-1.5 py-0.5 text-[11px] text-secondary">
                     {r.direction === 'up' ? '涨势偏离' : r.direction === 'down' ? '跌势偏离' : '涨跌双向'}
                   </span>
                 </div>
               ) : r.type === 'date' ? (
-                <div className="mt-1 flex items-center gap-1 pl-0.5 text-[9px] text-secondary">
+                <div className="mt-1 flex items-center gap-1 pl-0.5 text-[11px] text-secondary">
                   <span>提醒 {r.remind_date ?? ''}</span>
                   {(r.lead_days ?? 0) > 0 && <span>· 提前{r.lead_days}天</span>}
                   <span>· 仅交易日盘中评估</span>
                 </div>
               ) : r.type === 'volume_delta' ? (
                 <div className="mt-1 flex min-w-0 flex-wrap items-center gap-1 pl-0.5">
-                  <span className="rounded bg-rose-500/8 px-1.5 py-0.5 text-[9px] font-mono text-rose-500 dark:text-rose-300">
+                  <span className="rounded bg-rose-500/8 px-1.5 py-0.5 text-[11px] font-mono text-rose-500 dark:text-rose-300">
                     {r.metric === 'amount'
                       ? `单轮增量 ≥ ${Math.round((r.threshold_amount ?? 1e6) / 1e4).toLocaleString()} 万元`
                       : `单轮增量 ≥ ${(r.threshold_volume ?? 9000).toLocaleString()} 手`}
                   </span>
-                  <span className="rounded bg-elevated px-1.5 py-0.5 text-[9px] text-secondary">
+                  <span className="rounded bg-elevated px-1.5 py-0.5 text-[11px] text-secondary">
                     冷却 {Math.round((r.cooldown_seconds ?? 300) / 60)} 分钟
                   </span>
                   {r.basic_filter && Object.values(r.basic_filter).some(v => v !== null && v !== false) && (
-                    <span className="rounded bg-elevated px-1.5 py-0.5 text-[9px] text-secondary">
+                    <span className="rounded bg-elevated px-1.5 py-0.5 text-[11px] text-secondary">
                       基础过滤{r.basic_filter.exclude_st ? ' · 剔除ST' : ''}
                     </span>
                   )}
@@ -986,14 +986,14 @@ function RulesList({ rulesQuery, onEdit }: {
               ) : r.type === 'strategy' && r.strategy_id ? (
                 <div className="mt-1 flex flex-wrap items-center gap-1 pl-0.5">
                   {(r.score_min != null || r.score_max != null) && (
-                    <span className="rounded bg-amber-400/10 px-1.5 py-0.5 text-[9px] font-mono text-amber-500 dark:text-amber-300">
+                    <span className="rounded bg-amber-400/10 px-1.5 py-0.5 text-[11px] font-mono text-amber-500 dark:text-amber-300">
                       评分 {r.score_min ?? 0}–{r.score_max ?? 100}
                     </span>
                   )}
                   {(r.notify_events ?? LEGACY_STRATEGY_NOTIFY_EVENTS).map(event => {
                     const option = STRATEGY_NOTIFY_EVENT_OPTIONS.find(item => item.key === event)
                     return option ? (
-                      <span key={event} className="rounded bg-elevated px-1.5 py-0.5 text-[9px] text-secondary">
+                      <span key={event} className="rounded bg-elevated px-1.5 py-0.5 text-[11px] text-secondary">
                         {option.label}
                       </span>
                     ) : null
@@ -1001,8 +1001,8 @@ function RulesList({ rulesQuery, onEdit }: {
                 </div>
               ) : r.conditions.length > 0 && (
                 <div className="mt-0.5 flex items-center gap-1 pl-0.5">
-                  <span className="text-[9px] text-secondary shrink-0">条件</span>
-                  <span className="min-w-0 flex flex-wrap items-center gap-x-1 gap-y-0.5 text-[9px]">
+                  <span className="text-[11px] text-secondary shrink-0">条件</span>
+                  <span className="min-w-0 flex flex-wrap items-center gap-x-1 gap-y-0.5 text-[11px]">
                     {r.conditions.slice(0, 3).map((c, i) => (
                       <span key={i} className="inline-flex items-center gap-0.5">
                         {i > 0 && <span className="text-secondary">{r.logic === 'and' ? '且' : '或'}</span>}
@@ -1240,7 +1240,7 @@ function ExtFieldSection({ label, value, onChange, groups, loading }: {
       </div>
       {field && (
         <div className="flex items-center gap-2 pl-0.5">
-          <span className="text-[10px] text-muted shrink-0">显示前N个</span>
+          <span className="text-[11px] text-muted shrink-0">显示前N个</span>
           <input
             type="number" min={0} max={20}
             value={maxTags || ''}
@@ -1248,24 +1248,24 @@ function ExtFieldSection({ label, value, onChange, groups, loading }: {
             placeholder="不限"
             className="w-14 h-6 bg-elevated border border-border rounded text-[11px] text-foreground px-1.5 focus:outline-none focus:border-accent/50"
           />
-          <span className="text-[10px] text-muted/60">留空=全部</span>
+          <span className="text-[11px] text-muted/60">留空=全部</span>
         </div>
       )}
       {field && maxTags > 0 && (
         <div className="flex items-center gap-2 pl-0.5">
-          <span className="text-[10px] text-muted shrink-0">隐藏位置</span>
+          <span className="text-[11px] text-muted shrink-0">隐藏位置</span>
           <div className="flex flex-wrap gap-1">
             {Array.from({ length: maxTags }, (_, i) => (
               <button
                 key={i}
                 onClick={() => toggleHidden(i)}
-                className={`w-5 h-5 rounded text-[10px] font-medium transition-colors cursor-pointer ${
+                className={`w-5 h-5 rounded text-[11px] font-medium transition-colors cursor-pointer ${
                   hidden.includes(i) ? 'bg-elevated text-muted line-through' : 'bg-accent/15 text-accent'
                 }`}
               >{i + 1}</button>
             ))}
           </div>
-          <span className="text-[10px] text-muted/60">点数字划掉=隐藏该位置</span>
+          <span className="text-[11px] text-muted/60">点数字划掉=隐藏该位置</span>
         </div>
       )}
     </div>

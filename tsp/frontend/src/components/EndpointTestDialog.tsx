@@ -97,7 +97,7 @@ export function EndpointTestDialog({ hasKey, tierLabel, currentEndpoint, onClose
             </div>
             <div className="flex items-center gap-3">
               {isFree && (
-                <span className="text-[10px] px-2 py-0.5 rounded bg-warning/10 text-warning/80">Free 模式</span>
+                <span className="text-[11px] px-2 py-0.5 rounded bg-warning/10 text-warning/80">Free 模式</span>
               )}
               <button
                 onClick={testAll}
@@ -116,16 +116,16 @@ export function EndpointTestDialog({ hasKey, tierLabel, currentEndpoint, onClose
 
           {/* 当前使用 */}
           <div className="mx-4 mt-3 px-3 py-2 rounded-btn bg-accent/8 border border-accent/20 flex items-center gap-2 shrink-0">
-            <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent shadow-[0_0_4px_rgba(61,214,140,0.5)]" />
+            <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent" />
             <span className="text-[11px] text-secondary">当前使用</span>
             <span className="text-[11px] font-medium text-foreground">{currentLabel}</span>
-            <span className="text-[10px] text-muted font-mono ml-auto">{currentEndpoint.replace('https://', '')}</span>
+            <span className="text-[11px] text-muted font-mono ml-auto">{currentEndpoint.replace('https://', '')}</span>
           </div>
 
           {/* Free 模式提示 —— 以下均为 Starter+ 付费端点 */}
           {isFree && (
             <div className="mx-4 mt-2 px-3 py-1.5 rounded-btn bg-warning/8 border border-warning/20 shrink-0">
-              <span className="text-[10px] text-warning/80 leading-snug">
+              <span className="text-[11px] text-warning/80 leading-snug">
                 以下均为 Starter+ 付费端点，Free 模式不可使用。配置 API Key 后可自动切换并测速选优。
               </span>
             </div>
@@ -148,7 +148,7 @@ export function EndpointTestDialog({ hasKey, tierLabel, currentEndpoint, onClose
           </div>
 
           {isFallback ? (
-            <span className="text-[10px] text-warning/70">远程获取失败，显示内置列表</span>
+            <span className="text-[11px] text-warning/70">远程获取失败，显示内置列表</span>
           ) : null}
         </motion.div>
       </div>
@@ -188,13 +188,13 @@ function EpRow({ ep, result, testing, isCurrent, isFree, canUsePremium, switchin
           <div className="flex items-center gap-1.5 flex-wrap min-w-0">
             <span className="text-xs font-medium text-foreground">{ep.label}</span>
             {isPremium && (
-              <span className="inline-flex items-center gap-0.5 text-[9px] px-1.5 py-px rounded-sm bg-warning/15 text-warning font-medium" title={ep.description ?? '需专线加速权限'}>
+              <span className="inline-flex items-center gap-0.5 text-[11px] px-1.5 py-px rounded-sm bg-warning/15 text-warning font-medium" title={ep.description ?? '需专线加速权限'}>
                 <Crown className="h-2.5 w-2.5" />
                 专线
               </span>
             )}
             {isCurrent && (
-              <span className="text-[9px] px-1.5 py-px rounded-sm bg-accent/15 text-accent font-medium">使用中</span>
+              <span className="text-[11px] px-1.5 py-px rounded-sm bg-accent/15 text-accent font-medium">使用中</span>
             )}
           </div>
           {/* 中位延迟 —— 测试中/前/后都占位,避免高度跳动 */}
@@ -202,7 +202,7 @@ function EpRow({ ep, result, testing, isCurrent, isFree, canUsePremium, switchin
             {isFree ? (
               // Free 模式:普通付费端点需 Starter+,premium 端点需 Expert+
               <span
-                className={`text-[10px] px-1.5 py-0.5 rounded-sm font-medium font-sans ${
+                className={`text-[11px] px-1.5 py-0.5 rounded-sm font-medium font-sans ${
                   isPremium
                     ? 'bg-warning/15 text-warning'
                     : 'bg-muted/10 text-muted/70'
@@ -226,12 +226,12 @@ function EpRow({ ep, result, testing, isCurrent, isFree, canUsePremium, switchin
         </div>
 
         {/* 第2行:description */}
-        <span className="block text-[10px] text-muted/70 leading-snug mt-0.5 break-words">{ep.description}</span>
+        <span className="block text-[11px] text-muted/70 leading-snug mt-0.5 break-words">{ep.description}</span>
 
         {/* 第3行:URL(左) / min~max·成功率(右) —— 副信息始终占位,行数不变 */}
         <div className="flex items-center gap-2 mt-0.5">
-          <span className="text-[10px] text-muted/50 font-mono truncate min-w-0" title={ep.url}>{ep.url.replace('https://', '')}</span>
-          <span className="ml-auto shrink-0 text-[9px] text-muted/50 font-mono whitespace-nowrap">
+          <span className="text-[11px] text-muted/50 font-mono truncate min-w-0" title={ep.url}>{ep.url.replace('https://', '')}</span>
+          <span className="ml-auto shrink-0 text-[11px] text-muted/50 font-mono whitespace-nowrap">
             {result && result.ok && result.min_ms != null
               ? `${result.min_ms}~${result.max_ms} · ${result.success}/${result.rounds}`
               : '\u00A0'}

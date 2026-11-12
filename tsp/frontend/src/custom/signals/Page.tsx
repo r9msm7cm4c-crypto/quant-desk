@@ -103,7 +103,7 @@ function SignalsBody({ highlight }: { highlight: string }) {
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div className="inline-flex h-7 items-center gap-1.5 rounded-btn border border-border bg-surface/80 px-2.5 text-[11px] font-medium text-secondary sm:text-xs">
           条件信号
-          <span className="rounded bg-elevated px-1 py-px font-mono text-[10px] text-muted">{signals.length}</span>
+          <span className="rounded bg-elevated px-1 py-px font-mono text-[11px] text-muted">{signals.length}</span>
           <span className="text-muted">· {enabledCustomSignals} 个已启用</span>
         </div>
         <div className="flex items-center gap-3">
@@ -127,10 +127,10 @@ function SignalsBody({ highlight }: { highlight: string }) {
                   <div className="min-w-0">
                     <div className="flex items-center gap-2">
                       <h3 className="truncate text-sm font-medium text-foreground">{sig.name}</h3>
-                      <span className={`rounded px-1.5 py-0.5 text-[10px] ${KIND_CLASS[sig.kind]}`}>
+                      <span className={`rounded px-1.5 py-0.5 text-[11px] ${KIND_CLASS[sig.kind]}`}>
                         {KIND_LABEL[sig.kind]}
                       </span>
-                      {!sig.enabled && <span className="rounded bg-muted/10 px-1.5 py-0.5 text-[10px] text-muted">已停用</span>}
+                      {!sig.enabled && <span className="rounded bg-muted/10 px-1.5 py-0.5 text-[11px] text-muted">已停用</span>}
                     </div>
                     <p className="mt-1 truncate font-mono text-[11px] text-muted">{sig.column ?? `csg_${sig.id}`}</p>
                   </div>
@@ -146,7 +146,7 @@ function SignalsBody({ highlight }: { highlight: string }) {
                         onClick={() => handleDeleteClick(sig)}
                         disabled={del.isPending}
                         title="再次点击确认删除"
-                        className="inline-flex animate-pulse cursor-pointer items-center gap-1 rounded-md border border-danger/30 bg-danger/15 px-1.5 py-0.5 text-[10px] font-medium text-danger disabled:opacity-50"
+                        className="inline-flex animate-pulse cursor-pointer items-center gap-1 rounded-md border border-danger/30 bg-danger/15 px-1.5 py-0.5 text-[11px] font-medium text-danger disabled:opacity-50"
                       >
                         <Trash2 className="h-2.5 w-2.5" />确认
                       </button>

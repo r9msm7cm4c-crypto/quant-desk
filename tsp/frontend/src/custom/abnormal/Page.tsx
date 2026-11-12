@@ -70,7 +70,7 @@ const SIGNAL_META: Record<IntradaySignalKey, { label: string; cls: string }> = {
   limit_down: { label: '跌停', cls: 'text-bear bg-bear/10 border-bear/25' },
   new_high: { label: '60日新高', cls: 'text-amber-400 bg-amber-400/10 border-amber-400/25' },
   new_low: { label: '60日新低', cls: 'text-sky-400 bg-sky-400/10 border-sky-400/25' },
-  volume_surge: { label: '放量', cls: 'text-violet-400 bg-violet-400/10 border-violet-400/25' },
+  volume_surge: { label: '放量', cls: 'text-accent bg-accent/10 border-accent/25' },
 }
 
 export function AbnormalMoves() {
@@ -119,7 +119,7 @@ export function AbnormalMoves() {
                 type="button"
                 aria-pressed={active}
                 onClick={() => setTab(t.key)}
-                className={`inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs transition-all ${
+                className={`inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs transition-colors ${
                   active
                     ? 'bg-accent/15 font-medium text-accent shadow-sm'
                     : 'text-secondary hover:text-foreground'
@@ -131,7 +131,7 @@ export function AbnormalMoves() {
             )
           })}
         </div>
-        <span className="min-w-0 truncate text-[10px] text-muted">{TAB_META.find(t => t.key === tab)?.desc}</span>
+        <span className="min-w-0 truncate text-[11px] text-muted">{TAB_META.find(t => t.key === tab)?.desc}</span>
       </div>
 
       <div className="flex min-h-0 flex-1 flex-col px-5 pb-4 pt-3">
@@ -213,7 +213,7 @@ function AuctionView({ onOpenStock }: {
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-2">
               <span className="text-xs font-medium text-foreground">全市场竞价扫描</span>
-              <span className="rounded-full border border-border bg-elevated px-2 py-px text-[9px] leading-tight text-muted">
+              <span className="rounded-full border border-border bg-elevated px-2 py-px text-[11px] leading-tight text-muted">
                 待采集任务启用
               </span>
             </div>
@@ -225,7 +225,7 @@ function AuctionView({ onOpenStock }: {
         </div>
       </div>
 
-      <p className="px-1 text-[10px] leading-relaxed text-muted/70">
+      <p className="px-1 text-[11px] leading-relaxed text-muted/70">
         风向标为同花顺盘前竞价筛选名单 (每日约 5~6 只)。60 日回测: 名单当日开盘买入均值 +0.54%
         (超额 +0.44%), 但高开 ≥5% 子集当日 -1.97% — 追高是陷阱, 次日无显著优势, 仅作当日观察。
       </p>
@@ -268,7 +268,7 @@ function BenchmarkCard({ q, onOpenStock }: {
           <Compass className="h-4 w-4 text-muted/50" />
         </span>
         <span className="text-[11px] text-muted">盘前风向标暂不可用{d?.message ? ` (${d.message.slice(0, 40)})` : ''}</span>
-        <button onClick={() => q.refetch()} className="ml-auto text-[10px] text-accent hover:underline">重试</button>
+        <button onClick={() => q.refetch()} className="ml-auto text-[11px] text-accent hover:underline">重试</button>
       </div>
     )
   }
@@ -290,21 +290,21 @@ function BenchmarkCard({ q, onOpenStock }: {
             <span className="text-[13px] font-semibold text-foreground">盘前风向标</span>
             {isFallback && (
               <span
-                className="rounded border border-warning/30 bg-warning/10 px-1.5 py-px text-[9px] leading-tight text-warning"
+                className="rounded border border-warning/30 bg-warning/10 px-1.5 py-px text-[11px] leading-tight text-warning"
                 title="目标日名单不可用, 已自动显示上一期"
               >
                 显示上一期
               </span>
             )}
           </span>
-          <span className="mt-0.5 block text-[10px] text-muted">
+          <span className="mt-0.5 block text-[11px] text-muted">
             {d.trade_date} · {items.length} 只 · 同花顺竞价筛选
             {avgOc != null && (
               <> · 当日开盘买均值 <span className={priceColorClass(avgOc)}>{fmtPct(avgOc)}</span></>
             )}
           </span>
         </span>
-        <span className="ml-auto text-right text-[9px] leading-tight text-muted/70">
+        <span className="ml-auto text-right text-[11px] leading-tight text-muted/70">
           次日无优势<br />仅当日观察
         </span>
       </div>
@@ -314,7 +314,7 @@ function BenchmarkCard({ q, onOpenStock }: {
         <p className="border-t border-border/60 px-4 py-3 text-center text-[11px] text-muted">本期无名单数据</p>
       ) : (
         <div>
-          <div className="flex items-center gap-2 border-t border-border/60 bg-elevated/50 px-4 py-1.5 text-[9px] font-medium uppercase tracking-wider text-muted/70">
+          <div className="flex items-center gap-2 border-t border-border/60 bg-elevated/50 px-4 py-1.5 text-[11px] font-medium uppercase tracking-wider text-muted/70">
             <span className="w-14 shrink-0">竞价</span>
             <span className="min-w-0 flex-1">股票</span>
             <span className="w-16 shrink-0 text-right">当日</span>
@@ -336,7 +336,7 @@ function BenchmarkCard({ q, onOpenStock }: {
                 </span>
                 <span className="flex min-w-0 flex-1 items-center gap-1.5">
                   <span className="truncate text-foreground">{i.name ?? i.thscode}</span>
-                  <span className="shrink-0 font-mono text-[9px] text-muted">{i.ticker ?? i.thscode}</span>
+                  <span className="shrink-0 font-mono text-[11px] text-muted">{i.ticker ?? i.thscode}</span>
                   {(() => { const b = boardTag(i.thscode); return b && (
                     <span className={`shrink-0 inline-flex items-center rounded border px-1 text-[8px] font-bold leading-tight ${b.color}`}>
                       {b.label}
@@ -351,7 +351,7 @@ function BenchmarkCard({ q, onOpenStock }: {
                     </span>
                   )}
                   {(i.tags ?? []).slice(0, 2).map(t => (
-                    <span key={t} className="max-w-24 truncate rounded-full bg-base/70 px-1.5 py-px text-[9px] text-muted" title={t}>
+                    <span key={t} className="max-w-24 truncate rounded-full bg-base/70 px-1.5 py-px text-[11px] text-muted" title={t}>
                       {t}
                     </span>
                   ))}
@@ -437,7 +437,7 @@ function IntradayView({ onPreview }: {
             cls={SIGNAL_META[k].cls}
           />
         ))}
-        <span className="ml-1 text-[10px] text-muted">
+        <span className="ml-1 text-[11px] text-muted">
           数据截至 {data?.cache_date ?? '—'}
           {q.isFetching && ' · 更新中…'}
         </span>
@@ -479,7 +479,7 @@ function IntradayView({ onPreview }: {
       <div className="min-h-0 flex-1 overflow-auto rounded-card border border-border bg-surface">
         <table className="w-full min-w-[900px] text-xs">
           <thead className="sticky top-0 z-10 bg-surface">
-            <tr className="border-b border-border text-[10px] uppercase tracking-wider text-muted">
+            <tr className="border-b border-border text-[11px] uppercase tracking-wider text-muted">
               <th className="w-10 px-2 py-2 text-right">#</th>
               <th className="px-2 py-2 text-left">代码 / 名称</th>
               <th className="px-2 py-2 text-right">现价</th>
@@ -557,7 +557,7 @@ const IntradayRowView = memo(function IntradayRowView({ row, rank, onPreview }: 
   const clu = row.consecutive_limit_ups ?? 0
   return (
     <tr className="group border-b border-border/40 transition-colors last:border-0 hover:bg-elevated/50">
-      <td className="px-2 py-1.5 text-right font-mono text-[10px] text-muted/70">{rank}</td>
+      <td className="px-2 py-1.5 text-right font-mono text-[11px] text-muted/70">{rank}</td>
       <td className="px-2 py-1.5">
         <button
           type="button"
@@ -568,12 +568,12 @@ const IntradayRowView = memo(function IntradayRowView({ row, rank, onPreview }: 
           <span className="shrink-0 font-mono text-xs text-foreground transition-colors duration-150 group-hover:text-accent">{row.symbol}</span>
           <span className="min-w-0 max-w-40 truncate text-xs text-secondary transition-colors duration-150 group-hover:text-foreground">{row.name ?? '—'}</span>
           {board && (
-            <span className={`shrink-0 rounded border px-1 text-[9px] font-bold leading-tight ${board.color}`}>
+            <span className={`shrink-0 rounded border px-1 text-[11px] font-bold leading-tight ${board.color}`}>
               {board.label}
             </span>
           )}
           {clu > 1 && (
-            <span className="shrink-0 rounded border border-amber-500/30 bg-amber-500/10 px-1 text-[9px] font-bold leading-tight text-amber-500" title={`连续 ${clu} 日涨停`}>
+            <span className="shrink-0 rounded border border-amber-500/30 bg-amber-500/10 px-1 text-[11px] font-bold leading-tight text-amber-500" title={`连续 ${clu} 日涨停`}>
               {clu}连板
             </span>
           )}
@@ -586,7 +586,7 @@ const IntradayRowView = memo(function IntradayRowView({ row, rank, onPreview }: 
       <td className="px-2 py-1.5">
         <div className="flex flex-wrap items-center gap-1">
           {row.signals.map(s => (
-            <span key={s} className={`rounded border px-1 text-[9px] font-medium leading-tight ${SIGNAL_META[s].cls}`}>
+            <span key={s} className={`rounded border px-1 text-[11px] font-medium leading-tight ${SIGNAL_META[s].cls}`}>
               {SIGNAL_META[s].label}
             </span>
           ))}
@@ -714,7 +714,7 @@ function DeviationView({ onPreview }: {
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
             {ruleChips()}
           </div>
-          <p className="mt-2.5 border-t border-border/60 pt-2 text-[10px] leading-relaxed text-muted">
+          <p className="mt-2.5 border-t border-border/60 pt-2 text-[11px] leading-relaxed text-muted">
             口径说明: 偏离值 = 个股 N 日累计涨跌幅 − 对应指数同期涨跌幅 (沪主板: 上证A指/上证指数,
             科创板: 科创50, 深主板: 深证A指/深证成指, 创业板: 创业板综指, 北: 北证50)。
             阈值为交易所异常波动披露标准的近似值, 仅供风险提示,
@@ -780,7 +780,7 @@ function DeviationView({ onPreview }: {
             <StatusChip label="异动边缘" count={counts?.edge} tone="warning" />
             <StatusChip label="观察" count={counts?.watch} tone="muted" />
             {enabled && (
-              <span className="text-[10px] text-muted">
+              <span className="text-[11px] text-muted">
                 数据截至 {data?.cache_date ?? '—'}
                 {data?.includes_today ? ' (含今日收盘)' : ' · 已叠加今日实时涨跌'}
                 {data ? ` · 基准指数今日 ${(data.bench_rt_pct * 100).toFixed(2)}%` : ''}
@@ -902,7 +902,7 @@ function DeviationView({ onPreview }: {
           <div className="min-h-0 flex-1 overflow-auto rounded-card border border-border bg-surface">
             <table className="w-full min-w-[860px] text-xs">
               <thead className="sticky top-0 z-10 bg-surface">
-                <tr className="border-b border-border text-[10px] uppercase tracking-wider text-muted">
+                <tr className="border-b border-border text-[11px] uppercase tracking-wider text-muted">
                   <th className="w-10 px-2 py-2 text-right">#</th>
                   <th className="px-2 py-2 text-left">代码 / 名称</th>
                   <th className="px-2 py-2 text-right">现价</th>
@@ -985,7 +985,7 @@ function DeviationView({ onPreview }: {
             {rule.board}
             {rule.st && <span className="ml-1 text-danger">ST</span>}
           </div>
-          <div className="mt-0.5 font-mono text-[10px] text-muted">{thr}</div>
+          <div className="mt-0.5 font-mono text-[11px] text-muted">{thr}</div>
         </div>
       )
     })
@@ -1024,7 +1024,7 @@ const AbnormalRowView = memo(function AbnormalRowView({ row, rank, onPreview }: 
   const meta = STATUS_META[row.status]
   return (
     <tr className="group border-b border-border/40 transition-colors last:border-0 hover:bg-elevated/50">
-      <td className="px-2 py-1.5 text-right font-mono text-[10px] text-muted/70">{rank}</td>
+      <td className="px-2 py-1.5 text-right font-mono text-[11px] text-muted/70">{rank}</td>
       <td className="px-2 py-1.5">
         {/* 仅代码/名称可点击打开详情 (与自选列表一致), 其余单元格不可点 */}
         <button
@@ -1036,12 +1036,12 @@ const AbnormalRowView = memo(function AbnormalRowView({ row, rank, onPreview }: 
           <span className="shrink-0 font-mono text-xs text-foreground group-hover:text-accent transition-colors duration-150">{row.symbol}</span>
           <span className="min-w-0 max-w-40 truncate text-xs text-secondary group-hover:text-foreground transition-colors duration-150">{row.name ?? '—'}</span>
           {board && (
-            <span className={`shrink-0 rounded px-1 text-[9px] font-bold leading-tight border ${board.color}`}>
+            <span className={`shrink-0 rounded px-1 text-[11px] font-bold leading-tight border ${board.color}`}>
               {board.label}
             </span>
           )}
           {row.st && (
-            <span className="shrink-0 rounded border border-danger/30 bg-danger/10 px-1 text-[9px] font-bold text-danger">
+            <span className="shrink-0 rounded border border-danger/30 bg-danger/10 px-1 text-[11px] font-bold text-danger">
               ST
             </span>
           )}
@@ -1065,7 +1065,7 @@ const AbnormalRowView = memo(function AbnormalRowView({ row, rank, onPreview }: 
                 title={`阈值 ${sign}${fmtThreshold(info.threshold)} · 接近度 ${(info.closeness * 100).toFixed(0)}%${isDominant ? ' · 本行接近度来源' : ''}`}
               >
                 {fmtPct(info.value)}
-                <span className="ml-1 text-[9px] text-muted/60">/{sign}{fmtThreshold(info.threshold)}</span>
+                <span className="ml-1 text-[11px] text-muted/60">/{sign}{fmtThreshold(info.threshold)}</span>
               </span>
             ) : (
               <span className="text-muted/40">—</span>
@@ -1080,17 +1080,17 @@ const AbnormalRowView = memo(function AbnormalRowView({ row, rank, onPreview }: 
         >
           <div className="h-1.5 w-20 overflow-hidden rounded-full bg-elevated">
             <div
-              className={`h-full rounded-full transition-all ${meta.bar}`}
+              className={`h-full rounded-full transition-colors ${meta.bar}`}
               style={{ width: `${Math.min(100, (dominant?.closeness ?? 0) * 100)}%` }}
             />
           </div>
-          <span className="font-mono text-[10px] tabular-nums text-secondary">
+          <span className="font-mono text-[11px] tabular-nums text-secondary">
             {((dominant?.closeness ?? 0) * 100).toFixed(0)}%
           </span>
         </div>
       </td>
       <td className="px-2 py-1.5 text-center">
-        <span className={`rounded px-1.5 py-0.5 text-[10px] font-medium ${meta.cls}`}>{meta.label}</span>
+        <span className={`rounded px-1.5 py-0.5 text-[11px] font-medium ${meta.cls}`}>{meta.label}</span>
       </td>
     </tr>
   )

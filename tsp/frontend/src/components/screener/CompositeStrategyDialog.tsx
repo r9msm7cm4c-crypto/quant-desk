@@ -20,7 +20,7 @@ interface ChildItem {
 
 const SRC_MAP: Record<string, string> = { custom: '自定义', ai: 'AI' }
 const BADGE_CLS: Record<string, string> = {
-  ai: 'bg-purple-500/10 text-purple-400 border-purple-500/20',
+  ai: 'bg-accent/10 text-accent border-accent/20',
   custom: 'bg-amber-400/10 text-amber-400 border-amber-400/30',
 }
 
@@ -188,7 +188,7 @@ export function CompositeStrategyDialog({ open, onClose, onSavedId, editStrategy
               <span className="text-sm font-semibold text-foreground">
                 {isEdit ? '编辑叠加策略' : '创建叠加策略'}
               </span>
-              <span className="text-[10px] text-muted/60">
+              <span className="text-[11px] text-muted/60">
                 引用多个子策略, 合并策略与回测信号
               </span>
               <button onClick={onClose} className="ml-auto text-muted hover:text-foreground">
@@ -262,7 +262,7 @@ export function CompositeStrategyDialog({ open, onClose, onSavedId, editStrategy
                   <label className="text-xs font-medium text-foreground">
                     子策略（{children.length}）
                   </label>
-                  <span className="text-[10px] text-muted flex items-center gap-1.5">
+                  <span className="text-[11px] text-muted flex items-center gap-1.5">
                     权重
                     <span className={`font-mono ${children.length > 0 && totalPct !== 100 ? 'text-amber-400' : 'text-emerald-400'}`}>
                       {totalPct}%
@@ -306,7 +306,7 @@ export function CompositeStrategyDialog({ open, onClose, onSavedId, editStrategy
                           className="h-1 w-24 cursor-pointer accent-teal-400"
                           aria-label={`${s?.name ?? c.strategy_id}权重`}
                         />
-                        <span className="w-9 shrink-0 text-right font-mono text-[10px] text-muted">{Math.round(c.weight)}%</span>
+                        <span className="w-9 shrink-0 text-right font-mono text-[11px] text-muted">{Math.round(c.weight)}%</span>
                         <button onClick={() => removeChild(c.strategy_id)} className="text-danger/60 hover:text-danger">
                           <X className="h-3 w-3" />
                         </button>
@@ -350,7 +350,7 @@ export function CompositeStrategyDialog({ open, onClose, onSavedId, editStrategy
                           {SRC_MAP[s.source] ?? s.source}
                         </span>
                       )}
-                      <span className="font-mono text-[9px] text-muted/50">{s.id}</span>
+                      <span className="font-mono text-[11px] text-muted/50">{s.id}</span>
                     </button>
                   ))}
                 </div>

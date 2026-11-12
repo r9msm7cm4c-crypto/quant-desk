@@ -150,7 +150,7 @@ export function WatchlistGroupBar({
                 )}
                 {color && <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${color.dot}`} />}
                 <span>{tab.name}</span>
-                <span className={`font-mono text-[10px] tabular-nums ${active && !color ? 'text-accent/80' : 'text-muted'}`}>
+                <span className={`font-mono text-[11px] tabular-nums ${active && !color ? 'text-accent/80' : 'text-muted'}`}>
                   {tab.count}
                 </span>
                 {pcts && (() => {
@@ -158,7 +158,7 @@ export function WatchlistGroupBar({
                   if (!info || info.pct == null || info.sampled === 0) return null
                   return (
                     <span
-                      className={`font-mono text-[10px] tabular-nums ${groupPctColor(info.pct)}`}
+                      className={`font-mono text-[11px] tabular-nums ${groupPctColor(info.pct)}`}
                       title={groupPctTitle(info)}
                     >
                       {fmtPct(info.pct)}
@@ -257,7 +257,7 @@ function GroupColorPicker({
             aria-label={option.label}
             title={option.label}
             onClick={() => onChange(option.id)}
-            className={`inline-flex h-6 w-6 items-center justify-center rounded-full border transition-transform hover:scale-110 ${
+            className={`inline-flex h-6 w-6 items-center justify-center rounded-full border transition-transform ${
               selected
                 ? `${option.border} ${option.background} ring-2 ${option.ring}`
                 : 'border-transparent hover:bg-elevated'
@@ -382,7 +382,7 @@ function GroupManagerDialog({
       <div className="flex items-center justify-between border-b border-border px-4 py-2.5">
         <div className="min-w-0">
           <div className="text-xs font-medium text-foreground">显示在侧边栏</div>
-          <div className="mt-0.5 text-[10px] text-muted">开启后可在左侧菜单展开分组子菜单</div>
+          <div className="mt-0.5 text-[11px] text-muted">开启后可在左侧菜单展开分组子菜单</div>
         </div>
         <button
           type="button"
@@ -477,7 +477,7 @@ function GroupManagerDialog({
             ) : (
               <>
                 <span className={`min-w-0 flex-1 truncate text-xs ${color.text}`}>{group.name}</span>
-                <span className="font-mono text-[10px] text-muted tabular-nums">{counts[group.id] ?? 0} 只</span>
+                <span className="font-mono text-[11px] text-muted tabular-nums">{counts[group.id] ?? 0} 只</span>
                 {onReorder && groups.length > 1 && (
                   <>
                     <button
@@ -620,7 +620,7 @@ export function WatchlistGroupPicker({ groups, groupIds, symbol, disabled, onTog
               />
             ))}
             {memberGroups.length > 3 && (
-              <span className="ml-0.5 font-mono text-[9px] leading-none text-muted">+{memberGroups.length - 3}</span>
+              <span className="ml-0.5 font-mono text-[11px] leading-none text-muted">+{memberGroups.length - 3}</span>
             )}
           </span>
         )}
@@ -641,7 +641,7 @@ export function WatchlistGroupPicker({ groups, groupIds, symbol, disabled, onTog
           className="z-50 rounded-card border border-border bg-base p-1 shadow-xl"
           onClick={event => event.stopPropagation()}
         >
-          <div className="px-2 pb-1 pt-1.5 text-[10px] text-muted">加入分组（可多选）</div>
+          <div className="px-2 pb-1 pt-1.5 text-[11px] text-muted">加入分组（可多选）</div>
           {groups.length === 0 ? (
             <div className="px-2 py-2 text-xs text-muted">暂无分组，请先新建</div>
           ) : groups.map(group => {
@@ -669,7 +669,7 @@ export function WatchlistGroupPicker({ groups, groupIds, symbol, disabled, onTog
             )
           })}
           {groups.length > 0 && groupIds.length === 0 && (
-            <div className="border-t border-border/60 px-2 pb-1 pt-1.5 text-[10px] text-muted">
+            <div className="border-t border-border/60 px-2 pb-1 pt-1.5 text-[11px] text-muted">
               未加入任何分组 — 标的仍在自选中
             </div>
           )}

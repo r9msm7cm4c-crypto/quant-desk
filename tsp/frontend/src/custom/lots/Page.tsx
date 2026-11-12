@@ -149,7 +149,7 @@ export function Lots() {
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-xs">
                   <thead>
-                    <tr className="border-b border-border/60 bg-surface/60 text-[10px] uppercase tracking-wide text-muted">
+                    <tr className="border-b border-border/60 bg-surface/60 text-[11px] uppercase tracking-wide text-muted">
                       <th className="px-4 py-2 font-medium">标的</th>
                       <th className="px-2 py-2 font-medium text-right">数量(参考)</th>
                       <th className="px-2 py-2 font-medium text-right">成本价</th>
@@ -173,7 +173,7 @@ export function Lots() {
                             className="inline-flex items-center gap-1.5 min-w-0 hover:bg-elevated/50 rounded px-0.5 py-0.5 transition-colors cursor-pointer"
                           >
                             <span className="font-mono font-medium text-foreground">{lot.symbol}</span>
-                            {(() => { const b = boardTag(lot.symbol); return b && <span className={`inline-flex items-center justify-center rounded px-1 text-[9px] font-bold leading-tight border ${b.color}`}>{b.label}</span> })()}
+                            {(() => { const b = boardTag(lot.symbol); return b && <span className={`inline-flex items-center justify-center rounded px-1 text-[11px] font-bold leading-tight border ${b.color}`}>{b.label}</span> })()}
                             {symbolNames[lot.symbol] && <span className="text-secondary truncate max-w-28">{symbolNames[lot.symbol]}</span>}
                           </button>
                         </td>
@@ -199,7 +199,7 @@ export function Lots() {
                             <button
                               onClick={() => setEditing(lot)}
                               title="编辑"
-                              className="p-1.5 rounded-md text-secondary transition-all hover:bg-accent/10 hover:text-accent cursor-pointer"
+                              className="p-1.5 rounded-md text-secondary transition-colors hover:bg-accent/10 hover:text-accent cursor-pointer"
                             >
                               <Pencil className="h-3.5 w-3.5" />
                             </button>
@@ -207,7 +207,7 @@ export function Lots() {
                               <button
                                 onClick={() => handleClickDelete(lot.id)}
                                 title="再次点击确认删除"
-                                className="inline-flex items-center gap-1 rounded-md bg-danger/15 px-1.5 py-0.5 text-[9px] font-medium text-danger border border-danger/30 animate-pulse cursor-pointer"
+                                className="inline-flex items-center gap-1 rounded-md bg-danger/15 px-1.5 py-0.5 text-[11px] font-medium text-danger border border-danger/30 animate-pulse cursor-pointer"
                               >
                                 <Trash2 className="h-2.5 w-2.5" />确认
                               </button>
@@ -215,7 +215,7 @@ export function Lots() {
                               <button
                                 onClick={() => handleClickDelete(lot.id)}
                                 title="删除 (同步删除生成的监控规则)"
-                                className="p-1.5 rounded-md text-secondary transition-all hover:bg-danger/10 hover:text-danger cursor-pointer"
+                                className="p-1.5 rounded-md text-secondary transition-colors hover:bg-danger/10 hover:text-danger cursor-pointer"
                               >
                                 <Trash2 className="h-3.5 w-3.5" />
                               </button>
@@ -318,7 +318,7 @@ function LotDialog({ lot, onClose }: { lot: Lot; onClose: () => void }) {
     <Modal onClose={onClose} ariaLabel={lot.id ? '编辑批次' : '新增批次'} panelClassName="w-[92vw] max-w-md bg-surface border border-border rounded-card shadow-xl">
       <div className="flex items-center justify-between border-b border-border/60 px-4 py-3">
         <span className="text-sm font-medium text-foreground">{lot.id ? '编辑批次' : '新增批次'}</span>
-        <span className="text-[10px] text-muted">保存后自动同步监控规则</span>
+        <span className="text-[11px] text-muted">保存后自动同步监控规则</span>
       </div>
       <div className="space-y-3 px-4 py-4">
         {/* 标的 */}
@@ -328,9 +328,9 @@ function LotDialog({ lot, onClose }: { lot: Lot; onClose: () => void }) {
             <div className="flex items-center gap-2">
               <span className="inline-flex items-center gap-1 rounded bg-elevated px-2 py-1 font-mono text-[11px] text-secondary">
                 {draft.symbol}
-                <button onClick={() => setDraft(d => ({ ...d, symbol: '' }))} className="text-muted hover:text-danger cursor-pointer"><span className="text-[10px]">✕</span></button>
+                <button onClick={() => setDraft(d => ({ ...d, symbol: '' }))} className="text-muted hover:text-danger cursor-pointer"><span className="text-[11px]">✕</span></button>
               </span>
-              <span className="text-[10px] text-muted">点 ✕ 可重选</span>
+              <span className="text-[11px] text-muted">点 ✕ 可重选</span>
             </div>
           ) : (
             <div className="relative">
@@ -396,7 +396,7 @@ function LotDialog({ lot, onClose }: { lot: Lot; onClose: () => void }) {
           <label className="space-y-1.5">
             <span className="text-[11px] text-muted">提前提醒天数</span>
             <input type="number" min={0} placeholder="1" {...numField('lead_days')} className="h-9 w-full rounded-btn border border-border bg-base px-3 text-xs text-foreground" />
-            <span className="block text-[10px] text-muted">提醒仅在交易时段评估; 到期日若逢周末或长假, 请把提前天数调大些 (建议 ≥ 2, 长假更大)</span>
+            <span className="block text-[11px] text-muted">提醒仅在交易时段评估; 到期日若逢周末或长假, 请把提前天数调大些 (建议 ≥ 2, 长假更大)</span>
           </label>
         )}
 

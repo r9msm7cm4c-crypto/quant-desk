@@ -8,7 +8,7 @@ export function SectionHead({ num, title, children }: {
 }) {
   return (
     <div className="flex items-center gap-2.5 mb-2.5">
-      <span className="font-mono text-[10px] text-amber-500/80 tabular-nums">{num}</span>
+      <span className="font-mono text-[11px] text-amber-500/80 tabular-nums">{num}</span>
       <span className="text-xs font-semibold text-foreground shrink-0">{title}</span>
       <div className="flex-1 h-px bg-border/60" />
       {children}

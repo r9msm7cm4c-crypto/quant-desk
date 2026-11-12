@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, useState, Suspense, type ReactNode } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useRef, useState, Suspense } from 'react'
 import { NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { motion } from 'framer-motion'
@@ -46,18 +46,16 @@ import {
   PanelLeftOpen,
   Download,
   HardDriveDownload,
+  LayoutDashboard,
+  Star,
+  Filter,
+  FlaskConical,
+  History,
+  Activity,
+  LineChart,
+  Database,
 } from 'lucide-react'
-import {
-  IconDashboard,
-  IconWatchlist,
-  IconStrategy,
-  IconFactors,
-  IconBacktest,
-  IconRegime,
-  IconIndices,
-  IconData,
-  type BrandIconProps,
-} from './BrandIcons'
+
 import { Logo } from './Logo'
 import { api, type CapabilityMatrix, type IndexQuote } from '@/lib/api'
 import { cn } from '@/lib/cn'
@@ -73,7 +71,7 @@ import { ExtensionSlot } from '@/extensions/ExtensionSlot'
 import { getFrontendExtensionNavigation } from '@/extensions/registry'
 
 // 品牌色 — 只用于 logo / brand 区域,不影响功能语义色
-const BRAND = '#8B5CF6'
+const BRAND = 'hsl(var(--accent))'
 
 // 核心四只指数 — 与后端 index_const.py 单一权威对齐 (前端展示层固定清单)
 export const CORE_INDEXES = [
@@ -86,14 +84,14 @@ export const CORE_INDEXES = [
 type CoreIndex = (typeof CORE_INDEXES)[number]
 
 const nav = [
-  { to: '/',                 label: '看板',     icon: IconDashboard },
-  { to: '/watchlist',        label: '自选',     icon: IconWatchlist },
-  { to: '/screener',         label: '策略',     icon: IconStrategy },
-  { to: '/factors',          label: '因子',     icon: IconFactors },
-  { to: '/backtest',         label: '回测',     icon: IconBacktest },
-  { to: '/regime',           label: '市场环境', icon: IconRegime },
-  { to: '/indices',          label: '指数',     icon: IconIndices },
-  { to: '/data',             label: '数据',     icon: IconData },
+  { to: '/',                 label: '看板',     icon: LayoutDashboard },
+  { to: '/watchlist',        label: '自选',     icon: Star },
+  { to: '/screener',         label: '策略',     icon: Filter },
+  { to: '/factors',          label: '因子',     icon: FlaskConical },
+  { to: '/backtest',         label: '回测',     icon: History },
+  { to: '/regime',           label: '市场环境', icon: Activity },
+  { to: '/indices',          label: '指数',     icon: LineChart },
+  { to: '/data',             label: '数据',     icon: Database },
 ] as const
 
 /** 离线版入口 — 同源 /pwa/ 下挂的单文件 PWA。不存在时自动隐藏(独立部署的实例)。 */
@@ -114,7 +112,7 @@ function PwaNavLink({ railMode }: { railMode: boolean }) {
       rel="noreferrer"
       title={railMode ? '离线版' : '单文件离线 PWA · 无需后端，可装到桌面'}
       className={cn(
-        'group relative flex items-center rounded-btn text-sm transition-all duration-150 ease-smooth',
+        'group relative flex items-center rounded-btn text-sm transition-colors duration-150 ease-smooth',
         railMode ? 'justify-center px-0 py-2' : 'gap-3 px-3 py-2',
         'text-foreground/75 hover:bg-elevated/70 hover:text-foreground',
       )}
@@ -123,7 +121,7 @@ function PwaNavLink({ railMode }: { railMode: boolean }) {
       {!railMode && (
         <span className="flex min-w-0 flex-1 items-center gap-1.5">
           <span className="truncate">离线版</span>
-          <span className="shrink-0 font-mono text-[8px] font-medium uppercase leading-none tracking-[0.08em] text-muted/70">
+          <span className="shrink-0 font-mono text-[8px] font-medium uppercase leading-none text-muted/70">
             pwa
           </span>
         </span>
@@ -173,7 +171,7 @@ function MonitorBadge({ active }: { active: boolean }) {
   })()
   if (active || unread <= 0 || !badgeEnabled) return null
   return (
-    <span className="inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-danger px-1 text-[9px] font-bold text-white animate-pulse">
+    <span className="inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-danger px-1 text-[11px] font-bold text-white animate-pulse">
       {unread > 99 ? '99+' : unread}
     </span>
   )
@@ -199,10 +197,10 @@ function SidebarIndexQuotes({ rows, items }: { rows: IndexQuote[] | undefined; i
                 「上证指数」41px + 涨跌幅 36px 已接近占满, 任其收缩或换行会把
                 指数名折成两行 (曾出现「上证指/数」)。px-1.5 是为此留出的余量。 */}
             <div className="flex items-center justify-between gap-1">
-              <span className="min-w-0 truncate text-[10px] text-secondary">{item.name}</span>
-              <span className={`shrink-0 text-[10px] font-mono ${indexPctClass(pct)}`}>{fmtIndexPct(pct)}</span>
+              <span className="min-w-0 truncate text-[11px] text-secondary">{item.name}</span>
+              <span className={`shrink-0 text-[11px] font-mono ${indexPctClass(pct)}`}>{fmtIndexPct(pct)}</span>
             </div>
-            <div className={`mt-0.5 truncate font-mono text-[10px] ${indexPctClass(pct)}`}>
+            <div className={`mt-0.5 truncate font-mono text-[11px] ${indexPctClass(pct)}`}>
               {fmtIndexValue(value)}
             </div>
           </NavLink>
@@ -242,7 +240,7 @@ function QuickDataEntry({ syncing, justDone }: { syncing: boolean; justDone: boo
 // 档位/订阅信息归设置页 TickFlow 介绍卡 (档位词仅出现在 TickFlow 专属界面的设计规则)。
 // 单能力方格: 可用=绿 / 日K缺失=红 / 其他缺失=琥珀 (与悬浮卡中同色, 一眼对应)
 function capSquareCls(c: { id: string; usable: boolean }) {
-  return c.usable ? 'bg-accent' : c.id === 'daily' ? 'bg-danger' : 'bg-warning/80'
+  return c.usable ? 'bg-accent/80' : c.id === 'daily' ? 'bg-danger' : 'bg-border'
 }
 
 function DataSourceHealthBadge({ matrix }: { matrix: CapabilityMatrix | undefined }) {
@@ -313,7 +311,7 @@ function DataSourceHealthBadge({ matrix }: { matrix: CapabilityMatrix | undefine
               ))}
         </span>
         {!loading && (
-          <span className={`ml-auto text-[10px] font-mono font-bold leading-none shrink-0 ${countCls}`}>
+          <span className={`ml-auto text-[11px] font-mono font-bold leading-none shrink-0 ${countCls}`}>
             {usableCount}/{caps.length}
           </span>
         )}
@@ -337,7 +335,7 @@ function DataSourceHealthBadge({ matrix }: { matrix: CapabilityMatrix | undefine
                 <DatabaseZap className="h-3.5 w-3.5 text-accent" />
                 数据源能力
               </span>
-              <span className={`text-[10px] font-mono font-bold ${countCls}`}>
+              <span className={`text-[11px] font-mono font-bold ${countCls}`}>
                 {loading ? '获取中…' : `${usableCount}/${caps.length} 可用`}
               </span>
             </div>
@@ -362,10 +360,10 @@ function DataSourceHealthBadge({ matrix }: { matrix: CapabilityMatrix | undefine
               ))}
             </div>
             {/* 分时有分钟K功能替身 (intraday_monitor_support 三路可达), 不单独占能力格, 在此备注 */}
-            <div className="mt-1.5 text-[10px] leading-relaxed text-muted/70">
+            <div className="mt-1.5 text-[11px] leading-relaxed text-muted/70">
               分时信号监控可由分钟 K 数据驱动，不单独设能力格
             </div>
-            <div className="mt-2 flex items-center gap-1 border-t border-border/60 pt-1.5 text-[10px] text-muted">
+            <div className="mt-2 flex items-center gap-1 border-t border-border/60 pt-1.5 text-[11px] text-muted">
               点击前往数据源配置
               <ChevronRight className="h-3 w-3" />
             </div>
@@ -625,7 +623,7 @@ export function Layout() {
   }, [alertsTotal])
 
   // 合并内置页面 + 可见的扩展分析菜单
-  type NavIcon = (props: BrandIconProps) => ReactNode
+  type NavIcon = React.ComponentType<any>
   // arch: 'ext' = 扩展域页面 (官方扩展/自定义分析), 核心域 nav 常量不带标。
   // 与菜单设置 ARCH_CLASS 同口径: nav 常量 8 项全部核心, 其余两个来源全部扩展。
   type NavItem = { to: string; label: string; icon: NavIcon; badge?: string; arch?: 'core' | 'ext' }
@@ -744,7 +742,7 @@ export function Layout() {
   return (
     <div
       className="h-full grid bg-base text-foreground overflow-hidden transition-[grid-template-columns] duration-200 ease-smooth"
-      style={{ gridTemplateColumns: isDesktop && !overlayPreview ? (navState === 'expanded' ? '14rem 1fr' : navState === 'rail' ? '3.5rem 1fr' : '0 1fr') : '1fr' }}
+      style={{ gridTemplateColumns: isDesktop && !overlayPreview ? (navState === 'expanded' ? '15rem 1fr' : navState === 'rail' ? '3.5rem 1fr' : '0 1fr') : '1fr' }}
     >
       {/* 移动端抽屉遮罩 */}
       {!isDesktop && drawerOpen && (
@@ -799,13 +797,18 @@ export function Layout() {
           {/* Brand block — 收起时只显 logo 居中 */}
           <div className={cn('flex', railMode ? 'flex-col items-center gap-2' : 'items-center gap-2')}>
             <Logo
-              size={railMode ? 24 : 26}
-              className="shrink-0 drop-shadow-[0_0_8px_rgba(139,92,246,0.4)]"
+              size={railMode ? 22 : 24}
+              className="shrink-0"
               style={{ color: BRAND }}
             />
             {!railMode && (
-              <div className="font-semibold text-[11px] uppercase tracking-[0.12em] text-foreground/90 whitespace-nowrap">
-                Tick Stock Panel
+              <div className="min-w-0">
+                <div className="text-[13px] font-semibold leading-tight text-foreground whitespace-nowrap">
+                  Tick Stock Panel
+                </div>
+                <div className="mt-0.5 text-[11px] leading-none text-muted whitespace-nowrap">
+                  A 股研究终端
+                </div>
               </div>
             )}
             {/* 收起/展开 按钮 (桌面三态循环) / 移动端抽屉关闭按钮 */}
@@ -853,20 +856,28 @@ export function Layout() {
         </div>
 
         <nav className="tf-nav-scroll flex-1 min-h-0 overflow-y-auto px-2 py-3 space-y-0.5">
-          {visibleNavItems.map(({ to, label, icon: Icon, badge, arch }) => {
+          {visibleNavItems.map(({ to, label, icon: Icon, badge, arch }, navIdx) => {
             // 「自选」项 — 开启分组侧栏且未整体收起时, 渲染为可展开父项 + 二级分组
             const isWatchlistExpandable = to === '/watchlist' && groupsInNav && !railMode && watchlistGroups.length > 0
+            // 分组标题：核心 → 市场 → 扩展，把 30+ 项切成三段，降低一屏密度
+            const prevArch = navIdx > 0 ? visibleNavItems[navIdx - 1].arch : undefined
+            const groupLabel = !railMode && arch === 'ext' && prevArch !== 'ext' ? '扩展' : null
             return (
               <div key={to}>
+                {groupLabel && (
+                  <div className="mb-1 mt-3.5 px-3 text-[11px] leading-none text-muted/80">
+                    {groupLabel}
+                  </div>
+                )}
                 {isWatchlistExpandable ? (
                   /* 可展开的自选父项 — 点击切换展开, 不直接跳页 */
                   <button
                     onClick={() => setWatchlistNavExpanded(v => !v)}
                     className={cn(
-                      'group relative flex w-full items-center gap-3 rounded-btn px-3 py-2 text-sm transition-all duration-150 ease-smooth',
+                      'group relative flex w-full items-center gap-2.5 rounded-btn px-3 py-2 text-[13px] transition-colors duration-140 ease-smooth',
                       location.pathname === '/watchlist'
                         ? 'bg-elevated text-foreground font-medium'
-                        : 'text-foreground/75 hover:bg-elevated/70 hover:text-foreground',
+                        : 'text-secondary hover:bg-elevated/60 hover:text-foreground',
                     )}
                   >
                     <span
@@ -875,7 +886,10 @@ export function Layout() {
                         location.pathname === '/watchlist' ? 'opacity-100' : 'opacity-0',
                       )}
                     />
-                    <Icon className={cn('h-4 w-4 shrink-0 transition-colors', location.pathname === '/watchlist' ? 'text-accent' : 'text-foreground/60 group-hover:text-foreground/85')} />
+                    <Icon
+                      strokeWidth={1.5}
+                      className={cn('h-4 w-4 shrink-0 transition-colors', location.pathname === '/watchlist' ? 'text-accent' : 'text-muted group-hover:text-secondary')}
+                    />
                     <span className="flex-1 text-left">{label}</span>
                     {watchlistNavExpanded
                       ? <ChevronDown className="h-3.5 w-3.5 shrink-0 text-muted" />
@@ -889,11 +903,11 @@ export function Layout() {
                     title={railMode ? label : undefined}
                     className={({ isActive }) =>
                       cn(
-                        'group relative flex items-center rounded-btn text-sm transition-all duration-150 ease-smooth',
-                        railMode ? 'justify-center px-0 py-2' : 'gap-3 px-3 py-2',
+                        'group relative flex items-center rounded-btn text-[13px] transition-colors duration-140 ease-smooth',
+                        railMode ? 'justify-center px-0 py-2' : 'gap-2.5 px-3 py-2',
                         isActive
                           ? 'bg-elevated text-foreground font-medium'
-                          : 'text-foreground/75 hover:bg-elevated/70 hover:text-foreground',
+                          : 'text-secondary hover:bg-elevated/60 hover:text-foreground',
                       )
                     }
                   >
@@ -906,24 +920,21 @@ export function Layout() {
                             isActive ? 'opacity-100' : 'opacity-0',
                           )}
                         />
-                        <Icon className={cn('h-4 w-4 shrink-0 transition-colors', isActive ? 'text-accent' : 'text-foreground/60 group-hover:text-foreground/85')} />
+                        <Icon
+                          strokeWidth={1.5}
+                          className={cn('h-4 w-4 shrink-0 transition-colors', isActive ? 'text-accent' : 'text-muted group-hover:text-secondary')}
+                        />
                         {!railMode && (
                           <span className="flex min-w-0 flex-1 items-center gap-1.5">
                             <span className="truncate">{label}</span>
-                            {arch === 'ext' && (
-                              <span
-                                title="扩展域页面 — 可整体替换/移除而不伤核心"
-                                className="shrink-0 font-mono text-[8px] font-medium uppercase leading-none tracking-[0.08em] text-muted/70"
-                              >
-                                ext
-                              </span>
-                            )}
+
                           </span>
                         )}
                         {!railMode && badge && (
-                          <span className="ml-auto inline-flex items-center rounded-full border border-amber-400/30 bg-amber-400/10 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-amber-400 shrink-0">
-                            {badge}
-                          </span>
+                          <span
+                            title={badge}
+                            className="ml-auto h-1.5 w-1.5 shrink-0 rounded-full bg-warning/80"
+                          />
                         )}
                         {/* 数据同步状态: 同步中转圈, 刚完成显示绿色对勾闪烁 3 秒 */}
                         {to === '/data' && isDataSyncing && !railMode && (
@@ -956,7 +967,7 @@ export function Layout() {
                       {(() => {
                         const info = navGroupPcts['all']
                         return info && info.pct != null ? (
-                          <span className={`ml-auto font-mono text-[10px] tabular-nums ${groupPctColor(info.pct)}`} title={groupPctTitle(info)}>
+                          <span className={`ml-auto font-mono text-[11px] tabular-nums ${groupPctColor(info.pct)}`} title={groupPctTitle(info)}>
                             {fmtPct(info.pct)}
                           </span>
                         ) : null
@@ -981,7 +992,7 @@ export function Layout() {
                           <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${color.dot}`} />
                           <span className="truncate">{group.name}</span>
                           {pctInfo && pctInfo.pct != null && (
-                            <span className={`ml-auto font-mono text-[10px] tabular-nums ${groupPctColor(pctInfo.pct)}`} title={groupPctTitle(pctInfo)}>
+                            <span className={`ml-auto font-mono text-[11px] tabular-nums ${groupPctColor(pctInfo.pct)}`} title={groupPctTitle(pctInfo)}>
                               {fmtPct(pctInfo.pct)}
                             </span>
                           )}
@@ -1021,11 +1032,11 @@ export function Layout() {
             <div>
               <div className="flex items-center justify-between">
                 <span className="text-xs text-secondary truncate">实时行情</span>
-                <span className="text-[10px] text-muted/80 bg-elevated px-1.5 py-0.5 rounded">
+                <span className="text-[11px] text-muted/80 bg-elevated px-1.5 py-0.5 rounded">
                   不可用
                 </span>
               </div>
-              <div className="mt-1.5 text-[10px] leading-snug text-muted">
+              <div className="mt-1.5 text-[11px] leading-snug text-muted">
                 当前数据源无实时行情权限,
                 <button
                   type="button"
@@ -1043,7 +1054,7 @@ export function Layout() {
                 <span className={`inline-block h-2 w-2 shrink-0 rounded-full ${realtimeIndicatorClass}`} />
                 <div className="min-w-0">
                   <div className="text-xs font-medium leading-none text-foreground">实时行情</div>
-                  <div className="mt-1 flex min-w-0 items-center gap-1 text-[10px] leading-none">
+                  <div className="mt-1 flex min-w-0 items-center gap-1 text-[11px] leading-none">
                     <span className="truncate text-muted">{realtimeProviderName || realtimeModeLabel}</span>
                     <span className="shrink-0 text-border" aria-hidden="true">·</span>
                     <span className={`shrink-0 ${realtimeStatusClass}`}>{realtimeStatusLabel}</span>
@@ -1069,9 +1080,9 @@ export function Layout() {
                   disabled={realtimeToggleDisabled}
                   title={realtimeToggleTitle}
                   className={cn(
-                    'relative inline-flex h-5 w-9 items-center rounded-full border transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-1 focus-visible:ring-offset-surface',
+                    'relative inline-flex h-5 w-9 items-center rounded-full border transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-1 focus-visible:ring-offset-surface',
                     realtimeEnabled
-                      ? 'border-accent/50 bg-accent shadow-[0_0_6px_rgba(59,130,246,0.25)]'
+                      ? 'border-accent/50 bg-accent'
                       : 'border-border bg-elevated hover:border-muted',
                     realtimeToggleDisabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer',
                   )}
@@ -1090,7 +1101,7 @@ export function Layout() {
             && (!realtimeUnavailable || realtimeProviderName)
             && (isPaused || (isWatchlistMode && !dismissFreeHint && !realtimeProviderName))
             && (
-              <div className="mt-1.5 text-[10px] leading-snug space-y-0.5">
+              <div className="mt-1.5 text-[11px] leading-snug space-y-0.5">
                 {isWatchlistMode && !dismissFreeHint && !realtimeProviderName && (
                   <div className="flex items-start gap-1 text-amber-400/80">
                     <span className="flex-1">自选实时模式监控前 5 只，全市场实时依赖数据源支持</span>
@@ -1122,7 +1133,7 @@ export function Layout() {
               title={railMode ? '设置' : undefined}
               className={({ isActive }) =>
                 cn(
-                  'group relative flex items-center rounded-btn text-sm transition-all duration-150 ease-smooth',
+                  'group relative flex items-center rounded-btn text-sm transition-colors duration-150 ease-smooth',
                   railMode ? 'justify-center px-0 py-2' : 'flex-1 gap-3 px-3 py-2',
                   isActive
                     ? 'bg-elevated text-foreground font-medium'
@@ -1141,7 +1152,7 @@ export function Layout() {
                   <Settings className={cn('h-4 w-4 shrink-0 transition-colors', isActive ? 'text-accent' : 'text-foreground/60 group-hover:text-foreground/85')} />
                   {!railMode && <span className="whitespace-nowrap">设置</span>}
                   {!railMode && version && (
-                    <span className="ml-auto flex items-center gap-1.5 font-mono text-[10px] text-muted/50 select-none shrink-0">
+                    <span className="ml-auto flex items-center gap-1.5 font-mono text-[11px] text-muted/50 select-none shrink-0">
                       {version}
                       {hasUpdate && update.info && (
                         <span
@@ -1160,7 +1171,7 @@ export function Layout() {
                               navigate('/settings?tab=about&autoupdate=1')
                             }
                           }}
-                          className="inline-flex cursor-pointer text-amber-400 transition-transform hover:scale-110 animate-breath"
+                          className="inline-flex cursor-pointer text-amber-400 transition-transform animate-breath"
                         >
                           <Download className="h-3 w-3" />
                         </span>
@@ -1169,7 +1180,7 @@ export function Layout() {
                   )}
                   {railMode && hasUpdate && (
                     <span
-                      className="absolute right-1.5 top-1.5 h-1.5 w-1.5 rounded-full bg-accent shadow-[0_0_6px_rgba(59,130,246,0.8)]"
+                      className="absolute right-1.5 top-1.5 h-1.5 w-1.5 rounded-full bg-accent"
                       title="发现新版本"
                     />
                   )}

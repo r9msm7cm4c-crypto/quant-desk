@@ -108,7 +108,7 @@ export function Settings() {
             </select>
           </label>
           {/* ===== 竖向 Tab 侧栏 ===== */}
-          <nav aria-label="设置分类" className={cn('hidden shrink-0 transition-all duration-200 ease-smooth md:block', collapsed ? 'w-10' : 'w-36')}>
+          <nav aria-label="设置分类" className={cn('hidden shrink-0 transition-colors duration-200 ease-smooth md:block', collapsed ? 'w-10' : 'w-36')}>
             <div className="flex flex-col gap-0.5 justify-center min-h-[60vh] sticky top-6">
               {/* 收起/展开 按钮 */}
               <button
@@ -136,16 +136,14 @@ export function Settings() {
                     'relative flex items-center rounded-btn text-sm transition-colors duration-150 ease-smooth',
                     collapsed ? 'justify-center px-0 py-2' : 'items-center gap-2 px-3 py-2 text-left',
                     activeTab.key === key
-                      ? 'bg-accent/10 text-accent font-medium'
+                      ? 'bg-elevated text-foreground font-medium'
                       : 'text-secondary hover:text-foreground hover:bg-elevated/60',
                   )}
                 >
                   <Icon className="h-3.5 w-3.5 shrink-0" />
                   {!collapsed && <span>{label}</span>}
                   {!collapsed && badge && (
-                    <span className="ml-auto inline-flex items-center rounded-full border border-amber-400/30 bg-amber-400/10 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-amber-400 shrink-0">
-                      {badge}
-                    </span>
+                    <span title={badge} className="ml-auto h-1.5 w-1.5 shrink-0 rounded-full bg-warning/80" />
                   )}
                 </button>
               ))}

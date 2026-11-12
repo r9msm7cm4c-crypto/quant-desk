@@ -151,7 +151,7 @@ export function AnalysisConfigDialog({
             </div>
           )}
 
-          <div className="text-[10px] text-muted leading-relaxed">
+          <div className="text-[11px] text-muted leading-relaxed">
             系统自动检测数据结构：支持"个股→概念/行业"和"概念/行业→成分股列表"两种模式。
             {showHierarchyLevel ? ' 行业字段按 “-” 拆分为 1/2/3 级。' : ''}
           </div>
@@ -253,7 +253,7 @@ export function DimensionHeatmap({
         <span className="text-xs text-muted">热度分布（按标的覆盖数）</span>
         <button
           onClick={() => setShowAll(v => !v)}
-          className="text-[10px] text-muted hover:text-foreground flex items-center gap-0.5"
+          className="text-[11px] text-muted hover:text-foreground flex items-center gap-0.5"
         >
           {showAll ? '收起' : `展开全部 (${enriched.length})`}
           <ChevronDown className={`h-3 w-3 transition-transform ${showAll ? 'rotate-180' : ''}`} />
@@ -275,7 +275,7 @@ export function DimensionHeatmap({
             <button
               key={g.key}
               onClick={() => onSelect(active ? null : g.key)}
-              className="px-2.5 py-1.5 rounded-sm text-[11px] whitespace-nowrap cursor-pointer hover:brightness-125 transition-all"
+              className="px-2.5 py-1.5 rounded-sm text-[11px] whitespace-nowrap cursor-pointer hover:brightness-125 transition-colors"
               style={{
                 fontSize: `${10 + size * 2}px`,
                 color: active ? '#fff' : `rgba(${r},${gr},${b},${0.6 + upRatio * 0.4})`,
@@ -366,14 +366,14 @@ export function DimensionGroupSidebar({
               style={active ? { backgroundColor: accentBg, borderColor: accentBorder } : undefined}
             >
               <div className="flex items-center gap-2">
-                <span className="w-5 text-[10px] font-mono text-muted">#{i + 1}</span>
+                <span className="w-5 text-[11px] font-mono text-muted">#{i + 1}</span>
                 <span className="flex-1 truncate text-xs font-medium text-foreground">{group.key}</span>
                 <span className="font-mono text-xs text-secondary">{group.count}</span>
               </div>
               {/* 覆盖量进度条 */}
               <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-elevated">
                 <div
-                  className="h-full rounded-full transition-all"
+                  className="h-full rounded-full transition-colors"
                   style={{
                     width: `${Math.max(6, (group.count / (filtered[0]?.count || 1)) * 100)}%`,
                     backgroundColor: accentColor,
@@ -381,7 +381,7 @@ export function DimensionGroupSidebar({
                 />
               </div>
               {/* 行情摘要 */}
-              <div className="mt-1 flex flex-wrap gap-x-3 gap-y-1 text-[10px] text-muted">
+              <div className="mt-1 flex flex-wrap gap-x-3 gap-y-1 text-[11px] text-muted">
                 {qm.avgPct != null && (
                   <span className={priceColorClass(qm.avgPct)}>
                     均幅 {fmtPct(qm.avgPct)}

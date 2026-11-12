@@ -84,7 +84,7 @@ function turnoverColor(rate: number | null | undefined): string {
   if (rate == null || Number.isNaN(rate)) return 'text-[#888]'
   if (rate < 5)   return 'text-[#888]'
   if (rate < 10)  return 'text-[#d4a800]'
-  if (rate < 20)  return 'text-[#f97316]'
+  if (rate < 20)  return 'text-[#DB9A2B]'
   if (rate < 35)  return 'text-[#d94a3d]'
   return 'text-[#b84a8a]'
 }
@@ -153,19 +153,19 @@ function renderExtValue(
           key={i}
           type="button"
           onClick={event => { event.stopPropagation(); onTagClick(tag) }}
-          className="inline-block px-1.5 py-px rounded text-[10px] font-medium leading-tight text-yellow-500 bg-yellow-500/10 hover:brightness-95"
+          className="inline-block px-1.5 py-px rounded text-[11px] font-medium leading-tight text-yellow-500 bg-yellow-500/10 hover:brightness-95"
         >
           {tag}
         </button>
       ) : (
-        <span key={i} className="inline-block px-1.5 py-px rounded text-[10px] font-medium leading-tight text-yellow-500 bg-yellow-500/10">
+        <span key={i} className="inline-block px-1.5 py-px rounded text-[11px] font-medium leading-tight text-yellow-500 bg-yellow-500/10">
           {tag}
         </span>
       ))}
       {!showAll && hiddenCount > 0 && (
         <button
           onClick={onToggle}
-          className="inline-block px-1.5 py-px rounded text-[10px] font-medium leading-tight text-accent bg-accent/10 hover:bg-accent/20 transition-colors"
+          className="inline-block px-1.5 py-px rounded text-[11px] font-medium leading-tight text-accent bg-accent/10 hover:bg-accent/20 transition-colors"
         >
           +{hiddenCount}
         </button>
@@ -173,7 +173,7 @@ function renderExtValue(
       {showAll && maxTags > 0 && tags.length > maxTags && (
         <button
           onClick={onToggle}
-          className="inline-block px-1.5 py-px rounded text-[10px] font-medium leading-tight text-muted hover:text-foreground transition-colors"
+          className="inline-block px-1.5 py-px rounded text-[11px] font-medium leading-tight text-muted hover:text-foreground transition-colors"
         >
           收起
         </button>
@@ -335,7 +335,7 @@ function StockSearchBox({
           onChange={(e) => { setQuery(e.target.value); setOpen(true); setActiveIdx(-1) }}
           onFocus={() => { if (query.trim()) setOpen(true) }}
           onKeyDown={handleKeyDown}
-          className="w-44 h-8 pl-8 pr-2.5 rounded-btn bg-elevated border border-border text-xs text-foreground placeholder:text-muted focus:outline-none focus:border-accent/50 focus:w-56 transition-all duration-200"
+          className="w-44 h-8 pl-8 pr-2.5 rounded-btn bg-elevated border border-border text-xs text-foreground placeholder:text-muted focus:outline-none focus:border-accent/50 focus:w-56 transition-colors duration-200"
         />
       </div>
 
@@ -368,15 +368,15 @@ function StockSearchBox({
                     <span className="flex min-w-0 flex-1 items-center gap-1">
                       <span className="truncate text-secondary">{r.name}</span>
                       {r.asset_type === 'etf' && (
-                        <span className="shrink-0 px-1 py-0.5 rounded text-[10px] leading-none bg-accent/10 text-accent">ETF</span>
+                        <span className="shrink-0 px-1 py-0.5 rounded text-[11px] leading-none bg-accent/10 text-accent">ETF</span>
                       )}
                       {r.asset_type === 'index' && (
-                        <span className="shrink-0 px-1 py-0.5 rounded text-[10px] leading-none bg-sky-500/10 text-sky-400">指数</span>
+                        <span className="shrink-0 px-1 py-0.5 rounded text-[11px] leading-none bg-sky-500/10 text-sky-400">指数</span>
                       )}
                       {(() => {
                         const b = boardTag(r.symbol)
                         return b && (
-                          <span className={`shrink-0 px-1 py-0.5 rounded text-[10px] leading-none border ${b.color}`}>{b.label}</span>
+                          <span className={`shrink-0 px-1 py-0.5 rounded text-[11px] leading-none border ${b.color}`}>{b.label}</span>
                         )
                       })()}
                     </span>
@@ -455,7 +455,7 @@ function RealtimeDot({ title = '实时监控中' }: { title?: string }) {
       {/* 外圈: 扩散晕 (ping 动画) */}
       <span className="absolute inline-flex h-full w-full rounded-full bg-accent/60 animate-ping motion-reduce:hidden" />
       {/* 内圈: 实心点 + 微辉光 */}
-      <span className="relative inline-flex rounded-full h-2 w-2 bg-accent shadow-[0_0_5px_rgba(61,214,140,0.6)]" />
+      <span className="relative inline-flex rounded-full h-2 w-2 bg-accent" />
     </span>
   )
 }
@@ -536,9 +536,9 @@ const StockCard = React.memo(function StockCard({
 
   // 动态背景渐变: 涨=红底, 跌=绿底, 平=无色
   const bgGlow = isUp
-    ? 'bg-gradient-to-br from-bull/[0.06] via-transparent to-bull/[0.02]'
+    ? 'bg-bull/[0.06]'
     : isDown
-      ? 'bg-gradient-to-br from-bear/[0.06] via-transparent to-bear/[0.02]'
+      ? 'bg-bear/[0.06]'
       : ''
   // 左侧指示条颜色
   const barColor = isUp ? 'bg-bull/70' : isDown ? 'bg-bear/70' : 'bg-muted/30'
@@ -547,7 +547,7 @@ const StockCard = React.memo(function StockCard({
 
   return (
     <div
-      className={`relative rounded-lg border border-border bg-surface hover:border-border/80 transition-all duration-200 group cursor-pointer overflow-hidden ${bgGlow} ${active ? 'ring-2 ring-accent/60' : ''}`}
+      className={`relative rounded-lg border border-border bg-surface hover:border-border/80 transition-colors duration-200 group cursor-pointer overflow-hidden ${bgGlow} ${active ? 'ring-2 ring-accent/60' : ''}`}
       onClick={() => onPreview(r.symbol, name ?? '')}
     >
       {/* 左侧彩色指示条 */}
@@ -559,7 +559,7 @@ const StockCard = React.memo(function StockCard({
           <div className="flex items-center gap-1" onClick={e => e.stopPropagation()}>
             <button
               onClick={() => onConfirmRemove(r.symbol)}
-              className="px-1.5 py-0.5 rounded text-[10px] text-danger bg-danger/10 hover:bg-danger/20 transition-colors"
+              className="px-1.5 py-0.5 rounded text-[11px] text-danger bg-danger/10 hover:bg-danger/20 transition-colors"
             >
               确认
             </button>
@@ -578,7 +578,7 @@ const StockCard = React.memo(function StockCard({
             />
             <button
               onClick={() => onRequestRemove(r.symbol)}
-              className="opacity-0 group-hover:opacity-100 text-muted hover:text-danger transition-all duration-150 p-0.5 rounded hover:bg-elevated"
+              className="opacity-0 group-hover:opacity-100 text-muted hover:text-danger transition-colors duration-150 p-0.5 rounded hover:bg-elevated"
               aria-label="移除"
             >
               <Trash2 className="h-3.5 w-3.5" />
@@ -598,12 +598,12 @@ const StockCard = React.memo(function StockCard({
             <span className="text-xs text-secondary truncate">{name}</span>
           )}
           {board && (
-            <span className={`shrink-0 inline-flex items-center justify-center px-1 h-[16px] rounded text-[9px] font-bold leading-none ${board.color}`}>
+            <span className={`shrink-0 inline-flex items-center justify-center px-1 h-[16px] rounded text-[11px] font-bold leading-none ${board.color}`}>
               {board.label}
             </span>
           )}
           {r.consecutive_limit_ups > 0 && (
-            <span className="shrink-0 inline-flex items-center justify-center px-1 h-[16px] rounded bg-danger/15 text-danger text-[9px] font-bold tabular-nums">
+            <span className="shrink-0 inline-flex items-center justify-center px-1 h-[16px] rounded bg-danger/15 text-danger text-[11px] font-bold tabular-nums">
               {r.consecutive_limit_ups === 1 ? '首板' : `${r.consecutive_limit_ups}连`}
             </span>
           )}
@@ -623,7 +623,7 @@ const StockCard = React.memo(function StockCard({
         </div>
 
         {/* 第三行: 指标 */}
-        <div className="flex flex-wrap items-center gap-x-2.5 gap-y-0.5 text-[10px] text-muted leading-relaxed">
+        <div className="flex flex-wrap items-center gap-x-2.5 gap-y-0.5 text-[11px] text-muted leading-relaxed">
           <span title="换手率">换手<span className={`font-mono ml-0.5 ${turnoverColor(r.turnover_rate)}`}>{r.turnover_rate != null ? `${r.turnover_rate.toFixed(2)}%` : '—'}</span></span>
           <span title="量比">量比<span className="font-mono ml-0.5">{fmtPrice(r.vol_ratio_5d)}</span></span>
           <span title="RSI14">RSI<span className="font-mono ml-0.5">{r.rsi_14 != null ? r.rsi_14.toFixed(1) : '—'}</span></span>
@@ -662,12 +662,12 @@ const StockCard = React.memo(function StockCard({
       {signals.length > 0 && (
         <div className="pl-4 pr-2.5 pt-1.5 pb-2 flex flex-wrap gap-1">
           {signals.slice(0, 3).map(s => (
-            <span key={s.label} className={`inline-block px-1.5 py-[1px] rounded text-[9px] font-medium leading-tight ${signalCls(s.type)}`}>
+            <span key={s.label} className={`inline-block px-1.5 py-[1px] rounded text-[11px] font-medium leading-tight ${signalCls(s.type)}`}>
               {s.label}
             </span>
           ))}
           {signals.length > 3 && (
-            <span className="inline-block px-1 py-[1px] rounded text-[9px] text-muted bg-elevated leading-tight">
+            <span className="inline-block px-1 py-[1px] rounded text-[11px] text-muted bg-elevated leading-tight">
               +{signals.length - 3}
             </span>
           )}
@@ -1507,7 +1507,7 @@ export function Watchlist() {
             {/* 数据未就绪提示: 自选了但 enriched 缓存未覆盖 (新股/冷门/新用户未同步), 指标全为 null */}
             {pendingCount > 0 && (
               <span
-                className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md text-[10px] font-medium bg-muted/15 text-muted border border-border/50 whitespace-nowrap"
+                className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md text-[11px] font-medium bg-muted/15 text-muted border border-border/50 whitespace-nowrap"
                 title={`当前有 ${pendingCount} 只指标暂未就绪 (新股/冷门股或数据尚未同步), 等待每日数据更新后自动补全`}
               >
                 <Clock className="h-2.5 w-2.5" />
@@ -1517,7 +1517,7 @@ export function Watchlist() {
             {/* 过滤提示: 仅在有筛选隐藏时出现, 柔和橙色融入整体 */}
             {hiddenCount > 0 && (
               <span
-                className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md text-[10px] font-medium bg-warning/12 text-warning/90 border border-warning/25 whitespace-nowrap"
+                className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md text-[11px] font-medium bg-warning/12 text-warning/90 border border-warning/25 whitespace-nowrap"
                 title={`当前有 ${hiddenCount} 只被筛选条件隐藏,清除筛选可查看全部`}
               >
                 <Filter className="h-2.5 w-2.5" />
@@ -1679,7 +1679,7 @@ export function Watchlist() {
         <div className="px-5 py-2 border-b border-border bg-surface/50 max-h-[184px] overflow-y-auto">
           {/* 板块筛选 */}
           <div className="mb-2">
-            <div className="text-[10px] text-muted uppercase tracking-wider mb-0.5">板块</div>
+            <div className="text-[11px] text-muted uppercase tracking-wider mb-0.5">板块</div>
             <div className="flex flex-wrap gap-1">
               {BOARD_OPTIONS.map(board => {
                 const active = boardFilter.has(board)
@@ -1701,7 +1701,7 @@ export function Watchlist() {
           </div>
           {/* 排除 ST */}
           <div className="mb-2">
-            <div className="text-[10px] text-muted uppercase tracking-wider mb-0.5">风险警示</div>
+            <div className="text-[11px] text-muted uppercase tracking-wider mb-0.5">风险警示</div>
             <div className="flex flex-wrap gap-1">
               <button
                 onClick={toggleExcludeST}
@@ -1721,7 +1721,7 @@ export function Watchlist() {
             if (!items?.length) return null
             return (
               <div key={cat.label} className="mb-1.5 last:mb-0">
-                <div className="text-[10px] text-muted uppercase tracking-wider mb-0.5">{cat.label}</div>
+                <div className="text-[11px] text-muted uppercase tracking-wider mb-0.5">{cat.label}</div>
                 <div className="flex flex-wrap gap-x-2 gap-y-1">
                   {items.map(item => {
                     const f = filters[item.id] || {}
@@ -1734,7 +1734,7 @@ export function Watchlist() {
                           value={f.min ?? ''}
                           onChange={e => updateFilter(item.id, { min: e.target.value })}
                           placeholder="min"
-                          className={`w-12 h-5 rounded border text-[10px] px-1 placeholder:text-muted focus:outline-none ${
+                          className={`w-12 h-5 rounded border text-[11px] px-1 placeholder:text-muted focus:outline-none ${
                             hasFilter ? 'border-accent/30 bg-accent/5' : 'border-border bg-elevated'
                           } text-foreground focus:border-accent/50`}
                         />
@@ -1744,7 +1744,7 @@ export function Watchlist() {
                           value={f.max ?? ''}
                           onChange={e => updateFilter(item.id, { max: e.target.value })}
                           placeholder="max"
-                          className={`w-12 h-5 rounded border text-[10px] px-1 placeholder:text-muted focus:outline-none ${
+                          className={`w-12 h-5 rounded border text-[11px] px-1 placeholder:text-muted focus:outline-none ${
                             hasFilter ? 'border-accent/30 bg-accent/5' : 'border-border bg-elevated'
                           } text-foreground focus:border-accent/50`}
                         />
@@ -1756,7 +1756,7 @@ export function Watchlist() {
             )
           })}
           {hasActiveFilters && (
-            <button onClick={resetAllFilters} className="mt-1 text-[10px] text-danger hover:text-danger/80 transition-colors">
+            <button onClick={resetAllFilters} className="mt-1 text-[11px] text-danger hover:text-danger/80 transition-colors">
               重置全部筛选
             </button>
           )}
@@ -1869,7 +1869,7 @@ export function Watchlist() {
                         <button
                           type="button"
                           onClick={(event) => { event.stopPropagation(); toggleIntradayYMode() }}
-                          className={`inline-flex items-center justify-center h-5 px-1 rounded text-[10px] whitespace-nowrap transition-colors ${
+                          className={`inline-flex items-center justify-center h-5 px-1 rounded text-[11px] whitespace-nowrap transition-colors ${
                             intradayYMode === 'limit'
                               ? 'text-accent bg-accent/10 hover:bg-accent/20'
                               : 'text-muted hover:text-foreground hover:bg-elevated'
@@ -1914,7 +1914,7 @@ export function Watchlist() {
                             </span>
                           )}
                           {board ? (
-                            <span className={`shrink-0 inline-flex items-center justify-center w-[18px] h-[18px] rounded text-[9px] font-bold leading-none border ${board.color}`}>
+                            <span className={`shrink-0 inline-flex items-center justify-center w-[18px] h-[18px] rounded text-[11px] font-bold leading-none border ${board.color}`}>
                               {board.label}
                             </span>
                           ) : null}
@@ -1926,7 +1926,7 @@ export function Watchlist() {
                             <div className="flex items-center gap-1">
                               <button
                                 onClick={() => { remove.mutate(r.symbol); setConfirmRemove(null) }}
-                                className="px-1.5 py-0.5 rounded text-[10px] text-danger bg-danger/10 hover:bg-danger/20 transition-colors"
+                                className="px-1.5 py-0.5 rounded text-[11px] text-danger bg-danger/10 hover:bg-danger/20 transition-colors"
                               >
                                 确认
                               </button>
@@ -2003,12 +2003,12 @@ export function Watchlist() {
                       {signals.length > 0 && (
                         <div className="flex flex-wrap gap-0.5">
                           {signals.slice(0, 3).map((s) => (
-                            <span key={s.label} className={`inline-block px-1.5 py-px rounded text-[10px] font-medium leading-tight ${signalCls(s.type)}`}>
+                            <span key={s.label} className={`inline-block px-1.5 py-px rounded text-[11px] font-medium leading-tight ${signalCls(s.type)}`}>
                               {s.label}
                             </span>
                           ))}
                           {signals.length > 3 && (
-                            <span className="text-[10px] text-muted">+{signals.length - 3}</span>
+                            <span className="text-[11px] text-muted">+{signals.length - 3}</span>
                           )}
                         </div>
                       )}
@@ -2035,7 +2035,7 @@ export function Watchlist() {
                     return (
                       <td className="pl-3 pr-2 py-1.5 border-l border-border/30" style={{ width: iw + 4, minWidth: iw + 4, maxWidth: iw + 4, height: ih }}>
                         <div className="flex items-center justify-center">
-                          <span className="text-[10px] text-muted">—</span>
+                          <span className="text-[11px] text-muted">—</span>
                         </div>
                       </td>
                     )
@@ -2060,7 +2060,7 @@ export function Watchlist() {
                               volume={intradayResolved.volume}
                               auctionWidth={intradayResolved.auctionWidth}
                             />
-                          : <span className="text-[10px] text-muted">分时</span>}
+                          : <span className="text-[11px] text-muted">分时</span>}
                       </div>
                     </td>
                   )

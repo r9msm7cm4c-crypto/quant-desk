@@ -28,8 +28,8 @@ export function fmtBigNum(v: number): string {
 // 序列颜色 (双主题通用); 画布文字/网格/边框主题相关色走 ChartTheme
 const THEME = {
   background: 'transparent',
-  bull: '#F04438',
-  bear: '#12B76A',
+  bull: '#E05A52',
+  bear: '#3FA97A',
   volBull: 'rgba(240,68,56,0.4)',
   volBear: 'rgba(18,183,106,0.4)',
 }

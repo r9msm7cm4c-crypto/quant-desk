@@ -33,7 +33,7 @@ import { Logo } from '@/components/Logo'
 
 const STEPS = ['声明', '欢迎', '数据源', '能力路由', '完成'] as const
 
-const BRAND = '#8B5CF6'
+const BRAND = '#63A7D9'
 
 const HIGHLIGHTS = [
   { icon: LineChart,   title: '看板与自选', desc: '市场全景看板、涨跌分布、情绪雷达,自定义自选列表', tint: 'text-accent' },
@@ -197,7 +197,7 @@ function DisclaimerStep({ onNext }: { onNext: () => void }) {
       <div className="mt-6 flex items-center justify-center">
         <button
           onClick={onNext}
-          className="inline-flex items-center gap-2 px-6 h-11 rounded-xl bg-accent text-white text-sm font-semibold shadow-lg shadow-accent/20 hover:bg-accent/90 hover:shadow-accent/30 transition-all"
+          className="inline-flex items-center gap-2 px-6 h-11 rounded-xl bg-accent text-white text-sm font-semibold shadow-lg shadow-accent/20 hover:bg-accent/90 hover:shadow-accent/30 transition-colors"
         >
           我已了解,继续
           <ArrowRight className="h-4 w-4" />
@@ -243,7 +243,7 @@ function WelcomeStep({ onNext, onSkip }: { onNext: () => void; onSkip: () => voi
             className="group flex items-start gap-2.5 rounded-card border border-border bg-surface/80 backdrop-blur-sm p-2.5 transition-colors hover:border-accent/30"
           >
             <div className="rounded-lg bg-elevated/50 p-1.5 shrink-0">
-              <h.icon className={`h-4 w-4 ${h.tint} transition-transform group-hover:scale-110`} />
+              <h.icon className={`h-4 w-4 ${h.tint} transition-transform`} />
             </div>
             <div className="min-w-0">
               <div className="text-xs font-medium text-foreground">{h.title}</div>
@@ -256,7 +256,7 @@ function WelcomeStep({ onNext, onSkip }: { onNext: () => void; onSkip: () => voi
       <div className="mt-8 flex items-center justify-center gap-3">
         <button
           onClick={onNext}
-          className="inline-flex items-center gap-2 px-6 h-11 rounded-xl bg-accent text-white text-sm font-semibold shadow-lg shadow-accent/20 hover:bg-accent/90 hover:shadow-accent/30 transition-all"
+          className="inline-flex items-center gap-2 px-6 h-11 rounded-xl bg-accent text-white text-sm font-semibold shadow-lg shadow-accent/20 hover:bg-accent/90 hover:shadow-accent/30 transition-colors"
         >
           开始配置
           <ArrowRight className="h-4 w-4" />
@@ -464,20 +464,20 @@ function DataSourceStep({ onNext, onBack }: { onNext: () => void; onBack: () => 
                       {/* 名称行: 名称 + 弱化归属 + 费用小标 + 右侧状态胶囊 */}
                       <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
                         <span className="text-[15px] font-semibold leading-5 text-foreground">{row.display}</span>
-                        <span className="text-[10px] leading-none text-muted/45">第三方</span>
+                        <span className="text-[11px] leading-none text-muted/45">第三方</span>
                         {row.paid && (
-                          <span className="rounded bg-warning/12 px-1 py-0.5 text-[9px] font-medium leading-none text-warning">消耗积分</span>
+                          <span className="rounded bg-warning/12 px-1 py-0.5 text-[11px] font-medium leading-none text-warning">消耗积分</span>
                         )}
                         <span className="ml-auto shrink-0">
                           {row.configured ? (
-                            <span className="inline-flex items-center gap-1 rounded-full bg-bear/10 px-1.5 py-0.5 text-[10px] font-medium leading-none text-bear">
+                            <span className="inline-flex items-center gap-1 rounded-full bg-bear/10 px-1.5 py-0.5 text-[11px] font-medium leading-none text-bear">
                               <CheckCircle2 className="h-2.5 w-2.5" />
                               已配置
                             </span>
                           ) : row.name === 'tickflow' ? (
-                            <span className="rounded-full bg-accent/10 px-1.5 py-0.5 text-[10px] font-medium leading-none text-accent">免 Key 可用</span>
+                            <span className="rounded-full bg-accent/10 px-1.5 py-0.5 text-[11px] font-medium leading-none text-accent">免 Key 可用</span>
                           ) : (
-                            <span className="rounded-full bg-elevated/60 px-1.5 py-0.5 text-[10px] leading-none text-muted/70">未配置</span>
+                            <span className="rounded-full bg-elevated/60 px-1.5 py-0.5 text-[11px] leading-none text-muted/70">未配置</span>
                           )}
                         </span>
                       </div>
@@ -486,12 +486,12 @@ function DataSourceStep({ onNext, onBack }: { onNext: () => void; onBack: () => 
                       <div className="mt-1.5 flex flex-wrap items-center gap-1">
                         {row.datasets.length > 0 ? (
                           row.datasets.map(ds => (
-                            <span key={ds} className="rounded-md bg-elevated/45 px-1.5 py-0.5 text-[10px] leading-none text-muted/85">
+                            <span key={ds} className="rounded-md bg-elevated/45 px-1.5 py-0.5 text-[11px] leading-none text-muted/85">
                               {DATASET_LABELS[ds] ?? ds}
                             </span>
                           ))
                         ) : (
-                          <span className="text-[10px] text-muted/50">未声明数据集</span>
+                          <span className="text-[11px] text-muted/50">未声明数据集</span>
                         )}
                       </div>
 
@@ -597,11 +597,11 @@ function DataSourceStep({ onNext, onBack }: { onNext: () => void; onBack: () => 
           <span className="text-secondary">数据源已插件化</span>
           {customCount > 0 && <>,当前已加载 {customCount} 个自有数据源</>}
           ,接入自有行情或切换数据源请前往
-          <span className="mx-0.5 rounded bg-elevated/70 px-1 py-px font-mono text-[10px] text-secondary">设置 → 数据源</span>
+          <span className="mx-0.5 rounded bg-elevated/70 px-1 py-px font-mono text-[11px] text-secondary">设置 → 数据源</span>
           ,方法详见
-          <span className="mx-0.5 rounded bg-elevated/70 px-1 py-px font-mono text-[10px] text-secondary">docs/custom-data-source.md</span>
+          <span className="mx-0.5 rounded bg-elevated/70 px-1 py-px font-mono text-[11px] text-secondary">docs/custom-data-source.md</span>
           与
-          <span className="mx-0.5 rounded bg-elevated/70 px-1 py-px font-mono text-[10px] text-secondary">docs/plugin-development.md</span>
+          <span className="mx-0.5 rounded bg-elevated/70 px-1 py-px font-mono text-[11px] text-secondary">docs/plugin-development.md</span>
           。
         </div>
       </div>
@@ -763,17 +763,17 @@ function ResultStep({ onNext, onBack }: { onNext: () => void; onBack: () => void
                     <AlertCircle className="h-3.5 w-3.5 shrink-0 text-warning" />
                   )}
                   <span className="text-sm font-medium text-foreground">{r.label}</span>
-                  <span className="ml-auto shrink-0 text-[10px] font-medium text-secondary">
+                  <span className="ml-auto shrink-0 text-[11px] font-medium text-secondary">
                     {r.usable ? '可用' : '不可用'}
                   </span>
                 </div>
-                <div className="mt-1 flex items-center gap-1.5 pl-5 text-[10px] text-muted">
+                <div className="mt-1 flex items-center gap-1.5 pl-5 text-[11px] text-muted">
                   <span className="truncate">生效源:{r.effective_display}</span>
                   <span className="shrink-0 text-muted/50">·</span>
                   <span className="shrink-0">{r.desc}</span>
                 </div>
                 {!r.usable && (
-                  <div className="mt-1 pl-5 text-[10px] text-warning/80 leading-relaxed">
+                  <div className="mt-1 pl-5 text-[11px] text-warning/80 leading-relaxed">
     {r.candidates.length > 0
       ? `可切换候选:${r.candidates.map(c => c.display).join(' / ')}`
       : isTickflow && !hasKey
@@ -913,7 +913,7 @@ function FinishStep({ onNext, onBack, pending }: { onNext: () => void; onBack: (
         <button
           onClick={onNext}
           disabled={pending}
-          className="inline-flex items-center gap-2 px-6 h-10 rounded-xl bg-accent text-white text-sm font-semibold shadow-lg shadow-accent/20 hover:bg-accent/90 hover:shadow-accent/30 disabled:opacity-60 transition-all"
+          className="inline-flex items-center gap-2 px-6 h-10 rounded-xl bg-accent text-white text-sm font-semibold shadow-lg shadow-accent/20 hover:bg-accent/90 hover:shadow-accent/30 disabled:opacity-60 transition-colors"
         >
           {pending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
           {pending ? '正在进入…' : '进入面板'}

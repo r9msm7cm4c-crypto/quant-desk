@@ -148,7 +148,7 @@ export function FactorCorrelationHeatmap({
         textGap: 6,
         textStyle: { color: ct.text, fontSize: 10 },
         inRange: {
-          color: ['#2563eb', ct.fillSubtle, '#ef4444'],
+          color: ['#2563eb', ct.fillSubtle, '#E05A52'],
         },
       },
       series: [{

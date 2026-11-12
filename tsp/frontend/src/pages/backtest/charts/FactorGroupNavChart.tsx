@@ -5,15 +5,15 @@ import { useChartTheme } from '@/lib/theme'
 
 const GROUP_COLORS = [
   '#6366f1', // Q1 indigo
-  '#8b5cf6', // Q2 violet
-  '#f59e0b', // Q3 amber
-  '#f97316', // Q4 orange
-  '#ef4444', // Q5 red
+  '#63A7D9', // Q2 violet
+  '#DB9A2B', // Q3 amber
+  '#DB9A2B', // Q4 orange
+  '#E05A52', // Q5 red
   '#ec4899', // Q6
   '#14b8a6', // Q7
   '#06b6d4', // Q8
-  '#84cc16', // Q9
-  '#a855f7', // Q10
+  '#7FA88C', // Q9
+  '#63A7D9', // Q10
 ]
 
 interface Props {
@@ -55,8 +55,8 @@ export function FactorGroupNavChart({ result }: Props) {
         type: 'line',
         data: lsNav.map(r => r.value),
         symbol: 'none',
-        lineStyle: { color: '#fbbf24', width: 2, type: 'dashed' },
-        itemStyle: { color: '#fbbf24' },
+        lineStyle: { color: '#DB9A2B', width: 2, type: 'dashed' },
+        itemStyle: { color: '#DB9A2B' },
       })
     }
 
@@ -116,14 +116,14 @@ export function FactorGroupNavChart({ result }: Props) {
     <div>
       <div className="flex items-center gap-3 px-4 pb-2">
         {groupCols.map((col, i) => (
-          <span key={col} className="flex items-center gap-1 text-[10px] text-secondary">
+          <span key={col} className="flex items-center gap-1 text-[11px] text-secondary">
             <span className="w-2 h-2 rounded-full" style={{ backgroundColor: GROUP_COLORS[i % GROUP_COLORS.length] }} />
             {col}
           </span>
         ))}
         {result.long_short_nav?.length > 0 && (
-          <span className="flex items-center gap-1 text-[10px] text-secondary">
-            <span className="w-2 h-0.5 rounded bg-yellow-400" style={{ borderTop: '2px dashed #fbbf24' }} />
+          <span className="flex items-center gap-1 text-[11px] text-secondary">
+            <span className="w-2 h-0.5 rounded bg-yellow-400" style={{ borderTop: '2px dashed #DB9A2B' }} />
             多空
           </span>
         )}

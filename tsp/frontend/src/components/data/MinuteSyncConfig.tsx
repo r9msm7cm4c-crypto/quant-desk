@@ -131,7 +131,7 @@ export function MinuteSyncConfig({ hasCap, onJobStart, onClose }: { hasCap: bool
             onClick={handleToggle}
             disabled={!hasMinuteCap}
             className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors duration-200 shrink-0 ${
-              enabled ? 'bg-accent shadow-[0_0_6px_rgba(61,214,140,0.3)]' : 'bg-elevated'
+              enabled ? 'bg-accent' : 'bg-elevated'
             } ${!hasMinuteCap ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer'}`}
           >
             <span
@@ -162,7 +162,7 @@ export function MinuteSyncConfig({ hasCap, onJobStart, onClose }: { hasCap: bool
               className="h-6 w-6 flex items-center justify-center rounded-r-btn bg-elevated border border-border text-secondary hover:bg-border/50 disabled:opacity-30 transition-colors text-xs"
             >+</button>
           </div>
-          <span className="text-[10px] text-muted">天</span>
+          <span className="text-[11px] text-muted">天</span>
           {!hasMinuteCap && (
             <MissingCapChip capKey="kline.minute.batch" />
           )}
@@ -174,7 +174,7 @@ export function MinuteSyncConfig({ hasCap, onJobStart, onClose }: { hasCap: bool
       <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border/60 pt-4">
         <div className="flex items-center gap-1.5">
           <span className="text-xs text-foreground font-medium">分段大小</span>
-          <span className="text-[10px] text-muted px-1 py-px rounded bg-warning/8 text-warning/80">内存优化</span>
+          <span className="text-[11px] text-muted px-1 py-px rounded bg-warning/8 text-warning/80">内存优化</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="flex items-center">
@@ -194,7 +194,7 @@ export function MinuteSyncConfig({ hasCap, onJobStart, onClose }: { hasCap: bool
               className="h-6 w-6 flex items-center justify-center rounded-r-btn bg-elevated border border-border text-secondary hover:bg-border/50 disabled:opacity-30 transition-colors text-xs"
             >+</button>
           </div>
-          <span className="text-[10px] text-muted">交易日/段</span>
+          <span className="text-[11px] text-muted">交易日/段</span>
         </div>
       </div>
       <div className="text-[11px] text-muted leading-relaxed">
@@ -207,7 +207,7 @@ export function MinuteSyncConfig({ hasCap, onJobStart, onClose }: { hasCap: bool
         <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
           <Download className="h-3 w-3 text-secondary" />
           <span className="text-[11px] text-secondary font-medium">手动获取</span>
-          <span className="text-[10px] text-muted">不受自动同步开关影响</span>
+          <span className="text-[11px] text-muted">不受自动同步开关影响</span>
         </div>
         <div className="grid grid-cols-2 gap-2">
         <button
@@ -229,7 +229,7 @@ export function MinuteSyncConfig({ hasCap, onJobStart, onClose }: { hasCap: bool
           {fetchingMode === '1y' ? (
             <><Loader2 className="h-3.5 w-3.5 animate-spin" /><span>分段获取中…</span></>
           ) : (
-            <><Calendar className="h-3.5 w-3.5" /><span>获取最近 1 年</span><span className="text-[9px] opacity-70">分段拉取</span></>
+            <><Calendar className="h-3.5 w-3.5" /><span>获取最近 1 年</span><span className="text-[11px] opacity-70">分段拉取</span></>
           )}
         </button>
         </div>

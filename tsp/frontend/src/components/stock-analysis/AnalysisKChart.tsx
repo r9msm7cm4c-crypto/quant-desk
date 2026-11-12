@@ -21,8 +21,8 @@ import type { KlineRow, LevelSeries } from '@/lib/api'
 
 // ===== 配色(红涨绿跌, 双主题通用); 画布轴/网格主题相关色走 CT() =====
 const THEME = {
-  bull: '#C74040',
-  bear: '#2D9B65',
+  bull: '#E05A52',
+  bear: '#3FA97A',
   volUp: 'rgba(240,68,56,0.5)',
   volDown: 'rgba(18,183,106,0.5)',
 }
@@ -45,16 +45,16 @@ export interface PriceLevel {
 
 /** 价位组开关配置:label = 按钮文案,color = markLine 颜色 */
 export const LEVEL_GROUPS: { key: LevelType; label: string; color: string }[] = [
-  { key: 'sr',       label: '压力支撑',  color: '#F97316' },   // 橙(成交密集区,价量驱动)
-  { key: 'pivot',    label: '枢轴点',    color: '#8B5CF6' },   // 紫
+  { key: 'sr',       label: '压力支撑',  color: '#DB9A2B' },   // 橙(成交密集区,价量驱动)
+  { key: 'pivot',    label: '枢轴点',    color: '#63A7D9' },   // 紫
   { key: 'extreme',  label: '前高前低',  color: '#EAB308' },   // 黄
-  { key: 'boll',     label: '布林带',    color: '#F97316' },   // 橙(MA20±2σ 曲线)
+  { key: 'boll',     label: '布林带',    color: '#DB9A2B' },   // 橙(MA20±2σ 曲线)
   { key: 'keltner_s',label: 'Keltner短期',  color: '#06B6D4' },   // 青(MA20±2ATR 曲线)
-  { key: 'keltner_m',label: 'Keltner中期',  color: '#22D3EE' },   // 浅青(MA60±2.5ATR 曲线)
+  { key: 'keltner_m',label: 'Keltner中期',  color: '#63A7D9' },   // 浅青(MA60±2.5ATR 曲线)
   { key: 'keltner_l',label: 'Keltner长期',  color: '#67E8F9' },   // 更浅青(MA120±3ATR 曲线)
-  { key: 'atr_stop', label: 'ATR波动通道',  color: '#EF4444' },   // 红(警示)
+  { key: 'atr_stop', label: 'ATR波动通道',  color: '#E05A52' },   // 红(警示)
   { key: 'gap',      label: '缺口位',    color: '#EC4899' },   // 粉
-  { key: 'fib',      label: '斐波那契',  color: '#F59E0B' },   // 金
+  { key: 'fib',      label: '斐波那契',  color: '#DB9A2B' },   // 金
   { key: 'round',    label: '整数关口',  color: '#71717A' },   // 灰(心理位,弱视觉)
 ]
 
@@ -63,16 +63,16 @@ export const LEVEL_GROUPS: { key: LevelType; label: string; color: string }[] = 
 //   group:      属于哪个价位开关组(开关该组即开关这条曲线)
 //   endLabel:   右侧端点标签(显示最新值的文字)
 const CURVE_DEFS: { alignedKey: string; group: LevelType; endLabel: string; color: string; dashed?: boolean }[] = [
-  { alignedKey: 'boll_upper',     group: 'boll',      endLabel: '布林上轨', color: '#F97316', dashed: true },
-  { alignedKey: 'boll_lower',     group: 'boll',      endLabel: '布林下轨', color: '#F97316', dashed: true },
-  { alignedKey: 'boll_mid',       group: 'boll',      endLabel: '布林中轨', color: '#FB923C', dashed: false },
+  { alignedKey: 'boll_upper',     group: 'boll',      endLabel: '布林上轨', color: '#DB9A2B', dashed: true },
+  { alignedKey: 'boll_lower',     group: 'boll',      endLabel: '布林下轨', color: '#DB9A2B', dashed: true },
+  { alignedKey: 'boll_mid',       group: 'boll',      endLabel: '布林中轨', color: '#DB9A2B', dashed: false },
   { alignedKey: 'keltner_s_upper',group: 'keltner_s', endLabel: 'Keltner短上', color: '#06B6D4', dashed: true },
   { alignedKey: 'keltner_s_lower',group: 'keltner_s', endLabel: 'Keltner短下', color: '#06B6D4', dashed: true },
-  { alignedKey: 'keltner_m_upper',group: 'keltner_m', endLabel: 'Keltner中上', color: '#22D3EE', dashed: true },
-  { alignedKey: 'keltner_m_lower',group: 'keltner_m', endLabel: 'Keltner中下', color: '#22D3EE', dashed: true },
+  { alignedKey: 'keltner_m_upper',group: 'keltner_m', endLabel: 'Keltner中上', color: '#63A7D9', dashed: true },
+  { alignedKey: 'keltner_m_lower',group: 'keltner_m', endLabel: 'Keltner中下', color: '#63A7D9', dashed: true },
   { alignedKey: 'keltner_l_upper',group: 'keltner_l', endLabel: 'Keltner长上', color: '#67E8F9', dashed: true },
   { alignedKey: 'keltner_l_lower',group: 'keltner_l', endLabel: 'Keltner长下', color: '#67E8F9', dashed: true },
-  { alignedKey: 'atr_stop',       group: 'atr_stop',  endLabel: 'ATR下轨', color: '#EF4444', dashed: true },
+  { alignedKey: 'atr_stop',       group: 'atr_stop',  endLabel: 'ATR下轨', color: '#E05A52', dashed: true },
   { alignedKey: 'atr_tp',         group: 'atr_stop',  endLabel: 'ATR上轨', color: '#F87171', dashed: true },
 ]
 
@@ -360,7 +360,7 @@ export function AnalysisKChart({
         { type: 'inside', xAxisIndex: [0, 1], start: zoomStart, end: 100 },
         { type: 'slider', xAxisIndex: [0, 1], bottom: sliderBottom, height: SLIDER_H, start: zoomStart, end: 100,
           borderColor: 'transparent', fillerColor: CT().zoomFill,
-          handleStyle: { color: '#52525B' }, textStyle: { color: CT().text, fontSize: 10 } },
+          handleStyle: { color: '#6E7887' }, textStyle: { color: CT().text, fontSize: 10 } },
       ],
       // 不弹 hover tooltip(用户要求);但保留十字线 axisPointer 作为缩放/定位参照
       tooltip: { show: false },
@@ -416,7 +416,7 @@ export function AnalysisKChart({
       {/* 价位开关按钮组 */}
       {levels && (
         <div className="flex flex-wrap items-center gap-1.5 mb-2">
-          <span className="text-[10px] text-muted mr-1">关键价位</span>
+          <span className="text-[11px] text-muted mr-1">关键价位</span>
           {LEVEL_GROUPS.map(g => {
             const active = activeTypes.has(g.key)
             // 枢轴点数量按当前档位过滤显示;其他组显示原始数量
@@ -430,14 +430,14 @@ export function AnalysisKChart({
                 onClick={() => toggleType(g.key)}
                 disabled={raw.length === 0}
                 title={`${g.label} (${count} 个)`}
-                className={`inline-flex items-center gap-1 h-6 px-2 rounded-md text-[10px] font-medium border transition-all disabled:opacity-30 disabled:cursor-not-allowed ${
+                className={`inline-flex items-center gap-1 h-6 px-2 rounded-md text-[11px] font-medium border transition-colors disabled:opacity-30 disabled:cursor-not-allowed ${
                   active
                     ? 'text-foreground'
                     : 'text-muted bg-base/40 border-border/30 hover:border-border/60'
                 }`}
                 style={active ? { borderColor: g.color + '66', backgroundColor: g.color + '1a' } : undefined}
               >
-                <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: active ? g.color : '#52525B' }} />
+                <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: active ? g.color : '#6E7887' }} />
                 {g.label}
                 <span className="opacity-50">{count}</span>
               </button>
@@ -447,15 +447,15 @@ export function AnalysisKChart({
           {/* 枢轴点档位选择器 —— 仅当枢轴点开启时显示 */}
           {activeTypes.has('pivot') && (levels.pivot?.length ?? 0) > 0 && (
             <div className="inline-flex items-center gap-0.5 ml-1 pl-2 border-l border-border/40">
-              <span className="text-[10px] text-muted mr-1">档位</span>
+              <span className="text-[11px] text-muted mr-1">档位</span>
               {([1, 2, 3] as const).map(r => (
                 <button
                   key={r}
                   onClick={() => setPivotRank(r)}
                   title={r === 1 ? 'P + R1/S1(3 个)' : r === 2 ? '到 R2/S2(5 个)' : '全档 R3/S3(7 个)'}
-                  className={`h-6 px-2 rounded-md text-[10px] font-mono border transition-all ${
+                  className={`h-6 px-2 rounded-md text-[11px] font-mono border transition-colors ${
                     pivotRank === r
-                      ? 'bg-[#8B5CF6]/15 border-[#8B5CF6]/40 text-[#c4b5fd]'
+                      ? 'bg-[#63A7D9]/15 border-[#63A7D9]/40 text-[#c4b5fd]'
                       : 'text-muted bg-base/40 border-border/30 hover:border-border/60'
                   }`}
                 >
@@ -540,7 +540,7 @@ function LevelOverview({
         <span className="h-1.5 w-1.5 rounded-full shrink-0 transition-transform" style={{ backgroundColor: color, transform: hit ? 'scale(1.5)' : 'scale(1)' }} />
         <span className={`text-[11px] w-24 shrink-0 truncate ${hit ? 'text-foreground font-medium' : 'text-secondary'}`}>{p.label}</span>
         <span className={`text-[11px] font-mono ${hit ? 'text-foreground font-bold' : 'text-foreground'}`}>{p.value.toFixed(2)}</span>
-        <span className="text-[9px] font-mono text-muted">{fmtPct(p.value)}</span>
+        <span className="text-[11px] font-mono text-muted">{fmtPct(p.value)}</span>
       </div>
     )
   }
@@ -549,13 +549,13 @@ function LevelOverview({
     <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1 rounded-lg border border-border/40 bg-base/20 px-3 py-2">
       {/* 当前价 */}
       <div className="sm:col-span-2 flex items-center gap-2 pb-1 border-b border-border/30 mb-0.5">
-        <span className="text-[10px] text-muted">当前价</span>
+        <span className="text-[11px] text-muted">当前价</span>
         <span className="text-xs font-mono font-medium text-foreground">{cur.toFixed(2)}</span>
       </div>
       {/* 压力位(从近到远,即从低到高)倒序展示:最高的在最上 */}
       {resistances.length > 0 && (
         <div>
-          <div className="text-[10px] font-medium text-bear mb-0.5">压力位 ↑</div>
+          <div className="text-[11px] font-medium text-bear mb-0.5">压力位 ↑</div>
           {[...resistances].reverse().map((p, i) => <Row key={`r-${i}`} p={p} />)}
         </div>
       )}
@@ -563,13 +563,13 @@ function LevelOverview({
       <div>
         {supports.length > 0 && (
           <>
-            <div className="text-[10px] font-medium text-bull mb-0.5">支撑位 ↓</div>
+            <div className="text-[11px] font-medium text-bull mb-0.5">支撑位 ↓</div>
             {supports.map((p, i) => <Row key={`s-${i}`} p={p} />)}
           </>
         )}
         {neutrals.length > 0 && (
           <div className={supports.length > 0 ? 'mt-2' : ''}>
-            {supports.length === 0 && <div className="text-[10px] font-medium text-muted mb-0.5">枢轴位</div>}
+            {supports.length === 0 && <div className="text-[11px] font-medium text-muted mb-0.5">枢轴位</div>}
             {neutrals.map((p, i) => <Row key={`n-${i}`} p={p} />)}
           </div>
         )}

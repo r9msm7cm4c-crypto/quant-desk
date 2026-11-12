@@ -11,7 +11,7 @@ import { PositionPoliciesPanel } from '@/components/settings/PositionPoliciesPan
 
 export function SettingsDefinitionsPanel() {
   return (
-    <div className="mx-auto max-w-3xl space-y-4">
+    <div className="mx-auto max-w-5xl space-y-4">
       <PositionPoliciesPanel />
       <div className="rounded-card border border-border bg-surface p-4">
         <div className="flex items-start gap-2.5">

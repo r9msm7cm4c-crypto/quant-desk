@@ -520,10 +520,10 @@ export function StrategyBuilderDialog({ open, onClose, onSavedId, mode = 'create
           <div className="grid grid-cols-[1fr_auto_1fr] items-center px-5 py-2.5 border-b border-border/50">
             {/* 左侧：Tab 切换 */}
             <div className="flex rounded-lg bg-elevated p-0.5 w-fit">
-              <button onClick={() => { setTab('ai'); if (mode === 'create') setSource('ai') }} className={cn('px-3 py-1 rounded-md text-xs font-medium transition-all cursor-pointer', tab === 'ai' ? 'bg-amber-400/15 text-amber-400' : 'text-muted hover:text-foreground')}>
+              <button onClick={() => { setTab('ai'); if (mode === 'create') setSource('ai') }} className={cn('px-3 py-1 rounded-md text-xs font-medium transition-colors cursor-pointer', tab === 'ai' ? 'bg-amber-400/15 text-amber-400' : 'text-muted hover:text-foreground')}>
                 <Sparkles className="h-3 w-3 inline mr-1" />AI 生成
               </button>
-              <button onClick={() => { setTab('custom'); if (mode === 'create') { setSource('custom'); if (!code) setCode(templates[executionBackend]) } }} className={cn('px-3 py-1 rounded-md text-xs font-medium transition-all cursor-pointer', tab === 'custom' ? 'bg-accent/15 text-accent' : 'text-muted hover:text-foreground')}>
+              <button onClick={() => { setTab('custom'); if (mode === 'create') { setSource('custom'); if (!code) setCode(templates[executionBackend]) } }} className={cn('px-3 py-1 rounded-md text-xs font-medium transition-colors cursor-pointer', tab === 'custom' ? 'bg-accent/15 text-accent' : 'text-muted hover:text-foreground')}>
                 <FileText className="h-3 w-3 inline mr-1" />自定义编写
               </button>
             </div>
@@ -535,9 +535,9 @@ export function StrategyBuilderDialog({ open, onClose, onSavedId, mode = 'create
             <div className="flex items-center justify-end gap-2">
               {tab === 'ai' && (
                 <div className="flex items-center gap-1">
-                  <span className={'w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold ' + (step === 1 ? 'bg-amber-400/20 text-amber-400' : 'bg-emerald-400/20 text-emerald-400')}>1</span>
-                  <span className="text-muted/20 text-[10px]">—</span>
-                  <span className={'w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold ' + (step === 2 ? 'bg-amber-400/20 text-amber-400' : 'bg-border/50 text-muted')}>2</span>
+                  <span className={'w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-bold ' + (step === 1 ? 'bg-amber-400/20 text-amber-400' : 'bg-emerald-400/20 text-emerald-400')}>1</span>
+                  <span className="text-muted/20 text-[11px]">—</span>
+                  <span className={'w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-bold ' + (step === 2 ? 'bg-amber-400/20 text-amber-400' : 'bg-border/50 text-muted')}>2</span>
                 </div>
               )}
               <button aria-label="关闭" onClick={handleClose} className="p-1.5 rounded-lg hover:bg-elevated"><X className="h-4 w-4 text-muted" /></button>
@@ -592,7 +592,7 @@ export function StrategyBuilderDialog({ open, onClose, onSavedId, mode = 'create
                     className="w-full h-8 px-3 rounded-lg bg-base border-0 ring-1 ring-border/30 text-sm text-foreground placeholder:text-muted/30 focus:outline-none focus:ring-2 focus:ring-accent/30" />
                 </div>
                 <div>
-                  <span className="text-[10px] text-muted/50 uppercase tracking-wider mb-1.5 block">策略方向</span>
+                  <span className="text-[11px] text-muted/50 uppercase tracking-wider mb-1.5 block">策略方向</span>
                   <div className="flex gap-1">
                     {DIRECTIONS.map(d => (
                       <button key={d.value} onClick={() => setDirection(d.value)} className={'px-2.5 py-1 rounded text-[11px] font-medium border transition-colors ' + (direction === d.value ? 'border-amber-400/40 bg-amber-400/10 text-amber-400' : 'border-border bg-base text-muted hover:border-amber-400/30')}>{d.label}</button>
@@ -600,7 +600,7 @@ export function StrategyBuilderDialog({ open, onClose, onSavedId, mode = 'create
                   </div>
                 </div>
                 <div>
-                  <span className="text-[10px] text-muted/50 uppercase tracking-wider mb-1.5 block">执行后端</span>
+                  <span className="text-[11px] text-muted/50 uppercase tracking-wider mb-1.5 block">执行后端</span>
                   <div className="flex flex-wrap gap-1">
                     <button type="button" aria-pressed={executionBackend === 'polars_expr'} onClick={() => selectExecutionBackend('polars_expr')} className={'px-2.5 py-1 rounded text-[11px] font-medium border transition-colors ' + (executionBackend === 'polars_expr' ? 'border-amber-400/40 bg-amber-400/10 text-amber-400' : 'border-border bg-base text-muted hover:border-amber-400/30')}>Polars 表达式</button>
                     <button type="button" aria-pressed={executionBackend === 'matrix_native'} onClick={() => selectExecutionBackend('matrix_native')} className={'px-2.5 py-1 rounded text-[11px] font-medium border transition-colors ' + (executionBackend === 'matrix_native' ? 'border-amber-400/40 bg-amber-400/10 text-amber-400' : 'border-border bg-base text-muted hover:border-amber-400/30')}>矩阵原生</button>
@@ -608,7 +608,7 @@ export function StrategyBuilderDialog({ open, onClose, onSavedId, mode = 'create
                   </div>
                 </div>
                 <div>
-                  <span className="text-[10px] text-muted/50 uppercase tracking-wider mb-1.5 block">策略规则</span>
+                  <span className="text-[11px] text-muted/50 uppercase tracking-wider mb-1.5 block">策略规则</span>
                   <textarea value={rules} onChange={e => setRules(e.target.value)}
                     placeholder={executionBackend === 'minute_filter'
                       ? '例如：单分钟涨幅≥2%，且分钟成交量≥前20分钟均量的3倍（不含当前根）'
@@ -626,11 +626,11 @@ export function StrategyBuilderDialog({ open, onClose, onSavedId, mode = 'create
                   </span>
                 </button>
                 {iterateEnabled && (
-                  <div className="text-[10px] text-muted/60 leading-relaxed">开启后 AI 会先回测再诊断修改，最多迭代 4 轮，耗时更长；结果保存为草稿，仍需你点「保存策略」加入策略池。</div>
+                  <div className="text-[11px] text-muted/60 leading-relaxed">开启后 AI 会先回测再诊断修改，最多迭代 4 轮，耗时更长；结果保存为草稿，仍需你点「保存策略」加入策略池。</div>
                 )}
                 {error && <div className="text-[11px] text-danger bg-danger/10 border border-danger/20 rounded-lg px-3 py-2">{error}</div>}
                 <button onClick={handleGenerate} disabled={loading || !name.trim() || !rules.trim()}
-                  className="w-full h-10 rounded-xl bg-gradient-to-r from-amber-500/20 to-amber-500/10 border border-amber-400/30 text-amber-400 text-sm font-medium flex items-center justify-center gap-2 hover:from-amber-500/30 hover:to-amber-500/20 disabled:opacity-40 transition-all">
+                  className="w-full h-10 rounded-xl bg-warning/[0.12] border border-amber-400/30 text-amber-400 text-sm font-medium flex items-center justify-center gap-2 disabled:opacity-40 transition-colors">
                   {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
                   {loading ? (iterateEnabled ? 'AI 迭代中...' : 'AI 生成中...') : code ? '重新生成' : (iterateEnabled ? 'AI 迭代生成' : 'AI 生成策略')}
                 </button>
@@ -651,9 +651,9 @@ export function StrategyBuilderDialog({ open, onClose, onSavedId, mode = 'create
                       <Terminal className="h-3.5 w-3.5" />
                       迭代证据（共 {iterateRounds.length} 轮，草稿已保存为 {iterateDraftId}）
                     </div>
-                    <div className="text-[10px] text-muted/50">每轮指标为该轮「改动前」基准回测；末行「最终版回测」为最终代码回测结果</div>
+                    <div className="text-[11px] text-muted/50">每轮指标为该轮「改动前」基准回测；末行「最终版回测」为最终代码回测结果</div>
                     <div className="overflow-x-auto">
-                      <table className="w-full text-[10px]">
+                      <table className="w-full text-[11px]">
                         <thead>
                           <tr className="text-muted/50">
                             <th className="text-left font-medium py-1 pr-2">轮次</th>
@@ -687,7 +687,7 @@ export function StrategyBuilderDialog({ open, onClose, onSavedId, mode = 'create
                       <div className="divide-y divide-border/10">
                         {params.length > 0 && (
                           <div className="px-4 py-3 space-y-2">
-                            <div className="text-[10px] text-muted/50 uppercase tracking-wider">策略参数</div>
+                            <div className="text-[11px] text-muted/50 uppercase tracking-wider">策略参数</div>
                             {params.map((p: any) => (
                               <div key={p.id} className="flex items-center gap-2">
                                 <span className="text-[11px] text-secondary w-24 shrink-0 text-right">{p.label}</span>
@@ -697,7 +697,7 @@ export function StrategyBuilderDialog({ open, onClose, onSavedId, mode = 'create
                                   <>
                                     <span className="text-[11px] font-mono text-foreground">{p.default}</span>
                                     {(p.type === 'float' || p.type === 'int') && (
-                                      <span className="text-[10px] text-muted">{p.min} ~ {p.max} · 步长 {p.step}</span>
+                                      <span className="text-[11px] text-muted">{p.min} ~ {p.max} · 步长 {p.step}</span>
                                     )}
                                   </>
                                 )}
@@ -707,24 +707,24 @@ export function StrategyBuilderDialog({ open, onClose, onSavedId, mode = 'create
                         )}
                         {(entrySignals.length > 0 || exitSignals.length > 0) && (
                           <div className="px-4 py-3 space-y-2">
-                            <div className="text-[10px] text-muted/50 uppercase tracking-wider">交易信号</div>
+                            <div className="text-[11px] text-muted/50 uppercase tracking-wider">交易信号</div>
                             {entrySignals.length > 0 && (
                               <div className="flex items-center gap-2">
-                                <span className="text-[10px] text-emerald-400 w-10 shrink-0">入场</span>
+                                <span className="text-[11px] text-emerald-400 w-10 shrink-0">入场</span>
                                 <div className="flex flex-wrap gap-0.5">
-                                  {entrySignals.map((s: string) => <span key={s} className="px-1.5 py-0.5 rounded bg-emerald-400/10 text-emerald-400 text-[10px] font-mono">{s}</span>)}
+                                  {entrySignals.map((s: string) => <span key={s} className="px-1.5 py-0.5 rounded bg-emerald-400/10 text-emerald-400 text-[11px] font-mono">{s}</span>)}
                                 </div>
                               </div>
                             )}
                             {exitSignals.length > 0 && (
                               <div className="flex items-center gap-2">
-                                <span className="text-[10px] text-danger w-10 shrink-0">出场</span>
+                                <span className="text-[11px] text-danger w-10 shrink-0">出场</span>
                                 <div className="flex flex-wrap gap-0.5">
-                                  {exitSignals.map((s: string) => <span key={s} className="px-1.5 py-0.5 rounded bg-danger/10 text-danger text-[10px] font-mono">{s}</span>)}
+                                  {exitSignals.map((s: string) => <span key={s} className="px-1.5 py-0.5 rounded bg-danger/10 text-danger text-[11px] font-mono">{s}</span>)}
                                 </div>
                               </div>
                             )}
-                            <div className="flex items-center gap-4 text-[10px] text-muted mt-1">
+                            <div className="flex items-center gap-4 text-[11px] text-muted mt-1">
                               {codeStopLoss !== null && <span>止损: {(codeStopLoss * 100).toFixed(1)}%</span>}
                               {codeHoldDays !== null && <span>持有: {codeHoldDays} 天</span>}
                             </div>
@@ -732,14 +732,14 @@ export function StrategyBuilderDialog({ open, onClose, onSavedId, mode = 'create
                         )}
                         {Object.keys(scoring).length > 0 && (
                           <div className="px-4 py-3 space-y-2">
-                            <div className="text-[10px] text-muted/50 uppercase tracking-wider">策略权重</div>
+                            <div className="text-[11px] text-muted/50 uppercase tracking-wider">策略权重</div>
                             {Object.entries(scoring).map(([k, v]) => (
                               <div key={k} className="flex items-center gap-2">
-                                <span className="text-[10px] text-muted w-24 shrink-0 text-right font-mono">{k}</span>
+                                <span className="text-[11px] text-muted w-24 shrink-0 text-right font-mono">{k}</span>
                                 <div className="flex-1 h-1.5 bg-elevated rounded-full overflow-hidden">
                                   <div className="h-full bg-amber-400/60 rounded-full" style={{ width: Math.min(v * 100, 100) + '%' }} />
                                 </div>
-                                <span className="w-8 text-right text-[10px] font-mono text-muted">{Math.round(v * 100)}%</span>
+                                <span className="w-8 text-right text-[11px] font-mono text-muted">{Math.round(v * 100)}%</span>
                               </div>
                             ))}
                           </div>
@@ -761,12 +761,12 @@ export function StrategyBuilderDialog({ open, onClose, onSavedId, mode = 'create
                     placeholder="调整策略逻辑，如：增加 xx 条件、要求今日 yy、修改均线为 zz 日..."
                     className="flex-1 h-9 px-3 rounded-lg bg-base border-0 ring-1 ring-border/30 text-sm text-foreground placeholder:text-muted/30 focus:outline-none focus:ring-2 focus:ring-accent/30" />
                   <button onClick={handleModify} disabled={loading || !instruction.trim()}
-                    className="h-9 px-4 rounded-lg bg-amber-400/15 border border-amber-400/30 text-amber-400 text-xs font-medium flex items-center gap-1.5 hover:bg-amber-400/20 disabled:opacity-40 transition-all">
+                    className="h-9 px-4 rounded-lg bg-amber-400/15 border border-amber-400/30 text-amber-400 text-xs font-medium flex items-center gap-1.5 hover:bg-amber-400/20 disabled:opacity-40 transition-colors">
                     {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Sparkles className="h-3.5 w-3.5" />}
                     AI 修改
                   </button>
                 </div>
-                <p className="text-[10px] text-muted/40">修改指令可调整参数、信号、评分等任意内容。确认无误后点击「保存策略」。</p>
+                <p className="text-[11px] text-muted/40">修改指令可调整参数、信号、评分等任意内容。确认无误后点击「保存策略」。</p>
               </>
             )}
             </>
@@ -780,7 +780,7 @@ export function StrategyBuilderDialog({ open, onClose, onSavedId, mode = 'create
                     className="h-9 px-3 rounded-lg bg-base border-0 ring-1 ring-border/30 text-sm text-foreground placeholder:text-muted/30 focus:outline-none focus:ring-2 focus:ring-accent/30" />
                 </div>
                 <div className="flex flex-wrap items-center gap-1">
-                  <span className="mr-2 text-[10px] text-muted/50 uppercase tracking-wider">执行后端</span>
+                  <span className="mr-2 text-[11px] text-muted/50 uppercase tracking-wider">执行后端</span>
                   <button type="button" aria-pressed={executionBackend === 'polars_expr'} onClick={() => selectExecutionBackend('polars_expr')} className={'px-2.5 py-1 rounded text-[11px] font-medium border transition-colors ' + (executionBackend === 'polars_expr' ? 'border-accent/40 bg-accent/10 text-accent' : 'border-border bg-base text-muted')}>Polars 表达式</button>
                   <button type="button" aria-pressed={executionBackend === 'matrix_native'} onClick={() => selectExecutionBackend('matrix_native')} className={'px-2.5 py-1 rounded text-[11px] font-medium border transition-colors ' + (executionBackend === 'matrix_native' ? 'border-accent/40 bg-accent/10 text-accent' : 'border-border bg-base text-muted')}>矩阵原生</button>
                   <button type="button" aria-pressed={executionBackend === 'minute_filter'} onClick={() => selectExecutionBackend('minute_filter')} className={'px-2.5 py-1 rounded text-[11px] font-medium border transition-colors focus-visible:ring-2 focus-visible:ring-accent ' + (executionBackend === 'minute_filter' ? 'border-accent/40 bg-accent/10 text-accent' : 'border-border bg-base text-muted')}>一分钟策略</button>
@@ -790,10 +790,10 @@ export function StrategyBuilderDialog({ open, onClose, onSavedId, mode = 'create
                     <div className="flex items-center gap-2">
                       <Terminal className="h-4 w-4 text-accent" />
                       <span className="text-sm font-medium text-foreground">自定义策略代码</span>
-                      {validated && <span className="text-[10px] text-emerald-400">已校验</span>}
+                      {validated && <span className="text-[11px] text-emerald-400">已校验</span>}
                     </div>
                     <button onClick={() => { navigator.clipboard.writeText(code || templates[executionBackend]); setCustomCopied(true); setTimeout(() => setCustomCopied(false), 2000) }}
-                      className={cn('inline-flex items-center gap-1 px-2 py-1 rounded text-[10px] font-medium transition-all cursor-pointer', customCopied ? 'bg-emerald-400/10 text-emerald-400' : 'bg-elevated text-muted hover:text-foreground hover:bg-accent/10')}>
+                      className={cn('inline-flex items-center gap-1 px-2 py-1 rounded text-[11px] font-medium transition-colors cursor-pointer', customCopied ? 'bg-emerald-400/10 text-emerald-400' : 'bg-elevated text-muted hover:text-foreground hover:bg-accent/10')}>
                       {customCopied ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
                       {customCopied ? '已复制' : '复制代码'}
                     </button>
@@ -832,7 +832,7 @@ export function StrategyBuilderDialog({ open, onClose, onSavedId, mode = 'create
           {/* 底部 */}
           {tab === 'ai' && (
           <div className="flex items-center justify-between px-5 py-3 border-t border-border/50 bg-surface/50">
-            <button onClick={clearDraft} className="text-[10px] text-muted/40 hover:text-danger transition-colors">重新创建</button>
+            <button onClick={clearDraft} className="text-[11px] text-muted/40 hover:text-danger transition-colors">重新创建</button>
             <div className="flex items-center gap-2">
               {step === 1 && code && name.trim() && (
                 <button onClick={() => setStep(2)} className="h-7 px-3 rounded-lg border border-border text-xs text-secondary hover:text-foreground flex items-center gap-1">
@@ -845,7 +845,7 @@ export function StrategyBuilderDialog({ open, onClose, onSavedId, mode = 'create
                     <ChevronLeft className="h-3 w-3" />上一步
                   </button>
                   <button onClick={handleSave} disabled={saving || loading}
-                    className="inline-flex items-center gap-1.5 h-7 px-3 rounded-lg bg-accent text-white text-xs font-medium hover:bg-accent/90 disabled:opacity-50 transition-all">
+                    className="inline-flex items-center gap-1.5 h-7 px-3 rounded-lg bg-accent text-white text-xs font-medium hover:bg-accent/90 disabled:opacity-50 transition-colors">
                     <Save className="h-3 w-3" />
                     {saving ? '保存中...' : '保存策略'}
                   </button>

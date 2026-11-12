@@ -35,7 +35,7 @@ const VARIANTS: Variant[] = [
     hint: '脉冲星、雷达波纹 — 青绿强调色,字重黑体,中等字距',
     icon: RadioTower,
     iconAccent: 'text-[#3DD68C]',
-    nameClass: 'font-sans font-black text-[16px] leading-6 tracking-[0.10em]',
+    nameClass: 'font-sans font-black text-[16px] leading-6',
     glow: '#3DD68C',
   },
   {
@@ -45,7 +45,7 @@ const VARIANTS: Variant[] = [
     hint: 'Vantablack — 纯白单色,字重最重,字距最宽,monochrome 高级感',
     icon: Square,
     iconAccent: 'text-[#FAFAFA]',
-    nameClass: 'font-sans font-black text-[16px] leading-6 tracking-[0.18em]',
+    nameClass: 'font-sans font-black text-[16px] leading-6',
     glow: '#FAFAFA',
   },
   {
@@ -54,9 +54,9 @@ const VARIANTS: Variant[] = [
     tagline: 'QUANT · TERMINAL',
     hint: 'DNA 螺旋 — 紫色强调,等宽字体,赛博朋克经典意象',
     icon: GitFork,
-    iconAccent: 'text-[#8B5CF6]',
-    nameClass: 'font-mono font-bold text-[16px] leading-6 tracking-[0.08em]',
-    glow: '#8B5CF6',
+    iconAccent: 'text-[#63A7D9]',
+    nameClass: 'font-mono font-bold text-[16px] leading-6',
+    glow: '#63A7D9',
   },
   {
     id: 'aurora',
@@ -64,9 +64,9 @@ const VARIANTS: Variant[] = [
     tagline: 'A-SHARE · DASHBOARD',
     hint: '极光 — 青色强调,细字优雅,适中字距,与涨跌语义色不冲突',
     icon: Sparkles,
-    iconAccent: 'text-[#22D3EE]',
-    nameClass: 'font-sans font-light text-[16px] leading-6 tracking-[0.12em]',
-    glow: '#22D3EE',
+    iconAccent: 'text-[#63A7D9]',
+    nameClass: 'font-sans font-light text-[16px] leading-6',
+    glow: '#63A7D9',
   },
 ]
 
@@ -134,7 +134,7 @@ function Sample({ v }: { v: Variant }) {
               {v.name}
             </div>
           </div>
-          <div className="mt-2 text-[10px] uppercase tracking-[0.18em] text-secondary">
+          <div className="mt-2 text-[11px]  text-secondary">
             {v.tagline}
           </div>
           <div
@@ -185,7 +185,7 @@ function Sample({ v }: { v: Variant }) {
           >
             {v.name}
           </div>
-          <div className="mt-1.5 text-[10px] uppercase tracking-[0.2em] text-secondary">
+          <div className="mt-1.5 text-[11px]  text-secondary">
             {v.tagline}
           </div>
         </div>

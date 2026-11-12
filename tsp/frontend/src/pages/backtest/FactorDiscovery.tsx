@@ -395,11 +395,11 @@ function BatchDiscovery({
           <div className="flex items-center justify-between gap-2">
             <div className="text-xs font-semibold text-foreground">选择因子</div>
             <div className="flex items-center gap-2">
-              <span className="font-mono text-[10px] text-muted">{selected.length}/{allColumns.length}</span>
+              <span className="font-mono text-[11px] text-muted">{selected.length}/{allColumns.length}</span>
               <button
                 type="button"
                 onClick={() => { setActivePreset(null); setSelected(allSelected ? [] : allColumns.map(item => item.id)) }}
-                className="rounded-btn px-1.5 py-0.5 text-[10px] text-accent transition-colors hover:bg-accent/10"
+                className="rounded-btn px-1.5 py-0.5 text-[11px] text-accent transition-colors hover:bg-accent/10"
               >
                 {allSelected ? '清空' : '全选'}
               </button>
@@ -416,7 +416,7 @@ function BatchDiscovery({
                   onClick={() => applyPreset(preset)}
                   disabled={ids.length === 0}
                   title={preset.hint}
-                  className={`inline-flex items-center gap-1 rounded-btn border px-2 py-1 text-[10px] font-medium transition-colors disabled:pointer-events-none disabled:opacity-40 ${active
+                  className={`inline-flex items-center gap-1 rounded-btn border px-2 py-1 text-[11px] font-medium transition-colors disabled:pointer-events-none disabled:opacity-40 ${active
                     ? 'border-accent/60 bg-accent/10 text-accent'
                     : 'border-border bg-surface text-secondary hover:border-accent/40 hover:text-accent'
                   }`}
@@ -448,11 +448,11 @@ function BatchDiscovery({
               <div key={group}>
                 <div className="mb-1 flex items-center gap-1.5 px-1">
                   <span className="text-[11px] font-semibold text-secondary">{group}</span>
-                  <span className="font-mono text-[9px] text-muted">{groupSelected}/{items.length}</span>
+                  <span className="font-mono text-[11px] text-muted">{groupSelected}/{items.length}</span>
                   <button
                     type="button"
                     onClick={() => toggleGroup(items)}
-                    className="ml-auto text-[10px] text-muted transition-colors hover:text-accent"
+                    className="ml-auto text-[11px] text-muted transition-colors hover:text-accent"
                   >
                     {groupSelected === items.length && items.length > 0 ? '取消' : '全选'}
                   </button>
@@ -483,7 +483,7 @@ function BatchDiscovery({
             )
           })}
           {Object.keys(factorGroups).length === 0 && (
-            <div className="py-4 text-center text-[10px] text-muted">
+            <div className="py-4 text-center text-[11px] text-muted">
               {columns.isLoading ? '因子加载中…' : '无匹配因子'}
             </div>
           )}
@@ -493,7 +493,7 @@ function BatchDiscovery({
         <div className="shrink-0 space-y-2 border-t border-border/60 px-3 py-2.5">
           <div>
             <div className="mb-1 flex items-center justify-between">
-              <span className="text-[10px] font-medium text-muted">资产与范围</span>
+              <span className="text-[11px] font-medium text-muted">资产与范围</span>
               <div className="inline-flex overflow-hidden rounded-btn border border-border bg-surface">
                 {(['stock', 'etf'] as const).map(value => (
                   <button
@@ -536,14 +536,14 @@ function BatchDiscovery({
               </WatchlistGroupMenu>
             </div>
             {symbols.trim() && (
-              <div className="mt-1 text-[10px] text-muted" title="按逗号/分号/空格分隔, 自动去重; 留空使用全市场">
+              <div className="mt-1 text-[11px] text-muted" title="按逗号/分号/空格分隔, 自动去重; 留空使用全市场">
                 已识别 {parseSymbolList(symbols).length} 只标的 · 留空使用全市场
               </div>
             )}
           </div>
 
           <div>
-            <span className="mb-1 block text-[10px] font-medium text-muted">区间</span>
+            <span className="mb-1 block text-[11px] font-medium text-muted">区间</span>
             <div className="grid grid-cols-[1fr_1fr] gap-1.5">
               <DatePicker value={start} onChange={setStart} max={end || undefined} className="w-full" buttonClassName="w-full justify-start" align="left" />
               <DatePicker value={end} onChange={setEnd} min={start || undefined} className="w-full" buttonClassName="w-full justify-start" />
@@ -554,7 +554,7 @@ function BatchDiscovery({
                   key={months}
                   type="button"
                   onClick={() => { setStart(monthsAgo(months)); setEnd(TODAY) }}
-                  className={`flex-1 rounded-btn px-2 py-1 text-[10px] transition-colors ${start === monthsAgo(months) && end === TODAY
+                  className={`flex-1 rounded-btn px-2 py-1 text-[11px] transition-colors ${start === monthsAgo(months) && end === TODAY
                     ? 'bg-accent/10 font-medium text-accent'
                     : 'text-muted hover:bg-elevated hover:text-secondary'
                   }`}
@@ -571,7 +571,7 @@ function BatchDiscovery({
             </summary>
             <div className="grid grid-cols-3 gap-1.5 border-t border-border/60 px-2.5 py-2">
               <label className="block">
-                <span className="mb-1 block text-[10px] text-muted">调仓</span>
+                <span className="mb-1 block text-[11px] text-muted">调仓</span>
                 <select value={rebalance} onChange={event => setRebalance(event.target.value as typeof rebalance)} className={INPUT_CLS}>
                   <option value="daily">日度</option>
                   <option value="weekly">周度</option>
@@ -579,7 +579,7 @@ function BatchDiscovery({
                 </select>
               </label>
               <label className="block">
-                <span className="mb-1 block text-[10px] text-muted">分组</span>
+                <span className="mb-1 block text-[11px] text-muted">分组</span>
                 <select value={nGroups} onChange={event => setNGroups(Number(event.target.value))} className={INPUT_CLS}>
                   <option value={3}>3组</option>
                   <option value={5}>5组</option>
@@ -587,7 +587,7 @@ function BatchDiscovery({
                 </select>
               </label>
               <label className="block">
-                <span className="mb-1 block text-[10px] text-muted">佣金/万</span>
+                <span className="mb-1 block text-[11px] text-muted">佣金/万</span>
                 <input type="number" value={fees} onChange={event => setFees(event.target.value)} className={INPUT_CLS} />
               </label>
             </div>
@@ -626,7 +626,7 @@ function BatchDiscovery({
             <button
               type="button"
               onClick={cancelRun}
-              className="ml-auto shrink-0 rounded-btn border border-border px-2 py-1 text-[10px] text-secondary transition-colors hover:border-danger/40 hover:text-danger"
+              className="ml-auto shrink-0 rounded-btn border border-border px-2 py-1 text-[11px] text-secondary transition-colors hover:border-danger/40 hover:text-danger"
             >
               取消
             </button>
@@ -669,7 +669,7 @@ function BatchDiscovery({
               <Play className="h-3.5 w-3.5" />
               立即跑「快速体检」
             </button>
-            <div className="mt-1.5 text-[10px] text-muted">每组取 1 个代表因子, 通常十几秒出结果</div>
+            <div className="mt-1.5 text-[11px] text-muted">每组取 1 个代表因子, 通常十几秒出结果</div>
           </div>
         )}
         {results && !results.error && (
@@ -678,12 +678,12 @@ function BatchDiscovery({
               <div className="min-w-0">
                 <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
                   <span className="text-sm font-medium text-foreground">筛选结果</span>
-                  <span className="text-[10px] text-muted">
+                  <span className="text-[11px] text-muted">
                     {results.results.length} 因子 · {results.n_symbols} 标的 · {results.n_dates} 交易日 · <Clock className="inline h-3 w-3" />{results.elapsed_ms.toFixed(0)}ms
                   </span>
                   {!run.data && restored && (
                     <span
-                      className="inline-flex items-center gap-1 rounded-btn border border-border bg-elevated/40 px-1.5 py-0.5 text-[10px] text-muted"
+                      className="inline-flex items-center gap-1 rounded-btn border border-border bg-elevated/40 px-1.5 py-0.5 text-[11px] text-muted"
                       title="会话内记忆的上次运行结果; 修改左侧配置后点「筛选」重新计算"
                     >
                       <Clock className="h-3 w-3" />
@@ -717,11 +717,11 @@ function BatchDiscovery({
                       <span key={cls} className={cls} style={{ width: `${(count / results.results.length) * 100}%` }} />
                     ))}
                   </div>
-                  <div className="mt-1 text-[10px] text-muted">
+                  <div className="mt-1 text-[11px] text-muted">
                     有效 {verdictCounts.valid} · 边缘 {verdictCounts.edge} · 无效 {verdictCounts.invalid}
                     {verdictCounts.error > 0 && ` · 失败 ${verdictCounts.error}`}
                   </div>
-                  <div className="mt-0.5 text-[10px] text-muted/60">点击行深看 · ↑↓ 切换 · 表头排序</div>
+                  <div className="mt-0.5 text-[11px] text-muted/60">点击行深看 · ↑↓ 切换 · 表头排序</div>
                 </div>
               )}
             </div>
@@ -766,8 +766,8 @@ function BatchDiscovery({
                               : <span className="ml-1 text-bear" title="样本内方向：值小看多（IC 为负，反向使用）。历史方向不代表未来。">↓</span>
                           )}
                         </div>
-                        <div className="mt-0.5 text-[10px] text-muted">{item.group} · {item.factor_name}</div>
-                        {item.error && <div className="mt-1 text-[10px] text-danger">{item.error}</div>}
+                        <div className="mt-0.5 text-[11px] text-muted">{item.group} · {item.factor_name}</div>
+                        {item.error && <div className="mt-1 text-[11px] text-danger">{item.error}</div>}
                       </td>
                       <td className="px-3 py-3 text-right font-mono">
                         <div className="flex items-center justify-end gap-1.5">
@@ -795,7 +795,7 @@ function BatchDiscovery({
                       <td className={`px-3 py-3 text-right font-mono ${priceColorClass(item.long_short_return)}`}>{item.long_short_return == null ? '—' : fmtPct(item.long_short_return)}</td>
                       <td className="px-3 py-3 text-right font-mono text-bear">{item.long_short_max_drawdown == null ? '—' : fmtPct(item.long_short_max_drawdown)}</td>
                       <td className="px-3 py-3 text-center">
-                        <span className={`inline-flex rounded-btn px-1.5 py-0.5 text-[10px] font-medium ${VERDICT_META[verdict].cls}`}>
+                        <span className={`inline-flex rounded-btn px-1.5 py-0.5 text-[11px] font-medium ${VERDICT_META[verdict].cls}`}>
                           {VERDICT_META[verdict].label}
                         </span>
                       </td>
@@ -889,11 +889,11 @@ function FactorDetailPanel({ name, label, onClose, onFullscreen }: {
       <div className="flex h-11 shrink-0 items-center gap-2 border-b border-border px-3">
         <Layers3 className="h-4 w-4 shrink-0 text-accent" />
         <span className="min-w-0 shrink-0 truncate text-sm font-medium text-foreground">{resolvedLabel}</span>
-        <span className="min-w-0 truncate font-mono text-[10px] text-muted">{name}</span>
+        <span className="min-w-0 truncate font-mono text-[11px] text-muted">{name}</span>
         {name !== runName && (
-          <span className="shrink-0 animate-pulse text-[10px] text-accent">切换中…</span>
+          <span className="shrink-0 animate-pulse text-[11px] text-accent">切换中…</span>
         )}
-        <span className="ml-auto hidden shrink-0 text-[10px] text-muted md:inline" title="按当前排序切换, 首尾循环">
+        <span className="ml-auto hidden shrink-0 text-[11px] text-muted md:inline" title="按当前排序切换, 首尾循环">
           ↑↓ 切换 · Esc 关闭
         </span>
         <div className="flex shrink-0 items-center gap-0.5">
@@ -1001,7 +1001,7 @@ export function FactorDiscovery({ focusFactor, initialView = 'batch' }: { focusF
           <button
             type="button"
             onClick={collapseIntro}
-            className="shrink-0 rounded-btn px-2 py-0.5 text-[10px] text-muted transition-colors hover:bg-elevated hover:text-foreground"
+            className="shrink-0 rounded-btn px-2 py-0.5 text-[11px] text-muted transition-colors hover:bg-elevated hover:text-foreground"
           >
             知道了
           </button>

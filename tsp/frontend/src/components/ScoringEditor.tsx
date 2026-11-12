@@ -76,7 +76,7 @@ function ScoringRow({ name, label, weight, direction, editing, onWeightChange, o
           ))}
         </div>
       ) : (
-        <span className={`flex items-center justify-center gap-1 text-[10px] ${direction === 'low' ? 'text-cyan-400' : 'text-emerald-400'}`}>
+        <span className={`flex items-center justify-center gap-1 text-[11px] ${direction === 'low' ? 'text-cyan-400' : 'text-emerald-400'}`}>
           {direction === 'low' ? <ArrowDown className="h-3 w-3" /> : <ArrowUp className="h-3 w-3" />}
           {direction === 'low' ? '低值' : '高值'}
         </span>
@@ -97,7 +97,7 @@ function ScoringRow({ name, label, weight, direction, editing, onWeightChange, o
           <div className="h-full rounded-full bg-amber-400/70" style={{ width: `${Math.min(weight, 100)}%` }} />
         </div>
       )}
-      <span className="text-right font-mono text-[10px] text-muted">{weight}%</span>
+      <span className="text-right font-mono text-[11px] text-muted">{weight}%</span>
       {editing ? (
         <button
           type="button"
@@ -240,7 +240,7 @@ export function ScoringEditor({ value, directions, onChange, fallbackLabels = {}
       )}
 
       <div className="flex flex-wrap items-center justify-between gap-2 border-t border-border/40 pt-2">
-        <div className="text-[10px] text-muted">
+        <div className="text-[11px] text-muted">
           权重 <span className={`font-mono text-xs font-medium ${editing && draftTotal !== 100 ? 'text-amber-400' : 'text-emerald-400'}`}>
             {editing ? draftTotal : visibleKeys.length > 0 ? 100 : 0}%
           </span>

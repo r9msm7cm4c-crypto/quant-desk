@@ -86,10 +86,10 @@ function buildLimitUpMarkers(rows: KlineRow[]): ChartMarker[] {
   for (const r of rows) {
     const date = typeof r.date === 'string' ? r.date.slice(0, 10) : String(r.date)
     if (r.signal_broken_limit_up) {
-      markers.push({ date, kind: 'neutral', above: true, color: '#8B5CF6', label: '炸' })
+      markers.push({ date, kind: 'neutral', above: true, color: '#63A7D9', label: '炸' })
     } else if (r.signal_limit_up) {
       const boards: number = r.consecutive_limit_ups ?? 1
-      markers.push({ date, kind: 'buy', above: true, color: '#FACC15', label: boards <= 1 ? '板' : String(boards) })
+      markers.push({ date, kind: 'buy', above: true, color: '#DB9A2B', label: boards <= 1 ? '板' : String(boards) })
     }
   }
   return markers
@@ -119,7 +119,7 @@ function ChartPill({
       type="button"
       onClick={onClick}
       title={title}
-      className={`px-2 py-0.5 rounded text-[10px] font-mono cursor-pointer transition-colors ${
+      className={`px-2 py-0.5 rounded text-[11px] font-mono cursor-pointer transition-colors ${
         active ? activeClass : 'bg-elevated text-muted hover:text-secondary'
       }`}
     >
@@ -214,7 +214,7 @@ export function StockDailyKChart({
           ))}
           {activeIndicators.includes('vol') && (
             <div className="ml-0.5 flex h-5 items-center gap-1.5 border-l border-border/70 pl-2">
-              <span className="text-[10px] text-muted">量比</span>
+              <span className="text-[11px] text-muted">量比</span>
               <button
                 type="button"
                 role="switch"
@@ -235,7 +235,7 @@ export function StockDailyKChart({
                 value={volumeCompare.days}
                 disabled={!volumeCompare.enabled}
                 onChange={event => updateVolumeCompare({ days: Number(event.target.value) })}
-                className="h-5 rounded border border-border bg-base px-1 text-[10px] text-secondary outline-none disabled:opacity-40"
+                className="h-5 rounded border border-border bg-base px-1 text-[11px] text-secondary outline-none disabled:opacity-40"
               >
                 {Array.from({ length: 20 }, (_, index) => index + 1).map(days => (
                   <option key={days} value={days}>前{days}日均量</option>
@@ -249,7 +249,7 @@ export function StockDailyKChart({
               <ChartPill
                 active={showMarkers}
                 label="异动"
-                activeClass="text-[#FACC15] bg-[#FACC15]/10"
+                activeClass="text-[#DB9A2B] bg-[#DB9A2B]/10"
                 onClick={() => setShowMarkers(v => !v)}
               />
             )}
@@ -258,7 +258,7 @@ export function StockDailyKChart({
               <ChartPill
                 active={showAddedMark}
                 label="自选"
-                activeClass="text-[#3B82F6] bg-[#3B82F6]/10"
+                activeClass="text-[#63A7D9] bg-[#63A7D9]/10"
                 title={showAddedMark ? '隐藏K线上的加入自选日标注' : '显示K线上的加入自选日标注'}
                 onClick={() => setShowAddedMark(v => !v)}
               />

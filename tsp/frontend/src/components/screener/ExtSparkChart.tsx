@@ -22,7 +22,7 @@ export function ExtSparkChart({ points, kind, width = 110, height = 36 }: {
   const max = values.length ? Math.max(...values) : 0
   // 全等值 (含单点/全空): 数值无变化可画, 回退文本
   if (values.length < 2 || min === max) {
-    return <span className="text-[10px] text-muted tabular-nums">{values.length >= 1 ? values[0] : '—'}</span>
+    return <span className="text-[11px] text-muted tabular-nums">{values.length >= 1 ? values[0] : '—'}</span>
   }
   const span = max - min || Math.abs(max) || 1
   const pad = 2

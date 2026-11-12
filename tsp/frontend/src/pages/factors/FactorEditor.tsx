@@ -7,7 +7,7 @@ import { api, type FactorTrialResponse, type FactorValidateResponse } from '@/li
 import { QK } from '@/lib/queryKeys'
 
 const INPUT_CLS = 'w-full rounded-input border border-border bg-surface px-2.5 py-1.5 text-xs focus:border-accent focus:outline-none'
-const CHIP_CLS = 'shrink-0 rounded-btn border border-border bg-base/60 px-1.5 py-0.5 font-mono text-[10px] text-secondary transition-colors hover:border-accent/40 hover:text-accent cursor-pointer'
+const CHIP_CLS = 'shrink-0 rounded-btn border border-border bg-base/60 px-1.5 py-0.5 font-mono text-[11px] text-secondary transition-colors hover:border-accent/40 hover:text-accent cursor-pointer'
 
 const DEFAULT_FORMULA = 'rank(-ts_sum(change_pct, 5))'
 
@@ -230,7 +230,7 @@ export function FactorEditor({ editId = '' }: { editId?: string }) {
           <FlaskConical className="h-4 w-4 shrink-0 text-accent" />
           <span className="shrink-0 text-sm font-medium text-foreground">因子编辑器</span>
           {editing && (
-            <span className="inline-flex shrink-0 items-center gap-1 rounded-btn border border-accent/40 bg-accent/5 px-1.5 py-0.5 text-[10px] font-medium text-accent">
+            <span className="inline-flex shrink-0 items-center gap-1 rounded-btn border border-accent/40 bg-accent/5 px-1.5 py-0.5 text-[11px] font-medium text-accent">
               <PenLine className="h-3 w-3" />
               编辑 {editing.id} · 当前 v{editing.version}
             </span>
@@ -242,7 +242,7 @@ export function FactorEditor({ editId = '' }: { editId?: string }) {
                 if (!event.target.value) { setEditing(null); return }
                 loadForEdit(event.target.value)
               }}
-              className="ml-auto h-7 max-w-[14rem] shrink-0 rounded-input border border-border bg-surface px-1.5 text-[10px] text-secondary"
+              className="ml-auto h-7 max-w-[14rem] shrink-0 rounded-input border border-border bg-surface px-1.5 text-[11px] text-secondary"
               aria-label="编辑已有自定义因子"
             >
               <option value="">编辑已有因子…</option>
@@ -257,7 +257,7 @@ export function FactorEditor({ editId = '' }: { editId?: string }) {
           <div className="mb-1.5 flex flex-wrap items-center justify-between gap-2">
             <label className="shrink-0 text-xs font-medium text-secondary">公式 (DSL)</label>
             <select
-              className="h-7 shrink-0 rounded-input border border-border bg-surface px-1.5 text-[10px] text-secondary"
+              className="h-7 shrink-0 rounded-input border border-border bg-surface px-1.5 text-[11px] text-secondary"
               onChange={event => {
                 const value = event.target.value
                 if (!value) return
@@ -299,7 +299,7 @@ export function FactorEditor({ editId = '' }: { editId?: string }) {
         <div className="space-y-1.5">
           <details
             ref={el => { if (el) el.open = true }}
-            className="group rounded-btn border border-border/60 bg-base/40 px-2.5 py-1.5 text-[10px]"
+            className="group rounded-btn border border-border/60 bg-base/40 px-2.5 py-1.5 text-[11px]"
           >
             <summary className="flex cursor-pointer select-none items-center gap-1 font-medium text-foreground transition-colors hover:text-accent [&::-webkit-details-marker]:hidden">
               <ChevronRight className="h-3 w-3 shrink-0 text-accent transition-transform group-open:rotate-90" />
@@ -329,7 +329,7 @@ export function FactorEditor({ editId = '' }: { editId?: string }) {
             </div>
             <div className="mt-1.5 text-muted">四则运算 <code className="font-mono text-accent">+ - * /</code> · 除零→空值 · 括号可任意分组</div>
           </details>
-          <details className="group rounded-btn border border-border/60 bg-base/40 px-2.5 py-1.5 text-[10px]">
+          <details className="group rounded-btn border border-border/60 bg-base/40 px-2.5 py-1.5 text-[11px]">
             <summary className="flex cursor-pointer select-none items-center gap-1 font-medium text-foreground transition-colors hover:text-accent [&::-webkit-details-marker]:hidden">
               <ChevronRight className="h-3 w-3 shrink-0 text-accent transition-transform group-open:rotate-90" />
               可用字段 ({columns.data?.columns.length ?? 0}) · 点击插入
@@ -337,7 +337,7 @@ export function FactorEditor({ editId = '' }: { editId?: string }) {
             <div className="mt-1.5 max-h-64 space-y-1.5 overflow-y-auto">
               {fieldGroups.map(([group, cols]) => (
                 <div key={group}>
-                  <div className="mb-0.5 text-[10px] font-medium text-secondary">{group}</div>
+                  <div className="mb-0.5 text-[11px] font-medium text-secondary">{group}</div>
                   <div className="flex flex-wrap gap-1">
                     {cols.map(col => (
                       <button
@@ -409,7 +409,7 @@ export function FactorEditor({ editId = '' }: { editId?: string }) {
               <span>→</span>
               <span className="rounded-btn bg-elevated px-2 py-1">4 保存草稿</span>
             </div>
-            <div className="mt-2 text-[10px]">算子/字段在左侧点击插入; 不知从何写起可从模板或「我的因子」开始; 校验错误可点击定位到字符。</div>
+            <div className="mt-2 text-[11px]">算子/字段在左侧点击插入; 不知从何写起可从模板或「我的因子」开始; 校验错误可点击定位到字符。</div>
           </div>
         )}
 
@@ -431,7 +431,7 @@ export function FactorEditor({ editId = '' }: { editId?: string }) {
                     key={index}
                     type="button"
                     onClick={() => locateError(error.position?.offset)}
-                    className="block w-full text-left font-mono text-[10px] leading-relaxed text-danger transition-colors hover:text-danger/80"
+                    className="block w-full text-left font-mono text-[11px] leading-relaxed text-danger transition-colors hover:text-danger/80"
                     title={error.position != null ? `定位到第 ${error.position.offset} 个字符附近` : undefined}
                   >
                     [{error.code}] {error.message}
@@ -440,7 +440,7 @@ export function FactorEditor({ editId = '' }: { editId?: string }) {
               </div>
             )}
             {validation.ok && (
-              <div className="grid grid-cols-1 gap-2 text-[10px] sm:grid-cols-2">
+              <div className="grid grid-cols-1 gap-2 text-[11px] sm:grid-cols-2">
                 <div className="rounded-btn border border-border bg-base/40 px-2.5 py-1.5">
                   <div className="mb-0.5 text-muted">依赖列 (递归展开)</div>
                   <code className="break-all font-mono text-secondary">{validation.dependencies.join(', ') || '—'}</code>
@@ -483,13 +483,13 @@ export function FactorEditor({ editId = '' }: { editId?: string }) {
                     ['空值率', trial.null_ratio != null ? `${(trial.null_ratio * 100).toFixed(0)}%` : '—'],
                   ] as [string, string][]).map(([label, value]) => (
                     <div key={label} className="rounded-btn border border-border bg-base/40 px-1 py-1.5" title={label === 't值(NW)' ? 'Newey-West 稳健 t 值 (滞后1), |t|≥2 视为显著; 40 日样本仅作参考' : undefined}>
-                      <div className="whitespace-nowrap text-[10px] text-muted">{label}</div>
+                      <div className="whitespace-nowrap text-[11px] text-muted">{label}</div>
                       <div className="font-mono text-sm text-foreground">{value}</div>
                     </div>
                   ))}
                 </div>
                 <div className="rounded-btn border border-border bg-base/40 px-3 py-2">
-                  <div className="mb-1.5 text-[10px] text-muted">IC 走势 (最近 {trial.ic_series.length} 日)</div>
+                  <div className="mb-1.5 text-[11px] text-muted">IC 走势 (最近 {trial.ic_series.length} 日)</div>
                   <div className="flex h-16 items-center gap-px">
                     {trial.ic_series.map(point => {
                       const height = Math.min(Math.abs(point.ic) * 160, 100)
@@ -502,7 +502,7 @@ export function FactorEditor({ editId = '' }: { editId?: string }) {
                     })}
                   </div>
                 </div>
-                <div className="text-[10px] leading-relaxed text-muted">
+                <div className="text-[11px] leading-relaxed text-muted">
                   试算仅为快照预览 (无成本/分层), 完整检验请到「发现」页运行。样本内表现不代表未来。
                 </div>
 
@@ -566,13 +566,13 @@ export function FactorEditor({ editId = '' }: { editId?: string }) {
                         </button>
                       )}
                     </div>
-                    <div className="mt-1 text-[10px] text-muted">
+                    <div className="mt-1 text-[11px] text-muted">
                       {editing
                         ? '公式变化会保存为新版本并回草稿态 (需重新检验后激活); 仅改名称/分组保留当前状态。'
                         : '保存后状态为 draft；到「发现」页跑完整检验确认有效后，在因子库中激活。'}
                     </div>
                     {savedId && savedVersion != null && (
-                      <div className="mt-1 text-[10px] text-bull">已保存: {savedId} v{savedVersion}</div>
+                      <div className="mt-1 text-[11px] text-bull">已保存: {savedId} v{savedVersion}</div>
                     )}
                   </div>
                 )}
