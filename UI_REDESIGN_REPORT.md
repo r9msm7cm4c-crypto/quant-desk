@@ -3,7 +3,7 @@
 项目：Quant Desk（`index.html` 单文件 PWA + `tsp/` 全功能主站）
 时间：2026-11-12
 基准提交：`71c587f`（改动前）
-改动规模：164 个文件，+2124 / −1929 行（全部为样式与展示层，未改业务逻辑）
+改动规模：167 个文件，+2553 / −1941 行（全部为样式与展示层，未改业务逻辑）
 
 设计审查方法参考开源项目 [unslop](https://github.com/heydamir/unslop)，作者 Damir Sokolovsky（[@heydamir](https://x.com/heydamir)），CC BY 4.0。本文档与其派生的 `UI_AUDIT.md`、`DESIGN_TOKENS.md` 保留该署名。
 
