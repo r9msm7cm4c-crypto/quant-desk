@@ -106,12 +106,14 @@
 | 部分 | 文件 | 行数 |
 |---|---|---|
 | 离线 PWA | 1 | 6,174 |
-| 后端 Python | 292 | 112,657 |
-| 前端 TSX | 267 | 84,843 |
-| 前端 TS | 115 | 17,900 |
+| 后端 Python（`tsp/backend` 全部，含测试与脚本） | 765 | 203,655 |
+| 　其中 `app/` 核心业务 | 292 | 112,657 |
+| 前端 TSX | 267 | 84,929 |
+| 前端 TS | 115 | 19,275 |
+| 文档 Markdown | 62 | 11,129 |
 | native-core | 12 | 963 |
 | ObjC 壳 | 1 | 207 |
-| **合计** | **~690** | **~22 万** |
+| **合计（可统计文本）** | **1,402** | **340,721** |
 
 **后端**：Python ≥3.11、FastAPI、Polars、DuckDB、PyArrow、Pandas、Numba、SSE-Starlette
 **前端**：React 18.3、Vite 5.4、TypeScript 5.5、Tailwind、ECharts 5、Capacitor 8
