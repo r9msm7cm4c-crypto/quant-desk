@@ -1,3 +1,9 @@
 .union.pid
 .union.log
 .DS_Store
+
+# ===== iOS 离线壳构建产物（源码入库存，产物不入库）=====
+ios/.cache/
+ios/.build/
+ios/dist/
+*.ipa
