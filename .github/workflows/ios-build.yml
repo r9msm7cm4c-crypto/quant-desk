@@ -25,6 +25,9 @@ concurrency:
   group: ios-build-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: write
+
 jobs:
   build:
     name: Build unsigned IPA
@@ -231,6 +234,24 @@ jobs:
             IOS_BUILD_REPORT.md
           retention-days: 30
           if-no-files-found: error
+
+      # artifact 走 Azure Blob，部分网络环境不可达；同时发一个 Release 便于直链下载
+      - name: Publish Release
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          TAG="ios-v${{ steps.package.outputs.version }}-b${{ github.run_number }}"
+          IPA="${{ steps.package.outputs.ipa }}"
+          NOTES=$(cat IOS_BUILD_REPORT.md)
+          gh release create "$TAG" "$IPA" IOS_BUILD_REPORT.md \
+            --repo "${{ github.repository }}" \
+            --title "iOS unsigned IPA v${{ steps.package.outputs.version }} (build ${{ github.run_number }})" \
+            --notes "$NOTES" \
+            || gh release upload "$TAG" "$IPA" IOS_BUILD_REPORT.md --clobber --repo "${{ github.repository }}"
+          gh release view "$TAG" --repo "${{ github.repository }}" --json assets \
+            -q '.assets[] | "\(.name)  \(.size) bytes  \(.url)"'
 
       - name: Upload logs on failure
         if: failure()
