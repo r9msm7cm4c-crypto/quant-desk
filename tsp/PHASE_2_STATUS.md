@@ -20,6 +20,16 @@ BASELINE_COMMIT  = ed553e9
 | 现有持久化 | 仅 localStorage 141 处 | 无结构化查询能力 |
 | 后端存储形态 | DuckDB + 分区 parquet | `app/tickflow/repository.py` 注册 11 张 parquet 视图，无 SQLite |
 
+## 测试基线（2026-11-13 17:21 实测）
+
+```
+Test Files  5 failed | 70 passed (75)
+Tests      30 failed | 501 passed (531)
+```
+
+与阶段 1 结束时完全一致（531 / 501 / 30），本次仅新增文档，未改代码。
+30 个失败中 29 个是 `MiniIntraday` / `MiniChart` 的 SVG 断言，1 个是 `Signals.numeric-right`（列表为空，因 jsdom 内同样请求后端）。
+
 ## 历史文档的定位
 
 | 文档 | 定位 |
