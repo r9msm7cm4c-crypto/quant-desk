@@ -37,7 +37,7 @@ OTA 只适用于与当前原生二进制兼容的 Web 资源，例如 HTML、CSS
    ```bash
    export OTA_PUBLIC_KEY="$(cat /secure/path/ota-public.pem)"
    export VITE_OTA_PUBLIC_KEY_CONFIGURED=true
-   export VITE_OTA_MANIFEST_URL="https://raw.githubusercontent.com/r9msm7cm4c-crypto/quant-desk/main/ota/stable.json"
+   export VITE_OTA_MANIFEST_URL="https://raw.githubusercontent.com/r9msm7cm4c-crypto/quant-desk/main/tsp/ota/stable.json"
    npm --prefix frontend run build
    ```
 

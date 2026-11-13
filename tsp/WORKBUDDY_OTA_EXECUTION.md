@@ -21,7 +21,7 @@
 1. 检查 `frontend/package.json` 和 `mobile/package.json` 的 `@capacitor/core`、`@capawesome/capacitor-live-update` 均为 Capacitor 8 兼容的 8.x。
 2. 在 `frontend/` 使用项目锁文件对应的 pnpm 执行 `pnpm install --no-frozen-lockfile`，重新生成并提交 `pnpm-lock.yaml`。在 `mobile/` 执行 `npm install`，生成并提交 `package-lock.json`（如果项目统一使用 pnpm，则按现有 monorepo 规范统一，不要混用锁文件）。
 3. 在安全构建环境生成 RSA 3072 key pair。私钥只保存在安全位置 / CI Secret；绝不写入 ZIP、Git、日志、IPA 或任何用户交付文件。将 PEM 公钥通过 `OTA_PUBLIC_KEY` 环境变量注入 Capacitor config。
-4. 同一构建环境设置 `VITE_OTA_PUBLIC_KEY_CONFIGURED=true`、`VITE_OTA_BUNDLED_VERSION=0.1.0`、`VITE_OTA_MANIFEST_URL=https://raw.githubusercontent.com/r9msm7cm4c-crypto/quant-desk/main/ota/stable.json`。没有正确注入公钥时必须保持 `VITE_OTA_PUBLIC_KEY_CONFIGURED=false`，App 必须拒绝下载更新。
+4. 同一构建环境设置 `VITE_OTA_PUBLIC_KEY_CONFIGURED=true`、`VITE_OTA_BUNDLED_VERSION=0.1.0`、`VITE_OTA_MANIFEST_URL=https://raw.githubusercontent.com/r9msm7cm4c-crypto/quant-desk/main/tsp/ota/stable.json`。没有正确注入公钥时必须保持 `VITE_OTA_PUBLIC_KEY_CONFIGURED=false`，App 必须拒绝下载更新。
 5. 构建 iOS 前执行 `npx cap sync ios`。把 `mobile/PrivacyInfo.xcprivacy.template` 合并到 `ios/App/App/PrivacyInfo.xcprivacy`；如果该文件已存在，合并 `NSPrivacyAccessedAPICategoryUserDefaults` / `CA92.1`，不要覆盖其他声明。
 6. 确认 `mobile/capacitor.config.ts` 最终生成的原生配置中含有 PEM 公钥、`readyTimeout=20000`、`autoBlockRolledBackBundles=true`、`autoDeleteBundles=true`、`autoUpdateStrategy=none`。
 7. 检查更新页面只在 iOS/Android 原生 App 显示可用状态；Web 端显示不支持。确认用户主动点击检查、下载；不能静默自动切换。

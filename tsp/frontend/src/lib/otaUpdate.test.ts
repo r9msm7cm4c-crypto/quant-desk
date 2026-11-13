@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { compareVersions, validateManifest } from './otaUpdate'
+import { compareVersions, OTA_MANIFEST_URL, validateManifest } from './otaUpdate'
 
 const validManifest = {
   schemaVersion: 1,
@@ -77,5 +77,48 @@ describe('OTA manifest validation', () => {
 
   it('rejects an invalid publish timestamp', () => {
     expect(() => validateManifest(withField('publishedAt', 'not-a-date'))).toThrow()
+  })
+})
+
+describe('OTA prerelease ordering (SemVer 2.0.0 §11)', () => {
+  it('ranks a prerelease below the same numbered release', () => {
+    expect(compareVersions('0.1.1-alpha.1', '0.1.1')).toBeLessThan(0)
+    expect(compareVersions('0.1.1-beta.1', '0.1.1')).toBeLessThan(0)
+    expect(compareVersions('0.1.1-rc.1', '0.1.1')).toBeLessThan(0)
+    expect(compareVersions('0.1.1', '0.1.1-rc.1')).toBeGreaterThan(0)
+  })
+
+  it('orders alpha < beta < rc < release', () => {
+    const order = ['0.1.1-alpha.1', '0.1.1-beta.1', '0.1.1-rc.1', '0.1.1']
+    for (let i = 1; i < order.length; i += 1) {
+      expect(compareVersions(order[i - 1], order[i])).toBeLessThan(0)
+    }
+  })
+
+  it('compares numeric prerelease identifiers numerically, not lexicographically', () => {
+    expect(compareVersions('0.1.1-beta.2', '0.1.1-beta.10')).toBeLessThan(0)
+    expect(compareVersions('0.1.1-beta.10', '0.1.1-beta.9')).toBeGreaterThan(0)
+    expect(compareVersions('0.1.1-rc.1', '0.1.1-beta.9')).toBeGreaterThan(0)
+  })
+
+  it('still ranks a higher core version above any prerelease of a lower one', () => {
+    expect(compareVersions('0.1.2-alpha.1', '0.1.1')).toBeGreaterThan(0)
+    expect(compareVersions('0.1.1-beta.1', '0.1.0')).toBeGreaterThan(0)
+    expect(compareVersions('0.1.1-beta.1', '0.2.0-rc.1')).toBeLessThan(0)
+  })
+
+  it('regression guard: a prerelease must never be mistaken for the release', () => {
+    expect(compareVersions('0.1.1-beta.1', '0.1.1')).not.toBe(0)
+    expect(compareVersions('0.1.1', '0.1.1-beta.1')).not.toBe(0)
+  })
+})
+
+describe('OTA manifest location', () => {
+  it('never points at /main/ota/, which does not exist and returns 404', () => {
+    expect(OTA_MANIFEST_URL).not.toMatch(/\/main\/ota\//)
+  })
+
+  it('points at the tsp/ota directory where the manifest is actually committed', () => {
+    expect(OTA_MANIFEST_URL).toMatch(/\/main\/tsp\/ota\/stable\.json$/)
   })
 })

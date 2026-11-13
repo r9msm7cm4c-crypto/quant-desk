@@ -4,7 +4,7 @@ import { LiveUpdate } from '@capawesome/capacitor-live-update'
 export const OTA_RUNTIME_VERSION = 'qd-cap8-v1'
 export const OTA_BUNDLED_VERSION = import.meta.env.VITE_OTA_BUNDLED_VERSION || '0.1.0'
 export const OTA_MANIFEST_URL = import.meta.env.VITE_OTA_MANIFEST_URL
-  || 'https://raw.githubusercontent.com/r9msm7cm4c-crypto/quant-desk/main/ota/stable.json'
+  || 'https://raw.githubusercontent.com/r9msm7cm4c-crypto/quant-desk/main/tsp/ota/stable.json'
 
 export type OtaManifest = {
   schemaVersion: 1
@@ -39,21 +39,60 @@ const ALLOWED_BUNDLE_HOSTS = new Set([
   'release-assets.githubusercontent.com',
 ])
 
-function parseVersion(value: string): number[] | null {
-  const match = value.trim().replace(/^v/i, '').match(/^(\d+(?:\.\d+){0,3})(?:[-+].*)?$/)
+type ParsedVersion = { core: number[]; pre: string[] }
+
+/**
+ * 解析 SemVer。保留预发布标识，否则 0.1.1-beta.1 与 0.1.1 会被判为同一版本，
+ * 导致「预发布包覆盖正式版」或「正式版收不到升级」。
+ */
+function parseVersion(value: string): ParsedVersion | null {
+  const match = value
+    .trim()
+    .replace(/^v/i, '')
+    .match(/^(\d+(?:\.\d+){0,3})(?:-([0-9A-Za-z.-]+))?(?:\+[0-9A-Za-z.-]+)?$/)
   if (!match) return null
-  return match[1].split('.').map(part => Number(part))
+  return {
+    core: match[1].split('.').map(part => Number(part)),
+    pre: match[2] ? match[2].split('.') : [],
+  }
+}
+
+/** SemVer §11: 有预发布标识的版本低于同号正式版；数字标识符低于字母标识符。 */
+function comparePrerelease(a: string[], b: string[]): number {
+  if (a.length === 0 && b.length === 0) return 0
+  if (a.length === 0) return 1
+  if (b.length === 0) return -1
+  for (let i = 0; i < Math.max(a.length, b.length); i += 1) {
+    const x = a[i]
+    const y = b[i]
+    if (x === undefined) return -1
+    if (y === undefined) return 1
+    const xNumeric = /^\d+$/.test(x)
+    const yNumeric = /^\d+$/.test(y)
+    if (xNumeric && yNumeric) {
+      const delta = Number(x) - Number(y)
+      if (delta !== 0) return delta > 0 ? 1 : -1
+    } else if (xNumeric) {
+      return -1
+    } else if (yNumeric) {
+      return 1
+    } else {
+      const delta = x.localeCompare(y, 'en')
+      if (delta !== 0) return delta > 0 ? 1 : -1
+    }
+  }
+  return 0
 }
 
 export function compareVersions(a: string, b: string): number {
   const left = parseVersion(a)
   const right = parseVersion(b)
   if (!left || !right) return a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' })
-  for (let i = 0; i < Math.max(left.length, right.length); i += 1) {
-    const delta = (left[i] ?? 0) - (right[i] ?? 0)
+  for (let i = 0; i < Math.max(left.core.length, right.core.length); i += 1) {
+    const delta = (left.core[i] ?? 0) - (right.core[i] ?? 0)
     if (delta !== 0) return delta > 0 ? 1 : -1
   }
-  return 0
+  return comparePrerelease(left.pre, right.pre)
 }
 
 export function validateManifest(input: unknown): OtaManifest {
@@ -151,11 +190,16 @@ export async function checkOtaUpdate(): Promise<OtaCheckResult> {
   }
 }
 
-export async function stageOtaUpdate(manifest: OtaManifest): Promise<void> {
+export async function stageOtaUpdate(input: OtaManifest): Promise<void> {
   if (!Capacitor.isNativePlatform()) throw new Error('当前平台不支持应用内更新')
+  // 下载前重新走一遍清单校验：调用方若跳过 checkOtaUpdate，也不能把未校验的地址送进下载。
+  const manifest = validateManifest(input)
   const native = await getNativeConfiguration()
   if (!native.configured) throw new Error('缺少 OTA 公钥，已阻止下载')
   if (manifest.runtimeVersion !== OTA_RUNTIME_VERSION) throw new Error('原生运行时不兼容，已阻止安装')
+  if (compareVersions(native.versionName, manifest.minAppVersion) < 0) {
+    throw new Error(`此更新要求 App 至少为 ${manifest.minAppVersion}，当前为 ${native.versionName}，已阻止安装`)
+  }
 
   await LiveUpdate.downloadBundle({
     url: manifest.bundleUrl,

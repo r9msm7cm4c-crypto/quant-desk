@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "enabled": true,
+  "enabled": false,
   "appId": "com.quantdesk.mobile",
   "channel": "stable",
   "runtimeVersion": "qd-cap8-v1",
