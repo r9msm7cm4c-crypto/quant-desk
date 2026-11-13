@@ -1,0 +1,12 @@
+WorkBuddy：请先阅读 OTA_UPDATE_GUIDE.md、OTA_IMPLEMENTATION_REPORT.md 和 WORKBUDDY_OTA_EXECUTION.md。
+
+本次目标是完成已写入源码的应用内 OTA 更新能力，不要删除原有 Quant Desk 功能。
+
+关键要求：
+1. 更新依赖 lockfiles 并完成 React build / Vitest。
+2. 在安全构建环境生成 RSA 3072 密钥；私钥不允许进入 Git、IPA、ZIP 或日志。
+3. 通过 OTA_PUBLIC_KEY 注入公钥；只有同一构建环境同时设置 VITE_OTA_PUBLIC_KEY_CONFIGURED=true 才允许 OTA 开启。
+4. 合并 PrivacyInfo.xcprivacy.template 到生成的 iOS 原生工程。
+5. 先做测试通道签名包和真机验证，再启用 stable.json。
+6. 不要把 native plugin / Swift / iOS permission 更新伪装成 OTA；这些必须发新 IPA。
+7. 不要声称 IPA 或 OTA 真机验证完成，除非实际执行并保存测试记录。

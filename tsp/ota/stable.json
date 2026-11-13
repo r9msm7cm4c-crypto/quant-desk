@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "enabled": false,
+  "appId": "com.quantdesk.mobile",
+  "channel": "stable",
+  "runtimeVersion": "qd-cap8-v1",
+  "version": "0.1.0",
+  "bundleId": "qd-web-initial-placeholder",
+  "minAppVersion": "0.1.0",
+  "bundleUrl": "https://github.com/r9msm7cm4c-crypto/quant-desk/releases/download/ota-v0.1.0/quant-desk-ota-0.1.0.zip",
+  "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "signature": "AA==",
+  "publishedAt": "2026-11-13T00:00:00.000Z",
+  "releaseNotes": "OTA 更新通道已预留。完成签名密钥初始化并发布第一个兼容更新包后，此文件将被替换。"
+}

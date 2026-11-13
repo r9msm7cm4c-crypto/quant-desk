@@ -1,0 +1,10 @@
+{
+  "name": "@quant-desk/native-core",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Platform-neutral local quantitative calculation core for Quant Desk",
+  "scripts": {
+    "test": "node --experimental-strip-types --test test/*.test.ts"
+  }
+}
