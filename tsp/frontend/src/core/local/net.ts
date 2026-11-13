@@ -121,8 +121,12 @@ async function webGetBytes(
     return decodeText(buf, encoding)
   } catch (e: any) {
     if (e instanceof LocalNetworkError) throw e
-    if (e?.name === 'AbortError') throw new LocalNetworkError('行情源请求超时')
-    throw new LocalNetworkError('行情源不可达（Web 端直连被跨域拦截，属预期；iOS 原生壳走原生通道）')
+    if (e?.name === 'AbortError') throw new LocalNetworkError('行情源响应超时，请检查网络后重试')
+    // 浏览器里多半是跨域被拦（行情源不返回 CORS 头）；原生壳走 URLSession 不受此限。
+    // 对用户只说人话，细节留给控制台。
+    // eslint-disable-next-line no-console
+    console.warn('[local-market] 行情源请求失败（浏览器端通常为跨域限制）:', url, e)
+    throw new LocalNetworkError('行情源暂时取不到数据（网络受限或被限流），请稍后重试')
   } finally {
     clearTimeout(timer)
   }
