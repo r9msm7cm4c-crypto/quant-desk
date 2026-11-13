@@ -100,10 +100,27 @@ async function nativeGetBytes(
   if (status < 200 || status >= 300) {
     throw new LocalNetworkError(`行情源返回 HTTP ${status}`, status)
   }
-  const raw = res.data
-  if (typeof raw !== 'string' || raw.length === 0) throw new LocalNetworkError('行情源返回空响应', status)
-  // arraybuffer 模式下 Capacitor 返回 base64 字符串
-  return decodeText(decodeBase64ToBytes(raw), encoding)
+  const raw = res.data as unknown
+  if (raw == null) throw new LocalNetworkError('行情源返回空响应', status)
+
+  // responseType='arraybuffer' 在各平台的回传形态不一致：
+  //   iOS/Android 原生 → base64 字符串
+  //   Web fallback    → ArrayBuffer / number[]
+  // 三种都接住，避免某一端整条行情链路失效。
+  let bytes: Uint8Array
+  if (typeof raw === 'string') {
+    bytes = decodeBase64ToBytes(raw)
+  } else if (raw instanceof ArrayBuffer) {
+    bytes = new Uint8Array(raw)
+  } else if (ArrayBuffer.isView(raw)) {
+    bytes = new Uint8Array(raw.buffer, raw.byteOffset, raw.byteLength)
+  } else if (Array.isArray(raw)) {
+    bytes = Uint8Array.from(raw as number[])
+  } else {
+    throw new LocalNetworkError('行情源响应格式无法识别', status)
+  }
+  if (bytes.length === 0) throw new LocalNetworkError('行情源返回空响应', status)
+  return decodeText(bytes, encoding)
 }
 
 async function webGetBytes(
