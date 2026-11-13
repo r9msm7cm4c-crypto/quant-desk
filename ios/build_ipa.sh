@@ -78,6 +78,7 @@ mkdir -p "$APP/web"
 say "拷贝离线 PWA 资源 ..."
 cp "$REPO/index.html"                 "$APP/web/"
 cp "$REPO/manifest.webmanifest"       "$APP/web/"
+cp "$REPO/sw.js"                      "$APP/web/"
 mkdir -p "$APP/web/icons"
 cp "$REPO"/icons/*.png                "$APP/web/icons/"
 
