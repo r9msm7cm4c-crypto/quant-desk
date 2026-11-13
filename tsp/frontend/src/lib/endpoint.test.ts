@@ -1,6 +1,15 @@
 // @vitest-environment jsdom
 import { describe, expect, it, beforeEach, vi, afterEach } from 'vitest'
+
+// 模块在 import 时就固化了平台判定，只能整模块打桩；用 __NATIVE__ 开关切换
+vi.mock('@capacitor/core', () => ({
+  Capacitor: {
+    isNativePlatform: () => (globalThis as any).__NATIVE__ === true,
+    getPlatform: () => ((globalThis as any).__NATIVE__ ? 'ios' : 'web'),
+  },
+}))
 import {
+  EndpointNotConfiguredError,
   describeApiTarget,
   getApiBase,
   normalizeApiBase,
@@ -167,5 +176,40 @@ describe('probeEndpoint', () => {
     const r = await probeEndpoint('http://192.168.1.5:8000')
     expect(r.ok).toBe(false)
     expect(r.status).toBe(502)
+  })
+})
+
+describe('原生壳（Capacitor）行为', () => {
+  beforeEach(() => {
+    localStorage.clear()
+    setApiBase('')
+    ;(globalThis as any).__NATIVE__ = true
+  })
+
+  afterEach(() => {
+    ;(globalThis as any).__NATIVE__ = false
+  })
+
+  it('未配置地址时 resolveApiUrl 抛可识别错误，而不是悄悄打到本地服务器', () => {
+    expect(() => resolveApiUrl('/api/watchlist')).toThrow(EndpointNotConfiguredError)
+  })
+
+  it('配置后就返回绝对地址', () => {
+    setApiBase('http://192.168.1.5:8000')
+    expect(resolveApiUrl('/api/watchlist')).toBe('http://192.168.1.5:8000/api/watchlist')
+  })
+
+  it('未配置时界面文案为未配置', () => {
+    expect(describeApiTarget()).toBe('未配置')
+  })
+
+  it('探活时空地址直接给出填写提示，不发请求', async () => {
+    const spy = vi.fn()
+    vi.stubGlobal('fetch', spy)
+    const r = await probeEndpoint('')
+    expect(r.ok).toBe(false)
+    expect(r.error).toContain('请先填写地址')
+    expect(spy).not.toHaveBeenCalled()
+    vi.unstubAllGlobals()
   })
 })
