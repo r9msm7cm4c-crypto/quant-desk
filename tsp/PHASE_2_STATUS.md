@@ -1,9 +1,9 @@
 # 阶段 2 状态
 
 ```
-PHASE_2_STATUS   = NOT_STARTED
+PHASE_2_STATUS   = IN_PROGRESS        # 仅批次 A（基础设施），页面迁移仍未开始
 MIGRATED_PAGES   = 0/22
-LOCAL_DATABASE   = NOT_IMPLEMENTED
+LOCAL_DATABASE   = IMPLEMENTED_NOT_DEVICE_VERIFIED
 LAST_UPDATED     = 2026-11-13
 BASELINE_COMMIT  = ed553e9
 ```
@@ -15,19 +15,21 @@ BASELINE_COMMIT  = ed553e9
 | 检查项 | 结果 | 核查方式 |
 |---|---|---|
 | 已迁移页面 | 0 | `LOCAL_FIRST_PAGE_MIGRATION_MATRIX.md` 22 页全部 `NOT_STARTED` |
-| SQLite 依赖 | 未安装 | `tsp/frontend/package.json`、`tsp/mobile/package.json` 均无 sqlite 相关包 |
+| SQLite 依赖 | 已安装（frontend） | `@capacitor-community/sqlite@8.1.1`、`jeep-sqlite@2.8.0`、`sql.js@1.13.0`(dev, 仅供 wasm)；`tsp/mobile` 尚未安装，阶段 5 同步 |
 | IndexedDB 使用 | 0 处 | 全仓检索 `indexedDB` / `idb` / `Dexie` 无命中 |
-| 现有持久化 | 仅 localStorage 141 处 | 无结构化查询能力 |
+| 本地数据库 | Schema v1 已建，19 条单测通过 | `src/core/database/`，详见矩阵批次 A 记录 |
+| 页面接入 | 0 个 | 22 页仍 `NOT_STARTED` |
+| iOS 真机 | NOT TESTED | 无 macOS/Xcode 与签名设备 |
 | 后端存储形态 | DuckDB + 分区 parquet | `app/tickflow/repository.py` 注册 11 张 parquet 视图，无 SQLite |
 
-## 测试基线（2026-11-13 17:21 实测）
+## 测试基线（2026-11-13 20:12 实测，批次 A 之后）
 
 ```
-Test Files  5 failed | 70 passed (75)
-Tests      30 failed | 501 passed (531)
+Test Files  5 failed | 72 passed (77)
+Tests      30 failed | 520 passed (550)
 ```
 
-与阶段 1 结束时完全一致（531 / 501 / 30），本次仅新增文档，未改代码。
+新增 19 条本地数据库测试全部通过；失败数仍为 30，与阶段 1 结束时相同，无回归。
 30 个失败中 29 个是 `MiniIntraday` / `MiniChart` 的 SVG 断言，1 个是 `Signals.numeric-right`（列表为空，因 jsdom 内同样请求后端）。
 
 ## 历史文档的定位
@@ -44,3 +46,4 @@ Tests      30 failed | 501 passed (531)
 | 日期 | 变更 | 依据 |
 |---|---|---|
 | 2026-11-13 | 初始化为 `NOT_STARTED` / `0/22` / `NOT_IMPLEMENTED` | 完成 22 页盘点，未写任何迁移代码 |
+| 2026-11-13 | 批次 A：SQLite 基础设施落地，19 条测试通过 | `src/core/database/*`、`src/core/repositories/*`；页面仍 0/22 |

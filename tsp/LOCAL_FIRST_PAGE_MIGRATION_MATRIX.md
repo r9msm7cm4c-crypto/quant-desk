@@ -966,6 +966,25 @@
 
 状态流转只允许：`NOT_STARTED → IN_PROGRESS → IMPLEMENTED → TESTED → VERIFIED`。`TESTED` 必须有实际运行的测试输出，`VERIFIED` 必须在目标 iOS 环境实测。
 
+### 批次 A 交付记录（2026-11-13）
+
+| 模块 | 文件 | 状态 |
+|---|---|---|
+| 驱动契约 | `src/core/database/types.ts` | 已实现 |
+| 数据库门面（事务 / 迁移 / 错误分类） | `src/core/database/database.ts` | 已实现，19 条单测通过 |
+| Schema v1（7 张业务表 + 迁移表） | `src/core/database/schema.ts` | 已实现 |
+| 平台驱动（iOS 原生 / 浏览器 WASM） | `src/core/database/drivers/capacitor.ts` | 代码完成，**真机未验证** |
+| 单例与开闭管理 | `src/core/database/client.ts` | 已实现 |
+| Node 测试驱动（真实 SQLite） | `src/core/database/testing/nodeSqliteDriver.ts` | 已实现，仅测试引用 |
+| Repository 基类 | `src/core/repositories/base.ts` | 已实现 |
+| 偏好仓储（首条纵向切片） | `src/core/repositories/preferences.ts` | 已实现，8 条单测通过 |
+
+已验证的行为：建表、幂等迁移、迁移失败回滚、版本降级拒绝、事务回滚、嵌套事务拒绝、外键约束、唯一约束、关闭后重开数据仍在、关闭后操作报 `DB_CLOSED`。
+
+尚未验证：Capacitor 原生驱动在 iOS 设备上的真实打开、WAL 行为、应用被杀后的恢复——**这些需要签名设备，当前环境无法执行，状态 NOT TESTED**。
+
+页面状态不受影响：22 页仍全部 `NOT_STARTED`，因为还没有任何页面接入本地仓储。
+
 ---
 
 ## 6. 阶段 2 验收对照表
