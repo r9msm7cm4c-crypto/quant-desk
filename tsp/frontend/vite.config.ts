@@ -1,6 +1,41 @@
-import { defineConfig } from 'vite'
+import { defineConfig, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
+import fs from 'node:fs'
 import path from 'node:path'
+
+/**
+ * 把仓库根目录的单文件离线 PWA 一并产出到 dist/pwa/。
+ *
+ * 主站 22 个页面依赖 FastAPI；这个单文件 PWA 是纯前端、自带数据的独立界面。
+ * 打进 Capacitor 包后，即使完全没有后端，App 里也始终有一块能真正操作的区域
+ * （Layout 的「离线版」入口会 HEAD /pwa/index.html 探活，存在即显示）。
+ */
+function offlinePwaPlugin(): Plugin {
+  const repoRoot = path.resolve(__dirname, '..', '..')
+  const entries = ['index.html', 'manifest.webmanifest', 'sw.js']
+  return {
+    name: 'quantdesk-offline-pwa',
+    apply: 'build',
+    closeBundle() {
+      const outDir = path.resolve(__dirname, 'dist', 'pwa')
+      fs.mkdirSync(outDir, { recursive: true })
+      const copied: string[] = []
+      for (const name of entries) {
+        const src = path.join(repoRoot, name)
+        if (fs.existsSync(src)) {
+          fs.copyFileSync(src, path.join(outDir, name))
+          copied.push(name)
+        }
+      }
+      const iconsSrc = path.join(repoRoot, 'icons')
+      if (fs.existsSync(iconsSrc)) {
+        fs.cpSync(iconsSrc, path.join(outDir, 'icons'), { recursive: true })
+        copied.push('icons/')
+      }
+      console.log(`[offline-pwa] dist/pwa ← ${copied.join(', ') || '（源缺失，跳过）'}`)
+    },
+  }
+}
 
 const backendHost = process.env.BACKEND_HOST || '127.0.0.1'
 const proxyHost = ['0.0.0.0', '::'].includes(backendHost) ? '127.0.0.1' : backendHost
@@ -8,7 +43,7 @@ const backendPort = process.env.BACKEND_PORT || '3018'
 const backendTarget = `http://${proxyHost}:${backendPort}`
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), offlinePwaPlugin()],
   experimental: {
     // 后端将资源挂到带版本的路径；分块预加载和 CSS 字体也须跟随该路径。
     renderBuiltUrl(_filename, { hostType }) {

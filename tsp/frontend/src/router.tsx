@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import { createBrowserRouter, Navigate, useSearchParams } from 'react-router-dom'
 import { Layout } from './components/Layout'
 import { useSettings } from './lib/useSharedQueries'
@@ -72,10 +72,18 @@ function MiningRedirect() {
 function OnboardingGuard({ children }: { children: React.ReactNode }) {
   const settings = useSettings()
 
+  // 后端不可达时 /api/settings 会持续 pending(重试 + 暂停), 不能让用户永久停在占位页。
+  // 8s 后无条件放行: onboarding 判定只是"首次引导"的软门禁, 放行的代价远小于白屏。
+  const [gaveUpWaiting, setGaveUpWaiting] = useState(false)
+  useEffect(() => {
+    const timer = window.setTimeout(() => setGaveUpWaiting(true), 8_000)
+    return () => window.clearTimeout(timer)
+  }, [])
+
   // 仅首次加载(本地无缓存)时显示占位。
   // 后台重取 (isFetching) 时本地已有上一份缓存可用, 直接放行, 避免切页时整屏 logo 闪烁。
   // 防误重定向已由 Onboarding/AI 等处 invalidate 前的 setQueryData 同步缓存兜底。
-  if (settings.isLoading) {
+  if (settings.isLoading && !settings.isError && !gaveUpWaiting) {
     return (
       <div className="min-h-full bg-base grid place-items-center">
         <div className="flex flex-col items-center gap-3 text-muted">

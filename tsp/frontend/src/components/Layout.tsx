@@ -94,29 +94,19 @@ const nav = [
   { to: '/data',             label: '数据',     icon: Database },
 ] as const
 
+const PWA_ENTRY = '/pwa/index.html'
+
+/** Capacitor 原生壳里没有新标签页, _blank 会失效; 站内跳转更可靠。 */
+function isNativeShell(): boolean {
+  const cap = (window as unknown as { Capacitor?: { isNativePlatform?: () => boolean } }).Capacitor
+  return cap?.isNativePlatform?.() === true
+}
+
 /** 离线版入口 — 同源 /pwa/ 下挂的单文件 PWA。不存在时自动隐藏(独立部署的实例)。 */
-function PwaNavLink({ railMode }: { railMode: boolean }) {
-  const [available, setAvailable] = useState(false)
-  useEffect(() => {
-    let alive = true
-    fetch('/pwa/index.html', { method: 'HEAD' })
-      .then((r) => { if (alive) setAvailable(r.ok) })
-      .catch(() => { if (alive) setAvailable(false) })
-    return () => { alive = false }
-  }, [])
+function PwaNavLink({ railMode, available, onOpen }: { railMode: boolean; available: boolean; onOpen: () => void }) {
   if (!available) return null
-  return (
-    <a
-      href="/pwa/"
-      target="_blank"
-      rel="noreferrer"
-      title={railMode ? '离线版' : '单文件离线 PWA · 无需后端，可装到桌面'}
-      className={cn(
-        'group relative flex items-center rounded-btn text-sm transition-colors duration-150 ease-smooth',
-        railMode ? 'justify-center px-0 py-2' : 'gap-3 px-3 py-2',
-        'text-foreground/75 hover:bg-elevated/70 hover:text-foreground',
-      )}
-    >
+  const inner = (
+    <>
       <HardDriveDownload className="h-4 w-4 shrink-0 text-foreground/60 group-hover:text-foreground/85" />
       {!railMode && (
         <span className="flex min-w-0 flex-1 items-center gap-1.5">
@@ -126,6 +116,34 @@ function PwaNavLink({ railMode }: { railMode: boolean }) {
           </span>
         </span>
       )}
+    </>
+  )
+  const cls = cn(
+    'group relative flex items-center rounded-btn text-sm transition-colors duration-150 ease-smooth',
+    railMode ? 'justify-center px-0 py-2' : 'gap-3 px-3 py-2',
+    'text-foreground/75 hover:bg-elevated/70 hover:text-foreground',
+  )
+  if (isNativeShell()) {
+    return (
+      <button
+        type="button"
+        onClick={onOpen}
+        title="单文件离线 PWA · 无需后端，完全本地运行"
+        className={cn(cls, 'w-full cursor-pointer text-left')}
+      >
+        {inner}
+      </button>
+    )
+  }
+  return (
+    <a
+      href="/pwa/"
+      target="_blank"
+      rel="noreferrer"
+      title={railMode ? '离线版' : '单文件离线 PWA · 无需后端，可装到桌面'}
+      className={cls}
+    >
+      {inner}
     </a>
   )
 }
@@ -403,6 +421,18 @@ function AIConfigBadge({ configured, model }: { configured?: boolean; model?: st
 type NavState = 'expanded' | 'rail' | 'hidden'
 
 export function Layout() {
+  // 离线版探活: 单文件 PWA 是否随包下发。命中即显示入口, 也是断线时的兜底去向。
+  const [pwaAvailable, setPwaAvailable] = useState(false)
+  // 原生壳里用内嵌 iframe 打开离线版: 同窗口跳转会把用户困在单文件页里回不来
+  const [pwaOpen, setPwaOpen] = useState(false)
+  useEffect(() => {
+    let alive = true
+    fetch(PWA_ENTRY, { method: 'HEAD' })
+      .then((r) => { if (alive) setPwaAvailable(r.ok) })
+      .catch(() => { if (alive) setPwaAvailable(false) })
+    return () => { alive = false }
+  }, [])
+
   // ===== 共享 hooks (替代内联 useQuery) =====
   const { data: settingsState } = useSettings()
   const { data: matrix } = useCapabilityMatrix()
@@ -1004,7 +1034,7 @@ export function Layout() {
               </div>
             )
           })}
-          <PwaNavLink railMode={railMode} />
+          <PwaNavLink railMode={railMode} available={pwaAvailable} onOpen={() => setPwaOpen(true)} />
           <ExtensionSlot
             name="layout.navigation.extra"
             context={{ collapsed: railMode, pathname: location.pathname }}
@@ -1205,6 +1235,15 @@ export function Layout() {
           >
             <WifiOff className="h-3 w-3 shrink-0 animate-pulse" />
             与服务连接已断开 · 正在重连
+            {pwaAvailable && (
+              <button
+                type="button"
+                onClick={() => setPwaOpen(true)}
+                className="ml-1 shrink-0 rounded-full border border-warning/40 px-2 py-0.5 text-[11px] font-medium text-warning hover:bg-warning/15"
+              >
+                打开离线版
+              </button>
+            )}
           </div>
         )}
         <DailyDataHealthNotice />
@@ -1218,6 +1257,26 @@ export function Layout() {
           <Outlet />
         </Suspense>
       </motion.main>
+      {/* 离线版容器: 原生壳内没有可用的新窗口, 用全屏 iframe 承载单文件 PWA */}
+      {pwaOpen && (
+        <div className="fixed inset-0 z-[9999] flex flex-col bg-base">
+          <div className="flex shrink-0 items-center justify-between border-b border-border px-3 py-2">
+            <span className="text-xs font-medium text-foreground">离线版 · 量化工作台</span>
+            <button
+              type="button"
+              onClick={() => setPwaOpen(false)}
+              className="rounded-btn border border-border px-2.5 py-1 text-[11px] text-secondary hover:bg-elevated hover:text-foreground"
+            >
+              关闭
+            </button>
+          </div>
+          <iframe
+            title="离线版量化工作台"
+            src={PWA_ENTRY}
+            className="min-h-0 w-full flex-1 border-0 bg-base"
+          />
+        </div>
+      )}
       <ToastContainer />
       <AlertToastContainer />
       <AiAnalysisHost />

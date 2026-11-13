@@ -8,6 +8,7 @@ import { installTspExtBridge, loadRuntimePageExtensions } from './extensions/run
 import { api, ApiError } from './lib/api'
 import { retryDelay } from './lib/refreshPolicy'
 import { QK } from './lib/queryKeys'
+import { ErrorBoundary } from './components/ErrorBoundary'
 import { cn } from './lib/cn'
 import * as format from './lib/format'
 import { createAppPersister, shouldPersistQuery, PERSIST_BUSTER } from './lib/queryPersist'
@@ -105,7 +106,9 @@ async function bootstrap() {
       >
         <>
           <OtaReadyMarker />
-          <RouterProvider router={router} />
+          <ErrorBoundary>
+            <RouterProvider router={router} />
+          </ErrorBoundary>
         </>
       </PersistQueryClientProvider>
     </React.StrictMode>,
