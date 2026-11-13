@@ -9,6 +9,7 @@ import { useUpdateCheck } from '@/lib/updateCheck'
 import { Modal } from '@/components/Modal'
 import { OssLicenseDialog, LicenseComplianceNotice } from '@/components/OssLicenseDialog'
 import { PROJECT_LICENSE_NAME, PROJECT_REPO_URL } from '@/data/ossLicenses'
+import { SettingsOtaUpdatePanel } from '@/components/SettingsOtaUpdatePanel'
 
 export function SettingsAboutPanel() {
   const { data: versionData } = useVersion()
@@ -166,6 +167,9 @@ export function SettingsAboutPanel() {
           </div>
         </div>
       </section>
+
+      {/* ===== 原生 App 应用内内容更新 ===== */}
+      <SettingsOtaUpdatePanel />
 
       {/* ===== 打赏 ===== */}
       <section className="rounded-card border border-accent/25 bg-accent/[0.14] p-5">

@@ -28,6 +28,7 @@ frontend/src/custom/<namespace>/Page.tsx
 | `signals` | 信号库 |
 | `review` | 复盘 |
 | `assistant` | AI 对话助手（扩展机制参考实现） |
+| `quant-lab` | 本地量化研究实验室（CSV / 因子 / 风险 / 趋势外推） |
 
 **新装用户默认隐藏这些页面**，在 设置 → 菜单设置 一键开启；老用户升级自动保持原有菜单位置与排序。
 

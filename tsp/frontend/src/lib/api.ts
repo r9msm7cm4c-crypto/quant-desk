@@ -52,22 +52,45 @@ const extPullTimeoutMs = (timeoutSeconds?: number) => (timeoutSeconds ?? 30) * 1
 async function request<T>(path: string, init?: RequestOptions): Promise<T> {
   const { quiet, responseType = 'json', timeoutMs = DEFAULT_REQUEST_TIMEOUT_MS, ...fetchInit } = init ?? {}
   const isFormData = fetchInit.body instanceof FormData
-  const headers: Record<string, string> = {}
-  if (!isFormData) headers['Content-Type'] = 'application/json'
-  // 合并调用方传入的 headers (此前会被整体覆盖丢弃)
-  Object.assign(headers, fetchInit.headers as Record<string, string> | undefined)
+  const headers = new Headers(fetchInit.headers)
+  if (!isFormData && !headers.has('Content-Type')) headers.set('Content-Type', 'application/json')
   // 自带 signal 的调用方 (上传/串行队列) 由其自行控制中止; 其余走默认超时。
   const ctl = timeoutMs == null || fetchInit.signal ? undefined : new AbortController()
   const timeoutSeconds = Math.round((timeoutMs ?? DEFAULT_REQUEST_TIMEOUT_MS) / 1000)
   let timer: number | undefined
   if (ctl && timeoutMs != null) timer = window.setTimeout(() => ctl.abort(), timeoutMs)
-  let res: Response
+
   try {
-    res = await fetch(`${BASE}${path}`, {
+    const res = await fetch(`${BASE}${path}`, {
       ...fetchInit,
       headers,
       ...(ctl ? { signal: ctl.signal } : {}),
     })
+
+    if (!res.ok) {
+      let detail = ''
+      try {
+        const j = JSON.parse(await res.text())
+        const raw = j.detail ?? j.message ?? ''
+        if (Array.isArray(raw)) {
+          // FastAPI 422 校验错误: [{type, loc, msg, input}, ...] → 取 msg 拼接
+          detail = raw.map((e: any) => e?.msg || String(e)).join('; ')
+        } else if (typeof raw === 'string') {
+          detail = raw
+        } else if (raw && typeof raw === 'object') {
+          detail = JSON.stringify(raw)
+        }
+      } catch { /* ignore malformed error bodies */ }
+      const msg = detail || `${res.status} ${res.statusText}`
+      // 401 (未登录/会话过期) 不弹 toast — 由全局认证拦截器统一跳登录页, 避免刷屏
+      if (res.status !== 401 && !quiet) toast(msg, 'error')
+      const retryAfter = Number(res.headers.get('Retry-After'))
+      throw new ApiError(msg, res.status, retryAfter > 0 && Number.isFinite(retryAfter) ? retryAfter * 1000 : undefined)
+    }
+
+    // Keep the timeout active until the response body has been fully consumed.
+    // Clearing it immediately after fetch() only bounded response headers, not JSON/blob downloads.
+    return (responseType === 'blob' ? await res.blob() : await res.json()) as T
   } catch (err) {
     if (ctl && err instanceof DOMException && err.name === 'AbortError') {
       const msg = `请求超时（${timeoutSeconds}s）· ${path.split('?')[0]}`
@@ -78,27 +101,6 @@ async function request<T>(path: string, init?: RequestOptions): Promise<T> {
   } finally {
     if (timer !== undefined) window.clearTimeout(timer)
   }
-  if (!res.ok) {
-    let detail = ''
-    try {
-      const j = JSON.parse(await res.text())
-      const raw = j.detail ?? j.message ?? ''
-      if (Array.isArray(raw)) {
-        // FastAPI 422 校验错误: [{type, loc, msg, input}, ...] → 取 msg 拼接
-        detail = raw.map((e: any) => e?.msg || String(e)).join('; ')
-      } else if (typeof raw === 'string') {
-        detail = raw
-      } else if (raw && typeof raw === 'object') {
-        detail = JSON.stringify(raw)
-      }
-    } catch { /* ignore */ }
-    const msg = detail || `${res.status} ${res.statusText}`
-    // 401 (未登录/会话过期) 不弹 toast — 由全局认证拦截器统一跳登录页, 避免刷屏
-    if (res.status !== 401 && !quiet) toast(msg, 'error')
-    const retryAfter = Number(res.headers.get('Retry-After'))
-    throw new ApiError(msg, res.status, retryAfter > 0 && Number.isFinite(retryAfter) ? retryAfter * 1000 : undefined)
-  }
-  return (responseType === 'blob' ? res.blob() : res.json()) as Promise<T>
 }
 
 // ===== Capabilities =====

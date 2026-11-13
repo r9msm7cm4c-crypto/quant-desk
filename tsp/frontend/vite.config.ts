@@ -23,6 +23,11 @@ export default defineConfig({
   server: {
     host: '0.0.0.0',   // dev.sh / dev.ps1 会用 CLI --host 覆盖
     port: 3011,
+    // Quant Lab imports the shared platform-neutral native-core package from
+    // the TSP workspace root. Allow that single sibling package in Vite dev.
+    fs: {
+      allow: [path.resolve(__dirname), path.resolve(__dirname, '../native-core')],
+    },
     proxy: {
       // dev 时 /api 转发到与启动脚本相同的 FastAPI 地址
       '/api': {

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider } from 'react-router-dom'
 import { QueryClient, QueryCache } from '@tanstack/react-query'
@@ -66,6 +66,16 @@ const queryClient = new QueryClient({
   },
 })
 
+
+function OtaReadyMarker() {
+  useEffect(() => {
+    void import('./lib/otaUpdate').then(({ markOtaAppReady }) => markOtaAppReady()).catch((error) => {
+      console.warn('[Quant Desk OTA] startup readiness check skipped:', error)
+    })
+  }, [])
+  return null
+}
+
 async function bootstrap() {
   // 界面偏好回填: 桌面版启动端口从 3018 起递增, 端口一变 origin 就变, 只存
   // localStorage 的设置 (通知/声效/语音/外链模板/缩放) 会读不到。后端保存权威
@@ -93,7 +103,10 @@ async function bootstrap() {
           dehydrateOptions: { shouldDehydrateQuery: shouldPersistQuery },
         }}
       >
-        <RouterProvider router={router} />
+        <>
+          <OtaReadyMarker />
+          <RouterProvider router={router} />
+        </>
       </PersistQueryClientProvider>
     </React.StrictMode>,
   )

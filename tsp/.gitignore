@@ -112,3 +112,13 @@ reports/cursor_tickflow_pro_rate_limit_p0.bundle
 
 # 协议变更工作文档 (含贡献者个人信息, 自述不入库 — CONTRIBUTING §8/§14.4)
 relicensing/
+
+# OTA signing secrets and generated bundles (never commit private keys)
+*.pem
+*.key
+*.sig
+artifacts/ota/
+# 公钥必须入库: 客户端内置验签依赖它, 缺失会导致所有更新被拒绝
+!ota/ota-public.pem
+!mobile/ota-public.pem
+
