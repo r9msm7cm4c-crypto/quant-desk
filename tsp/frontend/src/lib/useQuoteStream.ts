@@ -8,12 +8,16 @@ import { pushAlertToasts } from '@/components/AlertToast'
 import { feedReviewEvent } from './reviewStore'
 import { createEnrichedThrottler } from './enrichedInvalidateThrottle'
 import { createRevisionTracker, retryDelay } from './refreshPolicy'
+import { EndpointNotConfiguredError, resolveApiUrl, subscribeApiBase } from './endpoint'
 import type { KlineDailyResponse, StrategyAlertEvent } from './api'
 
 // ===== 全局 SSE 连接状态 (模块级 store, 仿 AlertToast.tsx 模式) =====
 // 实时行情 SSE 断开时 UI 无感知 → 会漏掉策略告警。这里暴露连接状态,
 // 供 Layout 顶部渲染徽标、连续失败 N 次后弹一次 toast。
-export type QuoteStreamStatus = 'connected' | 'reconnecting' | 'disconnected'
+//
+// 'unconfigured' 是新增态: 原生壳里尚未填写后端地址时, 不存在"断开"一说
+// (从未连上过), 必须与"连过又掉线"区分, 否则界面会永远显示正在重连。
+export type QuoteStreamStatus = 'connected' | 'reconnecting' | 'disconnected' | 'unconfigured'
 
 let _streamStatus: QuoteStreamStatus = 'disconnected'
 const _statusListeners = new Set<() => void>()
@@ -148,7 +152,19 @@ export function useQuoteStream(
 
     const connect = () => {
       _setStatus(failCount > 0 ? 'reconnecting' : _streamStatus)
-      const es = new EventSource('/api/intraday/stream')
+      // 原生壳未配置后端时不要建连: EventSource 会立刻 error 并进入指数退避,
+      // 界面被永久钉在"正在重连", 而实际根因是地址没填。
+      let streamUrl: string
+      try {
+        streamUrl = resolveApiUrl('/api/intraday/stream')
+      } catch (e) {
+        if (e instanceof EndpointNotConfiguredError) {
+          _setStatus('unconfigured')
+          return
+        }
+        throw e
+      }
+      const es = new EventSource(streamUrl)
       esRef.current = es
 
       es.onopen = () => {
@@ -279,14 +295,29 @@ export function useQuoteStream(
 
     const onVisibility = () => {
       if (document.visibilityState === 'hidden') return
+      // 未配置后端时没有可刷新的目标, 避免切回前台触发一批必然失败的请求
+      if (_streamStatus === 'unconfigured') return
       invalidatePrefixes(SSE_INVALIDATE_PREFIXES.filter(p => pagesRef.current?.[p] !== false))
       refreshStrategies()
     }
     document.addEventListener('visibilitychange', onVisibility)
     connect()
 
+    // 用户在设置里改了后端地址 → 立即改连新目标, 不必等退避计时到点
+    const unsubscribeEndpoint = subscribeApiBase(() => {
+      clearTimeout(retryRef.current)
+      if (esRef.current) {
+        esRef.current.close()
+        esRef.current = null
+      }
+      failCount = 0
+      toastFired = false
+      connect()
+    })
+
     return () => {
       clearTimeout(retryRef.current)
+      unsubscribeEndpoint()
       enrichedThrottlerRef.current.cancel()
       strategyThrottlerRef.current.cancel()
       document.removeEventListener('visibilitychange', onVisibility)

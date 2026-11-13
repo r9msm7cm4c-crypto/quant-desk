@@ -22,6 +22,7 @@ import type { LucideIcon } from 'lucide-react'
 import type { ClassValue } from 'clsx'
 import { loadFrontendExtensions } from './registry'
 import type { FrontendExtension, FrontendExtensionModule } from './types'
+import { apiFetch } from '@/lib/endpoint'
 
 /** mount 挂载上下文: 宿主能力桥(window.__TSP_EXT__ 安装) + 页面卸载通知 */
 export interface PagePackCtx {
@@ -130,7 +131,7 @@ export function packToExtension(pack: unknown): FrontendExtension {
 }
 
 async function defaultFetchList(): Promise<RuntimePageMeta[]> {
-  const res = await fetch('/api/ext-pages')
+  const res = await apiFetch('/api/ext-pages')
   if (!res.ok) throw new Error(`ext-pages ${res.status}`)
   return res.json() as Promise<RuntimePageMeta[]>
 }

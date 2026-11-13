@@ -1,6 +1,7 @@
 import { useSyncExternalStore } from 'react'
 import type { StrategyBacktestResult } from './api'
 import { fetchRunningTask, reportTaskFinished, reportTaskRunning } from './taskRegistry'
+import { apiFetch, tryResolveApiUrl } from '@/lib/endpoint'
 
 /**
  * 全局回测任务管理 (SSE 模式 + 任务缓存 + 重连支持)。
@@ -78,7 +79,9 @@ function buildQuery(params: Record<string, string | number | boolean | undefined
 }
 
 /** 连接 SSE (新建或重连都用这个) */
-async function connectSSE(url: string): Promise<void> {
+async function connectSSE(rawUrl: string): Promise<void> {
+  // 原生壳里相对路径打不到后端, 统一解析成绝对地址再建流
+  const url = tryResolveApiUrl(rawUrl)
   const id = current?.id ?? ++taskSeq
 
   // 关闭旧连接
@@ -260,7 +263,7 @@ export function startBacktest(params: {
   // no-op, 但同 key 场景必须在覆盖键前区分开)。
   const prevQs = localStorage.getItem(RECONNECT_KEY)
   if (prevQs && prevQs !== qs) {
-    void fetch('/api/backtest/strategy/cancel', {
+    void apiFetch('/api/backtest/strategy/cancel', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ qs: prevQs }),
@@ -286,7 +289,7 @@ export async function stopBacktest(): Promise<void> {
       // 替代: 前端直接关闭 SSE 连接 + 调一个带参数的 cancel 接口。
       // 简化: 关闭连接即可, 后端检测断开后 (不取消)。需要 cancel 用 POST。
       // 这里用 cancel 接口: POST /strategy/cancel, body 带 qs 的参数。
-      await fetch('/api/backtest/strategy/cancel', {
+      await apiFetch('/api/backtest/strategy/cancel', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ qs }),

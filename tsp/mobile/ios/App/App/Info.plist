@@ -64,6 +64,18 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>连接你在同一局域网内运行的 Quant Desk 服务，以获取行情数据、指标计算与回测结果。</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<!-- 后端多为局域网自建服务(192.168.x.x:8000)，iOS 默认 ATS 会拦截明文 HTTP。
+		     允许本地网络 + 任意加载，App 内可直连用户自己的 FastAPI。
+		     仅影响本机自愿配置的后端地址，不改变 OTA 的签名校验链路。 -->
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+		<key>NSAllowsLocalNetworking</key>
+		<true/>
+	</dict>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
 </dict>

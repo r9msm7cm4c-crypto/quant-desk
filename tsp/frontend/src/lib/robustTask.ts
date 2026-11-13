@@ -1,5 +1,6 @@
 import { useSyncExternalStore } from 'react'
 import { fetchRunningTask, reportTaskFinished, reportTaskRunning } from './taskRegistry'
+import { apiFetch, tryResolveApiUrl } from '@/lib/endpoint'
 
 /**
  * 稳健优化任务管理 (SSE + 重连 + 跨设备接回)。镜像 optimizerTask, 端点为
@@ -150,7 +151,9 @@ function buildQuery(params: Record<string, string | number | boolean | undefined
   return sp.toString()
 }
 
-function connectSSE(url: string): void {
+function connectSSE(rawUrl: string): void {
+  // 原生壳里相对路径打不到后端, 统一解析成绝对地址再建流
+  const url = tryResolveApiUrl(rawUrl)
   const id = current?.id ?? ++taskSeq
 
   if (eventSource) {
@@ -236,7 +239,7 @@ function connectSSE(url: string): void {
 }
 
 function postCancel(jobKey: string): void {
-  fetch('/api/backtest/optimize-robust/cancel', {
+  apiFetch('/api/backtest/optimize-robust/cancel', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ job_key: jobKey }),

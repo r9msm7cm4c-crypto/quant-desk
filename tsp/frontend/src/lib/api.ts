@@ -1,11 +1,14 @@
 // 后端 API 客户端 — 全项目统一入口
 //
 // Dev: Vite 按启动脚本解析出的 BACKEND_HOST/BACKEND_PORT 代理 /api
-// Prod:同源(FastAPI 托管前端 dist)
+// Prod: 同源(FastAPI 托管前端 dist) 或 原生壳内显式配置的远端地址
+//
+// 基址不再写死: 统一由 lib/endpoint 提供（localStorage 持久化 + 运行时可改）。
+// 原生壳里 `capacitor://localhost/api/*` 会落到 WebView 本地服务器返回 index.html，
+// 必须走绝对地址；未配置时快速失败并给出可操作提示，而不是静默 pending。
 
 import { toast } from '@/components/Toast'
-
-const BASE = ''
+import { EndpointNotConfiguredError, resolveApiUrl } from './endpoint'
 
 type RequestOptions = RequestInit & {
   responseType?: 'json' | 'blob'
@@ -61,11 +64,35 @@ async function request<T>(path: string, init?: RequestOptions): Promise<T> {
   if (ctl && timeoutMs != null) timer = window.setTimeout(() => ctl.abort(), timeoutMs)
 
   try {
-    const res = await fetch(`${BASE}${path}`, {
+    // 基址可在运行期变更，每次请求重新解析（原生壳未配置时立即失败）
+    let url: string
+    try {
+      url = resolveApiUrl(path)
+    } catch (e) {
+      if (e instanceof EndpointNotConfiguredError) {
+        // 不弹 toast: 首屏会并发几十个请求，弹窗会糊满屏幕。错误态由各页面呈现。
+        throw new ApiError(e.message, 0)
+      }
+      throw e
+    }
+
+    const res = await fetch(url, {
       ...fetchInit,
       headers,
       ...(ctl ? { signal: ctl.signal } : {}),
     })
+
+    // 关键防线: 相对路径打在 WebView 本地服务器上会拿回 index.html(200 + text/html)。
+    // 如果不识别，就会以 "Unexpected token '<'" 之类的解析错误冒出来，误导排查方向。
+    if (res.ok && responseType === 'json') {
+      const ctype = (res.headers.get('content-type') || '').toLowerCase()
+      if (ctype.includes('text/html')) {
+        throw new ApiError(
+          '返回的是网页而不是接口数据：请到「设置 → 服务器连接」检查后端地址与端口',
+          res.status,
+        )
+      }
+    }
 
     if (!res.ok) {
       let detail = ''
@@ -90,7 +117,12 @@ async function request<T>(path: string, init?: RequestOptions): Promise<T> {
 
     // Keep the timeout active until the response body has been fully consumed.
     // Clearing it immediately after fetch() only bounded response headers, not JSON/blob downloads.
-    return (responseType === 'blob' ? await res.blob() : await res.json()) as T
+    if (responseType === 'blob') return (await res.blob()) as T
+    try {
+      return (await res.json()) as T
+    } catch {
+      throw new ApiError('接口返回内容无法解析为 JSON：地址可能指向了非 Quant Desk 服务', res.status)
+    }
   } catch (err) {
     if (ctl && err instanceof DOMException && err.name === 'AbortError') {
       const msg = `请求超时（${timeoutSeconds}s）· ${path.split('?')[0]}`

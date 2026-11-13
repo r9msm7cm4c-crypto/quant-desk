@@ -1,6 +1,7 @@
 import { useSyncExternalStore } from 'react'
 import { api, type MiningResult, type MiningRun, type MiningRunProgress, type MiningRunStatus } from './api'
 import { fetchRunningTask, reportTaskFinished, reportTaskRunning } from './taskRegistry'
+import { tryResolveApiUrl } from '@/lib/endpoint'
 
 export interface MiningTask {
   runId: string | null
@@ -201,7 +202,7 @@ function startStatusPolling(runId: string, token: number, restart = false) {
 function connect(runId: string) {
   closeEvents()
   const token = connectionToken
-  const source = new EventSource(`/api/backtest/mining/runs/${encodeURIComponent(runId)}/events`)
+  const source = new EventSource(tryResolveApiUrl(`/api/backtest/mining/runs/${encodeURIComponent(runId)}/events`))
   eventSource = source
 
   source.onopen = () => {

@@ -19,6 +19,7 @@ BASELINE_COMMIT  = ed553e9
 | IndexedDB 使用 | 0 处 | 全仓检索 `indexedDB` / `idb` / `Dexie` 无命中 |
 | 本地数据库 | Schema v1 已建，19 条单测通过 | `src/core/database/`，详见矩阵批次 A 记录 |
 | 页面接入 | 0 个 | 22 页仍 `NOT_STARTED` |
+| 后端连接 | **已可配置并实测连通** | `src/lib/endpoint.ts`：基址持久化 + 探活；`api.ts`/SSE/8 个裸请求全部改走绝对地址 |
 | iOS 构建 | **已产出未签名 IPA** | GitHub Actions `macos-15` + Xcode 16.4，`ios-v0.2.0` Release；`xcodebuild archive` 全流程 exit 0 |
 | iOS 真机 | NOT TESTED | 未签名，需用户自签安装后验收 |
 | 后端存储形态 | DuckDB + 分区 parquet | `app/tickflow/repository.py` 注册 11 张 parquet 视图，无 SQLite |
@@ -50,3 +51,4 @@ Tests      30 failed | 520 passed (550)
 | 2026-11-13 | 批次 A：SQLite 基础设施落地，19 条测试通过 | `src/core/database/*`、`src/core/repositories/*`；页面仍 0/22 |
 | 2026-11-13 | iOS 0.1.0 首次真实构建成功（CI `macos-15`），暴露启动卡死问题 | `QuantDesk-0.1.0-unsigned.ipa`，5.89 MB，SHA-256 `01c9793c…` |
 | 2026-11-13 | 可用性修复：启动 8s 兜底放行、顶层 ErrorBoundary、内置离线版 PWA 入口 | 浏览器侧实测：入口可达、页面可开可关、无渲染错误；测试 550/520/30 与基线一致 |
+| 2026-11-13 | **连接层修复**：后端地址可配置（设置 → 服务器连接），消除永久「连接中断」 | 真实后端联调：未配置时提示可操作、配置后看板正常渲染、SSE 连通；新增 22 条测试全过；全量 572/542/30 |

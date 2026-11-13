@@ -1227,23 +1227,38 @@ export function Layout() {
         transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
         className="h-full overflow-auto scrollbar-gutter-stable"
       >
-        {streamStatus === 'reconnecting' && (
+        {(streamStatus === 'reconnecting' || streamStatus === 'unconfigured') && (
+          // 定位说明: 外层用 inset-x-0 + justify-center，不要用 left-1/2 + -translate-x-1/2。
+          // motion.main 带 transform，会让内部 fixed 元素以它为包含块，left-1/2 的
+          // 可用宽度只剩一半，窄屏上文案会被压成三行。
           <div
             role="status"
             aria-live="polite"
-            className="fixed bottom-4 left-1/2 z-[9998] flex -translate-x-1/2 items-center gap-1.5 rounded-full border border-warning/30 bg-warning/10 px-2.5 py-1 text-[11px] font-medium text-warning shadow-lg backdrop-blur-md"
+            className="pointer-events-none fixed inset-x-0 bottom-0 z-[9998] flex justify-center px-3"
+            style={{ paddingBottom: 'max(0.75rem, env(safe-area-inset-bottom))' }}
           >
-            <WifiOff className="h-3 w-3 shrink-0 animate-pulse" />
-            与服务连接已断开 · 正在重连
-            {pwaAvailable && (
+            <div className="pointer-events-auto flex max-w-full items-center gap-2 whitespace-nowrap rounded-full border border-warning/30 bg-warning/10 px-3 py-1.5 text-[11px] font-medium text-warning shadow-lg backdrop-blur-md">
+              <WifiOff className={cn('h-3 w-3 shrink-0', streamStatus === 'reconnecting' && 'animate-pulse')} />
+              <span className="truncate">
+                {streamStatus === 'unconfigured' ? '未连接服务器' : '连接中断 · 重连中'}
+              </span>
               <button
                 type="button"
-                onClick={() => setPwaOpen(true)}
-                className="ml-1 shrink-0 rounded-full border border-warning/40 px-2 py-0.5 text-[11px] font-medium text-warning hover:bg-warning/15"
+                onClick={() => navigate('/settings?tab=server')}
+                className="shrink-0 rounded-full border border-warning/40 px-2 py-0.5 text-[11px] font-medium text-warning transition-colors hover:bg-warning/15"
               >
-                打开离线版
+                去设置
               </button>
-            )}
+              {pwaAvailable && (
+                <button
+                  type="button"
+                  onClick={() => setPwaOpen(true)}
+                  className="shrink-0 rounded-full border border-warning/40 px-2 py-0.5 text-[11px] font-medium text-warning transition-colors hover:bg-warning/15"
+                >
+                  离线版
+                </button>
+              )}
+            </div>
           </div>
         )}
         <DailyDataHealthNotice />
