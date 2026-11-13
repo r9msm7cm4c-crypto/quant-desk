@@ -73,9 +73,10 @@ async function request<T>(path: string, init?: RequestOptions): Promise<T> {
         return await handleLocalRequest<T>(path, fetchInit)
       } catch (e) {
         if (e instanceof LocalApiError) {
-          // 501 = 该能力本地未实现。不弹 toast：设置页/策略页会并发命中多个，
-          // 弹窗会糊满屏幕；由各页面自己的空状态文案说明。
-          if (!quiet && e.status !== 501) toast(e.message, 'error')
+          // 501 = 该能力本地未实现；502 = 行情源临时不可达。
+          // 两者都不弹 toast：页面会并发命中多个接口，弹窗糊满屏幕，
+          // 且页面自身已有错误态/inline 提示，重复告知只会更吵。
+          if (!quiet && e.status !== 501 && e.status !== 502) toast(e.message, 'error')
           throw new ApiError(e.message, e.status)
         }
         throw e

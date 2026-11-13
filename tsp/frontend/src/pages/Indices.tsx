@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Activity, Loader2, Lock, RefreshCw } from 'lucide-react'
 import { api, type IndexInstrument, type KlineRow, type MinuteKlineRow } from '@/lib/api'
+import { isLocalModeEnabled } from '@/core/local/mode'
 import { QK } from '@/lib/queryKeys'
 import { useCapabilities } from '@/lib/useSharedQueries'
 import { EChartsCandlestick, type OHLC } from '@/components/EChartsCandlestick'
@@ -63,6 +64,8 @@ const PINNED_INDEXES = [
 
 export function Indices() {
   const qc = useQueryClient()
+  // 本机模式下没有服务端同步/缓存概念，页面文案与按钮按其切换
+  const local = isLocalModeEnabled()
   const [searchParams, setSearchParams] = useSearchParams()
   const symbolParam = searchParams.get('symbol') ?? ''
   const [selected, setSelected] = useState<string>(symbolParam)
@@ -177,22 +180,28 @@ export function Indices() {
         <div>
           <h1 className="text-lg font-semibold text-foreground">指数</h1>
           <p className="mt-1 text-xs text-muted">
-            指数使用独立 kline_index_* parquet，不进入股票策略链路。
+            {local
+              ? '行情直连公开源，日K按需拉取（30 分钟缓存）。'
+              : '指数使用独立 kline_index_* parquet，不进入股票策略链路。'}
           </p>
         </div>
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => syncDaily.mutate()}
-            disabled={syncDaily.isPending}
-            className="inline-flex items-center gap-1.5 rounded-btn bg-accent px-3 py-1.5 text-xs font-medium text-white hover:bg-accent/90 disabled:opacity-50"
-          >
-            {syncDaily.isPending ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <RefreshCw className="h-3.5 w-3.5" />}
-            同步指数日K
-          </button>
-        </div>
+        {/* 本机模式没有"服务端同步"这一步，按钮点了也只会报不支持，直接不显示 */}
+        {!local && (
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => syncDaily.mutate()}
+              disabled={syncDaily.isPending}
+              className="inline-flex items-center gap-1.5 rounded-btn bg-accent px-3 py-1.5 text-xs font-medium text-white hover:bg-accent/90 disabled:opacity-50"
+            >
+              {syncDaily.isPending ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <RefreshCw className="h-3.5 w-3.5" />}
+              同步指数日K
+            </button>
+          </div>
+        )}
       </div>
 
-      <div className="grid grid-cols-[15rem_1fr] gap-4">
+      {/* 手机竖屏下 15rem 固定栏会把图表挤成一条缝，窄屏改为上下堆叠 */}
+      <div className="grid grid-cols-1 gap-4 min-[900px]:grid-cols-[15rem_1fr]">
         <aside className="rounded-card border border-border bg-surface p-3">
           <div className="mb-2 px-1 text-[11px] uppercase tracking-wider text-muted">核心指数</div>
           <div className="space-y-1">
@@ -201,8 +210,8 @@ export function Indices() {
         </aside>
 
         <main className="min-w-0 rounded-card border border-border bg-surface p-3">
-          <div className="mb-3 flex items-center justify-between gap-3">
-            <div className="min-w-0">
+          <div className="mb-3 flex flex-wrap items-start justify-between gap-3">
+            <div className="min-w-0 flex-1 basis-[13rem]">
               <div className="flex items-center gap-2">
                 <Activity className="h-4 w-4 text-accent" />
                 <h2 className="truncate text-sm font-semibold text-foreground">
@@ -212,11 +221,11 @@ export function Indices() {
                 {selectedSymbol && <span className="font-mono text-xs text-foreground">{fmtNum(selectedQuoteValue)}</span>}
                 {selectedSymbol && <span className={`font-mono text-xs ${Number(selectedQuotePct ?? 0) >= 0 ? 'text-bull' : 'text-bear'}`}>{fmtPct(selectedQuotePct)}</span>}
               </div>
-              <div className="mt-1 text-xs text-muted">
+              <div className="mt-1 truncate text-xs text-muted">
                 实时缓存 {quotes.data?.count ?? 0} 只指数 · 日K来源 {daily.data?.source ?? '--'}
               </div>
             </div>
-            <div className="flex items-center gap-2 text-xs">
+            <div className="flex shrink-0 items-center gap-2 text-xs">
               <input
                 type="date"
                 value={range.start}
