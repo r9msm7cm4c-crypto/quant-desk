@@ -1,0 +1,245 @@
+name: iOS Build (unsigned IPA)
+
+# 唯一正式构建入口：tsp/mobile/ios（不是根目录的 ios/ 旧 ObjC 壳）
+# 产物：QuantDesk-<version>-unsigned.ipa（未签名，需用户自行签名安装）
+
+on:
+  workflow_dispatch:
+    inputs:
+      marketing_version:
+        description: 'CFBundleShortVersionString（留空则用工程内 MARKETING_VERSION）'
+        required: false
+        default: ''
+      build_number:
+        description: 'CFBundleVersion（留空则用工程内 CURRENT_PROJECT_VERSION）'
+        required: false
+        default: ''
+  push:
+    branches: [main]
+    paths:
+      - 'tsp/mobile/**'
+      - 'tsp/frontend/**'
+      - '.github/workflows/ios-build.yml'
+
+concurrency:
+  group: ios-build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build unsigned IPA
+    runs-on: macos-15
+    timeout-minutes: 90
+
+    env:
+      # 非敏感值。OTA 私钥绝不出现在仓库、CI 日志或产物中，这里只用公钥。
+      NODE_VERSION: '22'
+      CI: 'true'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Select Xcode
+        id: xcode
+        shell: bash
+        run: |
+          set -euo pipefail
+          # @capawesome/capacitor-live-update 的 Package.swift 使用 swift-tools-version:6.1，
+          # 必须 Xcode 16.3+；按优先级挑选可用的最新工具链。
+          CANDIDATES=()
+          for v in 16.4 16.3 26.2 26.1 26.0 16.2; do
+            if [ -d "/Applications/Xcode_${v}.app" ]; then CANDIDATES+=("/Applications/Xcode_${v}.app"); fi
+          done
+          if [ ${#CANDIDATES[@]} -eq 0 ]; then
+            echo "可用 Xcode："; ls -d /Applications/Xcode*.app || true
+            echo "::error::未找到 Xcode 16.3+，无法满足 swift-tools-version 6.1"
+            exit 1
+          fi
+          SELECTED="${CANDIDATES[0]}"
+          echo "选用 $SELECTED"
+          sudo xcode-select -s "$SELECTED/Contents/Developer"
+          xcodebuild -version
+          swift --version
+          echo "path=$SELECTED" >> "$GITHUB_OUTPUT"
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+          cache-dependency-path: tsp/frontend/pnpm-lock.yaml
+
+      - name: Install frontend deps
+        working-directory: tsp/frontend
+        run: pnpm install --frozen-lockfile
+
+      - name: Build web
+        working-directory: tsp/frontend
+        run: |
+          pnpm build 2>&1 | tee /tmp/web-build.log
+          test -f dist/index.html || { echo "::error::前端构建未产出 dist/index.html"; exit 1; }
+          echo "dist 大小：$(du -sh dist | cut -f1)"
+
+      - name: Install mobile deps
+        working-directory: tsp/mobile
+        run: npm ci --no-audit --no-fund
+
+      - name: Capacitor sync
+        working-directory: tsp/mobile
+        run: |
+          set -euo pipefail
+          export OTA_PUBLIC_KEY="$(cat ota-public.pem)"
+          npx cap sync ios 2>&1 | tee /tmp/cap-sync.log
+          test -d ios/App/App/public || { echo "::error::cap sync 未生成本地 web 资源"; exit 1; }
+          grep -q "CapacitorCommunitySqlite" ios/App/CapApp-SPM/Package.swift \
+            || { echo "::error::SQLite 原生插件未进入 Package.swift"; exit 1; }
+          echo "--- Package.swift 依赖 ---"
+          sed -n '/dependencies:/,/targets:/p' ios/App/CapApp-SPM/Package.swift
+
+      - name: Inject version (optional)
+        if: ${{ inputs.marketing_version != '' || inputs.build_number != '' }}
+        working-directory: tsp/mobile/ios/App
+        env:
+          MV: ${{ inputs.marketing_version }}
+          BN: ${{ inputs.build_number }}
+        run: |
+          set -euo pipefail
+          PBX=App.xcodeproj/project.pbxproj
+          [ -n "${MV:-}" ] && sed -i '' "s/MARKETING_VERSION = [^;]*;/MARKETING_VERSION = ${MV};/g" "$PBX"
+          [ -n "${BN:-}" ] && sed -i '' "s/CURRENT_PROJECT_VERSION = [^;]*;/CURRENT_PROJECT_VERSION = ${BN};/g" "$PBX"
+          grep -E "MARKETING_VERSION|CURRENT_PROJECT_VERSION" "$PBX" | sort -u
+
+      - name: Resolve packages
+        working-directory: tsp/mobile/ios/App
+        run: |
+          xcodebuild -resolvePackageDependencies \
+            -project App.xcodeproj \
+            -scheme App \
+            -clonedSourcePackagesDirPath "$RUNNER_TEMP/spm" \
+            -quiet
+
+      - name: Archive (no code signing)
+        working-directory: tsp/mobile/ios/App
+        run: |
+          set -o pipefail
+          xcodebuild archive \
+            -project App.xcodeproj \
+            -scheme App \
+            -configuration Release \
+            -destination 'generic/platform=iOS' \
+            -sdk iphoneos \
+            -archivePath "$RUNNER_TEMP/QuantDesk.xcarchive" \
+            -derivedDataPath "$RUNNER_TEMP/DerivedData" \
+            -clonedSourcePackagesDirPath "$RUNNER_TEMP/spm" \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGN_ENTITLEMENTS="" \
+            DEVELOPMENT_TEAM="" \
+            OTHER_CODE_SIGN_FLAGS="" \
+            2>&1 | tee /tmp/archive.log | tail -40
+
+      - name: Package IPA
+        id: package
+        run: |
+          set -euo pipefail
+          ARCHIVE="$RUNNER_TEMP/QuantDesk.xcarchive"
+          APP="$(find "$ARCHIVE/Products/Applications" -maxdepth 1 -name '*.app' | head -1)"
+          [ -n "$APP" ] || { echo "::error::archive 中没有 .app"; exit 1; }
+          echo "产物：$APP"
+
+          VERSION=$(/usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" "$APP/Info.plist")
+          BUILD=$(/usr/libexec/PlistBuddy -c "Print :CFBundleVersion" "$APP/Info.plist")
+          BUNDLE_ID=$(/usr/libexec/PlistBuddy -c "Print :CFBundleIdentifier" "$APP/Info.plist")
+          MIN_OS=$(/usr/libexec/PlistBuddy -c "Print :MinimumOSVersion" "$APP/Info.plist" 2>/dev/null || echo "n/a")
+
+          WORK="$RUNNER_TEMP/ipa"
+          rm -rf "$WORK"; mkdir -p "$WORK/Payload"
+          cp -R "$APP" "$WORK/Payload/"
+          # 未签名包：移除可能残留的签名描述文件，避免安装端误判
+          rm -rf "$WORK/Payload/$(basename "$APP")/_CodeSignature"
+          cd "$WORK"
+          zip -qry "QuantDesk-${VERSION}-unsigned.ipa" Payload
+
+          OUT="$GITHUB_WORKSPACE/QuantDesk-${VERSION}-unsigned.ipa"
+          cp "QuantDesk-${VERSION}-unsigned.ipa" "$OUT"
+
+          echo "version=$VERSION"     >> "$GITHUB_OUTPUT"
+          echo "build=$BUILD"         >> "$GITHUB_OUTPUT"
+          echo "bundle_id=$BUNDLE_ID" >> "$GITHUB_OUTPUT"
+          echo "min_os=$MIN_OS"       >> "$GITHUB_OUTPUT"
+          echo "ipa=$OUT"             >> "$GITHUB_OUTPUT"
+          echo "sha256=$(shasum -a 256 "$OUT" | cut -d' ' -f1)" >> "$GITHUB_OUTPUT"
+          ls -lh "$OUT"
+
+      - name: Verify IPA structure
+        run: |
+          set -euo pipefail
+          IPA="${{ steps.package.outputs.ipa }}"
+          rm -rf "$RUNNER_TEMP/verify"; mkdir -p "$RUNNER_TEMP/verify"
+          unzip -q "$IPA" -d "$RUNNER_TEMP/verify"
+          APP="$RUNNER_TEMP/verify/Payload/$(ls "$RUNNER_TEMP/verify/Payload")"
+          echo "--- Info.plist ---"
+          /usr/libexec/PlistBuddy -c "Print :CFBundleIdentifier"  "$APP/Info.plist"
+          /usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" "$APP/Info.plist"
+          /usr/libexec/PlistBuddy -c "Print :CFBundleVersion"     "$APP/Info.plist"
+          echo "--- 架构 ---"
+          lipo -info "$APP/$(/usr/libexec/PlistBuddy -c 'Print :CFBundleExecutable' "$APP/Info.plist")"
+          echo "--- 关键资源 ---"
+          for f in public/index.html PrivacyInfo.xcprivacy; do
+            test -e "$APP/$f" && echo "OK  $f" || { echo "::error::缺少 $f"; exit 1; }
+          done
+          echo "public 大小：$(du -sh "$APP/public" | cut -f1)"
+          echo "--- 签名状态（应无签名） ---"
+          codesign -dv "$APP" 2>&1 | head -3 || echo "未签名（预期）"
+
+      - name: Build report
+        if: always()
+        run: |
+          {
+            echo "# iOS 构建报告"
+            echo
+            echo "| 项 | 值 |"
+            echo "|---|---|"
+            echo "| 提交 | \`${{ github.sha }}\` |"
+            echo "| Xcode | \`${{ steps.xcode.outputs.path }}\` |"
+            echo "| Bundle ID | \`${{ steps.package.outputs.bundle_id }}\` |"
+            echo "| 版本 | ${{ steps.package.outputs.version }} (${{ steps.package.outputs.build }}) |"
+            echo "| 最低系统 | ${{ steps.package.outputs.min_os }} |"
+            echo "| SHA-256 | \`${{ steps.package.outputs.sha256 }}\` |"
+            echo "| 构建时间 | $(date -u +%Y-%m-%dT%H:%M:%SZ) |"
+            echo
+            echo "签名：未签名（ad-hoc 已移除），需自行签名安装。"
+          } > IOS_BUILD_REPORT.md
+          cat IOS_BUILD_REPORT.md
+
+      - name: Upload IPA
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: QuantDesk-ipa-${{ github.run_number }}
+          path: |
+            QuantDesk-*-unsigned.ipa
+            IOS_BUILD_REPORT.md
+          retention-days: 30
+          if-no-files-found: error
+
+      - name: Upload logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-logs-${{ github.run_number }}
+          path: |
+            /tmp/archive.log
+            /tmp/cap-sync.log
+            /tmp/web-build.log
+          retention-days: 7
+          if-no-files-found: ignore
