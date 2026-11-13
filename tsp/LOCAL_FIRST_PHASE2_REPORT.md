@@ -1,5 +1,20 @@
 # Quant Desk — Phase 2 Optimization & Algorithm Expansion Report
 
+> **⚠️ 历史文档，不是阶段 2 的执行记录**
+>
+> 本文件随原始上传包提供，描述的是上一轮「native-core 算法扩展 + quant-lab 页面」的增量，
+> 与《阶段 2 Local-first 迁移》是两件不同的事，**不得作为阶段 2 已完成或进行中的证明**。
+>
+> 阶段 2 的真实状态以此为准：
+>
+> ```
+> PHASE_2_STATUS = NOT_STARTED
+> MIGRATED_PAGES = 0/22
+> LOCAL_DATABASE = NOT_IMPLEMENTED
+> ```
+>
+> 进度账本见 `tsp/LOCAL_FIRST_PAGE_MIGRATION_MATRIX.md`。
+
 Date: 2026-11-13  
 Baseline: uploaded `quant-desk-local-first-phase1.zip` and its embedded original backup  
 Additional user-provided reference: `frontend/src/custom/README.md`
