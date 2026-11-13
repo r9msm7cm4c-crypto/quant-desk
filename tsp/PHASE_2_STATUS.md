@@ -22,8 +22,8 @@ BASELINE_COMMIT  = ed553e9
 | 页面接入 | 0 个 | 22 页仍 `NOT_STARTED` |
 | 后端连接 | **已可配置并实测连通** | `src/lib/endpoint.ts`：基址持久化 + 探活；`api.ts`/SSE/8 个裸请求全部改走绝对地址 |
 | 无后端可用性 | **已实现（本机模式）** | `src/core/local/*`：`/api/*` 由设备内应答；行情走腾讯+新浪；指标纯 TS 计算；实测自选 5 只出真实价格与涨跌幅 |
-| iOS 构建 | **已产出未签名 IPA** | GitHub Actions `macos-15` + Xcode 16.4，`ios-v0.2.0` Release；`xcodebuild archive` 全流程 exit 0 |
-| iOS 真机 | NOT TESTED | 未签名，需用户自签安装后验收 |
+| iOS 构建 | **已产出未签名 IPA（0.3.0 / build 4）** | GitHub Actions `macos-15` + Xcode 16.4，Release `ios-v0.3.0-b8`；6,427,443 字节，SHA-256 `00a6f276…`；已核验 web 资源 333 个、SQLite 插件静态链接入二进制、本机模式代码在包内 |
+| iOS 真机 | NOT TESTED | 未签名，需用户自签安装后验收；本机模式的行情链路（CapacitorHttp 原生请求）只能在真机验证 |
 | 后端存储形态 | DuckDB + 分区 parquet | `app/tickflow/repository.py` 注册 11 张 parquet 视图，无 SQLite |
 
 ## 测试基线（2026-11-13 23:45 实测，批次 B 之后）
