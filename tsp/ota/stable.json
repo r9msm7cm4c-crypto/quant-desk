@@ -1,15 +1,15 @@
 {
   "schemaVersion": 1,
-  "enabled": false,
+  "enabled": true,
   "appId": "com.quantdesk.mobile",
   "channel": "stable",
   "runtimeVersion": "qd-cap8-v1",
-  "version": "0.1.0",
-  "bundleId": "qd-web-initial-placeholder",
+  "version": "0.1.1",
+  "bundleId": "qd-web-0.1.1",
   "minAppVersion": "0.1.0",
-  "bundleUrl": "https://github.com/r9msm7cm4c-crypto/quant-desk/releases/download/ota-v0.1.0/quant-desk-ota-0.1.0.zip",
-  "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
-  "signature": "AA==",
-  "publishedAt": "2026-11-13T00:00:00.000Z",
-  "releaseNotes": "OTA 更新通道已预留。完成签名密钥初始化并发布第一个兼容更新包后，此文件将被替换。"
+  "bundleUrl": "https://github.com/r9msm7cm4c-crypto/quant-desk/releases/download/ota-v0.1.1/quant-desk-ota-0.1.1.zip",
+  "sha256": "3735a89c28b2fb198832e81e83a0b36d42d24e17739223378fda7b21cd7daddd",
+  "signature": "jWtwkSDG3vYsNRdYjWsmEhCXTnA41R+MA8ot+XxI5P08PJfZsFV1ne8lNOONHArHicCWMyrWIOX4oPD21IlCDVwrCtyAN3UBGtCZvQXD/yYYPrDYAoofcdMi1KAt5isPhrjQk3hQOxJwEiJr7NigY0emlO022yfFvqHMruJiCbMVOnh6Bu1wUA197nzyCeJgPtrhFg8j6RxQLP0o4ODvdzjZF99BTj9MIFu3jvQGqLjvwBMMrswnHT4zAM4kKVevFV7GEa5ngaw8IxVF5t+k3k8j+Olb3IB0ISXD0Niotq5gBb0JPoFSgq5oDcjPikEj72B7icoIBoTG8RC+BIfK5Qp+zgc2C7GR5aScMMM93X8BafS/J5SM6vFw9tlnGvHY6wAL6UyMLYT7yDUYBjwEorTX2K9HroawI7x2BjJ54OtvntkvPk3h4SyReG6EFfEA8JgSVSHU3+PxRtYTQ5BleYdYmG+EBBEgJx0T1x6DJz3NEqsRpAWq+h6eXRMiaHmY",
+  "publishedAt": "2026-11-13T07:50:49Z",
+  "releaseNotes": "首个应用内内容更新包：包含 UI 重构后的完整前端、量化实验台与设置页更新面板。"
 }
