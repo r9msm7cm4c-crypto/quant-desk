@@ -15,6 +15,7 @@
  */
 
 import { Capacitor } from '@capacitor/core'
+import { tryLocalResponse } from '@/core/local/bridge'
 
 const STORAGE_KEY = 'qd:endpoint:base'
 
@@ -139,7 +140,8 @@ export function tryResolveApiUrl(path: string): string {
  * 避免这些请求在原生壳里继续打到 capacitor://localhost。
  */
 export function apiFetch(path: string, init?: RequestInit): Promise<Response> {
-  return fetch(tryResolveApiUrl(path), init)
+  // 本机模式：/api/* 由设备内应答，换成标准 Response 交回调用方
+  return tryLocalResponse(path, init).then((local) => local ?? fetch(tryResolveApiUrl(path), init))
 }
 
 /** 界面展示用：当前实际目标。 */

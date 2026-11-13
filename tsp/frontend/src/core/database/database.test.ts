@@ -30,12 +30,13 @@ afterEach(async () => {
 describe('Database 迁移', () => {
   it('首次迁移建表并写入版本记录', async () => {
     const applied = await db.migrate()
-    expect(applied).toBe(1)
+    // 迁移条数随 schema 演进增长，断言用真实清单长度，而不是写死 1
+    expect(applied).toBe(MIGRATIONS.length)
 
     const rows = await db.all<{ version: number; name: string }>(
       'SELECT version, name FROM schema_migrations ORDER BY version',
     )
-    expect(rows).toEqual([{ version: 1, name: 'init_core_tables' }])
+    expect(rows).toEqual(MIGRATIONS.map((m) => ({ version: m.version, name: m.name })))
 
     const tables = await db.all<{ name: string }>(
       `SELECT name FROM sqlite_master WHERE type = 'table' ORDER BY name`,
@@ -56,17 +57,17 @@ describe('Database 迁移', () => {
   })
 
   it('重复迁移是幂等的', async () => {
-    expect(await db.migrate()).toBe(1)
+    expect(await db.migrate()).toBe(MIGRATIONS.length)
     expect(await db.migrate()).toBe(0)
     const rows = await db.all('SELECT version FROM schema_migrations')
-    expect(rows).toHaveLength(1)
+    expect(rows).toHaveLength(MIGRATIONS.length)
   })
 
   it('迁移失败整体回滚，版本不前进', async () => {
     const broken: Migration[] = [
       ...MIGRATIONS,
       {
-        version: 2,
+        version: MIGRATIONS.length + 1,
         name: 'broken',
         up: ['CREATE TABLE should_vanish (id TEXT)', 'THIS IS NOT SQL'],
       },
@@ -74,7 +75,7 @@ describe('Database 迁移', () => {
     await expect(db.migrate(broken)).rejects.toBeInstanceOf(LocalError)
 
     const versions = await db.all<{ version: number }>('SELECT version FROM schema_migrations ORDER BY version')
-    expect(versions.map((v) => v.version)).toEqual([1])
+    expect(versions.map((v) => v.version)).toEqual(MIGRATIONS.map((m) => m.version))
 
     const leftover = await db.all(`SELECT name FROM sqlite_master WHERE name = 'should_vanish'`)
     expect(leftover).toHaveLength(0)

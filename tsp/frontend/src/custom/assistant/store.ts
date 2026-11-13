@@ -6,6 +6,7 @@
  * 每轮请求把可见的 user/assistant 消息回传, 由后端负责截断。工具往返
  * (footprint)只用于本地展示, 不进入请求历史。
  */
+import { isLocalModeEnabled } from '@/core/local/mode'
 import { useSyncExternalStore } from 'react'
 import {
   assistantChatStream,
@@ -125,6 +126,8 @@ function persistSessions() {
 /** 服务端同步 (防抖 fire-and-forget): 消息边界触发, 流式 delta 不落盘不触发;
  *  失败静默 — 旧后端无此端点/离线时退化为纯本地行为。 */
 function scheduleServerSync() {
+  // 本机模式没有后端，会话只存 localStorage；不再发注定失败的 PUT
+  if (isLocalModeEnabled()) return
   if (serverSyncTimer) clearTimeout(serverSyncTimer)
   serverSyncTimer = setTimeout(() => {
     serverSyncTimer = null
@@ -139,6 +142,7 @@ function scheduleServerSync() {
 /** 启动同步: 本地先渲染 (秒开), 再拉服务端合并 (换设备可见对方历史)。
  *  拉取期间用户已开始交互 (会话被改动) 则放弃合并 — 本地更新会经防抖写回服务端。 */
 async function syncFromServer() {
+  if (isLocalModeEnabled()) return
   const sessionsBefore = state.sessions
   const sendingBefore = state.sending
   try {

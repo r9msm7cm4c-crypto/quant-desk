@@ -3,6 +3,7 @@ import { NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { motion } from 'framer-motion'
 import { useQuoteStream, useQuoteStreamStatus } from '@/lib/useQuoteStream'
+import { isLocalModeEnabled } from '@/core/local/mode'
 import { ToastContainer, toast } from '@/components/Toast'
 import { AlertToastContainer } from '@/components/AlertToast'
 import { AiAnalysisHost } from '@/components/financials/AiAnalysisHost'
@@ -570,7 +571,12 @@ export function Layout() {
   }, [latestDataJob?.id, latestDataJob?.status, qc])
   const navigate = useNavigate()
   const version = versionData?.version
-  const realtimeEnabled = prefs?.realtime_quotes_enabled ?? false
+  // 本机模式判定必须放在最前：下面的实时开关、状态文案、行情就绪判断都依赖它。
+  // 本机模式下行情由设备内引擎直连公开源，不存在"数据源权限"概念。
+  const localMode = isLocalModeEnabled()
+  // 本机模式下行情轮询是唯一的刷新来源，默认开启；否则用户会看到一个"已关闭"的
+  // 开关却不知道为什么价格不动。
+  const realtimeEnabled = localMode ? true : (prefs?.realtime_quotes_enabled ?? false)
   // 自选实时模式限制提示: 可手动关闭, 不持久化 (刷新后恢复显示)
   const [dismissFreeHint, setDismissFreeHint] = useState(false)
   // 开启实时行情时若存在排队中的挖掘任务 → 确认弹窗 (实时落盘会让排队任务开跑即失败)
@@ -595,20 +601,24 @@ export function Layout() {
   const streamStatus = useQuoteStreamStatus()
 
   const toggleQuote = useToggleRealtimeQuotes()
-  const isRunning = quoteStatus?.running ?? false
+  // 本机模式下行情由设备内引擎直连公开源，不存在"数据源权限"概念，
+  // 状态直接按可用处理，否则左下角会显示"当前数据源无实时行情权限"这种误导文案。
+  const isRunning = localMode ? true : (quoteStatus?.running ?? false)
   const isTrading = quoteStatus?.is_trading_hours ?? false
   // 管道/数据修正运行期间实时行情被临时暂停 — 此时禁止开启
   const isPaused = quoteStatus?.paused ?? false
   // 实时模式以 quote_status 为准 (数据源无关): none=不可用 / watchlist=自选实时 / full_market=全市场
-  const quoteMode = quoteStatus?.mode ?? 'none'
-  const realtimeUnavailable = quoteMode === 'none'
+  const quoteMode = localMode ? 'watchlist' : (quoteStatus?.mode ?? 'none')
+  const realtimeUnavailable = !localMode && quoteMode === 'none'
   const isWatchlistMode = quoteMode === 'watchlist'
   const realtimeModeLabel = isWatchlistMode ? '自选' : '全市场'
   // 当前实时行情数据源名称 (插件/自定义源显示源名, tickflow 不显示)
   const realtimeProvider = prefs?.realtime_data_provider
-  const realtimeProviderName = realtimeProvider && realtimeProvider !== 'tickflow'
-    ? (findDataSource(dataSources, realtimeProvider)?.display_name || realtimeProvider)
-    : null
+  const realtimeProviderName = localMode
+    ? '本机直连'
+    : realtimeProvider && realtimeProvider !== 'tickflow'
+      ? (findDataSource(dataSources, realtimeProvider)?.display_name || realtimeProvider)
+      : null
   const realtimeToggleDisabled = toggleQuote.isPending || isPaused
   const realtimeActive = realtimeEnabled && isRunning && isTrading
   const realtimeStatusLabel = toggleQuote.isPending

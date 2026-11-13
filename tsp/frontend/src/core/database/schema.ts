@@ -10,7 +10,7 @@ import type { Migration } from './types'
  * 4. 每个迁移只增不改：已发布的迁移不再修改，结构变更一律新增版本。
  */
 
-export const SCHEMA_VERSION = 1
+export const SCHEMA_VERSION = 2
 
 export const MIGRATIONS: readonly Migration[] = [
   {
@@ -70,6 +70,23 @@ export const MIGRATIONS: readonly Migration[] = [
          value      TEXT NOT NULL,
          updated_at TEXT NOT NULL
        )`,
+    ],
+  },
+  {
+    version: 2,
+    name: 'watchlist_multi_group',
+    up: [
+      // 一只标的可同时属于多个分组（后端 /api/watchlist 的 group_ids 语义），
+      // v1 的 watchlist_entries.group_id 只能表达单分组，这里补关联表并回填。
+      `CREATE TABLE IF NOT EXISTS watchlist_entry_groups (
+         symbol   TEXT NOT NULL REFERENCES watchlist_entries(symbol) ON DELETE CASCADE,
+         group_id TEXT NOT NULL REFERENCES watchlist_groups(id) ON DELETE CASCADE,
+         PRIMARY KEY (symbol, group_id)
+       )`,
+      `CREATE INDEX IF NOT EXISTS idx_watchlist_entry_groups_symbol
+         ON watchlist_entry_groups(symbol)`,
+      `INSERT OR IGNORE INTO watchlist_entry_groups (symbol, group_id)
+         SELECT symbol, group_id FROM watchlist_entries WHERE group_id IS NOT NULL`,
     ],
   },
 ]

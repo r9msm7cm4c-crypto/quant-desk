@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect, useState } from 'react'
 import { createBrowserRouter, Navigate, useSearchParams } from 'react-router-dom'
 import { Layout } from './components/Layout'
 import { useSettings } from './lib/useSharedQueries'
+import { isLocalModeEnabled } from '@/core/local/mode'
 import { Logo } from './components/Logo'
 import { ExtensionBoundary } from './extensions/ExtensionBoundary'
 import {
@@ -102,6 +103,19 @@ function OnboardingGuard({ children }: { children: React.ReactNode }) {
   return <>{children}</>
 }
 
+/**
+ * 本机模式下的首页落点。
+ *
+ * 看板（Dashboard）的涨跌分布、连板梯队、板块资金都来自后端的全市场聚合，
+ * 本机模式拿不到这些聚合结果，落在这里会是一屏空卡片。
+ * 自选页则完全由本地行情引擎供数，打开就有真实行情，所以默认落到自选。
+ * 用户仍可从侧栏进入看板（那里会显示能取到的指数部分）。
+ */
+function LocalAwareIndex() {
+  if (isLocalModeEnabled()) return <Navigate to="/watchlist" replace />
+  return <Dashboard />
+}
+
 // 按需路由的加载占位 (与 OnboardingGuard 的加载态同风格)
 function RouteFallback() {
   return (
@@ -136,7 +150,7 @@ export const router = createBrowserRouter([
       </OnboardingGuard>
     ),
     children: [
-      { index: true, element: <Dashboard /> },
+      { index: true, element: <LocalAwareIndex /> },
       { path: 'overview', element: <Navigate to="/" replace /> },
       { path: 'analysis', element: <Navigate to="/settings?tab=pages&section=ext-pages" replace /> },
       { path: 'analysis/:menuId', element: <AnalysisDetail /> },

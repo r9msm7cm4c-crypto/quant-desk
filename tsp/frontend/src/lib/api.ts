@@ -9,6 +9,8 @@
 
 import { toast } from '@/components/Toast'
 import { EndpointNotConfiguredError, resolveApiUrl } from './endpoint'
+import { isLocalModeEnabled } from '@/core/local/mode'
+import { handleLocalRequest, LocalApiError } from '@/core/local/backend'
 
 type RequestOptions = RequestInit & {
   responseType?: 'json' | 'blob'
@@ -64,6 +66,22 @@ async function request<T>(path: string, init?: RequestOptions): Promise<T> {
   if (ctl && timeoutMs != null) timer = window.setTimeout(() => ctl.abort(), timeoutMs)
 
   try {
+    // 本机模式：没有远端时由 core/local 在设备内应答，不产生任何网络出口请求。
+    // 放在 resolveApiUrl 之前 —— 否则原生壳会先抛 EndpointNotConfiguredError。
+    if (path.startsWith('/api/') && isLocalModeEnabled()) {
+      try {
+        return await handleLocalRequest<T>(path, fetchInit)
+      } catch (e) {
+        if (e instanceof LocalApiError) {
+          // 501 = 该能力本地未实现。不弹 toast：设置页/策略页会并发命中多个，
+          // 弹窗会糊满屏幕；由各页面自己的空状态文案说明。
+          if (!quiet && e.status !== 501) toast(e.message, 'error')
+          throw new ApiError(e.message, e.status)
+        }
+        throw e
+      }
+    }
+
     // 基址可在运行期变更，每次请求重新解析（原生壳未配置时立即失败）
     let url: string
     try {

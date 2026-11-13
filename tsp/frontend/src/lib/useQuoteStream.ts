@@ -9,6 +9,7 @@ import { feedReviewEvent } from './reviewStore'
 import { createEnrichedThrottler } from './enrichedInvalidateThrottle'
 import { createRevisionTracker, retryDelay } from './refreshPolicy'
 import { EndpointNotConfiguredError, resolveApiUrl, subscribeApiBase } from './endpoint'
+import { isLocalModeEnabled } from '@/core/local/mode'
 import type { KlineDailyResponse, StrategyAlertEvent } from './api'
 
 // ===== 全局 SSE 连接状态 (模块级 store, 仿 AlertToast.tsx 模式) =====
@@ -147,6 +148,28 @@ export function useQuoteStream(
               String(query.queryKey[0]).startsWith('watchlist-enriched'),
           })
         })
+      }
+    }
+
+    // 本机模式：没有 SSE 服务端，也就没有「断连」这回事。
+    // 用固定节拍轮询本地行情（真正的数据拉取在 core/local 内部按 3s 缓存合并），
+    // 对外仍然复用同一套 invalidation，页面代码零感知。
+    if (isLocalModeEnabled()) {
+      _setStatus('connected')
+      const tick = () => {
+        if (document.visibilityState === 'hidden') return
+        invalidatePrefixes(SSE_INVALIDATE_PREFIXES.filter(p => pagesRef.current?.[p] !== false))
+      }
+      tick()
+      const timer = window.setInterval(tick, 3_000)
+      const onLocalVisibility = () => {
+        if (document.visibilityState !== 'hidden') tick()
+      }
+      document.addEventListener('visibilitychange', onLocalVisibility)
+      return () => {
+        window.clearInterval(timer)
+        document.removeEventListener('visibilitychange', onLocalVisibility)
+        _setStatus('disconnected')
       }
     }
 
