@@ -692,3 +692,8 @@ PORT=3018                      # 服务端口
 **[⬆️ 回到顶部](#-tsp--a股智能量化工作台)**
 
 </div>
+
+
+## iOS 应用内内容更新（OTA）
+
+Capacitor 原生 App 支持通过签名的 GitHub Release bundle 更新兼容的 Web 内容。密钥配置、发布流程和 iOS 限制见 [`OTA_UPDATE_GUIDE.md`](./OTA_UPDATE_GUIDE.md)。
